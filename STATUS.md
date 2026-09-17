@@ -10,9 +10,9 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — local scaffold done. Next: private GitHub.
+- **Current phase:** Workshop — private GitHub done. Next: Linear GitHub wiring for this repo.
 - **Last updated:** 2026-09-17
-- **Blocked / open:** None. Next workshop tick is private GitHub.
+- **Blocked / open:** None.
 
 ---
 
@@ -28,13 +28,13 @@
 ## Workshop (tools, not product features)
 
 - [x] Scaffold monorepo
-- [ ] Private GitHub repo
+- [x] Private GitHub repo (`delasimensah/kindred`)
 - [ ] Linear team + GitHub connection (team `KIND` and epics already exist; wire this repo)
 - [ ] Vercel (web)
 - [ ] Expo / EAS (mobile)
 - [ ] Slack workshop channel `#kindred` + bots
 - [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS; grow product schema after
-- [ ] Access list (`ACCESS-LIST.md`)
+- [x] Access list (`ACCESS-LIST.md`) — GitHub URL recorded; fill remaining on later ticks
 - [ ] Preview cooks working (web + phone as needed)
 
 ---
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Open workshop GitHub step: private `kindred` repo (do not create Linear build tickets yet).
+Connect GitHub repo `delasimensah/kindred` in Linear (workshop Linear tick). Do not create build tickets.
 
 ---
 

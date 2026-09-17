@@ -1,0 +1,35 @@
+# Cursor rules (Kindred)
+
+Rules guide the agent for this monorepo.
+
+## Always on (every chat)
+
+- **`linear-issue-status.mdc`** — Todo → In Progress → Done. Backlog is later work only. Write STATUS as the post-merge state on a feature branch.
+- **`wait-for-approval-before-git.mdc`** — Implement and stop. Do not commit, push, or open a PR until asked.
+- **`pr-description-from-guidelines.mdc`** — PR body is Why / What / How / Testing from `docs/git-and-pr-guidelines.md`. Never Summary / Test plan.
+- **`wait-for-github-checks-on-pr.mdc`** — Local `yarn lint`, `yarn format:check`, `yarn type-check`, and `yarn test:ci` are the PR bar. Do not wait on GitHub.
+- **`never-branch-off-linear.mdc`** — Only `feature/KIND-n` for an existing Linear issue.
+- **`tests-necessary-and-fast.mdc`** — Few, fast tests. Default 5s timeout. Do not `user.type` long strings.
+- **`explain-the-work.mdc`** — After a task, explain in everyday words, then files and why, then test commands.
+- **`web-responsive.mdc`** — Website is always responsive, even without mobile mockups. Read `docs/responsive-design-guide.md`.
+- **`mandatory-project-docs.mdc`** — Which `docs/` files to read before implementing (by task type).
+- **`docs-this-project-only.mdc`** — Product docs describe this project only. No studio process. No unused-stack lists.
+- **`mandatory-checks-before-coding.mdc`** — Pre-flight checklist; includes mandatory docs step.
+- **`code-organization-and-style.mdc`** — Structure, components, hooks, services, imports.
+- **`base-developer.mdc`**, **`no-inference-no-guessing.mdc`**, **`write-full-sentences.mdc`**, **`fix-linting-errors.mdc`**, and other global conventions.
+
+## Scoped by path (only when matching files are in play)
+
+- **`apps/mobile-app/**`** — `mobile-view-usage.mdc`, `mobile-screen-spacing.mdc` (VStack/HStack, Stack spacing).
+- **`apps/web-app/**/*.tsx`** — `web-mantine-over-html.mdc`.
+- **`**/*.md`**, **`**/*.mdc`** — `markdown-no-tables.mdc`.
+- **`apps/**/*`, `packages/**/*`, `convex/**/*`** — `official-documentation.mdc` (prefer framework @Docs).
+
+## ESLint (web + mobile)
+
+- Inside **`components/`**: no `@/components/...` (relative paths for components).
+- **Barrels only** for `@/constants`, `@/hooks`, `@/utils`, `@/services`, `shared`. When Convex is wired, generated API uses `convex/_generated/api`.
+
+## Entry point
+
+**`AGENTS.md`** — Stack, official doc URLs, compliance summary.

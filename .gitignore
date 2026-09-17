@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Turborepo
+.turbo
+
+# Build outputs
+dist/
+build/
+.next/
+.expo/
+.expo-shared/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.auth-keys.json
+
+# Local access-list draft for Bitwarden or 1Password
+ACCESS-LIST.md
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# EAS local cache. Workflow YAML in apps/mobile-app/.eas/workflows/ is committed.
+**/.eas/*
+!**/.eas/workflows/
+!**/.eas/workflows/**
+
+# Claude Code skill copies (Cursor uses .agents/skills/). Keep local; do not commit.
+.claude/

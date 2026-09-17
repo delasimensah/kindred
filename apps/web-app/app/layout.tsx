@@ -1,0 +1,43 @@
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/dropzone/styles.css";
+import "@mantine/notifications/styles.css";
+import "./globals.css";
+
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
+import type { Metadata } from "next";
+import React from "react";
+
+import { appfont } from "@/constants";
+
+import { Providers } from "./providers";
+
+export const metadata: Metadata = {
+  title: "Kindred",
+  description:
+    "Operations software for Kindred Property Group — staff, owners, tenants, and field work.",
+};
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
+  return (
+    <html
+      lang="en"
+      className={appfont.variable}
+      {...mantineHtmlProps}
+      suppressHydrationWarning
+    >
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body className="bg-white font-appFont text-darkGrey">
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+};
+
+export default RootLayout;

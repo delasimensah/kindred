@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — blank-slate scaffold (no auth UI). Vercel redeploy after push. Next: Expo.
+- **Current phase:** Workshop — Expo / EAS linked. Next: Slack `#kindred`.
 - **Last updated:** 2026-09-19
 - **Blocked / open:** None.
 
@@ -31,10 +31,10 @@
 - [x] Private GitHub repo (`delasimensah/kindred`)
 - [x] Linear team + GitHub connection
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
-- [ ] Expo / EAS (mobile)
+- [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
 - [ ] Slack workshop channel `#kindred` + bots
 - [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS
-- [x] Access list (`ACCESS-LIST.md`) — GitHub recorded; fill Vercel URL if missing
+- [x] Access list (`ACCESS-LIST.md`) — GitHub + Expo recorded; fill Vercel URL if missing
 - [ ] Preview cooks working (web + phone as needed)
 
 ---
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Confirm Vercel production deploy of the corrected scaffold is green. Then workshop Expo tick.
+Create Slack channel `#kindred` and subscribe GitHub, Linear, and Vercel (workshop Slack tick).
 
 ---
 

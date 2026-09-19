@@ -9,6 +9,8 @@ This guide covers:
 - **Mobile App**: EAS Build setup, development builds, preview builds, production builds, app store submission
 - **Web App**: Vercel deployment configuration and deployment process
 
+**Before you deploy to production:** If you are deploying for a client and need to create accounts (Apple, Google Play, Vercel, Supabase, EAS) and invite yourself as a developer, follow [Production deployment accounts setup](deployment-accounts-setup.md). That doc has step-by-step instructions for each platform.
+
 ---
 
 ## 📱 Mobile App Deployment
@@ -60,34 +62,19 @@ eas project:init
 
 ### **Step 2: Configure app.config.ts**
 
-Update `app.config.ts` with your project details:
+Update `app.config.ts` with your project details. `APP_VARIANT` sets the display name and the identifier:
 
-```typescript
-// apps/mobile-app/app.config.ts
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
-  name: "Your App Name",
-  slug: "your-app-slug",
-  version: "1.0.0",
-  ios: {
-    bundleIdentifier: "com.yourcompany.yourapp",
-  },
-  android: {
-    package: "com.yourcompany.yourapp",
-  },
-  extra: {
-    eas: {
-      projectId: "your-project-id", // From eas project:info
-    },
-  },
-});
-```
+- Development: `com.yourcompany.yourapp.dev`
+- Preview / staging: `com.yourcompany.yourapp.staging`
+- Production: `com.yourcompany.yourapp`
+
+iOS `bundleIdentifier` and Android `package` must be the same string for each variant. After `eas init`, set `owner`, `extra.eas.projectId`, and `updates.url` (`https://u.expo.dev/PROJECT_ID`).
 
 ---
 
 ### **Step 3: Development Builds**
 
-**When to use**: When you need custom native modules or want to test with a development client.
+**When to use**: Local phone work. This app uses a development client. Expo Go is not a supported path.
 
 **Build for Android:**
 
@@ -122,26 +109,30 @@ yarn build:dev:ios-simulator
 
 **When to use**: For testing on real devices before production, sharing with testers.
 
-**Build for both platforms:**
+**Cook and ring Slack** (preferred when Expo Slack is set up):
+
+```bash
+yarn workflow:preview
+```
+
+Requires `SLACK_WEBHOOK_URL` on EAS (preview, secret) and the workflow YAML on `main`. Click-by-click including **iOS device registration**: [Expo preview builds, Slack, and devices](./client-delivery/expo-preview-builds-and-slack.md).
+
+**Cook only (no Slack):**
 
 ```bash
 yarn build:preview
-```
-
-**Build for specific platform:**
-
-```bash
 yarn build:preview:android
 yarn build:preview:ios
 ```
 
 **After build completes:**
 
-- Download from EAS Dashboard
-- Install on device
-- Test the app
+- Open the Expo build page (or the Slack message if you used the workflow)
+- **iOS:** device must already be registered with `eas device:create`, then included in a new build or re-sign
+- **Android:** open the install link on the phone; allow unknown installs if asked
+- Install and test
 
-**Reference**: [EAS Build Preview Builds](https://docs.expo.dev/build/building-on-ci/)
+**Reference**: [Internal distribution](https://docs.expo.dev/build/internal-distribution/), [Create and share internal distribution build](https://docs.expo.dev/tutorial/eas/internal-distribution-builds/)
 
 ---
 
@@ -307,7 +298,7 @@ If you prefer the dashboard over the CLI:
    - **Root Directory**: `.` (empty). Import will default to `apps/web-app`. Clear that so the root `vercel.json` is used.
    - **Framework Preset**: Next.js
    - Leave Build, Output, and Install as `vercel.json` unless the dashboard is empty
-3. Skip environment variables until Convex is wired. Then add `NEXT_PUBLIC_CONVEX_URL` and redeploy.
+3. Skip environment variables until the Convex (or other backend) tick. Then add them under Environment Variables and redeploy.
 
 **Reference**: [Vercel Monorepo Guide](https://vercel.com/docs/monorepos)
 
@@ -342,7 +333,7 @@ Required at the monorepo root. Update `--filter` and `outputDirectory` to match 
 
 ```json
 {
-  "buildCommand": "yarn turbo run build --filter=@kindred/web-app",
+  "buildCommand": "yarn turbo run build --filter=@template/web-app",
   "outputDirectory": "apps/web-app/.next",
   "installCommand": "yarn install",
   "framework": "nextjs"
@@ -369,6 +360,9 @@ yarn build:preview
 yarn build:preview:android
 yarn build:preview:ios
 
+# Preview workflow (build + Slack; needs SLACK_WEBHOOK_URL)
+yarn workflow:preview
+
 # Production Builds
 yarn build:production
 yarn build:production:android
@@ -377,6 +371,10 @@ yarn build:production:ios
 # App Store Submission
 yarn submit:android
 yarn submit:ios
+
+# OTA updates (after eas init and updates.url)
+yarn update:preview
+yarn update:production
 ```
 
 ### **Web App Scripts**
@@ -451,12 +449,12 @@ eas project:init
 **"Build failed" on Vercel:**
 
 - Check Root Directory is `.` (repo root), not `apps/web-app`, so the root `vercel.json` is used
-- Verify `vercel.json` `buildCommand` uses `turbo run build --filter=@kindred/web-app`
-- Check environment variables are set when Convex is wired
+- Verify `vercel.json` `buildCommand` uses `yarn turbo run build --filter=@template/web-app` (or this app’s package name)
+- Check environment variables are set when the app actually needs them
 
 **Next.js build succeeds, then Vercel fails at "Deploying outputs..." with "Cannot patch preview comments when immutable static file upload is enabled":**
 
-- That is a Vercel Comments bug with Next 16.3 immutable static uploads, not an app compile error. You already run Next 16.3.3; the "upgrade to canary.32" line is stale.
+- That is a Vercel Comments bug with Next 16.3 immutable static uploads, not an app compile error. Next 16.3.3 already satisfies the "upgrade to canary.32" line; that message is stale.
 - `apps/web-app/next.config.ts` sets `supportsImmutableAssets: false` so deploy can finish. Push that change, then Redeploy.
 - Or in Vercel: Settings → General → Vercel Toolbar (or Comments) → Off for Preview, then Redeploy.
 
@@ -479,7 +477,7 @@ Turborepo strips any env var not explicitly declared in `turbo.json`. Add every 
 
 `NEXT_PUBLIC_*` variables are handled automatically and do not need to be listed.
 
-**SDK clients throwing at build time (Resend, Stripe, etc.):**
+**SDK clients throwing at build time (Resend, Supabase admin, Stripe, etc.):**
 
 Do not instantiate SDK clients at module level. Turbopack evaluates module-level code during the build when env vars are not yet available.
 

@@ -17,6 +17,7 @@ This guide helps you quickly resolve common issues. Each section provides quick 
 **Quick Fix:**
 
 ```bash
+cd project-template
 rm -rf node_modules apps/*/node_modules packages/*/node_modules
 yarn install
 ```
@@ -83,7 +84,7 @@ yarn format
 
 ### **Environment Variables Not Working**
 
-**Symptoms:** "Missing API URL", app can't connect
+**Symptoms:** "Missing API URL", "Missing Supabase URL", app can't connect
 
 **Quick Fix:**
 
@@ -124,7 +125,8 @@ yarn dev
 
 **Detailed Help:**
 
-- [Git & PR Guidelines](./git-and-pr-guidelines.md)
+- [Onboarding Checklist - Environment Setup](./onboarding-checklist.md)
+- [Supabase Local Setup](./supabase-local-setup.md)
 
 ---
 
@@ -143,6 +145,16 @@ lsof -ti:3001 | xargs kill -9
 # Or use different port
 cd apps/web-app
 # Edit package.json dev script: "dev": "next dev -p 3002"
+```
+
+**Supabase (Port 54321):**
+
+```bash
+# Check if Supabase is running
+yarn supabase:status
+
+# Stop Supabase
+yarn supabase:stop
 ```
 
 **Mobile (Expo):**
@@ -319,6 +331,7 @@ yarn build
 
 ```bash
 # Reinstall dependencies
+cd project-template
 yarn install
 
 # Check workspace setup
@@ -362,7 +375,9 @@ yarn workspaces info
 
 ## 📚 Related Documentation
 
+- [Onboarding Checklist](./onboarding-checklist.md) - Setup verification
 - [Git & PR Guidelines](./git-and-pr-guidelines.md) - Workflow issues
+- [Supabase Local Setup](./supabase-local-setup.md) - Supabase issues
 
 ---
 

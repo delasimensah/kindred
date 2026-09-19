@@ -1,6 +1,6 @@
 # 📁 Project Structure
 
-> **Purpose**: Complete overview of the web app project structure and organization. Product data is Convex.
+> **Purpose**: Complete overview of the web app project structure and organization.
 
 ## 🏗️ Root Level Structure
 
@@ -12,6 +12,7 @@ web-app/
 ├── docs/                        # Project documentation
 ├── hooks/                       # Custom React hooks
 ├── services/                    # API and external service integrations
+├── providers/                   # Refine providers (auth, data, access control)
 ├── types/                       # TypeScript type definitions
 ├── utils/                       # Utility functions and helpers
 ├── __tests__/                   # Test files
@@ -29,7 +30,7 @@ web-app/
 ```
 app/
 ├── layout.tsx                   # Root layout with metadata
-├── providers.tsx                # Client providers (Mantine, Convex)
+├── providers.tsx                # Client providers (Mantine, React Query)
 ├── page.tsx                     # Root page (redirect logic)
 ├── globals.css                  # Global styles
 ├── (auth)/                      # Authentication route group
@@ -120,12 +121,25 @@ ComponentNameSkeleton.tsx      # Colocated skeleton only
 ```
 services/
 ├── index.ts                   # Barrel export file (ONLY top-level)
-└── auth/                      # Client extras only. Product data is Convex.
+├── supabase/                  # Supabase integration
+│   ├── client.ts             # Browser Supabase client
+│   ├── server.ts             # Server Supabase client
+│   └── middleware.ts         # Session refresh logic
+└── auth/                     # Authentication services
 ```
 
-**🚨 CRITICAL:** NO index.ts files in subdirectories.
+**🚨 CRITICAL:** NO index.ts files in subdirectories (supabase, auth, etc.)
 
-Product data uses Convex `useQuery` / `useMutation` in screens.
+**Pattern:**
+
+```typescript
+// ✅ services/index.ts exports directly from subdirectories
+export { default as createBrowserClient } from "./supabase/client";
+export { updateSession } from "./supabase/middleware";
+
+// ❌ NO services/supabase/index.ts file
+// ❌ NO services/auth/index.ts file
+```
 
 ---
 
@@ -135,26 +149,36 @@ Product data uses Convex `useQuery` / `useMutation` in screens.
 
 ```
 hooks/
-├── index.ts
-├── auth/
-│   ├── useStaffSession.ts
-│   └── __tests__/
-│       └── useStaffSession.test.ts
-├── navigation/
-└── shared/
+├── index.ts                   # Barrel export file (ONLY top-level)
+├── auth/                     # Authentication hooks
+│   └── useAuthStore.ts      # Zustand auth store
+└── api/                      # API hooks
 ```
 
-There is no `index.ts` inside a category folder. Each hook is its own file. Tests for that hook go in `__tests__/` inside the same category, not next to the hook file.
+**🚨 CRITICAL:** NO index.ts files in subdirectories (auth, api, etc.)
 
 **Pattern:**
 
 ```typescript
-export { useStaffSession } from "./auth/useStaffSession";
+// ✅ hooks/index.ts exports directly from subdirectories
+export { default as useAuthStore } from "./auth/useAuthStore";
+
+// ❌ NO hooks/auth/index.ts file
 ```
 
 ---
 
-Convex Auth and the Convex React client live in `app/layout.tsx` and `app/providers.tsx`.
+## 🔌 Providers Directory (`providers/`)
+
+**Refine-specific providers:**
+
+```
+providers/
+├── index.ts                  # Barrel export file
+├── authProvider.ts           # Refine auth provider (Supabase integration)
+├── dataProvider.ts           # Refine data provider
+└── accessControlProvider.ts  # Route protection logic
+```
 
 ---
 
@@ -211,10 +235,10 @@ constants/
 
 **Test organization:**
 
-- Component tests sit in the component folder: `components/[category]/ComponentName/ComponentName.test.tsx`.
-- Util tests sit in `utils/__tests__/`.
-- Hook tests sit in `hooks/[category]/__tests__/`.
-- Convex tests sit beside the functions in `convex/`.
+```
+__tests__/
+└── [test-files].tsx
+```
 
 ---
 
@@ -225,13 +249,14 @@ constants/
 ```
 docs/
 ├── asset-management-guide.md        # Asset management guidelines
+├── authentication-architecture.md   # Auth flow documentation
 ├── developer-decision-guide.md     # Development decisions
 ├── mantine-component-guide.md       # Mantine UI guide
 ├── mantine-tailwind-theming-guide.md # Mantine + Tailwind + shared colors
 ├── navigation-guide.md              # Navigation guide
 ├── project-structure.md            # This file
 ├── quick-reference-cheat-sheet.md  # Daily reference
-└── server-components-guide.md     # Server vs Client Components, Convex, Mantine
+└── server-components-guide.md     # Server vs Client Components, TanStack Query, Mantine
 ```
 
 ---

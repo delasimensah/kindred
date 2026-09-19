@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — Linear GitHub wiring done. Next: Vercel.
+- **Current phase:** Workshop — scaffold corrected from project-template + thin Convex (not Ridgeway). Vercel project exists; redeploy after this push. Next: Expo.
 - **Last updated:** 2026-09-19
 - **Blocked / open:** None.
 
@@ -27,14 +27,14 @@
 
 ## Workshop (tools, not product features)
 
-- [x] Scaffold monorepo
+- [x] Scaffold monorepo (corrected: template + thin Convex Auth; no Ridgeway UI)
 - [x] Private GitHub repo (`delasimensah/kindred`)
-- [x] Linear team + GitHub connection (team `KIND` and epics already exist; this repo wired)
-- [ ] Vercel (web)
+- [x] Linear team + GitHub connection
+- [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [ ] Expo / EAS (mobile)
 - [ ] Slack workshop channel `#kindred` + bots
-- [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS; grow product schema after
-- [x] Access list (`ACCESS-LIST.md`) — GitHub URL recorded; fill remaining on later ticks
+- [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS
+- [x] Access list (`ACCESS-LIST.md`) — GitHub recorded; fill Vercel URL if missing
 - [ ] Preview cooks working (web + phone as needed)
 
 ---
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Import `delasimensah/kindred` on Vercel (Root Directory = `.`). Do not add Convex env yet.
+Confirm Vercel production deploy of the corrected scaffold is green. Then workshop Expo tick.
 
 ---
 

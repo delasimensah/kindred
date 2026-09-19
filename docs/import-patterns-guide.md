@@ -64,7 +64,8 @@ import { Button } from "../../../components/ui/Button/Button";
 Import from the **root barrel** only — not internal paths:
 
 - **`@/constants`**, **`@/hooks`**, **`@/utils`**, **`@/assets`** (if you add that barrel) — e.g. `import { X } from "@/hooks"`, not `@/hooks/auth/useX`.
-- **`@/services`** — browser / client-safe exports only (`services/index.ts`).
+- **`@/services`** — browser / client-safe exports only (`services/index.ts`). Do **not** re-export server Supabase `createClient` from this barrel: it uses `next/headers` and would risk pulling server code into client bundles.
+- **Exception — `app/api/**` only (web):** Route Handlers may import `import { createClient } from "@/services/supabase/server"` for OAuth and other server-side flows that need the cookie-aware Supabase client. Nowhere else should use that path; ESLint allows it only under `app/api/`.
 - **`shared`** — `import { … } from "shared"` only, never `shared/...` subpaths.
 
 ---

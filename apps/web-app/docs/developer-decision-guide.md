@@ -1,6 +1,6 @@
 # 🎯 Developer Decision Guide
 
-> **Purpose**: Quick reference for making consistent development decisions. Product data is Convex `useQuery` / `useMutation`.
+> **Purpose**: Quick reference for making consistent development decisions.
 
 ## 🚀 Quick Start - Common Tasks
 
@@ -21,7 +21,6 @@
    ```
 
 3. Create the route in the matching route group. Name the default export `PageNameRoute`. Import the page from `@/components`. Do not put the screen UI in `page.tsx`.
-
    - `app/(auth)/page-name/page.tsx`
    - `app/(onboarding)/page-name/page.tsx`
    - `app/(main-app)/page-name/page.tsx`
@@ -85,12 +84,9 @@
    ```
 
 2. Export from hooks/index.ts:
-
    ```typescript
    export { useHookName } from "./[category]/useHookName";
    ```
-
-3. Add the test at `hooks/[category]/__tests__/useHookName.test.ts`. Do not put the test file next to the hook.
 
 **Export Rules:**
 
@@ -116,12 +112,9 @@
    ```
 
 4. Export from services/index.ts:
-
    ```typescript
    export { signIn, signOut } from "./auth/authService";
    ```
-
-5. Add the test at `services/[category]/__tests__/serviceName.test.ts`. Do not put the test file next to the service.
 
 ---
 
@@ -171,7 +164,7 @@ THEN create: components/[feature]/ComponentName/
 ```
 What type of hook is this?
 ├── Authentication-related → /hooks/auth/
-├── Product data → Convex useQuery / useMutation in the screen
+├── API-related → /hooks/supabase/
 ├── UI state-related → /hooks/ui/
 └── Shared utility → /hooks/shared/
 ```
@@ -213,7 +206,7 @@ Examples:
 ### **Hook Placement**
 
 - **Authentication** — `/hooks/auth/` (e.g. useAuth, useLogin)
-- **Product data** — Convex `useQuery` / `useMutation` in the screen
+- **API** — `/hooks/supabase/` (e.g. useUser, useData)
 - **UI State** — `/hooks/ui/` (e.g. useModal, useToast)
 
 ---
@@ -227,7 +220,7 @@ Examples:
 import { Button, Text } from "@/components";
 import { User } from "@/types";
 import { COLORS } from "@/constants";
-import { api } from "@convex/_generated/api";
+import { supabase } from "@/services";
 import { useAuthStore } from "@/hooks";
 import { cn } from "@/utils";
 ```
@@ -264,7 +257,7 @@ import { COLORS } from "@/constants";
 
 ## 📚 Related Documentation
 
-- [Server Components Guide](./server-components-guide.md) — Server vs Client Components, Convex, Mantine
+- [Server Components Guide](./server-components-guide.md) — Server vs Client Components, TanStack Query, shared services, Mantine
 - [Mantine + Tailwind theming](./mantine-tailwind-theming-guide.md) — Shared colors, Tailwind, optional `createTheme`
 - [Component Building Guide](../../../docs/component-building-guide.md)
 - [Navigation Guide](./navigation-guide.md)

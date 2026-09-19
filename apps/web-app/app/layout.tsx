@@ -15,7 +15,7 @@ import { Providers } from "./providers";
 export const metadata: Metadata = {
   title: "Kindred",
   description:
-    "Operations software for Kindred Property Group — staff, owners, tenants, and field work.",
+    "Patronage app for rising African artists — Artist Studio on web, fans on mobile.",
 };
 
 interface RootLayoutProps {
@@ -33,7 +33,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <head>
         <ColorSchemeScript />
       </head>
-      <body className="bg-white font-appFont text-darkGrey">
+      <body className="bg-black font-appFont text-white">
         <Providers>{children}</Providers>
       </body>
     </html>

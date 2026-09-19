@@ -12,7 +12,9 @@ describe("SignInScreen", () => {
     expect(screen.getByText("Kindred")).toBeTruthy();
     expect(screen.getByText("Sign in")).toBeTruthy();
     expect(
-      screen.getByText("Tenants and field staff use this app.")
+      screen.getByText(
+        "Fans and supporters use this app. Artist Studio is on the web."
+      )
     ).toBeTruthy();
   });
 });

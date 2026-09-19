@@ -26,8 +26,8 @@ const SignInRoute = () => {
       <Unauthenticated>
         <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-8 px-6">
           <div className="flex flex-col gap-2">
-            <Text className="text-3xl font-semibold text-darkGrey">Kindred</Text>
-            <Text className="text-base text-darkGrey">
+            <Text className="text-3xl font-semibold text-white">Kindred</Text>
+            <Text className="text-base text-white/80">
               Sign in with email and password.
             </Text>
           </div>

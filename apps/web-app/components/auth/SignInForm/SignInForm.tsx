@@ -58,9 +58,9 @@ const SignInForm: React.FC = () => {
         autoComplete="email"
         withAsterisk
         classNames={{
-          label: "mb-2 text-[15px] font-semibold text-darkGrey",
+          label: "mb-2 text-[15px] font-semibold text-white",
           input:
-            "rounded-[8px] border-border bg-white px-4 py-3 text-base text-darkGrey focus:border-primary",
+            "rounded-[8px] border-white/20 bg-white/10 px-4 py-3 text-base text-white focus:border-white",
         }}
         {...form.getInputProps("email")}
       />
@@ -71,17 +71,17 @@ const SignInForm: React.FC = () => {
         autoComplete="current-password"
         withAsterisk
         classNames={{
-          label: "mb-2 text-[15px] font-semibold text-darkGrey",
+          label: "mb-2 text-[15px] font-semibold text-white",
           input:
-            "rounded-[8px] border-border bg-white px-4 py-3 text-base text-darkGrey focus:border-primary",
+            "rounded-[8px] border-white/20 bg-white/10 px-4 py-3 text-base text-white focus:border-white",
         }}
         {...form.getInputProps("password")}
       />
-      {error ? <Text className="text-sm text-overdue">{error}</Text> : null}
+      {error ? <Text className="text-sm text-red-400">{error}</Text> : null}
       <Button
         type="submit"
         loading={isSubmitting}
-        className="h-auto rounded-[8px] bg-primary py-3 text-base font-semibold text-white hover:bg-primaryHover"
+        className="h-auto rounded-[8px] bg-white py-3 text-base font-semibold text-black hover:bg-white/90"
       >
         Sign in
       </Button>

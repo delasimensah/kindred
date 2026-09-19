@@ -19,7 +19,7 @@ const SignInScreen: React.FC = () => {
         </Text>
         <SignInForm />
         <Text className="text-center text-[14px] text-grey">
-          Tenants and field staff use this app.
+          Fans and supporters use this app. Artist Studio is on the web.
         </Text>
       </VStack>
     </KeyboardFormView>

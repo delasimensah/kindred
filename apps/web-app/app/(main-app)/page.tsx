@@ -12,9 +12,10 @@ const HomeAuthenticated = () => {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-6 px-6">
-      <Text className="text-2xl font-semibold text-darkGrey">Kindred</Text>
-      <Text className="text-base text-darkGrey">
-        You are signed in. Artist Studio and fan surfaces land in later tickets.
+      <Text className="text-2xl font-semibold text-white">Kindred</Text>
+      <Text className="text-base text-white/80">
+        Thin scaffold. Artist Studio and fan surfaces land after screen design
+        and Linear tickets.
       </Text>
       <Button onClick={() => void signOut()}>Sign out</Button>
     </main>

@@ -1,23 +1,26 @@
 # 🎯 Developer Decision Guide
 
-> **Purpose**: Quick reference for making consistent development decisions. Product data is Convex `useQuery` / `useMutation`.
+> **Purpose**: Quick reference for making consistent development decisions.
 
 ## 🚀 Quick Start - Common Tasks
 
 ### **Adding a New Screen**
 
 ```
-1. Determine screen type (auth, tab, job stack, modal).
-2. Create the screen under `components/screens/` and a thin route:
-   app/(auth)/screen-name.tsx
-   app/(main-app)/(tabs)/[tab]/index.tsx
-   app/(main-app)/job/[workOrderId]/screen-name.tsx
+1. Determine screen type (auth, onboarding, tab stack, modal, etc.)
+2. Create screen file in appropriate location:
+   app/(auth)/screen-name.tsx           # Auth screens
+   app/(onboarding)/screen-name.tsx     # Onboarding screens
+   app/(main-app)/(tabs)/[tab]/screen-name.tsx  # Tab stack screens
 
-3. Register in the matching `_layout.tsx`.
+3. Register in corresponding _layout.tsx:
+   <Stack.Screen
+     name="screen-name"
+     options={{ title: "Screen Title" }}
+   />
 
-4. Navigate:
-   router.push("/(main-app)/(tabs)/jobs");
-   router.push(`/(main-app)/job/${workOrderId}`);
+4. Navigate to screen:
+   router.push("/screen-name");
 
 For detailed instructions, see the Adding Screens Guide:
 > 📋 [Adding Screens Guide](./adding-screens-guide.md)
@@ -64,12 +67,10 @@ For detailed component building principles:
 2. Export from main index:
    export { useHookName } from "./[category]/useHookName";
 
-3. Add the test at hooks/[category]/__tests__/useHookName.test.ts. Do not put the test file next to the hook.
-
 **Export Rules:**
 - **All hooks must be exported** from `hooks/index.ts`
 - **Use named exports** for hooks
-- **Group exports by category** (auth, navigation, shared)
+- **Group exports by category** (auth, api, navigation, etc.)
 ```
 
 ### **Adding a New Service**
@@ -158,7 +159,7 @@ THEN create in appropriate category folder
 ```
 What type of hook is this?
 ├── Authentication-related → /hooks/auth/
-├── Product data → Convex useQuery / useMutation in the screen
+├── API-related → /hooks/supabase/
 ├── Navigation-related → /hooks/navigation/
 └── Shared utility → /hooks/shared/
 ```
@@ -167,8 +168,9 @@ What type of hook is this?
 
 ```
 What type of service is this?
-├── Client extras only → /services/ (not product data)
-└── Product data → Convex useQuery / useMutation in the screen
+├── API services → /services/api/
+├── Supabase service → /services/supabase/
+└── External service → /services/[serviceName]/
 ```
 
 ### **Where Should I Put This Type?**
@@ -219,13 +221,15 @@ What type of constant is this?
 ### **Hook Placement**
 
 - **Authentication** — `/hooks/auth/` (e.g. useAuth, useLogin, useSignup)
-- **Product data** — Convex `useQuery` / `useMutation` in the screen
+- **API** — `/hooks/supabase/` (e.g. useUserData, useItemData)
 - **Navigation** — `/hooks/navigation/` (e.g. useScreenContext)
 - **Shared** — `/hooks/shared/` (e.g. useDebounce, useLocalStorage)
 
 ### **Service Placement**
 
-- **Client extras only.** Product data is Convex.
+- **API** — `/services/api/` (e.g. authService, userService)
+- **Supabase** — `/services/supabase/` (e.g. client)
+- **External** — `/services/[serviceName]/` (e.g. analyticsService, paymentService)
 
 ### **Constant Placement**
 

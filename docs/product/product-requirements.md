@@ -5,7 +5,7 @@
 **Owner:** Delasi Mensah (solo product, portfolio flagship)  
 **Horizon:** V1 through 31 Dec 2026
 
-The product lock is the product lock (studio practice pack), approved 16 Sep 2026. This PRD is the build-facing version of that lock, filled from the filled questionnaire (studio practice pack) using the studio project-requirements template.
+The product lock is [00-locked-decisions.md](./00-locked-decisions.md), approved 16 Sep 2026. This PRD is the build-facing version of that lock, filled from [02-questionnaire.md](./02-questionnaire.md) using [project-requirements-template.md](../../../system-design/project-requirements-template.md).
 
 **Linear tickets come from this file.** If a feature is not here, it is not built. If this file and the lock disagree, the lock wins and this file gets corrected. Nothing moves from Later into V1 without revising and re-approving the lock.
 
@@ -31,7 +31,7 @@ Kindred is a native-feel mobile app where fans back rising African artists with 
   - iOS is the craft bar. Android ships functional parity for playback, follow, feed, paywall, notifications, and offline; V1 does not block on Android-perfect motion.
   - Purchases are mobile-only. No purchase path on web. Signed-in entitled supporters may stream exclusives on the light web player; offline and craft stay mobile.
   - No craft techniques and no offline on web.
-  - Minimum OS versions (Expo SDK 57): iOS 15.1+, Android API 24 (Android 7.0)+.
+  - Minimum OS versions are set from the Expo SDK at scaffold time and written here after scaffold.
   - Surface build order: mobile core, discovery, and connection first, then Artist Studio web, then public pages and the light fan web player.
   - Basic music listening (play, queue, next/previous, shuffle, repeat, library, playlists, search, background audio) is a V1 baseline. Kindred’s difference is patronage and money routing, not a thin player.
 
@@ -210,7 +210,7 @@ Client-side only, not server entities: the **outbox** queue of pending mutations
 
 ### Spikes before build
 
-Each spike produces a short written outcome — works, blocked, or cut to Later — before the ticket it gates starts. Source: section 20 of the product lock (studio practice pack).
+Each spike produces a short written outcome — works, blocked, or cut to Later — before the ticket it gates starts. Source: section 20 of [00-locked-decisions.md](./00-locked-decisions.md).
 
 - **RevenueCat webhook to Convex entitlement** — before the paywall ticket. Send a test webhook, purchase in sandbox, confirm the Convex row, kill the app, restore.
 - **Push on a physical device** — before the push tickets. One notification type on a real iPhone and a real Android, including cold start.
@@ -324,4 +324,4 @@ So design and tickets have a list. Screen names are functional, not final copy.
 - After you approve this PRD: system design and Convex design, carrying the spike list into ticket ordering.
 - Then Linear epics and tickets, written from this file.
 
-This PRD is the source of truth for what gets built. the product lock (studio practice pack) is the source of truth for what was decided. Tickets cite this file; scope changes edit the lock first.
+This PRD is the source of truth for what gets built. [00-locked-decisions.md](./00-locked-decisions.md) is the source of truth for what was decided. Tickets cite this file; scope changes edit the lock first.

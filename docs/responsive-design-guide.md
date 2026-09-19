@@ -2,7 +2,7 @@
 
 > **Purpose**: How to make the website work on phone, tablet, and desktop. **Web app only.** Missing mobile or tablet mockups does not skip this.
 
-The website is always responsive. Field work uses the Expo app; people still open this site on phones and tablets, and it has to be usable there.
+The website is always responsive. A native phone app does not replace a usable website in a phone or tablet browser.
 
 ---
 
@@ -26,22 +26,22 @@ Mantine `sm` is not Tailwind `sm`. Use Mantine keys on Mantine props. Use Tailwi
 
 ---
 
-## Staff AppShell (Kindred)
+## AppShell
 
 Official pattern: navbar `breakpoint` plus a burger below that width. Use the `padding` prop on `AppShell`, not Tailwind padding on `AppShell.Main` (that padding is part of the navbar offset math).
 
-Current values:
+Typical staff shell:
 
 - Navbar width: 256px from Mantine `md` (992px) up
-- Below 992px: overlay navbar, 56px header, burger
+- Below 992px: overlay navbar, compact header, burger
 - Main padding: 16 (base), 24 (`sm` / 768px), 32 (`md` / 992px), 48 (`lg` / 1200px)
 
 Remaining content width (viewport − sidebar − padding × 2):
 
 - Phone 375: overlay nav, 16px padding → about 343px
 - Tablet 768: overlay nav, 24px padding → about 720px
-- 1024 (design “usable”): 256px sidebar, 32px padding → about 704px
-- 1280 (design desktop): 256px sidebar, 48px padding → about 928px
+- 1024: 256px sidebar, 32px padding → about 704px
+- 1280: 256px sidebar, 48px padding → about 928px
 
 If a layout is tight, recalculate with those formulas before inventing a new breakpoint.
 
@@ -51,9 +51,9 @@ If a layout is tight, recalculate with those formulas before inventing a new bre
 
 - **Stack** grids and form pairs on the narrow remaining width (`SimpleGrid cols={{ base: 1, sm: 2 }}` when two columns need about 720px).
 - **Wrap** page titles and primary actions (`Group wrap="wrap"`). Full-width buttons on phone, auto width from Tailwind `sm`.
-- **Scale type**: page titles 24px on phone, 28px from Tailwind `sm`, 32px from Tailwind `md`.
-- **Tables** may scroll horizontally. `Table.ScrollContainer` `minWidth` should fit from the persistent-sidebar width up (640px fits the 704px main at 1024).
-- **Empty states** use min-height and smaller padding on phone. Do not lock a 400px box on a 667px-tall screen.
+- **Scale type** down on phone so titles do not overflow.
+- **Tables** may scroll horizontally. Set `Table.ScrollContainer` `minWidth` so it fits once the sidebar is persistent.
+- **Empty states** use min-height and smaller padding on phone. Do not lock a tall fixed-height box.
 - Close the overlay nav when the route changes.
 
 ---
@@ -69,8 +69,8 @@ If a layout is tight, recalculate with those formulas before inventing a new bre
 
 ```tsx
 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-  <Select label="Area" ... />
-  <Select label="City" ... />
+  <Select label="First field" ... />
+  <Select label="Second field" ... />
 </SimpleGrid>
 ```
 

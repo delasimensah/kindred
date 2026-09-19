@@ -1,20 +1,19 @@
-import { useConvexAuth } from "convex/react";
-import { type Href, Redirect } from "expo-router";
+import { Text, VStack } from "@/components";
 
-import { RoleWaitScreen } from "@/components";
-
+/**
+ * Scaffold blank slate. Auth UI and product surfaces land with screen
+ * design and Linear tickets — not at workshop scaffold.
+ */
 const IndexRoute = () => {
-  const { isLoading, isAuthenticated } = useConvexAuth();
-
-  if (isLoading) {
-    return <RoleWaitScreen />;
-  }
-
-  if (!isAuthenticated) {
-    return <Redirect href={"/(auth)/sign-in" as Href} />;
-  }
-
-  return <Redirect href={"/(app)" as Href} />;
+  return (
+    <VStack className="flex-1 justify-center gap-4 px-6">
+      <Text className="text-3xl font-semibold">Kindred</Text>
+      <Text className="text-base text-grey">
+        Patronage app for rising African artists. Fans support artists with a
+        monthly subscription routed to the artists they choose.
+      </Text>
+    </VStack>
+  );
 };
 
 export default IndexRoute;

@@ -1,40 +1,22 @@
 "use client";
 
-import { useAuthActions } from "@convex-dev/auth/react";
-import { Button } from "@mantine/core";
-import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
 import React from "react";
 
-import { LoadingScreen, Text } from "@/components";
+import { Text } from "@/components";
 
-const HomeAuthenticated = () => {
-  const { signOut } = useAuthActions();
-
-  return (
-    <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-6 px-6">
-      <Text className="text-2xl font-semibold text-white">Kindred</Text>
-      <Text className="text-base text-white/80">
-        Thin scaffold. Artist Studio and fan surfaces land after screen design
-        and Linear tickets.
-      </Text>
-      <Button onClick={() => void signOut()}>Sign out</Button>
-    </main>
-  );
-};
-
+/**
+ * Scaffold blank slate. Auth UI and product surfaces land with screen
+ * design and Linear tickets — not at workshop scaffold.
+ */
 const HomeRoute = () => {
   return (
-    <>
-      <AuthLoading>
-        <LoadingScreen />
-      </AuthLoading>
-      <Unauthenticated>
-        <meta httpEquiv="refresh" content="0;url=/sign-in" />
-      </Unauthenticated>
-      <Authenticated>
-        <HomeAuthenticated />
-      </Authenticated>
-    </>
+    <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-4 px-6">
+      <Text className="text-3xl font-semibold text-white">Kindred</Text>
+      <Text className="text-base text-white/80">
+        Patronage app for rising African artists. Fans support artists with a
+        monthly subscription routed to the artists they choose.
+      </Text>
+    </main>
   );
 };
 

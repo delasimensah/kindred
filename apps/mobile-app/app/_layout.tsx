@@ -2,7 +2,6 @@ import "react-native-reanimated";
 import "../global.css";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { useConvexAuth } from "convex/react";
 import { useFonts } from "expo-font";
 import { Image, ImageBackground } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -39,16 +38,15 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 const RootNavigator = () => {
-  const { isLoading, isAuthenticated } = useConvexAuth();
   const isCheckingUpdate = useApplyAvailableUpdate();
 
   useEffect(() => {
-    if (!isLoading && !isCheckingUpdate) {
+    if (!isCheckingUpdate) {
       void SplashScreen.hideAsync();
     }
-  }, [isCheckingUpdate, isLoading]);
+  }, [isCheckingUpdate]);
 
-  if (isLoading || isCheckingUpdate) {
+  if (isCheckingUpdate) {
     return null;
   }
 
@@ -61,12 +59,6 @@ const RootNavigator = () => {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Protected guard={!isAuthenticated}>
-        <Stack.Screen name="(auth)" />
-      </Stack.Protected>
-      <Stack.Protected guard={isAuthenticated}>
-        <Stack.Screen name="(app)" />
-      </Stack.Protected>
     </Stack>
   );
 };

@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — scaffold corrected from project-template + thin Convex (not Ridgeway). Vercel project exists; redeploy after this push. Next: Expo.
+- **Current phase:** Workshop — blank-slate scaffold (no auth UI). Vercel redeploy after push. Next: Expo.
 - **Last updated:** 2026-09-19
 - **Blocked / open:** None.
 

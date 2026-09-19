@@ -9,5 +9,3 @@ export {
   InfoNotification,
   SuccessNotification,
 } from "./feedback/Notification/Notification";
-
-export { default as SignInForm } from "./auth/SignInForm/SignInForm";

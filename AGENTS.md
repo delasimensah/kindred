@@ -36,6 +36,7 @@ Prefer these official sources. Add them as **@Docs** in Cursor (Settings → Ind
 
 ## Hard rules for this product
 
+- Until screen design and feature tickets start, the first web and phone screen is a **blank slate** (product name + one PRD line) — never an auth screen. Auth stays infrastructure only.
 - Product data uses Convex `useQuery` / `useMutation`. Permission checks belong at the top of every public Convex function. The client is not trusted.
 - Convex Auth needs `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` on the Convex deployment. Read `docs/convex-auth-env.md`. Do not commit the keys.
 - Entitlement is written only from the server-side RevenueCat source of truth. The client never decides Supporter status.

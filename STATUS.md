@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — private GitHub done. Next: Linear GitHub wiring for this repo.
-- **Last updated:** 2026-09-17
+- **Current phase:** Workshop — Linear GitHub wiring done. Next: Vercel.
+- **Last updated:** 2026-09-19
 - **Blocked / open:** None.
 
 ---
@@ -29,7 +29,7 @@
 
 - [x] Scaffold monorepo
 - [x] Private GitHub repo (`delasimensah/kindred`)
-- [ ] Linear team + GitHub connection (team `KIND` and epics already exist; wire this repo)
+- [x] Linear team + GitHub connection (team `KIND` and epics already exist; this repo wired)
 - [ ] Vercel (web)
 - [ ] Expo / EAS (mobile)
 - [ ] Slack workshop channel `#kindred` + bots
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Connect GitHub repo `delasimensah/kindred` in Linear (workshop Linear tick). Do not create build tickets.
+Import `delasimensah/kindred` on Vercel (Root Directory = `.`). Do not add Convex env yet.
 
 ---
 

@@ -10,9 +10,9 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — Expo / EAS linked. Next: Slack `#kindred`.
+- **Current phase:** Workshop — Slack `#kindred` done (Vercel bot skipped). Next: Convex cloud.
 - **Last updated:** 2026-09-19
-- **Blocked / open:** None.
+- **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking Convex.
 
 ---
 
@@ -32,9 +32,9 @@
 - [x] Linear team + GitHub connection
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
-- [ ] Slack workshop channel `#kindred` + bots
+- [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
 - [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS
-- [x] Access list (`ACCESS-LIST.md`) — GitHub + Expo recorded; fill Vercel URL if missing
+- [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack notes; fill Vercel dashboard URL if missing
 - [ ] Preview cooks working (web + phone as needed)
 
 ---
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Create Slack channel `#kindred` and subscribe GitHub, Linear, and Vercel (workshop Slack tick).
+Workshop Convex cloud tick — thin Kindred Convex project + env on local / Vercel / EAS. No product tables.
 
 ---
 

@@ -32,8 +32,10 @@ Do not use Apple Music red, Spotify green, SoundCloud orange, teal `#00ADB5`, co
 
 ## Typography
 
-- **Display (now-playing title, impact big numbers, thank-you card, paywall headline):** Clash Display — SemiBold 600, Bold 700. Mobile 28–36px. Web studio metrics 32–40px.
-- **UI (everywhere else):** Satoshi — Regular 400, Medium 500, SemiBold 600, Bold 700.
+**Locked for Kindred V1.** Clash Display and Satoshi are from Fontshare (not Google Fonts). Keep them unless Clash Display becomes tedious to ship in Expo — then swap only the display face to a Google Font and update this section.
+
+- **Display (now-playing title, impact big numbers, thank-you card, paywall headline):** Clash Display — SemiBold 600, Bold 700. Mobile 28–36px. Web studio metrics 32–40px. Source: [Fontshare — Clash Display](https://www.fontshare.com/fonts/clash-display).
+- **UI (everywhere else):** Satoshi — Regular 400, Medium 500, SemiBold 600, Bold 700. Already in `apps/mobile-app/assets/fonts/`. Source: [Fontshare — Satoshi](https://www.fontshare.com/fonts/satoshi).
 - **Mobile UI sizes:** titles 20–24px SemiBold/Bold; body 16px Regular; meta and row subtitles 13–14px Medium.
 - **Web UI sizes:** page titles 28–32px Bold; sections 18–20px SemiBold; body 15–16px; tables 13–14px Medium.
 - No Inter, Roboto, Arial, or unnamed system UI font in mockups.

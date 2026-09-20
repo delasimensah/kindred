@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — Convex cloud done. Next: confirm system design on the live project, then screen design.
+- **Current phase:** System design confirmed against live Convex. Next: screen design.
 - **Last updated:** 2026-09-20
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
 
@@ -41,7 +41,7 @@
 
 ## Product path
 
-- [x] System design (approved in studio practice pack; copy into `docs/product/` after Convex cloud)
+- [x] System design — confirmed 20 Sep 2026 vs live `kindred` Convex; copies in `docs/product/system-design.md` + `convex-design.md`
 - [ ] Screen design
 - [ ] Linear build tickets (epics exist; full slices after screens)
 - [ ] Build / demos / TestFlight / Play
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Confirm system design still matches the live Convex project, then screen design (`07`). No feature UI tickets yet.
+Screen design (`07`) — Mobbin → design system lock → UX Pilot → HTML exports into `kindred/docs/design/`. No build tickets yet.
 
 ---
 
@@ -60,3 +60,6 @@ Confirm system design still matches the live Convex project, then screen design 
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`
+- System design: `docs/product/system-design.md`
+- Convex design: `docs/product/convex-design.md`
+- Convex dashboard: https://dashboard.convex.dev/t/dm-studios/kindred

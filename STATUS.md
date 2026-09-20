@@ -10,9 +10,9 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — Slack `#kindred` done (Vercel bot skipped). Next: Convex cloud.
-- **Last updated:** 2026-09-19
-- **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking Convex.
+- **Current phase:** Workshop — Convex cloud done. Next: confirm system design on the live project, then screen design.
+- **Last updated:** 2026-09-20
+- **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
 
 ---
 
@@ -33,9 +33,9 @@
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
 - [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
-- [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS
-- [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack notes; fill Vercel dashboard URL if missing
-- [ ] Preview cooks working (web + phone as needed)
+- [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS
+- [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack, Vercel, Convex
+- [ ] Preview cooks working (web + phone as needed) — web redeployed with Convex URL; phone when you open Expo
 
 ---
 
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Workshop Convex cloud tick — thin Kindred Convex project + env on local / Vercel / EAS. No product tables.
+Confirm system design still matches the live Convex project, then screen design (`07`). No feature UI tickets yet.
 
 ---
 

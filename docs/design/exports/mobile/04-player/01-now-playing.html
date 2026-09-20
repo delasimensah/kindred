@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Now Playing</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .glass {
+    background: rgba(57,62,70,0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+  .art-wash {
+    background: linear-gradient(180deg, rgba(34,40,49,0.15) 0%, rgba(34,40,49,0.55) 45%, #222831 92%);
+  }
+  #waveform-track { display: flex; align-items: center; gap: 2.5px; }
+  .wf-bar { width: 3px; border-radius: 3px; background: #EEEEEE; opacity: 0.25; flex-shrink: 0; }
+  .wf-bar.played { background: #FFD369; opacity: 1; }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="now-playing-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Artwork wash background -->
+  <div id="art-bg" class="absolute inset-0 z-0">
+    <img class="w-full h-[520px] object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_afa5bf9cb90c7441.png" alt="warm golden abstract album cover art, highlife music mood, textured gradient, earthy tones, editoria" />
+    <div class="art-wash absolute inset-0"></div>
+    <div class="absolute inset-0 bg-[#222831]" style="top:520px;"></div>
+  </div>
+
+  <!-- Top bar -->
+  <div id="np-topbar" class="flex items-center justify-between px-6 pt-8 pb-1 relative z-10">
+    <button type="button" id="np-collapse-btn" class="w-9 h-9 rounded-full bg-[#393E46]/70 flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-chevron-down text-[#EEEEEE] text-sm"></i>
+    </button>
+    <div class="flex flex-col items-center">
+      <span class="text-[#EEEEEE]/50 text-[10px] font-semibold tracking-wider uppercase">Playing from</span>
+      <span class="text-[#EEEEEE] text-xs font-semibold mt-0.5">Endless Radio</span>
+    </div>
+    <button type="button" id="np-more-btn" class="w-9 h-9 rounded-full bg-[#393E46]/70 flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-ellipsis text-[#EEEEEE] text-sm"></i>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div id="np-content" class="flex-1 flex flex-col px-6 pt-6 relative z-10">
+
+    <!-- Artwork -->
+    <div id="np-artwork-wrap" class="flex justify-center">
+      <div id="np-artwork" class="rounded-xl overflow-hidden shadow-2xl" style="width:70%;aspect-ratio:1/1;">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_afa5bf9cb90c7441.png" alt="warm golden abstract album cover art, highlife music mood, textured gradient, earthy tones, editoria" />
+      </div>
+    </div>
+
+    <!-- Title + artist + like -->
+    <div id="np-meta" class="flex items-center justify-between mt-7">
+      <div class="min-w-0">
+        <h1 class="font-display font-bold text-[26px] text-[#EEEEEE] tracking-tight truncate">Asase</h1>
+        <div class="flex items-center gap-2 mt-1.5">
+          <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-5 h-5 rounded-full object-cover" alt="Amaara Mensah">
+          <p class="text-[#EEEEEE]/60 text-sm truncate">Amaara Mensah</p>
+        </div>
+      </div>
+      <button type="button" id="np-like-btn" onclick="this.querySelector('i').classList.toggle('fa-regular'); this.querySelector('i').classList.toggle('fa-solid'); this.querySelector('i').classList.toggle('text-[#FFD369]');" class="w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center shrink-0">
+        <i class="fa-regular fa-heart text-[#EEEEEE] text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Waveform scrubber -->
+    <div id="waveform-scrubber" class="mt-7">
+      <div id="waveform-track" class="relative h-14 w-full cursor-pointer">
+        <!-- generated bars via loop below -->
+        <div class="wf-bar played" style="height:22%"></div><div class="wf-bar played" style="height:48%"></div><div class="wf-bar played" style="height:35%"></div><div class="wf-bar played" style="height:70%"></div><div class="wf-bar played" style="height:55%"></div><div class="wf-bar played" style="height:85%"></div><div class="wf-bar played" style="height:40%"></div><div class="wf-bar played" style="height:60%"></div><div class="wf-bar played" style="height:30%"></div><div class="wf-bar played" style="height:75%"></div><div class="wf-bar played" style="height:50%"></div><div class="wf-bar played" style="height:65%"></div><div class="wf-bar played" style="height:38%"></div><div class="wf-bar played" style="height:90%"></div><div class="wf-bar played" style="height:45%"></div><div class="wf-bar played" style="height:58%"></div><div class="wf-bar played" style="height:28%"></div><div class="wf-bar played" style="height:68%"></div>
+        <!-- scrub thumb -->
+        <div id="scrub-thumb" class="absolute -top-1 flex flex-col items-center" style="left:32%;">
+          <div class="w-[3px] h-16 rounded-full bg-[#FFD369] shadow-[0_0_8px_rgba(255,211,105,0.6)]"></div>
+          <div class="w-3.5 h-3.5 rounded-full bg-[#FFD369] border-2 border-[#222831] -mt-1 shadow-lg"></div>
+        </div>
+        <div class="wf-bar" style="height:42%"></div><div class="wf-bar" style="height:65%"></div><div class="wf-bar" style="height:30%"></div><div class="wf-bar" style="height:55%"></div><div class="wf-bar" style="height:80%"></div><div class="wf-bar" style="height:35%"></div><div class="wf-bar" style="height:60%"></div><div class="wf-bar" style="height:25%"></div><div class="wf-bar" style="height:70%"></div><div class="wf-bar" style="height:45%"></div><div class="wf-bar" style="height:88%"></div><div class="wf-bar" style="height:38%"></div><div class="wf-bar" style="height:52%"></div><div class="wf-bar" style="height:30%"></div><div class="wf-bar" style="height:65%"></div><div class="wf-bar" style="height:48%"></div><div class="wf-bar" style="height:72%"></div><div class="wf-bar" style="height:33%"></div><div class="wf-bar" style="height:58%"></div><div class="wf-bar" style="height:40%"></div><div class="wf-bar" style="height:62%"></div><div class="wf-bar" style="height:28%"></div><div class="wf-bar" style="height:75%"></div><div class="wf-bar" style="height:45%"></div>
+      </div>
+      <div class="flex items-center justify-between mt-2">
+        <span class="text-[#EEEEEE]/50 text-xs font-medium tabular-nums">1:12</span>
+        <span class="text-[#EEEEEE]/50 text-xs font-medium tabular-nums">3:24</span>
+      </div>
+    </div>
+
+    <!-- Transport -->
+    <div id="transport-section" class="flex items-center justify-between mt-6 px-1">
+      <button type="button" id="shuffle-btn" onclick="this.classList.toggle('text-[#FFD369]'); this.classList.toggle('text-[#EEEEEE]/45');" class="text-[#FFD369] w-9 flex items-center justify-center">
+        <i class="fa-solid fa-shuffle text-lg"></i>
+      </button>
+      <button type="button" id="prev-btn" class="text-[#EEEEEE] w-9 flex items-center justify-center">
+        <i class="fa-solid fa-backward-step text-2xl"></i>
+      </button>
+      <button type="button" id="play-btn" onclick="this.querySelector('i').classList.toggle('fa-play'); this.querySelector('i').classList.toggle('fa-pause');" class="w-[72px] h-[72px] rounded-full bg-[#FFD369] flex items-center justify-center shrink-0 shadow-[0_8px_24px_rgba(255,211,105,0.35)]">
+        <i class="fa-solid fa-pause text-[#222831] text-2xl"></i>
+      </button>
+      <button type="button" id="next-btn" class="text-[#EEEEEE] w-9 flex items-center justify-center">
+        <i class="fa-solid fa-forward-step text-2xl"></i>
+      </button>
+      <button type="button" id="repeat-btn" data-state="all" onclick="
+        const states=['off','all','one'];
+        const icons={off:'fa-repeat',all:'fa-repeat',one:'fa-1'};
+        let s=this.getAttribute('data-state');
+        let idx=(states.indexOf(s)+1)%states.length;
+        let next=states[idx];
+        this.setAttribute('data-state', next);
+        this.querySelector('i').className = next==='one' ? 'fa-solid fa-repeat text-lg' : 'fa-solid fa-repeat text-lg';
+        const badge=this.querySelector('#repeat-one-badge');
+        if(next==='one'){ badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+        if(next==='off'){ this.classList.remove('text-[#FFD369]'); this.classList.add('text-[#EEEEEE]/45'); }
+        else { this.classList.add('text-[#FFD369]'); this.classList.remove('text-[#EEEEEE]/45'); }
+      " class="relative text-[#FFD369] w-9 flex items-center justify-center">
+        <i class="fa-solid fa-repeat text-lg"></i>
+        <span id="repeat-one-badge" class="hidden absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#FFD369] text-[#222831] text-[8px] font-bold flex items-center justify-center">1</span>
+      </button>
+    </div>
+
+    <!-- Reaction chips -->
+    <div id="reaction-chips" class="flex items-center justify-center gap-2.5 mt-7">
+      <button type="button" class="reaction-chip w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center text-xl" onclick="document.querySelectorAll('.reaction-chip').forEach(b=>b.classList.remove('ring-2','ring-[#FFD369]')); this.classList.add('ring-2','ring-[#FFD369]');">🔥</button>
+      <button type="button" class="reaction-chip w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center text-xl ring-2 ring-[#FFD369]" onclick="document.querySelectorAll('.reaction-chip').forEach(b=>b.classList.remove('ring-2','ring-[#FFD369]')); this.classList.add('ring-2','ring-[#FFD369]');">❤️</button>
+      <button type="button" class="reaction-chip w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center text-xl" onclick="document.querySelectorAll('.reaction-chip').forEach(b=>b.classList.remove('ring-2','ring-[#FFD369]')); this.classList.add('ring-2','ring-[#FFD369]');">🙌</button>
+      <button type="button" class="reaction-chip w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center text-xl" onclick="document.querySelectorAll('.reaction-chip').forEach(b=>b.classList.remove('ring-2','ring-[#FFD369]')); this.classList.add('ring-2','ring-[#FFD369]');">👏</button>
+      <button type="button" class="reaction-chip w-11 h-11 rounded-full bg-[#393E46]/60 flex items-center justify-center text-xl" onclick="document.querySelectorAll('.reaction-chip').forEach(b=>b.classList.remove('ring-2','ring-[#FFD369]')); this.classList.add('ring-2','ring-[#FFD369]');">✨</button>
+    </div>
+
+    <!-- Spacer -->
+    <div class="flex-1 min-h-[16px]"></div>
+
+    <!-- Visualizer toggle -->
+    <div id="visualizer-row" class="flex items-center justify-between bg-[#393E46]/50 rounded-2xl px-4 py-3 mt-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <i class="fa-solid fa-waveform-lines text-[#EEEEEE]/60 text-base shrink-0"></i>
+        <div class="min-w-0">
+          <p class="text-[#EEEEEE] text-sm font-medium">Visualizer</p>
+          <p class="text-[#EEEEEE]/40 text-[11px] mt-0.5 truncate">Stays off in Low Power Mode</p>
+        </div>
+      </div>
+      <button type="button" id="visualizer-toggle" data-on="false" onclick="
+        const on = this.getAttribute('data-on') === 'true';
+        this.setAttribute('data-on', (!on).toString());
+        this.querySelector('#viz-knob').classList.toggle('translate-x-5');
+        this.classList.toggle('bg-[#FFD369]');
+        this.classList.toggle('bg-[#222831]');
+      " class="w-11 h-6 rounded-full bg-[#222831] relative shrink-0 transition-colors">
+        <span id="viz-knob" class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-[#EEEEEE] transition-transform"></span>
+      </button>
+    </div>
+
+    <!-- Bottom actions: Queue / More -->
+    <div id="np-bottom-actions" class="flex items-center gap-3 mt-4 mb-8">
+      <button type="button" id="queue-btn" class="flex-1 flex items-center justify-center gap-2 bg-[#393E46]/60 rounded-full py-3.5">
+        <i class="fa-solid fa-list-ul text-[#EEEEEE] text-sm"></i>
+        <span class="text-[#EEEEEE] text-sm font-semibold">Queue</span>
+      </button>
+      <button type="button" id="np-more-actions-btn" class="w-[52px] h-[52px] rounded-full bg-[#393E46]/60 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-ellipsis text-[#EEEEEE] text-base"></i>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

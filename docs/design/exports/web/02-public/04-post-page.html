@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="post-page" class="w-full min-w-[1280px] bg-page">
+
+  <!-- Top bar -->
+  <header id="topbar" class="sticky top-0 z-40 h-16 bg-page/95 backdrop-blur border-b border-white/5 flex items-center justify-between px-10">
+    <a href="#" id="brand" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+        <i class="fa-solid fa-waveform-lines text-label text-xs"></i>
+      </div>
+      <span class="font-display text-lg tracking-tight text-text">Kindred</span>
+    </a>
+    <div id="topbar-actions" class="flex items-center gap-3">
+      <a href="#" class="hidden md:flex items-center gap-2 text-sm text-text/60 hover:text-text transition">
+        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+      </a>
+      <button id="get-app-topbar-btn" class="flex items-center gap-2 text-sm font-semibold text-label bg-primary px-5 py-2.5 rounded-xl hover:brightness-95 transition">
+        <i class="fa-solid fa-mobile-screen-button text-xs"></i> Get the app
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content" class="px-10 py-12 pb-40 max-w-[720px] mx-auto space-y-8">
+
+    <!-- Author -->
+    <div id="post-author-row" class="flex items-center gap-3">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-11 h-11 rounded-full object-cover" alt="Amaara Mensah">
+      <div class="min-w-0">
+        <p class="text-sm font-semibold text-text">Amaara Mensah</p>
+        <p class="text-xs text-text/45">Public update · 3 days ago</p>
+      </div>
+    </div>
+
+    <!-- Public post: text + photo -->
+    <article id="public-post-card" class="bg-surface rounded-2xl border border-white/5 overflow-hidden">
+      <div class="p-7">
+        <h1 class="font-display text-2xl text-text mb-3">Back in the studio for the next EP 🎙️</h1>
+        <p class="text-sm text-text/70 leading-relaxed">Spent the weekend tracking guitars in Kokrobite with the full band — this is shaping up to be the most alive record I've made. Sharing a few shots from the session, full update coming for everyone soon.</p>
+      </div>
+      <img class="w-full h-80 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_9e45568412_7b5c2e9b9f8f0728.png" alt="recording studio session, musicians with guitars, warm ambient lighting, candid documentary photogra" />
+      <div class="px-7 py-5 flex items-center gap-6 border-t border-white/5">
+        <span class="flex items-center gap-2 text-sm text-text/50">
+          <i class="fa-regular fa-heart"></i> 842
+        </span>
+        <span class="flex items-center gap-2 text-sm text-text/50">
+          <i class="fa-regular fa-comment"></i> 96
+        </span>
+        <button class="flex items-center gap-2 text-sm text-text/60 hover:text-text transition ml-auto">
+          <i class="fa-solid fa-share-nodes"></i> Share
+        </button>
+      </div>
+    </article>
+
+    <!-- Public post: voice note chip -->
+    <article id="voice-note-post-card" class="bg-surface rounded-2xl border border-white/5 p-7">
+      <p class="text-sm text-text/70 leading-relaxed mb-5">A quick voice note before the show tonight — thank you all for the support this year 🙏</p>
+      <div id="voice-note-chip" class="flex items-center gap-4 bg-page rounded-xl border border-white/10 px-5 py-4">
+        <button class="w-10 h-10 rounded-full bg-primary text-label flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-play text-xs ml-0.5"></i>
+        </button>
+        <div class="flex-1 flex items-center gap-0.5 h-6">
+          <span class="w-1 bg-text/25 rounded-full h-2"></span>
+          <span class="w-1 bg-text/25 rounded-full h-4"></span>
+          <span class="w-1 bg-text/25 rounded-full h-3"></span>
+          <span class="w-1 bg-text/25 rounded-full h-5"></span>
+          <span class="w-1 bg-text/25 rounded-full h-2"></span>
+          <span class="w-1 bg-text/25 rounded-full h-6"></span>
+          <span class="w-1 bg-text/25 rounded-full h-3"></span>
+          <span class="w-1 bg-text/25 rounded-full h-4"></span>
+          <span class="w-1 bg-text/25 rounded-full h-2"></span>
+          <span class="w-1 bg-text/25 rounded-full h-5"></span>
+          <span class="w-1 bg-text/25 rounded-full h-3"></span>
+          <span class="w-1 bg-text/25 rounded-full h-4"></span>
+          <span class="w-1 bg-text/25 rounded-full h-2"></span>
+          <span class="w-1 bg-text/25 rounded-full h-3"></span>
+        </div>
+        <span class="text-xs text-text/40 shrink-0">0:42</span>
+      </div>
+      <div class="flex items-center gap-6 mt-5">
+        <span class="flex items-center gap-2 text-sm text-text/50">
+          <i class="fa-regular fa-heart"></i> 613
+        </span>
+        <span class="flex items-center gap-2 text-sm text-text/50">
+          <i class="fa-regular fa-comment"></i> 41
+        </span>
+      </div>
+    </article>
+
+    <!-- Locked exclusive post shell -->
+    <article id="locked-post-card" class="relative bg-surface rounded-2xl border border-primary/20 overflow-hidden">
+      <div class="p-7 pb-0">
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full mb-4">
+          <i class="fa-solid fa-lock text-[10px]"></i> Exclusive
+        </span>
+        <h2 class="font-display text-xl text-text/90 mb-2">Unreleased demo + behind-the-scenes video</h2>
+        <p class="text-sm text-text/50 leading-relaxed">Available for supporters in the Kindred app.</p>
+      </div>
+      <div class="relative h-64 mt-6">
+        <div class="absolute inset-0 bg-page/60 backdrop-blur-xl flex flex-col items-center justify-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center">
+            <i class="fa-solid fa-lock text-text/70"></i>
+          </div>
+          <p class="text-sm text-text/60 max-w-[260px] text-center">This post is exclusive to supporters. Get the app to unlock it.</p>
+          <button id="get-app-btn" class="flex items-center gap-2 bg-primary text-label text-sm font-semibold px-6 py-3 rounded-xl hover:brightness-95 transition">
+            <i class="fa-brands fa-apple"></i> Get the app
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Bottom light player (shown when audio content is playing) -->
+  <div id="bottom-player" class="fixed bottom-0 left-0 right-0 h-20 bg-surface border-t border-white/10 z-50 px-6 flex items-center gap-5">
+    <div id="player-track-info" class="flex items-center gap-3 w-64 shrink-0 min-w-0">
+      <img class="w-12 h-12 rounded-lg object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="voice note artwork">
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-text truncate">Voice note</p>
+        <p class="text-xs text-text/45 truncate">Amaara Mensah</p>
+      </div>
+    </div>
+
+    <div id="player-controls" class="flex-1 flex flex-col items-center gap-2 max-w-xl mx-auto">
+      <div class="flex items-center gap-6">
+        <button class="text-text/60 hover:text-text transition">
+          <i class="fa-solid fa-backward-step"></i>
+        </button>
+        <button id="play-pause-btn" class="w-9 h-9 rounded-full bg-primary text-label flex items-center justify-center hover:brightness-95 transition">
+          <i class="fa-solid fa-play text-xs ml-0.5"></i>
+        </button>
+        <button class="text-text/60 hover:text-text transition">
+          <i class="fa-solid fa-forward-step"></i>
+        </button>
+      </div>
+      <div class="w-full flex items-center gap-3">
+        <span class="text-[11px] text-text/40 w-9 text-right">0:00</span>
+        <div class="flex-1 h-1 bg-white/10 rounded-full relative cursor-pointer">
+          <div class="absolute left-0 top-0 h-1 bg-primary rounded-full" style="width:0%"></div>
+          <div class="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-primary shadow" style="left:0%; transform: translate(-50%, -50%);"></div>
+        </div>
+        <span class="text-[11px] text-text/40 w-9">0:42</span>
+      </div>
+    </div>
+
+    <div id="player-app-cta" class="w-64 shrink-0 flex items-center justify-end">
+      <button class="flex items-center gap-2 text-xs font-semibold text-label bg-primary px-4 py-2.5 rounded-lg hover:brightness-95 transition">
+        <i class="fa-solid fa-mobile-screen-button"></i> Get the app
+      </button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

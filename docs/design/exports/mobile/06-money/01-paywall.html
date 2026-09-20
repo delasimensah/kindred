@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paywall</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .glass {
+    background: rgba(57,62,70,0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="paywall-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Scrim backdrop simulating sheet coming over previous screen -->
+  <div id="paywall-scrim" class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Bottom sheet -->
+  <div id="paywall-sheet" class="absolute bottom-0 left-0 right-0 bg-[#222831] rounded-t-[32px] border-t border-white/5 flex flex-col max-h-[880px] z-10">
+
+    <!-- Grabber -->
+    <div id="sheet-grabber" class="flex justify-center pt-3 pb-1">
+      <div class="w-10 h-1.5 rounded-full bg-[#EEEEEE]/20"></div>
+    </div>
+
+    <!-- Close -->
+    <button type="button" id="close-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-[#393E46] flex items-center justify-center z-20">
+      <i class="fa-solid fa-xmark text-[#EEEEEE] text-sm"></i>
+    </button>
+
+    <!-- Scrollable content -->
+    <div id="paywall-content" class="flex-1 overflow-y-auto px-6 pt-6 pb-8 flex flex-col gap-6">
+
+      <!-- Headline -->
+      <div id="paywall-headline" class="flex flex-col gap-2 pr-8">
+        <div class="w-11 h-11 rounded-2xl bg-[#FFD369] flex items-center justify-center mb-1">
+          <i class="fa-solid fa-heart text-[#222831] text-lg"></i>
+        </div>
+        <h1 class="font-display font-bold text-[26px] text-[#EEEEEE] leading-[1.15] tracking-tight">Back the artists you believe in.</h1>
+        <p class="text-[#EEEEEE]/60 text-sm leading-relaxed">One subscription. Route it to up to 5 artists. Same access at both prices.</p>
+      </div>
+
+      <!-- Plan cards -->
+      <div id="plan-cards" class="flex flex-col gap-3">
+
+        <!-- Plan: $4.99 -->
+        <button type="button" id="plan-basic" onclick="selectPlan('plan-basic')" class="text-left bg-[#393E46] rounded-2xl p-5 border-2 border-transparent relative flex flex-col gap-4 transition-colors">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-[#EEEEEE] font-semibold text-base">Supporter</p>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span class="font-display font-bold text-2xl text-[#EEEEEE]">$4.99</span>
+                <span class="text-[#EEEEEE]/50 text-sm">/ month</span>
+              </div>
+            </div>
+            <div class="plan-radio w-6 h-6 rounded-full border-2 border-[#EEEEEE]/25 flex items-center justify-center shrink-0">
+              <div class="plan-dot w-3 h-3 rounded-full bg-[#FFD369] opacity-0"></div>
+            </div>
+          </div>
+          <div class="h-px bg-white/5"></div>
+          <ul class="flex flex-col gap-2.5">
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              Exclusives from routed artists
+            </li>
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              Offline listening for entitled tracks
+            </li>
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              See your impact on artists
+            </li>
+          </ul>
+        </button>
+
+        <!-- Plan: $9.99 (selected default) -->
+        <button type="button" id="plan-plus" onclick="selectPlan('plan-plus')" class="text-left bg-[#393E46] rounded-2xl p-5 border-2 border-[#FFD369] relative flex flex-col gap-4 transition-colors">
+          <span id="popular-chip" class="absolute -top-3 left-5 bg-[#FFD369] text-[#222831] text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full">Most supportive</span>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-[#EEEEEE] font-semibold text-base">Champion</p>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span class="font-display font-bold text-2xl text-[#EEEEEE]">$9.99</span>
+                <span class="text-[#EEEEEE]/50 text-sm">/ month</span>
+              </div>
+            </div>
+            <div class="plan-radio w-6 h-6 rounded-full border-2 border-[#FFD369] flex items-center justify-center shrink-0">
+              <div class="plan-dot w-3 h-3 rounded-full bg-[#FFD369] opacity-100"></div>
+            </div>
+          </div>
+          <div class="h-px bg-white/5"></div>
+          <ul class="flex flex-col gap-2.5">
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              Exclusives from routed artists
+            </li>
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              Offline listening for entitled tracks
+            </li>
+            <li class="flex items-center gap-2.5 text-[#EEEEEE]/75 text-sm">
+              <i class="fa-solid fa-circle-check text-[#FFD369] text-xs"></i>
+              See your impact on artists
+            </li>
+          </ul>
+        </button>
+      </div>
+
+      <!-- Reassurance -->
+      <p id="reassurance-note" class="text-[#EEEEEE]/40 text-xs text-center leading-relaxed px-2">Both plans unlock the exact same features — a higher tier simply sends more support to the artists you route to.</p>
+
+      <!-- CTA -->
+      <div id="paywall-cta" class="flex flex-col items-center gap-4 pt-1">
+        <button type="button" id="subscribe-btn" class="w-full bg-[#FFD369] text-[#222831] font-bold text-base rounded-full py-4 text-center">Subscribe</button>
+        <button type="button" id="restore-btn" class="text-[#EEEEEE]/50 text-sm font-medium underline underline-offset-2">Restore purchases</button>
+        <p class="text-[#EEEEEE]/30 text-[11px] text-center leading-relaxed px-4">Cancel anytime. Renews automatically until cancelled.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+  function selectPlan(id) {
+    const plans = ['plan-basic', 'plan-plus'];
+    plans.forEach(p => {
+      const el = document.getElementById(p);
+      const dot = el.querySelector('.plan-dot');
+      const radio = el.querySelector('.plan-radio');
+      if (p === id) {
+        el.classList.remove('border-transparent');
+        el.classList.add('border-[#FFD369]');
+        dot.classList.remove('opacity-0');
+        dot.classList.add('opacity-100');
+        radio.classList.remove('border-[#EEEEEE]/25');
+        radio.classList.add('border-[#FFD369]');
+      } else {
+        el.classList.remove('border-[#FFD369]');
+        el.classList.add('border-transparent');
+        dot.classList.remove('opacity-100');
+        dot.classList.add('opacity-0');
+        radio.classList.remove('border-[#FFD369]');
+        radio.classList.add('border-[#EEEEEE]/25');
+      }
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Release</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+  .ghost-text { color: rgba(238,238,238,0.35); font-style: italic; }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="upload-page" class="w-full min-w-[1280px] flex bg-page">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-[260px] shrink-0 h-[1150px] sticky top-0 bg-surface border-r border-white/5 flex flex-col">
+    <div id="sidebar-brand" class="flex items-center gap-3 px-7 pt-8 pb-6">
+      <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+        <i class="fa-solid fa-waveform-lines text-label text-sm"></i>
+      </div>
+      <span class="font-display text-xl tracking-tight text-text">Kindred</span>
+    </div>
+
+    <nav id="sidebar-nav" class="flex-1 px-4 mt-2 space-y-1">
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-house w-4 text-center"></i> Home
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-record-vinyl w-4 text-center"></i> Releases
+      </a>
+      <a href="#" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+        <i class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> Upload
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center"></i> Updates
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-heart w-4 text-center"></i> Supporters
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-hands-clapping w-4 text-center"></i> Thank-yous
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-sack-dollar w-4 text-center"></i> Earnings
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-user w-4 text-center"></i> Profile
+      </a>
+    </nav>
+
+    <div id="sidebar-footer" class="px-5 py-5 border-t border-white/5 flex items-center gap-3">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-9 h-9 rounded-full object-cover" alt="avatar">
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-text truncate">Amaara Mensah</p>
+        <p class="text-xs text-text/45 truncate">Artist</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main id="main-content" class="flex-1 px-10 py-9">
+
+    <div id="page-header" class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-[28px] font-display font-medium text-text leading-tight">Upload release</h1>
+        <p class="text-sm text-text/50 mt-1.5">Add your track, tell its story, and choose when it goes live.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="save-draft-btn" class="text-sm font-medium text-text/70 border border-white/10 px-5 py-3 rounded-xl hover:bg-white/5 transition">
+          Save draft
+        </button>
+        <button id="publish-btn" class="bg-primary text-label text-sm font-semibold px-6 py-3 rounded-xl hover:brightness-95 transition">
+          Publish or schedule
+        </button>
+      </div>
+    </div>
+
+    <div id="upload-grid" class="grid grid-cols-5 gap-6">
+
+      <!-- Left column: dropzones -->
+      <div id="upload-left-col" class="col-span-2 space-y-6">
+
+        <div id="audio-dropzone" class="bg-surface rounded-2xl border-2 border-dashed border-white/15 p-8 flex flex-col items-center justify-center text-center h-56 hover:border-primary/50 transition cursor-pointer">
+          <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-file-audio text-primary text-lg"></i>
+          </div>
+          <p class="text-sm font-medium text-text mb-1">Drop audio file here</p>
+          <p class="text-xs text-text/40 mb-4">WAV or MP3, up to 250MB</p>
+          <button class="text-xs font-semibold text-label bg-primary px-4 py-2 rounded-lg">Browse files</button>
+        </div>
+
+        <div id="progress-section" class="bg-surface rounded-2xl border border-white/5 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-sm text-text/80 flex items-center gap-2">
+              <i class="fa-solid fa-wave-square text-primary text-xs animate-pulse"></i>
+              Generating peaks…
+            </p>
+            <span class="text-xs text-text/40">Kokrobite_Sessions_master.wav</span>
+          </div>
+          <div class="w-full h-1.5 bg-page rounded-full overflow-hidden">
+            <div class="h-full bg-primary rounded-full" style="width: 62%"></div>
+          </div>
+          <p class="text-xs text-text/35 mt-2">62% · waveform preview will appear once processed</p>
+        </div>
+
+        <div id="artwork-dropzone" class="bg-surface rounded-2xl border-2 border-dashed border-white/15 p-8 flex flex-col items-center justify-center text-center h-56 hover:border-primary/50 transition cursor-pointer">
+          <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <i class="fa-solid fa-image text-primary text-lg"></i>
+          </div>
+          <p class="text-sm font-medium text-text mb-1">Drop artwork here</p>
+          <p class="text-xs text-text/40 mb-4">JPG or PNG, min 3000×3000px, square</p>
+          <button class="text-xs font-semibold text-label bg-primary px-4 py-2 rounded-lg">Browse files</button>
+        </div>
+
+      </div>
+
+      <!-- Right column: details -->
+      <div id="upload-right-col" class="col-span-3 space-y-6">
+
+        <div id="details-section" class="bg-surface rounded-2xl border border-white/5 p-7 space-y-6">
+
+          <div id="title-field">
+            <label for="title" class="block text-sm text-text/70 mb-2">Title</label>
+            <input type="text" id="title" value="Kokrobite Sessions"
+              class="w-full bg-page border border-white/10 rounded-xl px-4 py-3 text-sm text-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition">
+          </div>
+
+          <div id="tags-field">
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-sm text-text/70">Tags</label>
+              <span class="text-xs text-text/35 flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-primary text-[10px]"></i>Copilot suggestions</span>
+            </div>
+            <div id="tags-chips" class="flex flex-wrap gap-2">
+              <span class="tag-chip flex items-center gap-2 bg-primary/15 text-primary text-sm px-3.5 py-2 rounded-full border border-primary/30">
+                highlife <i class="fa-solid fa-xmark text-xs cursor-pointer hover:text-text"></i>
+              </span>
+              <span class="tag-chip flex items-center gap-2 bg-primary/15 text-primary text-sm px-3.5 py-2 rounded-full border border-primary/30">
+                accra <i class="fa-solid fa-xmark text-xs cursor-pointer hover:text-text"></i>
+              </span>
+              <span class="tag-chip flex items-center gap-2 bg-page text-text/60 text-sm px-3.5 py-2 rounded-full border border-white/10">
+                guitar <i class="fa-solid fa-xmark text-xs cursor-pointer hover:text-text"></i>
+              </span>
+              <span class="tag-chip flex items-center gap-2 bg-page text-text/60 text-sm px-3.5 py-2 rounded-full border border-white/10">
+                afrobeat <i class="fa-solid fa-xmark text-xs cursor-pointer hover:text-text"></i>
+              </span>
+              <button id="add-tag-btn" class="flex items-center gap-1.5 text-sm text-text/40 px-3.5 py-2 rounded-full border border-dashed border-white/15 hover:border-primary/50 hover:text-primary transition">
+                <i class="fa-solid fa-plus text-xs"></i> Add tag
+              </button>
+            </div>
+          </div>
+
+          <div id="description-field">
+            <div class="flex items-center justify-between mb-2">
+              <label for="description" class="block text-sm text-text/70">Description</label>
+              <span class="text-xs text-text/35 flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-primary text-[10px]"></i>Editable suggestion</span>
+            </div>
+            <textarea id="description" rows="4"
+              class="w-full bg-page border border-white/10 rounded-xl px-4 py-3 text-sm placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none ghost-text">Recorded live on the beach at Kokrobite, this EP carries the warmth of highlife guitar and the pulse of Accra nightlife. Six tracks, one continuous mood.</textarea>
+          </div>
+
+          <div id="release-note-field">
+            <div class="flex items-center justify-between mb-2">
+              <label for="release-note" class="block text-sm text-text/70">Release note to supporters</label>
+              <span class="text-xs text-text/35 flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-primary text-[10px]"></i>Editable suggestion</span>
+            </div>
+            <textarea id="release-note" rows="3"
+              class="w-full bg-page border border-white/10 rounded-xl px-4 py-3 text-sm placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none ghost-text">Thank you for being here since the demos. This one's for every night you kept requesting it — enjoy the full sessions first.</textarea>
+          </div>
+
+        </div>
+
+        <div id="visibility-section" class="bg-surface rounded-2xl border border-white/5 p-7">
+          <h2 class="text-sm font-semibold text-text/80 uppercase tracking-wider mb-4">Visibility</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <label id="visibility-public" class="flex items-start gap-3 bg-page border border-primary/60 rounded-xl px-4 py-4 cursor-pointer">
+              <input type="radio" name="visibility" checked class="mt-1 accent-primary">
+              <span>
+                <span class="block text-sm font-medium text-text">Public</span>
+                <span class="block text-xs text-text/45 mt-1">Visible to everyone on your page</span>
+              </span>
+            </label>
+            <label id="visibility-supporters" class="flex items-start gap-3 bg-page border border-white/10 rounded-xl px-4 py-4 cursor-pointer">
+              <input type="radio" name="visibility" class="mt-1 accent-primary">
+              <span>
+                <span class="block text-sm font-medium text-text">Supporters only</span>
+                <span class="block text-xs text-text/45 mt-1">Only visible to your supporters</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div id="scheduling-section" class="bg-surface rounded-2xl border border-white/5 p-7">
+          <h2 class="text-sm font-semibold text-text/80 uppercase tracking-wider mb-4">Publishing</h2>
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <label id="publish-now-option" class="flex items-center gap-3 bg-page border border-white/10 rounded-xl px-4 py-4 cursor-pointer">
+              <input type="radio" name="publish-time" class="accent-primary">
+              <span class="text-sm font-medium text-text">Publish now</span>
+            </label>
+            <label id="schedule-option" class="flex items-center gap-3 bg-page border border-primary/60 rounded-xl px-4 py-4 cursor-pointer">
+              <input type="radio" name="publish-time" checked class="accent-primary">
+              <span class="text-sm font-medium text-text">Schedule</span>
+            </label>
+          </div>
+          <div id="schedule-datetime" class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="schedule-date" class="block text-xs text-text/50 mb-2">Date</label>
+              <input type="date" id="schedule-date" value="2024-06-21"
+                class="w-full bg-page border border-white/10 rounded-xl px-4 py-3 text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition">
+            </div>
+            <div>
+              <label for="schedule-time" class="block text-xs text-text/50 mb-2">Time</label>
+              <input type="time" id="schedule-time" value="18:00"
+                class="w-full bg-page border border-white/10 rounded-xl px-4 py-3 text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

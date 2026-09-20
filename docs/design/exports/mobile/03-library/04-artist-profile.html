@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Profile</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .glass {
+    background: rgba(57,62,70,0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+  .pulse-dot {
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="artist-profile-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Scrollable content -->
+  <div id="artist-content" class="flex-1 overflow-y-auto pb-40 relative z-10">
+
+    <!-- Hero cover -->
+    <div id="artist-hero" class="relative h-[340px] w-full">
+      <img class="absolute inset-0 w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_a5006e63fc_cbff3ae1d8b67813.png" alt="Ghanaian highlife female artist portrait, warm studio lighting, editorial music photography, golden " />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#222831] via-[#222831]/20 to-[#222831]/10"></div>
+
+      <!-- Back button -->
+      <button type="button" id="back-btn" class="absolute top-8 left-6 w-9 h-9 rounded-full glass border border-white/10 flex items-center justify-center">
+        <i class="fa-solid fa-chevron-left text-[#EEEEEE] text-sm"></i>
+      </button>
+
+      <!-- More button -->
+      <button type="button" id="more-btn" class="absolute top-8 right-6 w-9 h-9 rounded-full glass border border-white/10 flex items-center justify-center">
+        <i class="fa-solid fa-ellipsis text-[#EEEEEE] text-sm"></i>
+      </button>
+
+      <!-- Name + presence -->
+      <div class="absolute bottom-0 left-0 right-0 px-6 pb-5 flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <span id="founding-chip" class="bg-[#FFD369] text-[#222831] text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full">Founding</span>
+          <span id="presence-chip" class="flex items-center gap-1.5 bg-[#393E46]/90 backdrop-blur-sm border border-white/10 text-[#EEEEEE]/80 text-[11px] font-medium px-2.5 py-1 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FFD369] pulse-dot"></span>
+            128 listening now
+          </span>
+        </div>
+        <h1 class="font-display font-bold text-[28px] text-[#EEEEEE] tracking-tight leading-none">Amaara Mensah</h1>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="artist-actions" class="flex items-center gap-3 px-6 pt-5">
+      <button type="button" onclick="this.textContent = this.textContent.trim()==='Following' ? 'Follow' : 'Following';" class="flex-1 bg-[#FFD369] text-[#222831] font-semibold text-sm rounded-full py-3 text-center">Following</button>
+      <button type="button" id="support-btn" class="flex-1 bg-transparent border border-[#EEEEEE]/20 text-[#EEEEEE] font-semibold text-sm rounded-full py-3 text-center">Support</button>
+      <button type="button" id="shuffle-play-btn" class="w-12 h-12 rounded-full bg-[#393E46] flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-shuffle text-[#FFD369] text-sm"></i>
+      </button>
+    </div>
+
+    <!-- Popular tracks -->
+    <div id="popular-tracks-section" class="flex flex-col gap-3 px-6 pt-8">
+      <h2 class="text-[#EEEEEE] font-semibold text-lg">Popular tracks</h2>
+
+      <button type="button" id="track-asase-row" class="flex items-center gap-3 bg-[#393E46] rounded-2xl p-3 w-full text-left">
+        <img class="w-12 h-12 rounded-xl object-cover shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_2ae60b3f25f046e1.png" alt="warm golden abstract album cover art, highlife music mood" />
+        <div class="flex-1 min-w-0">
+          <p class="text-[#EEEEEE] text-sm font-medium truncate">Asase</p>
+          <p class="text-[#EEEEEE]/40 text-xs truncate mt-0.5">2.4K plays</p>
+        </div>
+        <button type="button" onclick="event.stopPropagation(); this.querySelector('i').classList.toggle('fa-play'); this.querySelector('i').classList.toggle('fa-pause');" class="w-9 h-9 rounded-full bg-[#FFD369] flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-play text-[#222831] text-xs ml-0.5"></i>
+        </button>
+      </button>
+
+      <button type="button" id="track-nkonsonkonson-row" class="flex items-center gap-3 bg-[#393E46] rounded-2xl p-3 w-full text-left">
+        <img class="w-12 h-12 rounded-xl object-cover shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_f9511af383_ba2e8020f1a3a2c7.png" alt="deep red abstract album cover art, highlife music mood" />
+        <div class="flex-1 min-w-0">
+          <p class="text-[#EEEEEE] text-sm font-medium truncate">Nkonsonkonson</p>
+          <p class="text-[#EEEEEE]/40 text-xs truncate mt-0.5">1.8K plays</p>
+        </div>
+        <button type="button" onclick="event.stopPropagation(); this.querySelector('i').classList.toggle('fa-play'); this.querySelector('i').classList.toggle('fa-pause');" class="w-9 h-9 rounded-full bg-[#FFD369] flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-play text-[#222831] text-xs ml-0.5"></i>
+        </button>
+      </button>
+
+      <div id="track-locked-row" class="flex items-center gap-3 bg-[#393E46] rounded-2xl p-3 w-full text-left relative overflow-hidden">
+        <img class="w-12 h-12 rounded-xl object-cover shrink-0 opacity-50" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_7030cbfb79_7d46d363fd86e61b.png" alt="dark purple abstract album cover art, highlife music mood" />
+        <div class="flex-1 min-w-0">
+          <p class="text-[#EEEEEE]/50 text-sm font-medium truncate">Unreleased Demo</p>
+          <p class="text-[#EEEEEE]/30 text-xs truncate mt-0.5">Supporters only</p>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-[#222831] flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-lock text-[#FFD369] text-xs"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Updates -->
+    <div id="updates-section" class="flex flex-col gap-3 px-6 pt-8">
+      <h2 class="text-[#EEEEEE] font-semibold text-lg">Updates</h2>
+
+      <div id="update-post-1" class="bg-[#393E46] rounded-2xl p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <p class="text-[#EEEEEE]/40 text-xs">2h ago · Public</p>
+          <i class="fa-solid fa-globe text-[#EEEEEE]/30 text-[10px]"></i>
+        </div>
+        <p class="text-[#EEEEEE]/80 text-sm leading-relaxed">Been sitting on this one for weeks. Finally ready to share it with you all 🎶</p>
+      </div>
+
+      <div id="update-post-2" class="bg-[#393E46] rounded-2xl p-4 flex flex-col gap-2">
+        <div class="flex items-center gap-2">
+          <p class="text-[#EEEEEE]/40 text-xs">3 days ago · Public</p>
+          <i class="fa-solid fa-globe text-[#EEEEEE]/30 text-[10px]"></i>
+        </div>
+        <p class="text-[#EEEEEE]/80 text-sm leading-relaxed">Studio session with the horn section today — Accra sound coming through 🎺</p>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div id="about-section" class="flex flex-col gap-3 px-6 pt-8">
+      <h2 class="text-[#EEEEEE] font-semibold text-lg">About</h2>
+      <div class="bg-[#393E46] rounded-2xl p-4 flex flex-col gap-3">
+        <div class="flex items-center gap-2 text-[#EEEEEE]/70 text-sm">
+          <i class="fa-solid fa-location-dot text-[#FFD369] text-xs"></i>
+          Accra · Highlife
+        </div>
+        <p class="text-[#EEEEEE]/60 text-sm leading-relaxed">Blending traditional highlife rhythms with modern soul textures. Making music for the people who raised me.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mini-player -->
+  <div id="mini-player" class="glass absolute left-3 right-3 bottom-6 rounded-2xl px-3 py-2.5 flex items-center gap-3 border border-white/10 z-20">
+    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-10 h-10 rounded-lg object-cover shrink-0" alt="Asase">
+    <div class="flex-1 min-w-0">
+      <p class="text-[#EEEEEE] text-sm font-medium truncate">Asase</p>
+      <p class="text-[#EEEEEE]/45 text-xs truncate">Amaara</p>
+    </div>
+    <button type="button" onclick="this.querySelector('i').classList.toggle('fa-pause'); this.querySelector('i').classList.toggle('fa-play');" class="w-9 h-9 rounded-full bg-[#FFD369] flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-pause text-[#222831] text-xs"></i>
+    </button>
+  </div>
+
+</div>
+</body>
+</html>

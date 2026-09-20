@@ -34,7 +34,7 @@ Not repeated here. The 20 acceptance-ready journeys, the four roles, the screen 
 What matters for architecture, pulled forward in one line each:
 
 - Four roles: fan (free), supporter (paying), artist (verified uploader), studio admin.
-- Mobile (Expo) is the fan and supporter surface. Web (Next.js) is three things only: Artist Studio, public share pages, and a light fan player.
+- Mobile (Expo) is the only fan and supporter account surface. Web (Next.js) is three things only: Artist Studio, public share pages with a simple public player, and thin admin. No fan sign up, fan sign in, follow, or exclusive streaming on web.
 - Purchases are mobile-only. Uploads are web-only. Both rules are hard.
 - Money is one monthly subscription routed to one to five followed artists, equal split, and that routing is the single gate for exclusive access.
 - Everything paid is enforced on the server. A hidden button is not access control.
@@ -178,8 +178,8 @@ Grouped the way the function map in the companion is grouped: auth and profile, 
 **`apps/web-app` (Next.js on Vercel).** Three jobs in one app, separated by route group:
 
 - Artist Studio — sign in, studio home, profile editor, upload with peak generation, releases list, update composer, supporters, fans-to-thank, demo earnings.
-- Public pages — artist, track, post, and mix URLs that render for a signed-out visitor, with an install prompt and a deep link into the app when it is installed.
-- Light fan player — browse, play, follow, sign in, and stream exclusives for a signed-in entitled supporter. No purchase, no offline, no craft techniques.
+- Public pages — artist, track, post, and mix URLs for a signed-out visitor; simple public player for public audio; locked shell + Get the app for exclusives; optional signed-out browse; install prompt and deep link. No fan account on web.
+- Thin admin — pending artist requests, verify, hide/remove, featured slots.
 
 Also hosts the two link-verification files that make universal links and App Links work.
 
@@ -333,10 +333,10 @@ Anything that comes from outside the code needs five answers: what it is, where 
 
 ## 10. Phased build order and spike gates
 
-Surface order is locked: mobile core first, then Artist Studio web, then public pages and the light web player. Within that, the order below puts the risky, gated work early enough that a failed spike still leaves time to change plan.
+Surface order is locked: mobile core first, then Artist Studio web, then public pages. Within that, the order below puts the risky, gated work early enough that a failed spike still leaves time to change plan.
 
 **Phase 0 — Foundations.**
-Scaffold from the studio template. Convex project, Convex Auth Password sign up and sign in on mobile and web, profiles, design tokens in `packages/shared`, and an EAS dev client that actually installs on a real iPhone and a real Android. Write the minimum OS versions into the PRD now that the SDK is pinned.
+Scaffold from the studio template. Convex project, Convex Auth Password (fan sign up on mobile; Artist Studio and admin sign in on web), profiles, design tokens in `packages/shared`, and an EAS dev client that actually installs on a real iPhone and a real Android. Write the minimum OS versions into the PRD now that the SDK is pinned.
 
 **Phase 1 — Catalog and the seeded world.**
 Schema for artists, tracks, files, and follows. The seed pipeline, including the local peaks script and the image and audio manifests. Artist page, track list, library, and private playlists. This has to come first because every later phase needs something to look at.
@@ -375,11 +375,11 @@ Studio home, profile editor, upload with browser peak generation, the copilot, r
 *Gates: the peak-generation spike before the upload ticket, the AI fixture spike before the copilot and fans-to-thank tickets, the scheduled-publish spike before scheduling, and the Safari voice-note spike before the voice-note ticket.*
 
 **Phase 10 — Artist request, admin, and the honest path.**
-The request-to-become-an-artist form on mobile and web, the pending queue in admin, approve and decline, verify and unverify, hide and remove, and featured slots. This phase is what makes the demo-but-usable rule true: a stranger can become an artist without a seeded account.
+The request-to-become-an-artist form on **mobile** account settings, the pending queue in admin, approve and decline, verify and unverify, hide and remove, and featured slots. After approve, the person signs into Artist Studio on web. This phase is what makes the demo-but-usable rule true: a stranger can become an artist without a seeded account.
 *Gate: none. Do not let this slip to the end and then get cut — it is a required path, not polish.*
 
-**Phase 11 — Public web and the light fan player.**
-Artist, track, post, and mix pages, the install prompt, the deep-link handoff, and the signed-in light player including exclusive streaming for entitled supporters.
+**Phase 11 — Public web.**
+Artist, track, post, and mix pages; simple public player for public audio; locked shell + Get the app for exclusives; optional signed-out browse; install prompt and deep-link handoff. No fan account on web.
 
 **Phase 12 — Proof.**
 Store builds, TestFlight, Play closed testing, the 90-second demo script, the ACCESS-LIST file with demo logins, and the case study.

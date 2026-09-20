@@ -26,9 +26,9 @@ Terms defined once, used throughout:
 
 Four clients talk to **one** Convex deployment.
 
-- **Mobile app (Expo)** — fans and supporters. Listening, following, paying, routing, offline.
+- **Mobile app (Expo)** — fans and supporters. Sign up, onboarding, listening, following, paying, routing, offline. The only fan account surface.
 - **Artist Studio (Next.js on Vercel)** — verified artists. Upload, schedule, post, supporters, thank-yous, demo earnings.
-- **Public web and light fan player (same Next.js app)** — share URLs, signed-out browsing, signed-in streaming including exclusives for entitled supporters.
+- **Public web (same Next.js app)** — share URLs, signed-out browsing and public playback, locked exclusives with Get the app. No fan sign up or sign in.
 - **Admin (route group in the same Next.js app)** — artist requests, verification, hide and remove, featured slots.
 
 Plus one inbound caller that is not a person: **RevenueCat**, which posts subscription events to a Convex HTTP action.
@@ -276,7 +276,7 @@ Names are suggestions. Anything not marked `internal` is callable from a client 
 - `profiles.updateProfile` — mutation. Display name, avatar, timezone.
 - `profiles.setGenres` — mutation. Onboarding, minimum two from the fixed list.
 - `artistRequests.submit` — mutation. Refuses if a pending request exists or the profile is already an artist.
-- `artistRequests.getMine` — query. Drives the pending / approved / declined status on both mobile and web account settings.
+- `artistRequests.getMine` — query. Drives the pending / approved / declined status on **mobile** account settings.
 
 ### Catalog reads
 

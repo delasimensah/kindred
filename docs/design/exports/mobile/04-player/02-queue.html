@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Queue</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .glass {
+    background: rgba(57,62,70,0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+  .waveform-bar { width: 3px; border-radius: 2px; background: #FFD369; }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="queue-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Backdrop hint of now-playing behind sheet -->
+  <div id="np-backdrop" class="absolute inset-0 bg-[#222831]"></div>
+
+  <!-- Sheet -->
+  <div id="queue-sheet" class="absolute inset-x-0 bottom-0 top-10 bg-[#222831] rounded-t-[28px] shadow-[0_-20px_60px_rgba(0,0,0,0.5)] flex flex-col z-10 border-t border-white/5">
+
+    <!-- Grabber -->
+    <div class="flex justify-center pt-3 pb-1">
+      <div class="w-10 h-1.5 rounded-full bg-[#EEEEEE]/20"></div>
+    </div>
+
+    <!-- Header -->
+    <div id="queue-header" class="flex items-center justify-between px-6 pt-2 pb-4">
+      <button type="button" id="queue-close-btn" class="w-9 h-9 rounded-full bg-[#393E46]/70 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-chevron-down text-[#EEEEEE] text-sm"></i>
+      </button>
+      <h1 class="font-display font-bold text-lg text-[#EEEEEE] tracking-tight">Queue</h1>
+      <div class="flex items-center gap-1">
+        <button type="button" id="queue-shuffle-btn" onclick="this.classList.toggle('text-[#FFD369]'); this.classList.toggle('text-[#EEEEEE]/50'); this.classList.toggle('bg-[#FFD369]/15');" class="w-9 h-9 rounded-full text-[#FFD369] bg-[#FFD369]/15 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-shuffle text-sm"></i>
+        </button>
+        <button type="button" id="queue-repeat-btn" onclick="this.classList.toggle('text-[#FFD369]'); this.classList.toggle('text-[#EEEEEE]/50');" class="w-9 h-9 rounded-full text-[#EEEEEE]/50 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-repeat text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable content -->
+    <div id="queue-content" class="flex-1 overflow-y-auto px-6 pb-8 flex flex-col gap-6">
+
+      <!-- Now playing (pinned) -->
+      <div id="now-playing-pinned" class="flex flex-col gap-2.5">
+        <span class="text-[#FFD369] text-[11px] font-semibold tracking-wider uppercase">Now Playing</span>
+        <div class="flex items-center gap-3 bg-[#393E46] rounded-2xl p-2.5 border border-[#FFD369]/25">
+          <div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_9d968404192b8bc7.png" alt="warm golden abstract album cover art, highlife music mood, textured gradient, earthy tones, editoria" />
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[#EEEEEE] text-sm font-semibold truncate">Asase</p>
+            <p class="text-[#EEEEEE]/50 text-xs truncate mt-0.5">Amaara Mensah</p>
+          </div>
+          <div class="flex items-center gap-[3px] h-5 shrink-0 mr-1">
+            <div class="waveform-bar h-2 animate-pulse"></div>
+            <div class="waveform-bar h-4 animate-pulse"></div>
+            <div class="waveform-bar h-3 animate-pulse"></div>
+            <div class="waveform-bar h-5 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next up -->
+      <div id="next-up-section" class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[#EEEEEE]/50 text-[11px] font-semibold tracking-wider uppercase">Next Up</span>
+          <span class="text-[#EEEEEE]/30 text-[11px] font-medium">6 tracks</span>
+        </div>
+
+        <div id="queue-list" class="flex flex-col gap-1.5">
+
+          <!-- Row 1 -->
+          <div class="queue-row group flex items-center gap-3 rounded-xl px-1 py-2">
+            <i class="fa-solid fa-grip-lines text-[#EEEEEE]/25 text-sm w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_32289bcf2c_3071d965e936f0ac.png" alt="dusky purple album art, afrobeat mood, gradient texture" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE] text-sm font-medium truncate">Harmattan Nights</p>
+              <p class="text-[#EEEEEE]/45 text-xs truncate mt-0.5">Kweku Darko</p>
+            </div>
+            <button type="button" onclick="this.closest('.queue-row').remove()" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#EEEEEE]/40">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="queue-row group flex items-center gap-3 rounded-xl px-1 py-2">
+            <i class="fa-solid fa-grip-lines text-[#EEEEEE]/25 text-sm w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_56c27a853d_7c1c9e078934b9c9.png" alt="teal and gold album art, soulful vocal mood, gradient texture" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE] text-sm font-medium truncate">Coastline</p>
+              <p class="text-[#EEEEEE]/45 text-xs truncate mt-0.5">Sela Okoro</p>
+            </div>
+            <button type="button" onclick="this.closest('.queue-row').remove()" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#EEEEEE]/40">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Row 3 -->
+          <div class="queue-row group flex items-center gap-3 rounded-xl px-1 py-2">
+            <i class="fa-solid fa-grip-lines text-[#EEEEEE]/25 text-sm w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_663b4d6357_0be74db44a4cc381.png" alt="deep red album art, highlife brass mood, gradient texture" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE] text-sm font-medium truncate">Brass & Dust</p>
+              <p class="text-[#EEEEEE]/45 text-xs truncate mt-0.5">Amaara Mensah</p>
+            </div>
+            <button type="button" onclick="this.closest('.queue-row').remove()" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#EEEEEE]/40">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Row 4 - locked -->
+          <div class="queue-row flex items-center gap-3 rounded-xl px-1 py-2 opacity-45">
+            <i class="fa-solid fa-lock text-[#EEEEEE]/40 text-xs w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0 grayscale">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_32f197ef7e_fd72b86a190e4f16.png" alt="muted grey abstract album art, textured gradient" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE]/70 text-sm font-medium truncate">Supporters Only Mix</p>
+              <p class="text-[#EEEEEE]/35 text-xs truncate mt-0.5">Kweku Darko</p>
+            </div>
+            <span class="text-[#EEEEEE]/40 text-[10px] font-semibold uppercase tracking-wide shrink-0">Skipped</span>
+          </div>
+
+          <!-- Row 5 -->
+          <div class="queue-row group flex items-center gap-3 rounded-xl px-1 py-2">
+            <i class="fa-solid fa-grip-lines text-[#EEEEEE]/25 text-sm w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_ba1049dbde_6db7a1dbff3b3cbb.png" alt="amber and black album art, percussion mood, gradient texture" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE] text-sm font-medium truncate">Talking Drum</p>
+              <p class="text-[#EEEEEE]/45 text-xs truncate mt-0.5">Sela Okoro</p>
+            </div>
+            <button type="button" onclick="this.closest('.queue-row').remove()" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#EEEEEE]/40">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Row 6 -->
+          <div class="queue-row group flex items-center gap-3 rounded-xl px-1 py-2">
+            <i class="fa-solid fa-grip-lines text-[#EEEEEE]/25 text-sm w-4 text-center shrink-0"></i>
+            <div class="w-11 h-11 rounded-lg overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_9298407bad_614773f2d304d1cb.png" alt="olive green album art, folk guitar mood, gradient texture" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[#EEEEEE] text-sm font-medium truncate">Riverbend</p>
+              <p class="text-[#EEEEEE]/45 text-xs truncate mt-0.5">Kweku Darko</p>
+            </div>
+            <button type="button" onclick="this.closest('.queue-row').remove()" class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#EEEEEE]/40">
+              <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

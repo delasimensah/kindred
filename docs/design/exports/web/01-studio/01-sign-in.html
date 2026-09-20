@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="signin-page" class="w-full min-w-[1280px] h-[832px] bg-page relative flex items-center justify-center overflow-hidden">
+
+  <!-- ambient background accents -->
+  <div class="absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full bg-primary/5 blur-3xl"></div>
+  <div class="absolute -bottom-40 -right-32 w-[480px] h-[480px] rounded-full bg-primary/5 blur-3xl"></div>
+
+  <div id="signin-card" class="relative z-10 w-[440px] bg-surface rounded-2xl border border-white/5 shadow-2xl px-10 py-11">
+
+    <!-- wordmark -->
+    <div id="wordmark" class="flex flex-col items-center mb-8">
+      <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4">
+        <i class="fa-solid fa-waveform-lines text-label text-lg"></i>
+      </div>
+      <h1 class="font-display text-2xl tracking-tight text-text">Kindred</h1>
+      <p class="text-xs uppercase tracking-[0.2em] text-text/50 mt-2">Artist Studio</p>
+    </div>
+
+    <!-- form -->
+    <form id="signin-form" class="space-y-5">
+      <div id="email-field">
+        <label for="email" class="block text-sm text-text/70 mb-2">Email</label>
+        <div class="relative">
+          <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-text/35 text-sm"></i>
+          <input type="email" id="email" placeholder="you@yourlabel.com"
+            class="w-full bg-page border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition">
+        </div>
+      </div>
+
+      <div id="password-field">
+        <div class="flex items-center justify-between mb-2">
+          <label for="password" class="block text-sm text-text/70">Password</label>
+          <a href="#" class="text-xs text-primary hover:underline">Forgot?</a>
+        </div>
+        <div class="relative">
+          <i class="fa-regular fa-lock-keyhole absolute left-4 top-1/2 -translate-y-1/2 text-text/35 text-sm"></i>
+          <input type="password" id="password" placeholder="••••••••"
+            class="w-full bg-page border border-white/10 rounded-xl pl-11 pr-11 py-3 text-sm text-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition">
+          <button type="button" id="toggle-password" class="absolute right-4 top-1/2 -translate-y-1/2 text-text/35 text-sm">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <label id="remember-field" class="flex items-center gap-2 pt-1 cursor-pointer select-none">
+        <input type="checkbox" class="w-4 h-4 rounded border-white/20 bg-page accent-primary">
+        <span class="text-sm text-text/60">Keep me signed in</span>
+      </label>
+
+      <button type="button" id="signin-btn"
+        class="w-full bg-primary text-label font-semibold text-sm py-3.5 rounded-xl hover:brightness-95 transition mt-2">
+        Sign in
+      </button>
+    </form>
+
+    <p id="signup-hint" class="text-center text-xs text-text/40 mt-7">
+      New to Kindred? <a href="#" class="text-primary hover:underline">Request studio access</a>
+    </p>
+  </div>
+
+  <p id="footer-note" class="absolute bottom-6 text-xs text-text/30">© 2024 Kindred Artist Studio</p>
+</div>
+
+</body>
+</html>

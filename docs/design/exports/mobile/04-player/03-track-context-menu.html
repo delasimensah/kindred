@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Options</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .glass {
+    background: rgba(57,62,70,0.65);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="context-menu-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Faded backdrop suggesting now-playing behind -->
+  <div id="backdrop-blur" class="absolute inset-0 z-0">
+    <img class="w-full h-full object-cover blur-md scale-110 opacity-40" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_64c122fbf60529bf.png" alt="warm golden abstract album cover art, highlife music mood, textured gradient, earthy tones, editoria" />
+    <div class="absolute inset-0 bg-[#222831]/85"></div>
+  </div>
+
+  <!-- Dimmed backdrop overlay -->
+  <div id="dim-backdrop" class="absolute inset-0 bg-black/60 z-10"></div>
+
+  <!-- Bottom sheet -->
+  <div id="context-menu-sheet" class="absolute inset-x-0 bottom-0 z-20 bg-[#393E46] rounded-t-[28px] shadow-[0_-20px_60px_rgba(0,0,0,0.5)] px-5 pt-3 pb-9 flex flex-col">
+
+    <!-- Grabber -->
+    <div class="flex justify-center pb-4">
+      <div class="w-10 h-1.5 rounded-full bg-[#EEEEEE]/20"></div>
+    </div>
+
+    <!-- Header: artwork + title -->
+    <div id="context-menu-header" class="flex items-center gap-3 pb-4 mb-2 border-b border-white/8">
+      <div class="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_bd5e23027c_64c122fbf60529bf.png" alt="warm golden abstract album cover art, highlife music mood, textured gradient, earthy tones, editoria" />
+      </div>
+      <div class="min-w-0">
+        <h2 class="text-[#EEEEEE] text-sm font-semibold truncate">Asase</h2>
+        <p class="text-[#EEEEEE]/50 text-xs truncate mt-0.5">Amaara Mensah</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="context-menu-actions" class="flex flex-col">
+
+      <button type="button" id="action-play" class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-play text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Play</span>
+      </button>
+
+      <button type="button" id="action-play-next" class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-list-ol text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Play Next</span>
+      </button>
+
+      <button type="button" id="action-add-queue" class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-layer-group text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Add to Queue</span>
+      </button>
+
+      <button type="button" id="action-like" onclick="
+        const icon=this.querySelector('i');
+        icon.classList.toggle('fa-regular');
+        icon.classList.toggle('fa-solid');
+        icon.classList.toggle('text-[#FFD369]');
+        icon.classList.toggle('text-[#EEEEEE]');
+      " class="flex items-center gap-4 py-3.5">
+        <i class="fa-regular fa-heart text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Like</span>
+      </button>
+
+      <button type="button" id="action-add-playlist" class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-plus text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Add to Playlist</span>
+      </button>
+
+      <button type="button" id="action-download" onclick="
+        const icon=this.querySelector('i');
+        icon.classList.toggle('fa-arrow-down');
+        icon.classList.toggle('fa-check');
+        icon.classList.toggle('text-[#FFD369]');
+        icon.classList.toggle('text-[#EEEEEE]');
+      " class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-arrow-down text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Download</span>
+      </button>
+
+      <button type="button" id="action-share" class="flex items-center gap-4 py-3.5">
+        <i class="fa-solid fa-arrow-up-from-bracket text-[#EEEEEE] text-base w-5 text-center"></i>
+        <span class="text-[#EEEEEE] text-[15px] font-medium">Share</span>
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

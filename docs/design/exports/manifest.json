@@ -1,0 +1,74 @@
+{
+  "exportedAt": "2026-09-20",
+  "uxPilot": {
+    "workstream": "Kindred",
+    "mobilePageId": "d8OlN72DRdgN9bfneeWJ",
+    "webPageId": "xQqMNOic1uI1n729QFUr"
+  },
+  "screens": [
+    { "path": "mobile/01-auth/01-sign-in.html", "designId": "T36VJjxAteMfDnCToyXy", "title": "Sign in" },
+    { "path": "mobile/01-auth/02-sign-up.html", "designId": "Q3vLotWy2kHxt5Lz69fe", "title": "Sign up" },
+    { "path": "mobile/01-auth/03-onboarding-genres.html", "designId": "caaPqF4IK3V95Vm1iLSo", "title": "Onboarding genres" },
+    { "path": "mobile/01-auth/04-onboarding-follow-artists.html", "designId": "o5GAlqPZCJsaxqtarjeJ", "title": "Onboarding follow artists" },
+
+    { "path": "mobile/02-tabs/01-home.html", "designId": "QMDnBTgDzUultAkLTS3j", "title": "Home" },
+    { "path": "mobile/02-tabs/02-discover.html", "designId": "GocIjWUhqHSdyn2cJGNO", "title": "Discover" },
+    { "path": "mobile/02-tabs/03-search.html", "designId": "I7KBlfKEJ79ko7QhAJyw", "title": "Search" },
+    { "path": "mobile/02-tabs/04-library.html", "designId": "Hr7LZ7wwjuQXG1FNyIsq", "title": "Library" },
+
+    { "path": "mobile/03-library/01-playlists.html", "designId": "wbgk4hKrjhYygtEJn9Pj", "title": "Playlists" },
+    { "path": "mobile/03-library/02-create-playlist.html", "designId": "Eee6xorj7CUiTCuPbZdA", "title": "Create playlist" },
+    { "path": "mobile/03-library/03-library-artists.html", "designId": "kBZOHM4qcs6DUq3ms5Vp", "title": "Library artists" },
+    { "path": "mobile/03-library/04-artist-profile.html", "designId": "QiDCj84HAfm38OVfcCg9", "title": "Artist profile" },
+    { "path": "mobile/03-library/05-track-detail-unlocked.html", "designId": "EJOlmeWftNc1Cdl13EYL", "title": "Track detail unlocked" },
+    { "path": "mobile/03-library/06-track-detail-locked.html", "designId": "Ok2YCThnVx5TGTtttqbq", "title": "Track detail locked" },
+    { "path": "mobile/03-library/07-playlist-detail.html", "designId": "tv42spdQIdYMm2rT6Bax", "title": "Playlist detail" },
+    { "path": "mobile/03-library/08-liked-songs.html", "designId": "xj9fre0bkVZFCOQr72vS", "title": "Liked songs" },
+    { "path": "mobile/03-library/09-downloads.html", "designId": "nx4xmXZDVz5tX07XaDQQ", "title": "Downloads" },
+
+    { "path": "mobile/04-player/01-now-playing.html", "designId": "ZzdjLXmZK9PdmJP11o1I", "title": "Now playing" },
+    { "path": "mobile/04-player/02-queue.html", "designId": "2htN2xAyDEUbrcHVKAHb", "title": "Queue" },
+    { "path": "mobile/04-player/03-track-context-menu.html", "designId": "MuAMvdfSGd7p7JsInRyU", "title": "Track context menu" },
+
+    { "path": "mobile/05-mix/01-make-a-mix.html", "designId": "xyRmAhPKGhFs2XCaZiwG", "title": "Make a mix" },
+    { "path": "mobile/05-mix/02-mix-result.html", "designId": "ccFkZCaw7ZUXTyq4eUCg", "title": "Mix result" },
+
+    { "path": "mobile/06-money/01-paywall.html", "designId": "6YmqiGcDNEDjTtehugR1", "title": "Paywall" },
+    { "path": "mobile/06-money/02-route-support.html", "designId": "DGjd2ihLtdb1ujhw1B6l", "title": "Route support" },
+    { "path": "mobile/06-money/03-impact.html", "designId": "T9LVWk1usaHTR7cuAvz7", "title": "Impact" },
+    { "path": "mobile/06-money/04-thank-you-card.html", "designId": "5PPcBHvi3E4stR0vP0m8", "title": "Thank you card" },
+
+    { "path": "mobile/07-settings/01-notification-settings.html", "designId": "9ZG8sDuWZIkRIWiuBPbj", "title": "Notification settings" },
+    { "path": "mobile/07-settings/02-account-settings.html", "designId": "02ur8ccLGexn4D4rsLpc", "title": "Account settings" },
+    { "path": "mobile/07-settings/03-change-password.html", "designId": "t1fvlhEXqvUh6B1hFrzt", "title": "Change password" },
+    { "path": "mobile/07-settings/04-request-to-become-an-artist.html", "designId": "pyfbWz5ZltmQnN2fQBbO", "title": "Request to become an artist" },
+
+    { "path": "mobile/08-shared-states/01-home-loading-skeleton.html", "designId": "PDtrZcrdq55VOXNkuaUQ", "title": "Home loading skeleton" },
+    { "path": "mobile/08-shared-states/02-playlists-empty.html", "designId": "2CQyeFajeLnZVwfiC0Nv", "title": "Playlists empty" },
+    { "path": "mobile/08-shared-states/03-home-error-feed.html", "designId": "UPNeGLPWiuN60N3MDCP5", "title": "Home error feed" },
+    { "path": "mobile/08-shared-states/04-home-offline.html", "designId": "I0U7FlTRUfsb5rLddaKq", "title": "Home offline" },
+
+    { "path": "web/01-studio/01-sign-in.html", "designId": "X7P4a7Mmvygho3ReWoN4", "title": "Studio sign in" },
+    { "path": "web/01-studio/02-home.html", "designId": "mg7iOlrZNomssweruBwx", "title": "Studio home" },
+    { "path": "web/01-studio/03-profile.html", "designId": "M1eZReE8Y5Ufvvw1Ct2H", "title": "Artist profile editor" },
+    { "path": "web/01-studio/04-upload-release.html", "designId": "TZoE865Dm3cfvegtTnlP", "title": "Upload release" },
+    { "path": "web/01-studio/05-releases.html", "designId": "mQWi7Pi9TBAHeJCpnPAz", "title": "Releases list" },
+    { "path": "web/01-studio/06-update-composer.html", "designId": "I3TtXP6ZclrA5fnKvCbq", "title": "Update composer" },
+    { "path": "web/01-studio/07-updates.html", "designId": "ZTsvYVTrbMlojfAheykz", "title": "Updates list" },
+    { "path": "web/01-studio/08-supporters.html", "designId": "mmMbqiXrPEkjkRx0FcJs", "title": "Supporters" },
+    { "path": "web/01-studio/09-fans-to-thank.html", "designId": "2FkuFmY7bg9vThjVcF8P", "title": "Fans to thank" },
+    { "path": "web/01-studio/10-earnings.html", "designId": "Al6uQHherzMqtYvSHG4w", "title": "Earnings" },
+
+    { "path": "web/02-public/01-browse-home.html", "designId": "efhjxftE7EDmmPFVEEta", "title": "Public browse home" },
+    { "path": "web/02-public/02-artist-page.html", "designId": "Zw5gkKGYV9tu6qBduQHf", "title": "Public artist page" },
+    { "path": "web/02-public/03-track-page.html", "designId": "dbxNQ8gQVtdeJoD4lOmr", "title": "Public track page" },
+    { "path": "web/02-public/04-post-page.html", "designId": "Mi90qtLAWwSFNESvEqxH", "title": "Public post page" },
+    { "path": "web/02-public/05-mix-page.html", "designId": "rH7ZCP5aZDq9UDNF38iT", "title": "Public mix page" },
+    { "path": "web/02-public/06-install-prompt.html", "designId": "G9sF78yn7GFTGEVikEkz", "title": "Install prompt" },
+
+    { "path": "web/03-admin/01-requests.html", "designId": "ZzFFuGG5lt4IhSlROtWF", "title": "Pending artist requests" },
+    { "path": "web/03-admin/02-artists.html", "designId": "p908CKk9jEBvhrMddQqX", "title": "Artists list" },
+    { "path": "web/03-admin/03-catalog.html", "designId": "ouFYCXLNRkSWgyZEsUex", "title": "Catalog list" },
+    { "path": "web/03-admin/04-featured.html", "designId": "BVL3LLFnBx4eDr2phy0o", "title": "Featured discovery slots" }
+  ]
+}

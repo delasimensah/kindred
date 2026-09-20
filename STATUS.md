@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Screen design — keepers, design system, and UX Pilot prompts filled. Awaiting credit confirm to generate.
+- **Current phase:** Screen design — HTML exports landed under `docs/design/exports/`. Review screens, then Linear tickets after you say they are locked.
 - **Last updated:** 2026-09-20
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
 
@@ -20,7 +20,7 @@
 
 - [x] Discovery / lock (own product — practice pack)
 - [x] Questionnaire
-- [x] Product requirements locked — `docs/product/product-requirements.md`
+- [x] Product requirements locked — `docs/product/product-requirements.md` (amended 20 Sep 2026: no fan account on web)
 - [x] Workshop treated as open (no invoice for own product)
 
 ---
@@ -42,8 +42,13 @@
 ## Product path
 
 - [x] System design — confirmed 20 Sep 2026 vs live `kindred` Convex; copies in `docs/product/system-design.md` + `convex-design.md`
-- [ ] Screen design — keepers + design system + prompts ready; UX Pilot generation not started
-- [ ] Linear build tickets (epics exist; full slices after screens)
+- [x] Screen design exports — 54 UX Pilot HTML screens in `docs/design/exports/` (mobile + web); keepers + design system locked; no fan web account
+  - Index: `docs/design/exports/README.md`
+  - Mobile: https://uxpilot.ai/a/ui-design?page=d8OlN72DRdgN9bfneeWJ
+  - Web: https://uxpilot.ai/a/ui-design?page=xQqMNOic1uI1n729QFUr
+  - Archived (out of V1): fan Sign In, fan Account Settings
+- [ ] Screen design lock — review exports; confirm screens locked before build tickets
+- [ ] Linear build tickets (epics exist; full slices after screens locked)
 - [ ] Build / demos / TestFlight / Play
 - [ ] Launch
 
@@ -51,7 +56,7 @@
 
 ## Next action (one line)
 
-Review prompts in `docs/design/kindred-ux-pilot-flow-prompts.md`. When ready, confirm UX Pilot credit spend to generate. No build tickets yet.
+Review HTML exports under `docs/design/exports/`; refine if needed, then say screens are locked before Linear build tickets.
 
 ---
 
@@ -62,6 +67,8 @@ Review prompts in `docs/design/kindred-ux-pilot-flow-prompts.md`. When ready, co
 - Product requirements: `docs/product/product-requirements.md`
 - Screen keepers (locked): `docs/design/reference-map.md`
 - Design system (locked): `docs/design/design-system.md` — soft gold `#FFD369` on charcoal
+- Design index: `docs/design/README.md`
+- HTML exports: `docs/design/exports/` (see `exports/README.md`)
 - Palette preview kept: `docs/design/palette-previews/kindred-palette-locked.png`
 - System design: `docs/product/system-design.md`
 - Convex design: `docs/product/convex-design.md`

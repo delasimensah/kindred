@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Settings</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="account-settings-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Decorative glow -->
+  <div class="absolute -top-24 -right-16 w-72 h-72 bg-[#FFD369]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Top bar -->
+  <div id="account-topbar" class="flex items-center gap-4 px-6 pt-8 pb-4 relative z-10">
+    <button type="button" id="back-btn" class="w-9 h-9 rounded-full bg-[#393E46] flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-chevron-left text-[#EEEEEE] text-sm"></i>
+    </button>
+    <h1 class="font-display font-bold text-[26px] text-[#EEEEEE] tracking-tight flex-1">Account</h1>
+  </div>
+
+  <!-- Scrollable content -->
+  <div id="account-content" class="flex-1 overflow-y-auto px-6 pt-2 pb-10 relative z-10 flex flex-col gap-6">
+
+    <!-- Profile row -->
+    <button type="button" id="profile-row" class="flex items-center gap-4 bg-[#393E46] rounded-2xl p-4">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Efua Boateng">
+      <div class="flex-1 min-w-0 text-left">
+        <p class="text-[#EEEEEE] text-base font-semibold truncate">Efua Boateng</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5">efua.boateng@gmail.com</p>
+      </div>
+      <span class="text-[#FFD369] text-xs font-semibold shrink-0">Edit</span>
+    </button>
+
+    <!-- Security section -->
+    <div id="security-section" class="flex flex-col gap-3">
+      <p class="text-[#EEEEEE]/40 text-xs font-medium uppercase tracking-wide px-1">Security</p>
+      <div id="security-card" class="bg-[#393E46] rounded-2xl overflow-hidden">
+        <button type="button" id="change-password-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-lock text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Change password</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Subscription section -->
+    <div id="subscription-section" class="flex flex-col gap-3">
+      <p class="text-[#EEEEEE]/40 text-xs font-medium uppercase tracking-wide px-1">Subscription</p>
+      <div id="subscription-card" class="bg-[#393E46] rounded-2xl overflow-hidden">
+
+        <div id="subscription-status-row" class="flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-star text-[#FFD369] text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[#EEEEEE] text-sm font-medium">Subscription status</p>
+            <p class="text-[#EEEEEE]/40 text-xs mt-0.5">Supporter · $9.99/mo</p>
+          </div>
+        </div>
+
+        <div class="h-px bg-[#222831] mx-4"></div>
+
+        <button type="button" id="restore-purchases-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-rotate text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Restore purchases</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+
+        <div class="h-px bg-[#222831] mx-4"></div>
+
+        <button type="button" id="manage-subscription-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-credit-card text-[#FFD369] text-sm"></i>
+          </div>
+          <div class="flex-1 min-w-0 text-left">
+            <p class="text-[#EEEEEE] text-sm font-medium">Manage subscription</p>
+            <p class="text-[#EEEEEE]/40 text-xs mt-0.5 leading-relaxed">Billing is managed in the App Store or Google Play</p>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[#EEEEEE]/30 text-xs shrink-0"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Support & activity section -->
+    <div id="support-activity-section" class="flex flex-col gap-3">
+      <p class="text-[#EEEEEE]/40 text-xs font-medium uppercase tracking-wide px-1">Support &amp; activity</p>
+      <div id="support-activity-card" class="bg-[#393E46] rounded-2xl overflow-hidden">
+
+        <button type="button" id="route-support-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-diagram-project text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Route support</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+
+        <div class="h-px bg-[#222831] mx-4"></div>
+
+        <button type="button" id="impact-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-chart-simple text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Impact</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+
+        <div class="h-px bg-[#222831] mx-4"></div>
+
+        <button type="button" id="downloads-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-download text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Downloads</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+
+        <div class="h-px bg-[#222831] mx-4"></div>
+
+        <button type="button" id="notification-settings-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-bell text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Notification settings</span>
+          <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Artist section -->
+    <div id="artist-section" class="flex flex-col gap-3">
+      <p class="text-[#EEEEEE]/40 text-xs font-medium uppercase tracking-wide px-1">Artist</p>
+      <div id="artist-card" class="bg-[#393E46] rounded-2xl overflow-hidden">
+        <button type="button" id="become-artist-row" class="w-full flex items-center gap-3 px-4 py-4">
+          <div class="w-9 h-9 rounded-xl bg-[#FFD369]/12 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-microphone text-[#FFD369] text-sm"></i>
+          </div>
+          <span class="text-[#EEEEEE] text-sm font-medium flex-1 text-left">Request to become an artist</span>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-[#EEEEEE]/40 text-xs">None</span>
+            <i class="fa-solid fa-chevron-right text-[#EEEEEE]/30 text-xs"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sign out -->
+    <button type="button" id="sign-out-btn" class="flex items-center justify-center gap-2 bg-[#393E46] rounded-2xl py-4 mt-1">
+      <i class="fa-solid fa-arrow-right-from-bracket text-red-400 text-sm"></i>
+      <span class="text-red-400 text-sm font-semibold">Sign out</span>
+    </button>
+
+  </div>
+
+</div>
+</body>
+</html>

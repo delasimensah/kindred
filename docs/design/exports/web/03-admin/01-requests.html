@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pending Requests</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="admin-requests-page" class="w-full min-w-[1280px] flex bg-page">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-[260px] shrink-0 h-[1024px] sticky top-0 bg-surface border-r border-white/5 flex flex-col">
+    <div id="sidebar-brand" class="flex items-center gap-3 px-7 pt-8 pb-6">
+      <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+        <i class="fa-solid fa-waveform-lines text-label text-sm"></i>
+      </div>
+      <div class="leading-tight">
+        <span class="font-display text-xl tracking-tight text-text block">Kindred</span>
+        <span class="text-[10px] uppercase tracking-wider text-text/40">Admin</span>
+      </div>
+    </div>
+
+    <nav id="sidebar-nav" class="flex-1 px-4 mt-2 space-y-1">
+      <a href="#" class="nav-item active flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+        <span class="flex items-center gap-3"><i class="fa-solid fa-inbox w-4 text-center"></i> Requests</span>
+        <span class="bg-primary text-label text-[10px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-user-group w-4 text-center"></i> Artists
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-record-vinyl w-4 text-center"></i> Catalog
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-star w-4 text-center"></i> Featured
+      </a>
+    </nav>
+
+    <div id="sidebar-footer" class="px-5 py-5 border-t border-white/5 flex items-center gap-3">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-9 h-9 rounded-full object-cover" alt="avatar">
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-text truncate">Delasi Mensah</p>
+        <p class="text-xs text-text/45 truncate">Admin</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main id="main-content" class="flex-1 px-10 py-9">
+
+    <!-- Header -->
+    <div id="page-header" class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-[28px] font-display font-medium text-text leading-tight">Pending artist requests</h1>
+        <p class="text-sm text-text/50 mt-1.5">Review and approve applications to become a Kindred artist.</p>
+      </div>
+      <div class="relative w-72">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-text/35 text-sm"></i>
+        <input type="text" placeholder="Search requests"
+          class="w-full bg-surface border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm text-text placeholder:text-text/35 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition">
+      </div>
+    </div>
+
+    <!-- Stat chips -->
+    <div id="stats-row" class="grid grid-cols-3 gap-5 mb-8">
+      <div class="bg-surface rounded-2xl border border-white/5 px-6 py-5">
+        <p class="text-xs uppercase tracking-wider text-text/45 mb-2">Pending</p>
+        <p class="font-display text-3xl leading-none text-primary">3</p>
+      </div>
+      <div class="bg-surface rounded-2xl border border-white/5 px-6 py-5">
+        <p class="text-xs uppercase tracking-wider text-text/45 mb-2">Approved this month</p>
+        <p class="font-display text-3xl leading-none text-text">18</p>
+      </div>
+      <div class="bg-surface rounded-2xl border border-white/5 px-6 py-5">
+        <p class="text-xs uppercase tracking-wider text-text/45 mb-2">Declined this month</p>
+        <p class="font-display text-3xl leading-none text-text">5</p>
+      </div>
+    </div>
+
+    <!-- Requests table -->
+    <div id="requests-table-card" class="bg-surface rounded-2xl border border-white/5 overflow-hidden">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-white/5">
+            <th class="text-xs uppercase tracking-wider text-text/45 font-medium px-6 py-4">Name</th>
+            <th class="text-xs uppercase tracking-wider text-text/45 font-medium px-6 py-4">Email</th>
+            <th class="text-xs uppercase tracking-wider text-text/45 font-medium px-6 py-4">Submitted</th>
+            <th class="text-xs uppercase tracking-wider text-text/45 font-medium px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <tr id="request-row-1" class="hover:bg-white/[0.03] transition">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" class="w-10 h-10 rounded-full object-cover" alt="Efua Owusu">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-text truncate">Efua Owusu</p>
+                  <p class="text-xs text-text/40">@efuaowusu</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-text/70">efua.owusu@gmail.com</td>
+            <td class="px-6 py-4 text-sm text-text/70">2 hours ago</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-end gap-2">
+                <button class="flex items-center gap-2 bg-primary text-label text-xs font-semibold px-4 py-2 rounded-lg hover:brightness-95 transition">
+                  <i class="fa-solid fa-check text-[10px]"></i> Approve
+                </button>
+                <button class="flex items-center gap-2 text-red-400 border border-red-400/20 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-red-400/10 transition">
+                  <i class="fa-solid fa-xmark text-[10px]"></i> Decline
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr id="request-row-2" class="hover:bg-white/[0.03] transition">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" class="w-10 h-10 rounded-full object-cover" alt="Kwame Asante">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-text truncate">Kwame Asante</p>
+                  <p class="text-xs text-text/40">@kwameasante</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-text/70">kwame.asante@outlook.com</td>
+            <td class="px-6 py-4 text-sm text-text/70">Yesterday</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-end gap-2">
+                <button class="flex items-center gap-2 bg-primary text-label text-xs font-semibold px-4 py-2 rounded-lg hover:brightness-95 transition">
+                  <i class="fa-solid fa-check text-[10px]"></i> Approve
+                </button>
+                <button class="flex items-center gap-2 text-red-400 border border-red-400/20 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-red-400/10 transition">
+                  <i class="fa-solid fa-xmark text-[10px]"></i> Decline
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr id="request-row-3" class="hover:bg-white/[0.03] transition">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg" class="w-10 h-10 rounded-full object-cover" alt="Nii Armah">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-text truncate">Nii Armah</p>
+                  <p class="text-xs text-text/40">@niiarmah</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm text-text/70">nii.armah@yahoo.com</td>
+            <td class="px-6 py-4 text-sm text-text/70">3 days ago</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-end gap-2">
+                <button class="flex items-center gap-2 bg-primary text-label text-xs font-semibold px-4 py-2 rounded-lg hover:brightness-95 transition">
+                  <i class="fa-solid fa-check text-[10px]"></i> Approve
+                </button>
+                <button class="flex items-center gap-2 text-red-400 border border-red-400/20 text-xs font-semibold px-4 py-2 rounded-lg hover:bg-red-400/10 transition">
+                  <i class="fa-solid fa-xmark text-[10px]"></i> Decline
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div id="admin-footer" class="mt-10 pt-6 border-t border-white/5 flex items-center justify-between text-xs text-text/35">
+      <span>Kindred Admin · Delasi Mensah</span>
+      <span>© 2024 Kindred</span>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Updates</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="updates-page" class="w-full min-w-[1280px] flex bg-page">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-[260px] shrink-0 h-[900px] sticky top-0 bg-surface border-r border-white/5 flex flex-col">
+    <div id="sidebar-brand" class="flex items-center gap-3 px-7 pt-8 pb-6">
+      <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+        <i class="fa-solid fa-waveform-lines text-label text-sm"></i>
+      </div>
+      <span class="font-display text-xl tracking-tight text-text">Kindred</span>
+    </div>
+
+    <nav id="sidebar-nav" class="flex-1 px-4 mt-2 space-y-1">
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-house w-4 text-center"></i> Home
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-record-vinyl w-4 text-center"></i> Releases
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> Upload
+      </a>
+      <a href="#" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+        <i class="fa-solid fa-bullhorn w-4 text-center"></i> Updates
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-heart w-4 text-center"></i> Supporters
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-hands-clapping w-4 text-center"></i> Thank-yous
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-sack-dollar w-4 text-center"></i> Earnings
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-user w-4 text-center"></i> Profile
+      </a>
+    </nav>
+
+    <div id="sidebar-footer" class="px-5 py-5 border-t border-white/5 flex items-center gap-3">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-9 h-9 rounded-full object-cover" alt="avatar">
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-text truncate">Amaara Mensah</p>
+        <p class="text-xs text-text/45 truncate">Artist</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main id="main-content" class="flex-1 px-10 py-9">
+
+    <!-- Header -->
+    <div id="page-header" class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-[28px] font-display font-medium text-text leading-tight">Updates</h1>
+        <p class="text-sm text-text/50 mt-1.5">Everything you've shared with your supporters and fans.</p>
+      </div>
+      <button id="compose-btn" class="flex items-center gap-2 bg-primary text-label text-sm font-semibold px-5 py-3 rounded-xl hover:brightness-95 transition">
+        <i class="fa-solid fa-pen-nib text-xs"></i> Compose update
+      </button>
+    </div>
+
+    <!-- Updates list -->
+    <div id="updates-list" class="max-w-[820px] space-y-4">
+
+      <div id="update-item-1" class="update-item bg-surface rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+            <div>
+              <p class="text-sm font-medium text-text">Amaara Mensah</p>
+              <p class="text-xs text-text/40 mt-0.5">2 days ago</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 bg-primary/15 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+            <i class="fa-solid fa-globe text-[10px]"></i> Everyone
+          </span>
+        </div>
+        <p class="text-sm text-text/75 leading-relaxed mb-4">Back in the studio this week finishing vocals for "Highlife Interludes." The horn section from Kokrobite came through and it's exactly the warmth I was hoping for. Sharing a clip soon 🎷</p>
+        <div class="flex items-center gap-5 pt-3 border-t border-white/5">
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-regular fa-eye"></i> 1,046 views</span>
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-solid fa-hands-clapping text-primary"></i> 212</span>
+        </div>
+      </div>
+
+      <div id="update-item-2" class="update-item bg-surface rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+            <div>
+              <p class="text-sm font-medium text-text">Amaara Mensah</p>
+              <p class="text-xs text-text/40 mt-0.5">5 days ago</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 text-text/60 text-xs font-semibold px-2.5 py-1 rounded-full">
+            <i class="fa-solid fa-heart text-[10px] text-primary"></i> Supporters only
+          </span>
+        </div>
+        <p class="text-sm text-text/75 leading-relaxed mb-4">Early rough mix of "Kokrobite Sessions" attached as a voice memo — first listen goes to you before anyone else. Let me know what you think of the tempo shift in the bridge.</p>
+        <div class="flex items-center gap-3 mb-4 bg-page rounded-xl px-4 py-3">
+          <div class="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center">
+            <i class="fa-solid fa-play text-primary text-xs"></i>
+          </div>
+          <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-primary rounded-full" style="width:35%"></div>
+          </div>
+          <span class="text-xs text-text/40">1:12</span>
+        </div>
+        <div class="flex items-center gap-5 pt-3 border-t border-white/5">
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-regular fa-eye"></i> 684 views</span>
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-solid fa-hands-clapping text-primary"></i> 158</span>
+        </div>
+      </div>
+
+      <div id="update-item-3" class="update-item bg-surface rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+            <div>
+              <p class="text-sm font-medium text-text">Amaara Mensah</p>
+              <p class="text-xs text-text/40 mt-0.5">1 week ago</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 bg-primary/15 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+            <i class="fa-solid fa-globe text-[10px]"></i> Everyone
+          </span>
+        </div>
+        <div class="h-52 rounded-xl overflow-hidden mb-4">
+          <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/gen_8f542ea339_279ba7c7e73b1d06.png" alt="highlife concert stage with warm amber lighting, live performance photography">
+        </div>
+        <p class="text-sm text-text/75 leading-relaxed mb-4">What a night at the Alliance Française show — thank you to everyone who came through and sang every word of "Osu Nights" back at me. This is why I do this.</p>
+        <div class="flex items-center gap-5 pt-3 border-t border-white/5">
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-regular fa-eye"></i> 2,318 views</span>
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-solid fa-hands-clapping text-primary"></i> 461</span>
+        </div>
+      </div>
+
+      <div id="update-item-4" class="update-item bg-surface rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+            <div>
+              <p class="text-sm font-medium text-text">Amaara Mensah</p>
+              <p class="text-xs text-text/40 mt-0.5">2 weeks ago</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 bg-white/10 text-text/60 text-xs font-semibold px-2.5 py-1 rounded-full">
+            <i class="fa-solid fa-heart text-[10px] text-primary"></i> Supporters only
+          </span>
+        </div>
+        <p class="text-sm text-text/75 leading-relaxed mb-4">Thinking about doing an acoustic-only version of "Adowa Groove" for supporters only. Would love a quick reaction — reply and let me know if that's something you'd want to hear.</p>
+        <div class="flex items-center gap-5 pt-3 border-t border-white/5">
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-regular fa-eye"></i> 597 views</span>
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-solid fa-hands-clapping text-primary"></i> 133</span>
+        </div>
+      </div>
+
+      <div id="update-item-5" class="update-item bg-surface rounded-2xl border border-white/5 p-6">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+            <div>
+              <p class="text-sm font-medium text-text">Amaara Mensah</p>
+              <p class="text-xs text-text/40 mt-0.5">3 weeks ago</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 bg-primary/15 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+            <i class="fa-solid fa-globe text-[10px]"></i> Everyone
+          </span>
+        </div>
+        <p class="text-sm text-text/75 leading-relaxed mb-4">"Adowa Groove" just crossed 50,000 streams. Independent, self-released, no label — just this community. Thank you doesn't feel like enough but it's what I've got. 🙏</p>
+        <div class="flex items-center gap-5 pt-3 border-t border-white/5">
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-regular fa-eye"></i> 3,102 views</span>
+          <span class="text-xs text-text/40 flex items-center gap-1.5"><i class="fa-solid fa-hands-clapping text-primary"></i> 588</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

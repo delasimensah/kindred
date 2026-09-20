@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .follow-pill.following {
+    background-color: #FFD369;
+    border-color: #FFD369;
+    color: #222831;
+  }
+  .follow-pill.following .pill-label::before { content: 'Following'; }
+  .follow-pill:not(.following) .pill-label::before { content: 'Follow'; }
+  .follow-pill .pill-label { font-size: 0; }
+  .follow-pill .pill-label::before { font-size: 13px; }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="follow-artists-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Page indicator -->
+  <div id="follow-artists-pageid" class="absolute top-2 right-3 text-[9px] text-[#EEEEEE]/15 tracking-wide select-none">#222831</div>
+
+  <!-- Progress -->
+  <div id="follow-artists-progress" class="flex items-center gap-2 px-6 pt-8">
+    <div class="h-1 rounded-full bg-[#FFD369] flex-1"></div>
+    <div class="h-1 rounded-full bg-[#FFD369] flex-1"></div>
+  </div>
+
+  <!-- Header -->
+  <div id="follow-artists-header" class="px-6 pt-8 pb-2 flex items-start justify-between gap-4">
+    <div>
+      <h1 class="font-display font-bold text-[28px] leading-tight text-[#EEEEEE]">Follow artists</h1>
+      <p class="text-sm text-[#EEEEEE]/50 mt-2.5">Follow at least 2 to continue.</p>
+    </div>
+    <div id="follow-counter-pill" class="shrink-0 mt-1 px-3 py-1.5 rounded-full bg-[#FFD369] flex items-center gap-1.5">
+      <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      <span id="follow-counter-text" class="text-[#222831] text-xs font-semibold whitespace-nowrap">2 of 2 minimum</span>
+    </div>
+  </div>
+
+  <!-- Artist list -->
+  <div id="follow-artists-list" class="flex flex-col px-6 pt-6 pb-32 flex-1 overflow-y-auto gap-1">
+
+    <!-- Amaara Mensah -->
+    <div class="artist-row flex items-center gap-3.5 py-3 border-b border-white/5">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Amaara Mensah">
+      <div class="flex-1 min-w-0">
+        <p class="text-[#EEEEEE] font-semibold text-[15px] truncate">Amaara Mensah</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5 truncate">Afro-soul · Accra</p>
+      </div>
+      <button type="button" onclick="event.currentTarget.classList.toggle('following'); updateFollowCounter();" class="follow-pill following shrink-0 px-4 py-2 rounded-full border border-[#FFD369] transition-colors">
+        <span class="pill-label font-semibold"></span>
+      </button>
+    </div>
+
+    <!-- Kweku Darko -->
+    <div class="artist-row flex items-center gap-3.5 py-3 border-b border-white/5">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Kweku Darko">
+      <div class="flex-1 min-w-0">
+        <p class="text-[#EEEEEE] font-semibold text-[15px] truncate">Kweku Darko</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5 truncate">Highlife · Kumasi</p>
+      </div>
+      <button type="button" onclick="event.currentTarget.classList.toggle('following'); updateFollowCounter();" class="follow-pill shrink-0 px-4 py-2 rounded-full border border-[#EEEEEE]/25 text-[#EEEEEE] transition-colors">
+        <span class="pill-label font-semibold"></span>
+      </button>
+    </div>
+
+    <!-- Sela Okoro -->
+    <div class="artist-row flex items-center gap-3.5 py-3 border-b border-white/5">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Sela Okoro">
+      <div class="flex-1 min-w-0">
+        <p class="text-[#EEEEEE] font-semibold text-[15px] truncate">Sela Okoro</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5 truncate">Amapiano · Lagos</p>
+      </div>
+      <button type="button" onclick="event.currentTarget.classList.toggle('following'); updateFollowCounter();" class="follow-pill following shrink-0 px-4 py-2 rounded-full border border-[#FFD369] transition-colors">
+        <span class="pill-label font-semibold"></span>
+      </button>
+    </div>
+
+    <!-- Téwá Nkrumah -->
+    <div class="artist-row flex items-center gap-3.5 py-3 border-b border-white/5">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Téwá Nkrumah">
+      <div class="flex-1 min-w-0">
+        <p class="text-[#EEEEEE] font-semibold text-[15px] truncate">Téwá Nkrumah</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5 truncate">Gospel · Accra</p>
+      </div>
+      <button type="button" onclick="event.currentTarget.classList.toggle('following'); updateFollowCounter();" class="follow-pill shrink-0 px-4 py-2 rounded-full border border-[#EEEEEE]/25 text-[#EEEEEE] transition-colors">
+        <span class="pill-label font-semibold"></span>
+      </button>
+    </div>
+
+    <!-- Leye Ade -->
+    <div class="artist-row flex items-center gap-3.5 py-3 border-b border-white/5">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-14 h-14 rounded-full object-cover shrink-0" alt="Leye Ade">
+      <div class="flex-1 min-w-0">
+        <p class="text-[#EEEEEE] font-semibold text-[15px] truncate">Leye Ade</p>
+        <p class="text-[#EEEEEE]/40 text-xs mt-0.5 truncate">Afrobeats · Lagos</p>
+      </div>
+      <button type="button" onclick="event.currentTarget.classList.toggle('following'); updateFollowCounter();" class="follow-pill shrink-0 px-4 py-2 rounded-full border border-[#EEEEEE]/25 text-[#EEEEEE] transition-colors">
+        <span class="pill-label font-semibold"></span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Sticky CTA -->
+  <div id="follow-artists-cta" class="absolute bottom-0 left-0 right-0 px-6 pt-6 pb-8 bg-gradient-to-t from-[#222831] via-[#222831] to-transparent">
+    <button type="button" id="follow-continue-btn" class="w-full bg-[#FFD369] text-[#222831] font-semibold text-base py-4 rounded-full shadow-lg shadow-[#FFD369]/20 active:scale-[0.98] transition-transform">
+      Continue
+    </button>
+  </div>
+
+</div>
+
+<script>
+  function updateFollowCounter() {
+    const total = document.querySelectorAll('.follow-pill').length;
+    const following = document.querySelectorAll('.follow-pill.following').length;
+    const pill = document.getElementById('follow-counter-pill');
+    const text = document.getElementById('follow-counter-text');
+    const icon = pill.querySelector('i');
+    const min = 2;
+    text.textContent = following + ' of ' + min + ' minimum';
+    if (following >= min) {
+      pill.classList.remove('bg-[#393E46]');
+      pill.classList.add('bg-[#FFD369]');
+      icon.classList.remove('text-[#EEEEEE]/40');
+      icon.classList.add('text-[#222831]');
+      text.classList.remove('text-[#EEEEEE]/60');
+      text.classList.add('text-[#222831]');
+    } else {
+      pill.classList.remove('bg-[#FFD369]');
+      pill.classList.add('bg-[#393E46]');
+      icon.classList.remove('text-[#222831]');
+      icon.classList.add('text-[#EEEEEE]/40');
+      text.classList.remove('text-[#222831]');
+      text.classList.add('text-[#EEEEEE]/60');
+    }
+  }
+  updateFollowCounter();
+</script>
+</body>
+</html>

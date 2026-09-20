@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fans to Thank</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFD369',
+          label: '#222831',
+          page: '#222831',
+          surface: '#393E46',
+          text: '#EEEEEE'
+        },
+        fontFamily: {
+          sans: ['Satoshi', 'Space Grotesk', 'sans-serif'],
+          display: ['Clash Display', 'Space Grotesk', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Satoshi','Space Grotesk',sans-serif; }
+  .font-display { font-family: 'Clash Display','Space Grotesk',sans-serif; }
+  .ghost-text { color: rgba(238,238,238,0.7); }
+</style>
+</head>
+<body class="bg-page text-text">
+
+<div id="fans-to-thank-page" class="w-full min-w-[1280px] flex bg-page">
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="w-[260px] shrink-0 h-[1400px] sticky top-0 bg-surface border-r border-white/5 flex flex-col">
+    <div id="sidebar-brand" class="flex items-center gap-3 px-7 pt-8 pb-6">
+      <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+        <i class="fa-solid fa-waveform-lines text-label text-sm"></i>
+      </div>
+      <span class="font-display text-xl tracking-tight text-text">Kindred</span>
+    </div>
+
+    <nav id="sidebar-nav" class="flex-1 px-4 mt-2 space-y-1">
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-house w-4 text-center"></i> Home
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-record-vinyl w-4 text-center"></i> Releases
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-cloud-arrow-up w-4 text-center"></i> Upload
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-bullhorn w-4 text-center"></i> Updates
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-heart w-4 text-center"></i> Supporters
+      </a>
+      <a href="#" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+        <i class="fa-solid fa-hands-clapping w-4 text-center"></i> Thank-yous
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-sack-dollar w-4 text-center"></i> Earnings
+      </a>
+      <a href="#" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-text/60 hover:bg-white/5 hover:text-text text-sm font-medium transition">
+        <i class="fa-solid fa-user w-4 text-center"></i> Profile
+      </a>
+    </nav>
+
+    <div id="sidebar-footer" class="px-5 py-5 border-t border-white/5 flex items-center gap-3">
+      <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-9 h-9 rounded-full object-cover" alt="avatar">
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-text truncate">Amaara Mensah</p>
+        <p class="text-xs text-text/45 truncate">Artist</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main id="main-content" class="flex-1 px-10 py-9">
+
+    <!-- Header -->
+    <div id="page-header" class="mb-9">
+      <p class="text-xs text-text/40 mb-2"><a href="#" class="hover:text-primary">Thank-yous</a> / Fans to thank</p>
+      <h1 class="text-[44px] font-display font-medium text-text leading-tight">12 fans to thank</h1>
+      <p class="text-sm text-text/50 mt-2 max-w-xl">Ranked by how much they've shown up for you this month. Each one-liner is drafted for you — edit it, then send.</p>
+    </div>
+
+    <!-- Ranked list -->
+    <div id="fans-list" class="max-w-[860px] space-y-3">
+
+      <!-- Fan 1 -->
+      <div id="fan-row-1" class="fan-row bg-surface rounded-2xl border border-primary/30 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-primary w-8 shrink-0 pt-1">1</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Efua Boateng</p>
+            <span class="text-xs text-text/40">· since 12 Aug 2026</span>
+            <span class="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
+              <i class="fa-solid fa-star text-[9px]"></i> Founding
+            </span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Efua, you've been here since the very first demo of "Osu Nights" — a founding supporter who never missed a release. This one's for you.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 2 -->
+      <div id="fan-row-2" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">2</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Kwesi Boateng</p>
+            <span class="text-xs text-text/40">· since 3 Jan 2026</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Kwesi, your comments on every "Osu Nights" post kept the momentum going all release week. Really grateful for you.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 3 -->
+      <div id="fan-row-3" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">3</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Naa Adjeley</p>
+            <span class="text-xs text-text/40">· since 28 Nov 2025</span>
+            <span class="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
+              <i class="fa-solid fa-star text-[9px]"></i> Founding
+            </span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Naa, upgrading your tier the same week "Kokrobite Sessions" was announced meant a lot — thank you for believing early.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 4 -->
+      <div id="fan-row-4" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">4</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Yaw Darko</p>
+            <span class="text-xs text-text/40">· since 15 Oct 2025</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Yaw, you shared "Adowa Groove" to three different playlists this month. That's the kind of push that gets a record heard — thank you.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 5 -->
+      <div id="fan-row-5" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">5</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Efua Owusu</p>
+            <span class="text-xs text-text/40">· since 2 Sep 2025</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Efua, thank you for always being first to listen on early access — your feedback on the mixes genuinely shapes the final cut.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 6 -->
+      <div id="fan-row-6" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">6</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Kojo Antwi</p>
+            <span class="text-xs text-text/40">· since 19 July 2025</span>
+            <span class="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
+              <i class="fa-solid fa-star text-[9px]"></i> Founding
+            </span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Kojo, a full year as a founding supporter this month — this catalogue exists because people like you backed it before it was proven.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 7 -->
+      <div id="fan-row-7" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">7</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-9.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Kofi Mensima</p>
+            <span class="text-xs text-text/40">· since 4 May 2025</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Kofi, your voice note reply to the "Kokrobite Sessions" preview made me smile all week — thank you for taking the time.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 8 -->
+      <div id="fan-row-8" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">8</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Abena Poku</p>
+            <span class="text-xs text-text/40">· since 21 Feb 2025</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Abena, seeing you at the Labadi show and finally meeting in person after a year of support was a highlight of my year. Thank you.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 9 -->
+      <div id="fan-row-9" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">9</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Ama Serwaa</p>
+            <span class="text-xs text-text/40">· since 30 Jan 2025</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Ama, your monthly recap posts about the catalogue send new listeners my way every single time — you're basically part of the team.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 10 -->
+      <div id="fan-row-10" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">10</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Nana Yaw</p>
+            <span class="text-xs text-text/40">· since 8 Dec 2024</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Nana, thank you for the thoughtful reply on the "Highlife Interludes" teaser — that kind of detail tells me you're really listening.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 11 -->
+      <div id="fan-row-11" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">11</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Kwabena Otu</p>
+            <span class="text-xs text-text/40">· since 19 Sep 2024</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Kwabena, two years supporting since day one of the page — thank you for sticking with the journey this whole time.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+      <!-- Fan 12 -->
+      <div id="fan-row-12" class="fan-row bg-surface rounded-2xl border border-white/5 p-5 flex items-start gap-4">
+        <span class="font-display text-2xl text-text/40 w-8 shrink-0 pt-1">12</span>
+        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-9.jpg" class="w-11 h-11 rounded-full object-cover shrink-0" alt="avatar">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <p class="text-sm font-semibold text-text">Baaba Nkrumah</p>
+            <span class="text-xs text-text/40">· since 2 Mar 2024</span>
+          </div>
+          <textarea rows="2" class="w-full bg-page border border-white/10 rounded-xl px-4 py-2.5 text-sm ghost-text placeholder:text-text/30 focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/60 transition resize-none">Baaba, your very first comment ever on this page was on "Osu Nights" — thank you for being here from the beginning.</textarea>
+        </div>
+        <button class="send-thankyou-btn shrink-0 bg-primary text-label text-sm font-semibold px-5 py-2.5 rounded-xl hover:brightness-95 transition mt-1">
+          Send thank-you
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.send-thankyou-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('.fan-row');
+      row.classList.add('opacity-50');
+      btn.innerHTML = '<i class="fa-solid fa-check mr-1.5"></i> Sent';
+      btn.disabled = true;
+      btn.classList.remove('hover:brightness-95');
+      btn.classList.add('cursor-default');
+    });
+  });
+</script>
+
+</body>
+</html>

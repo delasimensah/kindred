@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Clash Display';
+    src: local('Clash Display');
+    font-weight: 700;
+  }
+  body { font-family: 'Satoshi', 'Inter', sans-serif; }
+  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
+  .genre-tile.selected {
+    background-color: rgba(255, 211, 105, 0.12);
+    border-color: #FFD369;
+  }
+  .genre-tile.selected .check-badge { opacity: 1; transform: scale(1); }
+  .genre-tile.selected .genre-label { color: #FFD369; }
+</style>
+</head>
+<body class="bg-[#222831]">
+<div id="genres-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col relative overflow-hidden">
+
+  <!-- Progress -->
+  <div id="genres-progress" class="flex items-center gap-2 px-6 pt-8">
+    <div class="h-1 rounded-full bg-[#FFD369] flex-1"></div>
+    <div class="h-1 rounded-full bg-[#393E46] flex-1"></div>
+  </div>
+
+  <!-- Header -->
+  <div id="genres-header" class="px-6 pt-8 pb-2">
+    <h1 class="font-display font-bold text-[28px] leading-tight text-[#EEEEEE]">What do you listen to?</h1>
+    <p class="text-sm text-[#EEEEEE]/50 mt-2.5">Pick a few genres to start.</p>
+  </div>
+
+  <!-- Genre grid -->
+  <div id="genres-grid" class="grid grid-cols-2 gap-3.5 px-6 pt-6 pb-32 flex-1 overflow-y-auto">
+
+    <button type="button" class="genre-tile selected relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-100 scale-100 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-drum text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#FFD369] text-base">Highlife</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-fire text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Afrobeats</span>
+    </button>
+
+    <button type="button" class="genre-tile selected relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-100 scale-100 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-record-vinyl text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#FFD369] text-base">Amapiano</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-feather text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Afro-soul</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-hands-praying text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Gospel</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-microphone text-[#EEEEEE]/30 text-xl mb-2"></i>
+      </div>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Hip-hop</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-music text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Jazz</span>
+    </button>
+
+    <button type="button" class="genre-tile relative h-32 rounded-xl bg-[#393E46] border-2 border-transparent flex flex-col items-start justify-end p-4 text-left transition-colors" onclick="this.classList.toggle('selected')">
+      <div class="check-badge absolute top-3 right-3 w-6 h-6 rounded-full bg-[#FFD369] flex items-center justify-center opacity-0 scale-75 transition-all">
+        <i class="fa-solid fa-check text-[#222831] text-[10px]"></i>
+      </div>
+      <i class="fa-solid fa-drum-steelpan text-[#EEEEEE]/30 text-xl mb-2"></i>
+      <span class="genre-label font-semibold text-[#EEEEEE] text-base">Traditional</span>
+    </button>
+
+  </div>
+
+  <!-- Sticky CTA -->
+  <div id="genres-cta" class="absolute bottom-0 left-0 right-0 px-6 pt-6 pb-8 bg-gradient-to-t from-[#222831] via-[#222831] to-transparent">
+    <button type="button" class="w-full bg-[#FFD369] text-[#222831] font-semibold text-base py-4 rounded-full shadow-lg shadow-[#FFD369]/20 active:scale-[0.98] transition-transform">
+      Continue
+    </button>
+  </div>
+
+</div>
+</body>
+</html>

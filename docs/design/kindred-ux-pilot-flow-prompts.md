@@ -2,11 +2,11 @@
 
 Locked design system: [design-system.md](./design-system.md). Screen list: [product-requirements.md](../product/product-requirements.md) §9. Layout language from [reference-map.md](./reference-map.md).
 
-**Status:** prompts filled 20 Sep 2026. Before generating, set font (Satoshi + Clash Display if available) and colors (`#222831`, `#FFD369`, `#EEEEEE`) in UX Pilot.
+**Status:** prompts filled 20 Sep 2026; amended same day — **no fan account on web** (Studio + public + admin only). Before generating, set font (Satoshi + Clash Display if available) and colors (`#222831`, `#FFD369`, `#EEEEEE`) in UX Pilot.
 
-**Demo cast (never “test user” or “Artist 1”):** Fan/supporter Efua Boateng. Hero artists Amaara Mensah (Accra), Kweku Darko (Kumasi), Sela Okoro (Lagos). Also Téwá Nkrumah, Leye Ade. Studio signed in as Amaara Mensah. Admin Delasi Mensah. Money USD. Wordmark Kindred.
+**Demo cast (never “test user” or “Artist 1”):** Fan/supporter Efua Boateng (**mobile only**). Hero artists Amaara Mensah (Accra), Kweku Darko (Kumasi), Sela Okoro (Lagos). Also Téwá Nkrumah, Leye Ade. Studio signed in as Amaara Mensah. Admin Delasi Mensah. Money USD. Wordmark Kindred.
 
-**How to run:** Create flow “Kindred — Mobile” and “Kindred — Web”. Paste the matching Shared context once. Add screens in order below; paste each Screen prompt in full. Only **tab roots** say “Tab bar visible”. Stack, modal, sheet, auth = “No tab bar”.
+**How to run:** Create flow “Kindred — Mobile” and “Kindred — Web”. Paste the matching Shared context once. Add screens in order below; paste each Screen prompt in full. Only **tab roots** say “Tab bar visible”. Stack, modal, sheet, auth = “No tab bar”. Web fan sign-in / sign-up / account screens are **out** — do not generate them.
 
 ---
 
@@ -30,9 +30,9 @@ Locked design system: [design-system.md](./design-system.md). Screen list: [prod
 
 Kindred — fans back rising African artists with one monthly subscription routed to artists they choose. Brand: dark, soft gold on cool charcoal, belonging, modern music-app craft with liquid-glass chrome. Design system: Primary `#FFD369` (Follow, Support, Play, active controls; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary text `#EEEEEE` at 60% opacity. Founding and impact chips: `#FFD369` on `#393E46`. Real frosted glass / liquid glass on floating pill tab bar and mini-player — never a solid fake glass box with a border. Typography: Clash Display SemiBold/Bold for now-playing titles, impact numbers, thank-you and paywall headlines (28–36px). Satoshi Regular/Medium/SemiBold/Bold for UI — body 16px, titles 20–24px, meta 13–14px. Layout: tight track rows 8–12px, sections 20–24px, artwork and cards 12px radius, capsule pills, soft lift only under mini-player and glass, 44px targets. Bottom native-style pill tab bar floating above home indicator: 4 tabs — Home (feed), Discover, Search, Library. Active tab tint `#FFD369`, inactive muted. Frosted mini-player sits in the accessory slot above the tab bar when audio is playing (thumbnail, title, artist, play/pause). No fifth Account tab — account from avatar. USD $4.99 and $9.99. Wordmark Kindred. Demo names: Efua Boateng, Amaara Mensah, Kweku Darko, Sela Okoro. No social login, no lyrics, no tip jar, no purple gradients, no cream terracotta SaaS look, no Apple red, no Spotify green, no teal, no coffee-brown page, no “test user”, no comments.
 
-**For web flows (Artist Studio, public player, admin), paste this:**
+**For web flows (Artist Studio, public pages, admin), paste this:**
 
-Kindred — Artist Studio, public artist/track/post/mix pages, light fan player, and thin admin on the web. Brand: same dark soft-gold music product as mobile. Design system: Primary `#FFD369` (CTAs; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary `#EEEEEE` 60%. Typography: Satoshi for UI; Clash Display for large metrics (32–40px). Page titles 28–32px Bold, sections 18–20px SemiBold, body 15–16px, tables 13–14px. Layout: left sidebar + main for Studio and admin; public pages with top wordmark and fixed bottom light player bar. Dense lists 12–16px, 24px between blocks, 12px cards, 10px inputs. Desktop 1280px+; usable at 1024px. No purchase on web, no offline, no waveform scrubber, no shader visualizer, no liquid-glass craft. Locked exclusives show a shell plus “Get the app” for purchase. USD demo earnings labelled “Demo — not a real payout”. Wordmark Kindred. Signed-in studio: Amaara Mensah. Admin: Delasi Mensah. No purple SaaS, no light admin theme, no social login, no “test user”.
+Kindred — Artist Studio, public artist/track/post/mix pages, and thin admin on the web. Brand: same dark soft-gold music product as mobile. Design system: Primary `#FFD369` (CTAs; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary `#EEEEEE` 60%. Typography: Satoshi for UI; Clash Display for large metrics (32–40px). Page titles 28–32px Bold, sections 18–20px SemiBold, body 15–16px, tables 13–14px. Layout: left sidebar + main for Studio and admin; public pages with top wordmark and fixed bottom simple player bar. Dense lists 12–16px, 24px between blocks, 12px cards, 10px inputs. Desktop 1280px+; usable at 1024px. No fan sign up, no fan sign in, no follow on web, no exclusive streaming on web, no purchase, no offline, no waveform scrubber, no shader visualizer, no liquid-glass craft. Public audio plays in a simple player; exclusives show a locked shell plus Get the app. USD demo earnings labelled “Demo — not a real payout”. Wordmark Kindred. Signed-in studio: Amaara Mensah. Admin: Delasi Mensah. No purple SaaS, no light admin theme, no social login, no “test user”.
 
 ---
 
@@ -248,35 +248,27 @@ Sidebar Earnings. Clash Display “$482.00” label “Demo earnings · Septembe
 
 ---
 
-## Web flow — Public and light player
+## Web flow — Public pages
 
 ### Screen: Public artist page
 
-No studio sidebar. Top bar Kindred wordmark + Sign in. Hero cover Amaara Mensah, Follow `#FFD369`, Play. Popular tracks list. Fixed bottom light player bar: artwork, title, scrub/seek, play/pause, previous, next — no waveform craft, no visualizer, no download, no offline. Locked track shows lock + “Get the app to support”.
+No studio sidebar. Top bar Kindred wordmark + **Get the app** (not Sign in). Hero cover Amaara Mensah, **Get the app** primary for Follow/Support intent, Play for public tracks. Popular tracks list. Fixed bottom simple player: artwork, title, scrub/seek, play/pause, previous, next — no waveform craft, no visualizer, no download, no offline. Locked track shows lock + “Get the app to support”. No fan account chrome.
 
 ### Screen: Public track page
 
-Share URL layout. Artwork, title, artist, Play if public; locked shell + Get the app if exclusive. Bottom light player with seek + next/previous.
+Share URL layout. Artwork, title, artist, Play if public; locked shell + Get the app if exclusive. Bottom simple player with seek + next/previous.
 
 ### Screen: Public post page
 
-Post body (text, photo, or voice-note chip) or locked shell + Support/Get the app. Bottom player if audio attached.
+Post body (text, photo, or voice-note chip) if Everyone; locked shell + Get the app if Supporters only. Bottom player if public audio attached.
 
 ### Screen: Public mix page
 
-Mix title, one-line why, track list, Play. Bottom light player with seek.
+Mix title, one-line why, track list, Play (public tracks only; locked rows show lock). Bottom simple player with seek.
 
-### Screen: Light fan player — browse home
+### Screen: Public browse home (signed out)
 
-Signed-out or fan web: discovery rows (Featured + Rising with Follow primary), search, library lite. Bottom player with seek and next/previous. CTA “Get the app” for purchase. Signed-in entitled supporter can play exclusives for routed artists; others see locked shells. No paywall purchase form on web.
-
-### Screen: Web sign in / sign up
-
-Same email-password pattern as mobile; Kindred wordmark; no social.
-
-### Screen: Web account settings
-
-Change password; Subscription status / restore instructions (manage in App Store / Play); Request to become an artist + status; Sign out. No web purchase.
+Discovery rows Featured + Rising. Primary on artist cards is **Get the app** (not Follow). Search of public catalog. Bottom player. Banner CTA Get the app. No library lite that requires an account. No fan sign in.
 
 ### Screen: Install prompt
 

@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Screen design — keepers + design system locked. Next: UX Pilot prompts.
+- **Current phase:** Screen design — keepers, design system, and UX Pilot prompts filled. Awaiting credit confirm to generate.
 - **Last updated:** 2026-09-20
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
 
@@ -42,7 +42,7 @@
 ## Product path
 
 - [x] System design — confirmed 20 Sep 2026 vs live `kindred` Convex; copies in `docs/product/system-design.md` + `convex-design.md`
-- [ ] Screen design — keepers + design system locked; UX Pilot prompts and generation still open
+- [ ] Screen design — keepers + design system + prompts ready; UX Pilot generation not started
 - [ ] Linear build tickets (epics exist; full slices after screens)
 - [ ] Build / demos / TestFlight / Play
 - [ ] Launch
@@ -51,7 +51,7 @@
 
 ## Next action (one line)
 
-Write per-screen UX Pilot prompts in `docs/design/kindred-ux-pilot-flow-prompts.md`. No UX Pilot credits until you confirm spend.
+Review prompts in `docs/design/kindred-ux-pilot-flow-prompts.md`. When ready, confirm UX Pilot credit spend to generate. No build tickets yet.
 
 ---
 

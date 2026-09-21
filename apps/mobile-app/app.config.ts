@@ -71,9 +71,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "expo-image-picker",
       {
         photosPermission:
-          "Kindred uses your photos so you can attach a picture to a repair or a completed job.",
+          "Kindred uses your photos so you can set a profile picture or release artwork.",
         cameraPermission:
-          "Kindred uses the camera so you can take a picture of a repair or a completed job.",
+          "Kindred uses the camera so you can take a profile picture or release artwork.",
         microphonePermission: false,
       },
     ],
@@ -97,7 +97,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
   updates: {
-    url: "https://u.expo.dev/f2660fce-f32a-43b2-be0f-94f2a08a2c22",
+    url: "https://u.expo.dev/4b1a5361-8bc3-4e40-b90c-e65141666149",
   },
   runtimeVersion: {
     policy: "appVersion",
@@ -105,7 +105,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   extra: {
     router: {},
     eas: {
-      projectId: "f2660fce-f32a-43b2-be0f-94f2a08a2c22",
+      projectId: "4b1a5361-8bc3-4e40-b90c-e65141666149",
     },
   },
   owner: "dm-studios",

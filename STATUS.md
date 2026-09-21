@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-42 Done; next KIND-43 (mobile email/password auth).
+- **Current phase:** Build — KIND-42 Done; app icon on main; next native libs + EAS development/preview, then KIND-43.
 - **Last updated:** 2026-09-21
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -35,6 +35,7 @@
 - [x] Linear team + GitHub connection
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
+- [x] App icon + splash — SnapAI candidate `02`; assets under `apps/mobile-app/assets/icons/`; page colour `#222831` in `app.config.ts`
 - [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
 - [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS
 - [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack, Vercel, Convex
@@ -60,13 +61,12 @@
 
 ## Next action (one line)
 
-Start KIND-43 (fan sign up / sign in / sign out on mobile) when Delasi asks.
+Install Kindred V1 native libs on SDK 57, then EAS development + preview builds. After that, KIND-43 when asked.
 
 ---
 
 ## Pointers
 
-- Pull request (KIND-42): https://github.com/delasimensah/kindred/pull/1
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`

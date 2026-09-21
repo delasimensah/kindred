@@ -66,6 +66,7 @@ Start KIND-43 (fan sign up / sign in / sign out on mobile) when Delasi asks.
 
 ## Pointers
 
+- Pull request (KIND-42): https://github.com/delasimensah/kindred/pull/1
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`

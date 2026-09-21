@@ -19,7 +19,7 @@ const KeyboardFormView: React.FC<KeyboardFormViewProps> = ({
 
   return (
     <KeyboardAvoidingView
-      className={cn("flex-1 bg-white", className)}
+      className={cn("flex-1 bg-page", className)}
       behavior="padding"
     >
       <ScrollView

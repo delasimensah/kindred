@@ -6,9 +6,9 @@ import { Text, VStack } from "@/components";
  */
 const IndexRoute = () => {
   return (
-    <VStack className="flex-1 justify-center gap-4 px-6">
-      <Text className="text-3xl font-semibold">Kindred</Text>
-      <Text className="text-base text-grey">
+    <VStack className="flex-1 justify-center gap-4 bg-page px-6">
+      <Text className="font-display-bold text-3xl text-text">Kindred</Text>
+      <Text className="font-app-regular text-base text-text/60">
         Patronage app for rising African artists. Fans support artists with a
         monthly subscription routed to the artists they choose.
       </Text>

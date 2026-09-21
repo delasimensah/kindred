@@ -52,6 +52,6 @@ describe("Skeleton", () => {
     const { container } = render(<Skeleton />);
     const element = container.querySelector("div") as HTMLElement;
     expect(element).toHaveClass("animate-pulse");
-    expect(element).toHaveClass("bg-shimmerLight");
+    expect(element).toHaveClass("bg-surface");
   });
 });

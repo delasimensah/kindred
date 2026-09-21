@@ -1,4 +1,7 @@
-import { createAccount, modifyAccountCredentials } from "@convex-dev/auth/server";
+import {
+  createAccount,
+  modifyAccountCredentials,
+} from "@convex-dev/auth/server";
 import type { GenericActionCtx } from "convex/server";
 
 import type { DataModel } from "../_generated/dataModel";

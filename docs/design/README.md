@@ -2,6 +2,7 @@
 
 - [Reference map](./reference-map.md) — product screens to kept Mobbin links
 - [Design system](./design-system.md) — locked
+- [Fonts](./fonts.md) — Clash Display + Satoshi load paths (mobile and web)
 - [UX Pilot flow prompts](./kindred-ux-pilot-flow-prompts.md) — one prompt per screen
 
 UX Pilot HTML exports:

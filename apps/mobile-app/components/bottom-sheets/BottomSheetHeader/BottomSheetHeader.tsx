@@ -28,13 +28,13 @@ const BottomSheetHeader: React.FC<BottomSheetHeaderProps> = ({
     <VStack
       align="center"
       justify="center"
-      className={cn("border-b border-b-border", title ? "p-[10px]" : "p-[3px]")}
+      className={cn("border-b-border border-b", title ? "p-[10px]" : "p-[3px]")}
     >
       {title && (
-        <Text className="font-app-medium text-[20px] text-white">{title}</Text>
+        <Text className="font-app-medium text-[20px] text-text">{title}</Text>
       )}
       {subtitle && (
-        <Text className="mt-4 font-app-medium text-[14px] text-lightGrey">
+        <Text className="mt-4 font-app-medium text-[14px] text-text/60">
           {subtitle}
         </Text>
       )}

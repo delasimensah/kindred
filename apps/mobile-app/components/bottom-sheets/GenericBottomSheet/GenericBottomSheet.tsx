@@ -69,13 +69,13 @@ const GenericBottomSheet = forwardRef<
     );
 
     const defaultBackgroundStyle = {
-      backgroundColor: COLORS.darkGrey,
+      backgroundColor: COLORS.text,
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
     };
 
     const defaultHandleIndicatorStyle = {
-      backgroundColor: COLORS.lightGrey,
+      backgroundColor: COLORS.surface,
       height: 2,
     };
 
@@ -97,11 +97,9 @@ const GenericBottomSheet = forwardRef<
               <VStack spacing="none" className="mb-4">
                 <VStack
                   spacing="none"
-                  className="mb-4 h-[2px] w-[40px] self-center rounded-full bg-lightGrey"
+                  className="mb-4 h-[2px] w-[40px] self-center rounded-full bg-surface"
                 />
-                <Text className="font-app-bold text-xl text-white">
-                  {title}
-                </Text>
+                <Text className="font-app-bold text-xl text-text">{title}</Text>
               </VStack>
             )}
             {children}

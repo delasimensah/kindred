@@ -5,7 +5,7 @@ import Text from "../../ui/Text/Text";
 
 const RoleWaitScreen: React.FC = () => {
   return (
-    <VStack align="center" justify="center" className="flex-1 bg-accent">
+    <VStack align="center" justify="center" className="bg-accent flex-1">
       <Text
         accessibilityRole="header"
         className="font-app-bold text-[32px] tracking-tight text-primary"

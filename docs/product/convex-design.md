@@ -2,7 +2,7 @@
 
 **Status:** Confirmed against live Convex (20 Sep 2026). Original approval 17 Sep 2026.
 **Date:** 17 Sep 2026
-**Companion to:** [system-design.md](./system-design.md) — that file is the *why* and the build order; this file is the *how* inside Convex.
+**Companion to:** [system-design.md](./system-design.md) — that file is the _why_ and the build order; this file is the _how_ inside Convex.
 
 Source of truth for product decisions is the studio practice pack lock (`00-locked-decisions.md`). Source of truth for what gets built is [product-requirements.md](./product-requirements.md). If this file disagrees with either, they win.
 
@@ -16,7 +16,7 @@ Terms defined once, used throughout:
 - **HTTP action** — a real URL on the Convex deployment that an outside service can send a request to.
 - **Webhook** — that outside service sending the request. RevenueCat posts to our HTTP action when a subscription changes.
 - **Index** — a pre-arranged ordering of a table so a query can jump straight to the rows it wants instead of reading the whole table.
-- **Vector search** — turning text into a list of numbers that captures its meaning (an *embedding*), then finding rows whose numbers sit close together. It is how "rainy evening highlife" matches a track that never uses those words.
+- **Vector search** — turning text into a list of numbers that captures its meaning (an _embedding_), then finding rows whose numbers sit close together. It is how "rainy evening highlife" matches a track that never uses those words.
 - **Entitlement** — the server's record that a person is currently a paying Supporter.
 - **Idempotent** — running the same request twice produces one result, not two. Required for anything the offline outbox replays.
 
@@ -64,7 +64,7 @@ Roles are not a separate table. They are derived:
 `canAccessTrack` answers the two-part question the whole product turns on:
 
 - If the track is `public` and not hidden and its state is `published`, anyone may play it, including a signed-out visitor.
-- If the track is `supporters`, the caller must have an **active entitlement** *and* an **active support route to that track's artist**. Being a paying supporter of somebody else is not enough.
+- If the track is `supporters`, the caller must have an **active entitlement** _and_ an **active support route to that track's artist**. Being a paying supporter of somebody else is not enough.
 - The artist who owns the track may always access their own tracks, including drafts and scheduled ones.
 - An admin may read metadata for moderation but does not get a special playback path.
 
@@ -481,7 +481,7 @@ It compares what it is given against the current row and only patches when somet
 3. Load the documents and drop everything the caller cannot access. This is the step that makes the lock's rule true: a mix can only contain tracks this person can actually play.
 4. Rank deterministically, in the order the lock specifies: tracks from **routed** artists first, then from **followed** artists, then general catalog, and within each band by vector similarity. Cap at one or two tracks per artist so a mix is not one artist's album.
 5. Take the top 15.
-6. Ask the LLM for two short things: a name for the mix and a one-line why, given the prompt and the resulting track and artist names. If that call fails or times out, fall back to a template ("Fifteen tracks leaning toward *{prompt}*, mostly from artists you back") and carry on. A failed LLM call must never fail the mix.
+6. Ask the LLM for two short things: a name for the mix and a one-line why, given the prompt and the resulting track and artist names. If that call fails or times out, fall back to a template ("Fifteen tracks leaning toward _{prompt}_, mostly from artists you back") and carry on. A failed LLM call must never fail the mix.
 7. Write the `mixes` row with a slug and return it.
 
 If the caller has zero playable tracks the mix is empty — which, per the lock, should never happen for a seeded demo account.

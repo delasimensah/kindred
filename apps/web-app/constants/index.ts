@@ -2,4 +2,4 @@
 
 export { COLORS } from "./colors";
 export { ASSETS } from "./assets";
-export { appfont } from "./fonts";
+export { appfont, clashDisplay, satoshi } from "./fonts";

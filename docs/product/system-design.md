@@ -46,7 +46,7 @@ What matters for architecture, pulled forward in one line each:
 The big ones are not scale. Kindred is a portfolio app with a small real audience. The big ones are **who can see what** and **whether the paid state is right**.
 
 **Highest — privacy of supporter lists and personal listening data.**
-An artist sees their own supporters and nobody else's. A supporter's routing choices, listening history, and email are private to them. Presence is deliberately a *number*, never a list of names, so "who is listening to me right now" cannot leak. These are enforced inside Convex functions, not by hiding user-interface elements.
+An artist sees their own supporters and nobody else's. A supporter's routing choices, listening history, and email are private to them. Presence is deliberately a _number_, never a list of names, so "who is listening to me right now" cannot leak. These are enforced inside Convex functions, not by hiding user-interface elements.
 
 **Highest — entitlement consistency.**
 Supporter status must be right in three awkward moments: right after purchase (the webhook may lag), after a reinstall (restore purchases), and after cancellation (exclusives must re-lock). One rule closes all three: the phone reports nothing, the server reads RevenueCat, the server writes the row, and every exclusive query re-reads that row. See section 6 of the Convex companion.
@@ -93,7 +93,7 @@ Audio streams out of Convex file storage. **Egress** means the bytes leaving the
 The `entitlements` row for a profile is written by exactly two code paths: the RevenueCat **webhook** (an HTTP request RevenueCat sends to our server when a subscription changes) and a server-side sync that calls RevenueCat's API directly when the webhook has not arrived yet. No client mutation writes it. Every query that returns exclusive audio, exclusive post bodies, or a downloadable file re-reads that row plus the routing rows. The failure mode to test for is not "the paywall looks wrong"; it is "a non-supporter got a playable URL."
 
 **2. Exclusives are per route, not per subscription.**
-Paying does not unlock the platform. It unlocks the one to five artists in that person's route set. So the access check is always two questions, never one: is this person entitled *right now*, and is *this artist* in their active route set? That check appears in track playback, post bodies, download requests, mix building, search results, and the public web pages. Write it once as a shared helper and call it everywhere. If it gets copy-pasted with a variation, that variation is the bug.
+Paying does not unlock the platform. It unlocks the one to five artists in that person's route set. So the access check is always two questions, never one: is this person entitled _right now_, and is _this artist_ in their active route set? That check appears in track playback, post bodies, download requests, mix building, search results, and the public web pages. Write it once as a shared helper and call it everywhere. If it gets copy-pasted with a variation, that variation is the bug.
 
 **3. Offline is a small distributed system on the phone.**
 Downloads are easy. The outbox is not. The phone will replay follows, reactions, listen events, and route changes that were queued while offline, and it will sometimes replay them twice (app killed mid-flush, flaky network, retry storm). The server must be **idempotent** — running the same request twice produces one result, not two. Kindred does this with a client-generated id on every queued write and a receipts table on the server that refuses to process the same id twice. Route changes are the sharp edge: two conflicting offline route edits must resolve to one final set, not a merge.
@@ -114,7 +114,7 @@ Kindred does not run on Amazon Web Services. The map stays in the design so the 
 - **Static site and web hosting** — Amazon CloudFront plus S3 → **Vercel**, hosting the Next.js app and the two link-verification files (`apple-app-site-association` and Digital Asset Links) that make universal links work.
 - **Queue and background work** — Amazon SQS plus Lambda → **Convex scheduled functions and crons**. Scheduled publish, quiet-hours push delivery, nightly rising-artist scoring, and monthly demo earnings all run here. No separate queue product on day one.
 - **Inbound webhook endpoint** — Amazon API Gateway plus Lambda → a **Convex HTTP action**, a real URL on the Convex deployment that RevenueCat can POST to.
-- **Search** — Amazon OpenSearch → **Convex full-text search index** for exact title and artist matching, plus **Convex vector index** for semantic results. **Vector search** means: turn text into a list of numbers that captures its meaning (an *embedding*), store it, and find tracks whose numbers sit close to the numbers for what the user typed. That is how "rainy evening highlife" can match a track that never uses those words.
+- **Search** — Amazon OpenSearch → **Convex full-text search index** for exact title and artist matching, plus **Convex vector index** for semantic results. **Vector search** means: turn text into a list of numbers that captures its meaning (an _embedding_), store it, and find tracks whose numbers sit close to the numbers for what the user typed. That is how "rainy evening highlife" can match a track that never uses those words.
 - **Push notifications** — Amazon SNS or Pinpoint → **Expo Push API**, with device tokens stored in Convex and quiet hours applied server-side before anything is sent.
 - **Subscriptions and billing** — no clean Amazon equivalent → **RevenueCat** in front of StoreKit and Play Billing. Apple and Google hold the money; RevenueCat normalises the two; Convex mirrors the result.
 - **Mobile build and distribution** — no Amazon equivalent → **EAS Build, Submit, and Update**, plus App Store Connect and Play Console.
@@ -138,7 +138,7 @@ A track carries its audio file, artwork, visibility (public or supporters-only),
 Follow is the prerequisite for routing, the input to the feed, and the targeting list for push. Listen events feed rising-artist ranking, impact stats, and fans-to-thank scoring.
 
 **Money.** `entitlements`, `supportRoutes`, `demoEarnings`.
-Entitlement says "this person is paying". Support routes say "to these one to five artists". Demo earnings is a written-forward monthly record of how that subscription *would* have split, clearly labelled as not a payout. Nothing here is ever written by a client mutation except the route change, and that one checks entitlement and follow first.
+Entitlement says "this person is paying". Support routes say "to these one to five artists". Demo earnings is a written-forward monthly record of how that subscription _would_ have split, clearly labelled as not a payout. Nothing here is ever written by a client mutation except the route change, and that one checks entitlement and follow first.
 
 **Personal collections.** `libraryItems`, `playlists`, `playlistEntries`, `mixes`.
 All private to the owning profile. No sharing in V1, except that a mix has a public URL for the share-link journey.
@@ -340,43 +340,43 @@ Scaffold from the studio template. Convex project, Convex Auth Password (fan sig
 
 **Phase 1 — Catalog and the seeded world.**
 Schema for artists, tracks, files, and follows. The seed pipeline, including the local peaks script and the image and audio manifests. Artist page, track list, library, and private playlists. This has to come first because every later phase needs something to look at.
-*Gate: none. This is the safe part.*
+_Gate: none. This is the safe part._
 
 **Phase 2 — The player, including the queue.**
 Audio playback with `expo-audio`, mini-player, now-playing, background audio and lock-screen controls, and the full queue behaviour from the lock: replace-on-play-from-context, play next, add to queue, reorder, remove, shuffle, repeat off/one/all, auto-skip locked tracks, stop at the end.
-*Gate: the background audio and lock-screen spike must pass on a real device before this phase's tickets start.*
+_Gate: the background audio and lock-screen spike must pass on a real device before this phase's tickets start._
 
 **Phase 3 — Craft technique one and two.**
 The interruptible mini-player to now-playing shared-element transition, and the Skia waveform scrubber reading the seeded peaks array. Both on the real screens from Phase 2.
-*Gate: none technically, but do not start until Phase 2 playback is stable, or you will debug two things at once.*
+_Gate: none technically, but do not start until Phase 2 playback is stable, or you will debug two things at once._
 
 **Phase 4 — Connection.**
 Follow, feed of update posts with locked shells, reactions, presence heartbeats, and listen events.
-*Gate: the presence spike (two devices, count moves, backgrounding decays it) confirms the 20-second / 60-second numbers in section 8 before the presence ticket.*
+_Gate: the presence spike (two devices, count moves, backgrounding decays it) confirms the 20-second / 60-second numbers in section 8 before the presence ticket._
 
 **Phase 5 — Push and deep links.**
 Expo push tokens in Convex, notification settings with quiet hours and per-artist mute, one release notification end to end, and deep links that open the right screen from a cold start.
-*Gate: two spikes, both on physical devices — push cold start, and one universal link opened from Notes or Safari. Associated Domains and Digital Asset Links files must be live on Vercel first.*
+_Gate: two spikes, both on physical devices — push cold start, and one universal link opened from Notes or Safari. Associated Domains and Digital Asset Links files must be live on Vercel first._
 
 **Phase 6 — Money.**
 RevenueCat paywall, the Convex webhook, the restore and sync path, routing one to five followed artists, exclusive gating everywhere, impact stats, and founding badges.
-*Gate: the RevenueCat spike must pass first — test webhook received, sandbox purchase, Convex row correct, app killed, restore works. Store paperwork must already be done.*
+_Gate: the RevenueCat spike must pass first — test webhook received, sandbox purchase, Convex row correct, app killed, restore works. Store paperwork must already be done._
 
 **Phase 7 — Offline.**
 Downloads, the downloads manager, the SQLite local store, airplane-mode playback, the degraded banner, and the outbox with idempotent replay.
-*Gate: the offline spike. If it shows the outbox is too large for the calendar, the lock's escape hatch is read-only offline downloads with the outbox moved to Later — and that requires editing the lock, not a quiet decision here.*
+_Gate: the offline spike. If it shows the outbox is too large for the calendar, the lock's escape hatch is read-only offline downloads with the outbox moved to Later — and that requires editing the lock, not a quiet decision here._
 
 **Phase 8 — Search, mix, and craft technique three and four.**
 Exact search first, then embeddings and semantic search, then the natural-language mix. In parallel, the shader visualizer with its low-power default and the iOS-quality sheet stack.
-*Gate: the vector spike (embed 20 seed tracks, confirm sensible neighbours) before semantic search and mix.*
+_Gate: the vector spike (embed 20 seed tracks, confirm sensible neighbours) before semantic search and mix._
 
 **Phase 9 — Artist Studio on web.**
 Studio home, profile editor, upload with browser peak generation, the copilot, releases list, scheduled publish, update composer with photo and voice note, supporters list, fans-to-thank, and demo earnings.
-*Gates: the peak-generation spike before the upload ticket, the AI fixture spike before the copilot and fans-to-thank tickets, the scheduled-publish spike before scheduling, and the Safari voice-note spike before the voice-note ticket.*
+_Gates: the peak-generation spike before the upload ticket, the AI fixture spike before the copilot and fans-to-thank tickets, the scheduled-publish spike before scheduling, and the Safari voice-note spike before the voice-note ticket._
 
 **Phase 10 — Artist request, admin, and the honest path.**
 The request-to-become-an-artist form on **mobile** account settings, the pending queue in admin, approve and decline, verify and unverify, hide and remove, and featured slots. After approve, the person signs into Artist Studio on web. This phase is what makes the demo-but-usable rule true: a stranger can become an artist without a seeded account.
-*Gate: none. Do not let this slip to the end and then get cut — it is a required path, not polish.*
+_Gate: none. Do not let this slip to the end and then get cut — it is a required path, not polish._
 
 **Phase 11 — Public web.**
 Artist, track, post, and mix pages; simple public player for public audio; locked shell + Get the app for exclusives; optional signed-out browse; install prompt and deep-link handoff. No fan account on web.

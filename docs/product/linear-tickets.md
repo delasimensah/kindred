@@ -1,4 +1,5 @@
 # Linear tickets — Kindred
+
 Build order for this product. Issues live on Linear team [Kindred](https://linear.app/dm-studios/team/KIND) (`KIND`). Assigned to Delasi Mensah.
 
 Projects:
@@ -26,8 +27,10 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 
 - Epics KIND-1–KIND-13 exist and stay open until children are Done.
 - Premature slices KIND-14–KIND-41 are **Canceled** (pre-screens). Left untouched.
-- First Version / Launch build slices **KIND-42–KIND-88** are **Todo**, assignee Delasi, under the correct epic.
+- **KIND-42** shared design tokens is **Done**.
+- Remaining First Version / Launch slices **KIND-43–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
 - Do not move a slice to In Progress until you ask to start it.
+- Next build slice: [KIND-43](https://linear.app/dm-studios/issue/KIND-43) (mobile email/password auth).
 
 ---
 
@@ -111,7 +114,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-1  
 **Project:** First Version  
-**Apps:** shared  
+**Apps:** shared
 
 **Goal:** Ship Kindred colors, radii, and font tokens in packages/shared so web and mobile cannot drift.
 
@@ -147,7 +150,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-1  
 **Project:** First Version  
-**Apps:** mobile, convex  
+**Apps:** mobile, convex
 
 **Goal:** A person creates an account and signs in on the Expo app only. No social login.
 
@@ -189,7 +192,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-1  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** mobile-auth  
+**Blocked by (slugs until Linear ids exist):** mobile-auth
 
 **Goal:** After first sign-up, onboarding collects genres then follows (min two) before the main tabs.
 
@@ -227,7 +230,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-1  
 **Project:** First Version  
-**Apps:** web, convex  
+**Apps:** web, convex
 
 **Goal:** Web auth is Studio/admin only. Responsive.
 
@@ -264,7 +267,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-1  
 **Project:** First Version  
-**Apps:** mobile, web, convex  
+**Apps:** mobile, web, convex
 
 **Goal:** Timeboxed spike. Written outcome: works / blocked / cut to Later.
 
@@ -295,7 +298,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-1  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** mobile-auth  
+**Blocked by (slugs until Linear ids exist):** mobile-auth
 
 **Goal:** Signed-in change password works regardless of Forgot-password spike.
 
@@ -330,7 +333,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-2  
 **Project:** First Version  
-**Apps:** convex  
+**Apps:** convex
 
 **Goal:** Tables and indexes for catalog exist so seed and UI can attach.
 
@@ -362,7 +365,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** convex  
-**Blocked by (slugs until Linear ids exist):** schema-catalog  
+**Blocked by (slugs until Linear ids exist):** schema-catalog
 
 **Goal:** Runnable seed creates the Accra/Lagos cast world with peaks and ACCESS-LIST-ready logins.
 
@@ -393,7 +396,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** mobile  
-**Blocked by (slugs until Linear ids exist):** tokens, mobile-auth  
+**Blocked by (slugs until Linear ids exist):** tokens, mobile-auth
 
 **Goal:** Four tabs (Home, Discover, Search, Library) with floating pill tab bar using expo-glass-effect / expo-blur per platform capability; mini-player slot present.
 
@@ -431,7 +434,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass  
+**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass
 
 **Goal:** Catalog browse for seeded artists/tracks with honest locked shells.
 
@@ -470,7 +473,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** artist-track-ui  
+**Blocked by (slugs until Linear ids exist):** artist-track-ui
 
 **Goal:** Library hub + playlists + liked + followed artists list.
 
@@ -514,7 +517,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass  
+**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass
 
 **Goal:** Discover shows featured slots and rising list; Follow is primary.
 
@@ -549,7 +552,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-3  
 **Project:** First Version  
-**Apps:** mobile  
+**Apps:** mobile
 
 **Goal:** Timeboxed spike on real iPhone and Android with expo-audio / Expo docs.
 
@@ -579,7 +582,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-3  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-bg-audio, artist-track-ui, mobile-shell-glass  
+**Blocked by (slugs until Linear ids exist):** spike-bg-audio, artist-track-ui, mobile-shell-glass
 
 **Goal:** Full V1 player bar without craft polish yet (waveform/visualizer later).
 
@@ -622,7 +625,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-4  
 **Project:** First Version  
 **Apps:** mobile  
-**Blocked by (slugs until Linear ids exist):** player-queue  
+**Blocked by (slugs until Linear ids exist):** player-queue
 
 **Goal:** Craft techniques 1–2 on the real player.
 
@@ -659,7 +662,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-5  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** discover, artist-track-ui  
+**Blocked by (slugs until Linear ids exist):** discover, artist-track-ui
 
 **Goal:** Home feed of followed artists’ updates; reactions on tracks; locked post shells.
 
@@ -696,7 +699,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-5  
 **Project:** First Version  
-**Apps:** mobile, convex  
+**Apps:** mobile, convex
 
 **Goal:** Confirm ~20s heartbeat / ~60s TTL behaviour on two devices.
 
@@ -725,7 +728,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-5  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-presence, player-queue  
+**Blocked by (slugs until Linear ids exist):** spike-presence, player-queue
 
 **Goal:** Presence is a number only, never a name list.
 
@@ -760,7 +763,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-7  
 **Project:** First Version  
-**Apps:** mobile  
+**Apps:** mobile
 
 **Goal:** One notification type cold-starts app on real iPhone and Android.
 
@@ -776,7 +779,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -787,7 +789,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-7  
 **Project:** First Version  
-**Apps:** mobile, web  
+**Apps:** mobile, web
 
 **Goal:** One universal link / App Link from Notes/Safari opens the right screen cold.
 
@@ -816,7 +818,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-7  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-push, follow-feed-react  
+**Blocked by (slugs until Linear ids exist):** spike-push, follow-feed-react
 
 **Goal:** Push tokens stored; settings for mute + quiet hours; release notification; thank-you card openable from push.
 
@@ -853,7 +855,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-6  
 **Project:** First Version  
-**Apps:** mobile, convex  
+**Apps:** mobile, convex
 
 **Goal:** Test webhook + sandbox purchase + Convex row + kill app + restore.
 
@@ -869,7 +871,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -881,7 +882,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-6  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-revenuecat  
+**Blocked by (slugs until Linear ids exist):** spike-revenuecat
 
 **Goal:** $4.99 and $9.99 identical entitlements; restore purchases.
 
@@ -918,7 +919,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-6  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** paywall, follow-feed-react  
+**Blocked by (slugs until Linear ids exist):** paywall, follow-feed-react
 
 **Goal:** Routing is the exclusive gate; equal split; caps enforced UI+server.
 
@@ -956,7 +957,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-6  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** routing-exclusives  
+**Blocked by (slugs until Linear ids exist):** routing-exclusives
 
 **Goal:** Impact shows this month’s split across routed artists + founding chips. Normal product copy (no demo banners).
 
@@ -993,7 +994,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-6  
 **Project:** First Version  
 **Apps:** mobile  
-**Blocked by (slugs until Linear ids exist):** paywall, change-password  
+**Blocked by (slugs until Linear ids exist):** paywall, change-password
 
 **Goal:** Account settings money rows.
 
@@ -1028,7 +1029,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-8  
 **Project:** First Version  
-**Apps:** mobile  
+**Apps:** mobile
 
 **Goal:** Spike outcome works / blocked / cut outbox to Later (requires lock edit if cut).
 
@@ -1044,7 +1045,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -1056,7 +1056,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-8  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-offline, routing-exclusives  
+**Blocked by (slugs until Linear ids exist):** spike-offline, routing-exclusives
 
 **Goal:** Downloads manager + offline play for entitled downloads; degraded banner; outbox if spike kept it.
 
@@ -1094,7 +1094,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-9  
 **Project:** First Version  
-**Apps:** convex  
+**Apps:** convex
 
 **Goal:** Embed ~20 seed tracks; neighbours look sensible.
 
@@ -1110,7 +1110,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -1122,7 +1121,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-9  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass  
+**Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass
 
 **Goal:** One search field; exact artist/track first; semantic below.
 
@@ -1158,7 +1157,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-9  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** spike-vector, player-queue  
+**Blocked by (slugs until Linear ids exist):** spike-vector, player-queue
 
 **Goal:** Make a mix prompt → result with one-line why → playback.
 
@@ -1195,7 +1194,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-4  
 **Project:** First Version  
 **Apps:** mobile  
-**Blocked by (slugs until Linear ids exist):** craft-miniplayer-waveform  
+**Blocked by (slugs until Linear ids exist):** craft-miniplayer-waveform
 
 **Goal:** Craft techniques 3–4.
 
@@ -1230,7 +1229,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-10  
 **Project:** First Version  
-**Apps:** web  
+**Apps:** web
 
 **Goal:** 6-minute mp3 peaks in Chrome and Safari; scrubber alignment check.
 
@@ -1258,7 +1257,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-10  
 **Project:** First Version  
-**Apps:** convex  
+**Apps:** convex
 
 **Goal:** Scheduler publishes a scheduled track when due.
 
@@ -1274,7 +1273,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -1285,7 +1283,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-10  
 **Project:** First Version  
-**Apps:** convex  
+**Apps:** convex
 
 **Goal:** Fixture/mocked AI path for tags/description/release note and fans-to-thank one-liner.
 
@@ -1301,7 +1299,6 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Do not:**
 
-
 **Where code lives:** follow repo app/convex/shared layout for this slice.
 
 ---
@@ -1312,7 +1309,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-10  
 **Project:** First Version  
-**Apps:** web  
+**Apps:** web
 
 **Goal:** Record voice note in Safari; fallback photo+text if fail.
 
@@ -1341,7 +1338,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-10  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** studio-auth, seed  
+**Blocked by (slugs until Linear ids exist):** studio-auth, seed
 
 **Goal:** Studio home + profile editor. Responsive.
 
@@ -1378,7 +1375,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-10  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** spike-peaks-web, studio-home-profile  
+**Blocked by (slugs until Linear ids exist):** spike-peaks-web, studio-home-profile
 
 **Goal:** Upload audio+artwork, peaks, publish/schedule, list with states. Responsive.
 
@@ -1418,7 +1415,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-10  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** studio-home-profile  
+**Blocked by (slugs until Linear ids exist):** studio-home-profile
 
 **Goal:** Update composer + list. Responsive. Voice only if spike passed.
 
@@ -1456,7 +1453,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-10  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** studio-home-profile, routing-exclusives  
+**Blocked by (slugs until Linear ids exist):** studio-home-profile, routing-exclusives
 
 **Goal:** Supporters list, fans-to-thank, earnings from routed subscriptions only. Responsive. No demo banners.
 
@@ -1498,7 +1495,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-11  
 **Project:** First Version  
 **Apps:** mobile, convex  
-**Blocked by (slugs until Linear ids exist):** account-money  
+**Blocked by (slugs until Linear ids exist):** account-money
 
 **Goal:** Request form + status chip none/pending/approved/declined.
 
@@ -1535,7 +1532,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-11  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** artist-request, studio-auth  
+**Blocked by (slugs until Linear ids exist):** artist-request, studio-auth
 
 **Goal:** Admin requests queue + artists list. Responsive.
 
@@ -1574,7 +1571,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-11  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** admin-requests-artists, discover  
+**Blocked by (slugs until Linear ids exist):** admin-requests-artists, discover
 
 **Goal:** Catalog moderation + featured discovery. Responsive.
 
@@ -1611,7 +1608,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-12  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** seed  
+**Blocked by (slugs until Linear ids exist):** seed
 
 **Goal:** Share URLs; simple public player; Get the app for locks. Responsive. No fan account.
 
@@ -1653,7 +1650,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-12  
 **Project:** First Version  
 **Apps:** web  
-**Blocked by (slugs until Linear ids exist):** public-pages, spike-deeplink  
+**Blocked by (slugs until Linear ids exist):** public-pages, spike-deeplink
 
 **Goal:** Signed-out browse + install. Responsive.
 
@@ -1691,7 +1688,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-2  
 **Project:** First Version  
 **Apps:** mobile, web  
-**Blocked by (slugs until Linear ids exist):** follow-feed-react, library-playlists  
+**Blocked by (slugs until Linear ids exist):** follow-feed-react, library-playlists
 
 **Goal:** Skeletons match layout; empty has next action; error has retry. Wire on already-shipped screens.
 
@@ -1730,7 +1727,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Epic:** KIND-13  
 **Project:** Launch  
-**Apps:** mobile, web  
+**Apps:** mobile, web
 
 **Goal:** Store packaging and demo packaging.
 

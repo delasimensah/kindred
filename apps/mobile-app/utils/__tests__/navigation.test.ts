@@ -6,23 +6,23 @@ describe("navigation utilities", () => {
   describe("defaultStackScreenOptions", () => {
     it("should have correct header style", () => {
       expect(defaultStackScreenOptions.headerStyle).toEqual({
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.page,
       });
     });
 
-    it("should have white header tint color", () => {
-      expect(defaultStackScreenOptions.headerTintColor).toBe(COLORS.darkGrey);
+    it("should have text header tint color", () => {
+      expect(defaultStackScreenOptions.headerTintColor).toBe(COLORS.text);
     });
 
     it("should have correct header title style", () => {
       expect(defaultStackScreenOptions.headerTitleStyle).toEqual({
-        fontFamily: "Template-Regular",
+        fontFamily: "Satoshi-Regular",
       });
     });
 
     it("should have correct content background color", () => {
       expect(defaultStackScreenOptions.contentStyle).toEqual({
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.page,
       });
     });
 
@@ -120,9 +120,9 @@ describe("navigation utilities", () => {
       };
 
       expect(customOptions.headerTitle).toBe("Custom Title");
-      expect(customOptions.headerTintColor).toBe(COLORS.darkGrey);
+      expect(customOptions.headerTintColor).toBe(COLORS.text);
       expect(customOptions.headerStyle).toEqual({
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.page,
       });
     });
 
@@ -143,7 +143,7 @@ describe("navigation utilities", () => {
       };
 
       expect(combinedOptions.presentation).toBe("modal");
-      expect(combinedOptions.headerTintColor).toBe(COLORS.darkGrey);
+      expect(combinedOptions.headerTintColor).toBe(COLORS.text);
     });
   });
 
@@ -155,18 +155,18 @@ describe("navigation utilities", () => {
       };
 
       expect(modalOptions.presentation).toBe("modal");
-      expect(modalOptions.headerTintColor).toBe(COLORS.darkGrey);
+      expect(modalOptions.headerTintColor).toBe(COLORS.text);
     });
 
     it("should preserve colors from constants", () => {
       expect(
         (defaultStackScreenOptions.contentStyle as { backgroundColor: string })
           ?.backgroundColor
-      ).toBe(COLORS.white);
+      ).toBe(COLORS.page);
       expect(
         (defaultStackScreenOptions.headerStyle as { backgroundColor: string })
           ?.backgroundColor
-      ).toBe(COLORS.white);
+      ).toBe(COLORS.page);
     });
   });
 });

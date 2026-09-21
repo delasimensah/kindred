@@ -7,11 +7,11 @@ const NotFoundScreen = () => {
     <>
       <Stack.Screen options={{ title: "Oops! Not Found" }} />
       <VStack align="center" justify="center" className="flex-1 bg-black p-5">
-        <Text className="font-font-bold mb-4 text-center text-xl text-white">
+        <Text className="mb-4 text-center font-app-bold text-xl text-text">
           This screen doesn&apos;t exist.
         </Text>
         <Link href="/" className="mt-4">
-          <Text className="text-base text-grey">Go to home screen!</Text>
+          <Text className="text-base text-text/60">Go to home screen!</Text>
         </Link>
       </VStack>
     </>

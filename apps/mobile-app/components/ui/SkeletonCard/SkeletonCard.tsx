@@ -41,7 +41,7 @@ const SkeletonCard: React.FC<SkeletonCardProps> = ({
           marginLeft: ml || 0,
           marginRight: mr || 0,
         }}
-        shimmerColors={[COLORS.border, COLORS.shimmerLight, COLORS.border]}
+        shimmerColors={[COLORS.surface, COLORS.surface, COLORS.surface]}
         width={width || 100}
         height={height || 15}
       />

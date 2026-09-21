@@ -1,4 +1,4 @@
-import { COLORS } from "@/constants";
+import { COLORS, FONTS } from "@/constants";
 
 /**
  * Default screen options for Stack navigator
@@ -6,14 +6,14 @@ import { COLORS } from "@/constants";
  */
 export const defaultStackScreenOptions = {
   headerStyle: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.page,
   },
-  headerTintColor: COLORS.darkGrey,
+  headerTintColor: COLORS.text,
   headerTitleStyle: {
-    fontFamily: "Template-Regular",
+    fontFamily: FONTS.regular,
   },
   contentStyle: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.page,
   },
 };
 

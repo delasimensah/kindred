@@ -35,21 +35,22 @@ try {
 }
 
 /** @type {import('tailwindcss').Config} */
-const { COLORS } = require("./constants/colors.ts");
-// Only import FONTS (font names), not FONT_LOADING_MAP (which requires .otf files)
+const { COLORS, RADII } = require("../../packages/shared/src/constants");
 let FONTS;
 try {
   const fontsModule = require("./constants/fonts.ts");
   FONTS = fontsModule.FONTS;
 } catch (e) {
-  // Fallback font names if fonts.ts can't be loaded
   console.warn("Could not load fonts.ts:", e.message);
   FONTS = {
-    light: "Font-Light",
-    regular: "Font-Regular",
-    medium: "Font-Medium",
-    bold: "Font-Bold",
-    black: "Font-Black",
+    light: "Satoshi-Light",
+    regular: "Satoshi-Regular",
+    medium: "Satoshi-Medium",
+    semibold: "Satoshi-Bold",
+    bold: "Satoshi-Bold",
+    black: "Satoshi-Black",
+    displaySemibold: "ClashDisplay-Semibold",
+    displayBold: "ClashDisplay-Bold",
   };
 }
 
@@ -62,27 +63,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        page: COLORS.page,
+        surface: COLORS.surface,
+        primary: COLORS.primary,
+        text: COLORS.text,
+        textOnPrimary: COLORS.textOnPrimary,
         white: COLORS.white,
         black: COLORS.black,
-        grey: COLORS.grey,
-        lightGrey: COLORS.lightGrey,
-        darkGrey: COLORS.darkGrey,
-        border: COLORS.border,
-        shimmerLight: COLORS.shimmerLight,
-        primary: COLORS.primary,
-        primaryHover: COLORS.primaryHover,
-        accent: COLORS.accent,
-        sidebar: COLORS.sidebar,
-        overdue: COLORS.overdue,
         danger: COLORS.danger,
-        dangerHover: COLORS.dangerHover,
+      },
+      borderRadius: {
+        input: `${RADII.input}px`,
+        card: `${RADII.card}px`,
+        button: `${RADII.button}px`,
+        capsule: `${RADII.full}px`,
       },
       fontFamily: {
         "app-light": [FONTS.light],
         "app-regular": [FONTS.regular],
         "app-medium": [FONTS.medium],
+        "app-semibold": [FONTS.semibold],
         "app-bold": [FONTS.bold],
         "app-black": [FONTS.black],
+        "display-semibold": [FONTS.displaySemibold],
+        "display-bold": [FONTS.displayBold],
       },
     },
   },

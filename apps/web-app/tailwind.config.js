@@ -39,7 +39,7 @@ try {
 }
 
 /** @type {import('tailwindcss').Config} */
-const { COLORS } = require("./constants/colors.ts");
+const { COLORS, RADII } = require("../../packages/shared/src/constants");
 
 module.exports = {
   content: [
@@ -49,26 +49,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        page: COLORS.page,
+        surface: COLORS.surface,
+        primary: COLORS.primary,
+        text: COLORS.text,
+        textOnPrimary: COLORS.textOnPrimary,
         white: COLORS.white,
         black: COLORS.black,
-        primary: COLORS.primary,
-        primaryHover: COLORS.primaryHover,
-        accent: COLORS.accent,
-        grey: COLORS.grey,
-        lightGrey: COLORS.lightGrey,
-        darkGrey: COLORS.darkGrey,
-        border: COLORS.border,
-        sidebar: COLORS.sidebar,
-        shimmerLight: COLORS.shimmerLight,
-        overdue: COLORS.overdue,
         danger: COLORS.danger,
-        dangerHover: COLORS.dangerHover,
+      },
+      borderRadius: {
+        input: `${RADII.input}px`,
+        card: `${RADII.card}px`,
+        button: `${RADII.button}px`,
+        capsule: `${RADII.full}px`,
       },
       boxShadow: {
-        card: `0 8px 24px color-mix(in srgb, ${COLORS.darkGrey} 14%, transparent), 0 2px 6px color-mix(in srgb, ${COLORS.darkGrey} 8%, transparent)`,
+        card: `0 8px 24px color-mix(in srgb, ${COLORS.page} 40%, transparent), 0 2px 6px color-mix(in srgb, ${COLORS.page} 24%, transparent)`,
       },
       fontFamily: {
-        appFont: ["var(--app-font)", "system-ui", "sans-serif"],
+        ui: ["var(--font-ui)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-ui)", "system-ui", "sans-serif"],
+        appFont: ["var(--font-ui)", "system-ui", "sans-serif"],
       },
     },
   },

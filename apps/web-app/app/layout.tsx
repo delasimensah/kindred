@@ -8,7 +8,7 @@ import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import type { Metadata } from "next";
 import React from "react";
 
-import { appfont } from "@/constants";
+import { clashDisplay, satoshi } from "@/constants";
 
 import { Providers } from "./providers";
 
@@ -26,14 +26,14 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html
       lang="en"
-      className={appfont.variable}
+      className={`${satoshi.variable} ${clashDisplay.variable}`}
       {...mantineHtmlProps}
       suppressHydrationWarning
     >
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </head>
-      <body className="bg-black font-appFont text-white">
+      <body className="bg-page font-ui text-text">
         <Providers>{children}</Providers>
       </body>
     </html>

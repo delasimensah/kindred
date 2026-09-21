@@ -12,7 +12,7 @@ interface TextComponentProps extends TextProps {
 const Text = ({ className, children, ...props }: TextComponentProps) => {
   return (
     <MantineText
-      className={cn("font-appFont text-base text-darkGrey", className)}
+      className={cn("font-appFont text-base text-text", className)}
       {...(props as TextProps)}
     >
       {children}

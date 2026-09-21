@@ -26,7 +26,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   icon,
 }) => {
   const defaultIcon = (
-    <Ionicons name="folder-outline" size={64} color={COLORS.lightGrey} />
+    <Ionicons name="folder-outline" size={64} color={COLORS.surface} />
   );
 
   return (
@@ -41,11 +41,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
         <VStack spacing="sm" align="center">
           {title && (
-            <Text className="text-center font-app-black text-xl text-black">
+            <Text className="text-center font-app-black text-xl text-text">
               {title}
             </Text>
           )}
-          <Text className="text-center font-app-regular text-base text-black/80">
+          <Text className="text-center font-app-regular text-base text-text/60">
             {subtitle}
           </Text>
         </VStack>

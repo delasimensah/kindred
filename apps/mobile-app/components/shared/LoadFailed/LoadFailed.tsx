@@ -12,7 +12,7 @@ interface LoadFailedProps {
 const LoadFailed: React.FC<LoadFailedProps> = ({ message, onRetry }) => {
   return (
     <VStack align="center" justify="center" className="flex-1 px-4 py-20">
-      <Text className="mb-6 text-center font-app-medium text-grey">
+      <Text className="mb-6 text-center font-app-medium text-text/60">
         {message}
       </Text>
       <Button text="Try again" onPress={onRetry} />

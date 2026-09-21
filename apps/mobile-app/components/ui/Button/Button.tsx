@@ -51,11 +51,11 @@ const variantStyles: Record<
 > = {
   primary: {
     container: "bg-primary",
-    text: "text-white",
+    text: "text-textOnPrimary",
   },
   secondary: {
-    container: "bg-secondary",
-    text: "text-white",
+    container: "bg-surface",
+    text: "text-text",
   },
   outline: {
     container: "border border-primary bg-transparent",
@@ -71,7 +71,7 @@ const variantStyles: Record<
   },
   danger: {
     container: "bg-danger",
-    text: "text-white",
+    text: "text-text",
   },
 };
 
@@ -144,11 +144,11 @@ const Button: React.FC<ButtonProps> = ({
         <ActivityIndicator
           size="small"
           color={
-            variant === "primary" ||
-            variant === "secondary" ||
-            variant === "danger"
-              ? COLORS.white
-              : COLORS.black
+            variant === "primary"
+              ? COLORS.textOnPrimary
+              : variant === "secondary" || variant === "danger"
+                ? COLORS.text
+                : COLORS.primary
           }
           testID="button-loading"
         />

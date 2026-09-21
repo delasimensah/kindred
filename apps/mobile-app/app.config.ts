@@ -100,15 +100,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-splash-screen",
       {
-        ios: {
+        backgroundColor: BRAND_COLOR,
+        image: ASSET_PATHS.splashIcon,
+        imageWidth: 200,
+        resizeMode: "contain",
+        dark: {
           backgroundColor: BRAND_COLOR,
           image: ASSET_PATHS.splashIcon,
-          resizeMode: "cover",
-        },
-        android: {
-          backgroundColor: BRAND_COLOR,
-          image: ASSET_PATHS.splashIcon,
-          imageWidth: 150,
         },
       },
     ],

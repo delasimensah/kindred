@@ -10,9 +10,12 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Workshop — blank-slate scaffold (no auth UI). Vercel redeploy after push. Next: Expo.
-- **Last updated:** 2026-09-19
-- **Blocked / open:** None.
+- **Current phase:** Build — First Version slices KIND-42–KIND-88 are Todo on Linear.
+- **Last updated:** 2026-09-21
+- **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
+  - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
+  - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
+  - Offline retry queue: explain at KIND-68 time; if we cut it, edit the lock with Delasi first.
 
 ---
 
@@ -20,7 +23,7 @@
 
 - [x] Discovery / lock (own product — practice pack)
 - [x] Questionnaire
-- [x] Product requirements locked — `docs/product/product-requirements.md`
+- [x] Product requirements locked — `docs/product/product-requirements.md` (amended 20 Sep 2026: no fan account on web)
 - [x] Workshop treated as open (no invoice for own product)
 
 ---
@@ -31,19 +34,24 @@
 - [x] Private GitHub repo (`delasimensah/kindred`)
 - [x] Linear team + GitHub connection
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
-- [ ] Expo / EAS (mobile)
-- [ ] Slack workshop channel `#kindred` + bots
-- [ ] Backend cloud (Convex) — thin project + env on local / Vercel / EAS
-- [x] Access list (`ACCESS-LIST.md`) — GitHub recorded; fill Vercel URL if missing
-- [ ] Preview cooks working (web + phone as needed)
+- [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
+- [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
+- [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS
+- [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack, Vercel, Convex
+- [ ] Preview cooks working (web + phone as needed) — web redeployed with Convex URL; phone when you open Expo
 
 ---
 
 ## Product path
 
-- [x] System design (approved in studio practice pack; copy into `docs/product/` after Convex cloud)
-- [ ] Screen design
-- [ ] Linear build tickets (epics exist; full slices after screens)
+- [x] System design — confirmed 20 Sep 2026 vs live `kindred` Convex; copies in `docs/product/system-design.md` + `convex-design.md`
+- [x] Screen design exports — 54 UX Pilot HTML screens in `docs/design/exports/` (mobile + web); keepers + design system locked; no fan web account
+  - Index: `docs/design/exports/README.md`
+  - Mobile: https://uxpilot.ai/a/ui-design?page=d8OlN72DRdgN9bfneeWJ
+  - Web: https://uxpilot.ai/a/ui-design?page=xQqMNOic1uI1n729QFUr
+  - Archived (out of V1): fan Sign In, fan Account Settings
+- [x] Screen design lock — locked enough to build from (21 Sep 2026); refine only if a ticket is blocked by a broken screen
+- [x] Linear build tickets — KIND-42–KIND-88 created as Todo under epics KIND-1–KIND-13 (canceled KIND-14–KIND-41 left untouched); map in `docs/product/_linear-id-map.json`
 - [ ] Build / demos / TestFlight / Play
 - [ ] Launch
 
@@ -51,7 +59,7 @@
 
 ## Next action (one line)
 
-Confirm Vercel production deploy of the corrected scaffold is green. Then workshop Expo tick.
+Start the first Todo (KIND-42 shared design tokens) when Delasi asks.
 
 ---
 
@@ -60,3 +68,12 @@ Confirm Vercel production deploy of the corrected scaffold is green. Then worksh
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`
+- Linear tickets: `docs/product/linear-tickets.md`
+- Screen keepers (locked): `docs/design/reference-map.md`
+- Design system (locked): `docs/design/design-system.md` — soft gold `#FFD369` on charcoal
+- Design index: `docs/design/README.md`
+- HTML exports: `docs/design/exports/` (see `exports/README.md`)
+- Palette preview kept: `docs/design/palette-previews/kindred-palette-locked.png`
+- System design: `docs/product/system-design.md`
+- Convex design: `docs/product/convex-design.md`
+- Convex dashboard: https://dashboard.convex.dev/t/dm-studios/kindred

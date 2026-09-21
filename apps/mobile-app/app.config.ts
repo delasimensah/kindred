@@ -2,10 +2,13 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 const ASSET_PATHS = {
   appIcon: "./assets/icons/icon.png",
+  appIconForeground: "./assets/icons/icon-foreground.png",
+  /** iOS 26+ Liquid Glass (Icon Composer). Older iOS falls back automatically. */
+  appIconIos: "./assets/icons/kindred.icon",
   splashIcon: "./assets/icons/splash-icon.png",
 };
 
-const BRAND_COLOR = "#222831";
+const BRAND_COLOR = "#222831"; // COLORS.page
 
 const IS_DEV = process.env.APP_VARIANT === "development";
 const IS_STAGING = process.env.APP_VARIANT === "staging";
@@ -45,7 +48,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     ...config.ios,
     bundleIdentifier: getUniqueIdentifier(),
-    icon: ASSET_PATHS.appIcon,
+    icon: ASSET_PATHS.appIconIos,
     supportsTablet: true,
     infoPlist: {
       ...config.ios?.infoPlist,
@@ -56,7 +59,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ...config.android,
     package: getUniqueIdentifier(),
     adaptiveIcon: {
-      foregroundImage: ASSET_PATHS.appIcon,
+      foregroundImage: ASSET_PATHS.appIconForeground,
       backgroundColor: BRAND_COLOR,
     },
     predictiveBackGestureEnabled: false,

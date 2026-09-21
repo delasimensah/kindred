@@ -34,7 +34,7 @@ Kindred is still a patronage app. Discovery and artist pages lead with **Follow*
 
 These screens are layouts we can ship on Kindred’s Expo 57 app, not Apple Music clones. Libraries below are either already in `apps/mobile-app` or are the ones the system design already named for later tickets (`expo-audio`, Skia). We do not invent a third stack.
 
-**True liquid glass** is Apple’s frosted, light-bending material. Expo exposes it as `GlassView` in `expo-glass-effect`. It only runs on **iOS 26 and up**. On older iPhone and on Android it becomes a normal view, so those builds use `expo-blur` (`BlurView`) instead. That matches the product lock: iOS is the craft bar; Android is functional, not pixel-perfect.
+**True liquid glass** is Apple’s frosted, light-bending material. Expo exposes it as `GlassView` in `expo-glass-effect`. It only runs on **iOS 26 and up**. On older iPhone and on Android it becomes a normal view, so those builds use `expo-blur` (`BlurView`) instead. That matches the product lock: iOS is the craft bar; Android is functional, not pixel-perfect. Both packages are installed in `apps/mobile-app` for the durable EAS client.
 
 **Tab bar and mini-player (the Apple Music chrome)**
 
@@ -46,8 +46,8 @@ These screens are layouts we can ship on Kindred’s Expo 57 app, not Apple Musi
 
 **Now-playing craft (already in the product lock)**
 
-- Playback: `expo-audio` (background + lock screen). Not in the app yet; added on the player tickets.
-- Waveform: `@shopify/react-native-skia`, drawn from stored peaks. Never decode audio on the phone.
+- Playback: `expo-audio` (background + lock screen). Installed in `apps/mobile-app`; wire on the player tickets.
+- Waveform: `@shopify/react-native-skia`, drawn from stored peaks. Installed; use on the player craft tickets. Never decode audio on the phone.
 - Visualizer: Skia runtime shader, default off in low power.
 - Queue reorder: `react-native-gesture-handler` + Reanimated drag on a FlashList. No extra native module.
 

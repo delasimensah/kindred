@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-42 Done; app icon on main; next native libs + EAS development/preview, then KIND-43.
+- **Current phase:** Build — KIND-42 Done; app icon + V1 native libs on main; next EAS development/preview, then KIND-43.
 - **Last updated:** 2026-09-21
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -36,6 +36,7 @@
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
 - [x] App icon + splash — SnapAI candidate `02`; assets under `apps/mobile-app/assets/icons/`; page colour `#222831` in `app.config.ts`
+- [x] V1 native libs (SDK 57) — glass/blur, audio, Skia, notifications, RevenueCat, symbols, `@expo/ui`; plugins in `app.config.ts`
 - [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
 - [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS
 - [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack, Vercel, Convex
@@ -61,7 +62,7 @@
 
 ## Next action (one line)
 
-Install Kindred V1 native libs on SDK 57, then EAS development + preview builds. After that, KIND-43 when asked.
+EAS development + preview builds (phone install). After that, KIND-43 when asked.
 
 ---
 

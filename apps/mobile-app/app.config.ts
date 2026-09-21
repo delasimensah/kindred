@@ -67,6 +67,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-secure-store",
     "expo-font",
     "expo-image",
+    "expo-asset",
     [
       "expo-image-picker",
       {
@@ -75,6 +76,25 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         cameraPermission:
           "Kindred uses the camera so you can take a profile picture or release artwork.",
         microphonePermission: false,
+      },
+    ],
+    [
+      "expo-audio",
+      {
+        // Fans listen only — no mic / recording in V1.
+        microphonePermission: false,
+        recordAudioAndroid: false,
+        enableBackgroundPlayback: true,
+        enableBackgroundRecording: false,
+      },
+    ],
+    [
+      "expo-notifications",
+      {
+        color: "#FFD369",
+        defaultChannel: "default",
+        // Needed so a release push can wake a cold app and deep-link (KIND-60).
+        enableBackgroundRemoteNotifications: true,
       },
     ],
     [

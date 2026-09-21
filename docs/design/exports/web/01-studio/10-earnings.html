@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Earnings</title>
@@ -86,131 +84,130 @@
   <main id="main-content" class="flex-1 px-10 py-9">
 
     <!-- Header -->
-    <div id="page-header" class="mb-6">
-      <h1 class="text-[28px] font-display font-medium text-text leading-tight">Earnings</h1>
-      <p class="text-sm text-text/50 mt-1.5">A look at what your catalogue has generated.</p>
-    </div>
-
-    <!-- Disclaimer banner -->
-    <div id="demo-disclaimer-banner" class="flex items-start gap-3 bg-primary/15 border border-primary/40 rounded-2xl px-6 py-4 mb-8">
-      <i class="fa-solid fa-triangle-exclamation text-primary mt-0.5"></i>
-      <p class="text-sm text-primary leading-relaxed">
-        <span class="font-semibold">Demo earnings.</span> The figures on this page are illustrative only and do not represent a real payout. No funds have been transferred.
-      </p>
+    <div id="page-header" class="mb-8 flex items-start justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="text-[28px] font-display font-medium text-text leading-tight">Earnings</h1>
+        <p class="text-sm text-text/50 mt-1.5">Your share of supporter subscriptions routed to you this month.</p>
+      </div>
+      
     </div>
 
     <!-- Total earnings -->
-    <div id="total-earnings-card" class="bg-surface rounded-2xl border border-white/5 p-8 mb-8">
+    <div id="total-earnings-card" class="bg-surface rounded-2xl border border-white/5 p-8 mb-6">
       <div class="flex items-end justify-between flex-wrap gap-4">
         <div>
-          <p class="text-xs uppercase tracking-wider text-text/45 mb-2">Total earnings</p>
+          <p class="text-xs uppercase tracking-wider text-text/45 mb-2">This month · September</p>
           <p class="font-display text-[56px] leading-none text-text">$482.00</p>
-          <p class="text-xs text-text/40 mt-3">Demo earnings · September — not a real payout</p>
+          <p class="text-sm text-text/45 mt-3">Your share of supporter subscriptions routed to you</p>
         </div>
-        <div class="flex items-center gap-6">
-          <div class="text-right">
-            <p class="text-xs text-text/40 mb-1">This month</p>
-            <p class="text-sm font-semibold text-emerald-400"><i class="fa-solid fa-arrow-up text-[10px] mr-1"></i>12.4%</p>
-          </div>
-          <button id="export-btn" class="flex items-center gap-2 text-sm font-medium text-text/70 border border-white/10 px-5 py-3 rounded-xl hover:bg-white/5 transition">
-            <i class="fa-solid fa-download text-xs"></i> Export report
-          </button>
+        <div class="text-right">
+          <p class="text-xs text-text/40 mb-1">vs. August</p>
+          <p class="text-sm font-semibold text-emerald-400"><i class="fa-solid fa-arrow-up text-[10px] mr-1"></i>12.4%</p>
         </div>
       </div>
     </div>
 
-    <!-- Breakdown metrics -->
-    <div id="breakdown-metrics" class="grid grid-cols-3 gap-5 mb-8">
+    <!-- Two metrics: From supporters / Store fees -->
+    <div id="breakdown-metrics" class="grid grid-cols-2 gap-5 mb-6">
       <div id="metric-supporter-earnings" class="bg-surface rounded-2xl border border-white/5 px-6 py-6">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-xs uppercase tracking-wider text-text/45">Supporter contributions</span>
+          <span class="text-xs uppercase tracking-wider text-text/45">From supporters</span>
           <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
             <i class="fa-solid fa-heart text-primary text-xs"></i>
           </div>
         </div>
-        <p class="font-display text-[28px] leading-none text-text">$318.00</p>
-        <p class="text-xs text-text/40 mt-3">66% of total</p>
+        <p class="font-display text-[28px] leading-none text-text">$482.00</p>
+        <p class="text-xs text-text/40 mt-3">Your share of the artist pool from 214 supporter subscriptions</p>
       </div>
-      <div id="metric-streaming-earnings" class="bg-surface rounded-2xl border border-white/5 px-6 py-6">
+      <div id="metric-store-fees" class="bg-surface rounded-2xl border border-white/5 px-6 py-6">
         <div class="flex items-center justify-between mb-4">
-          <span class="text-xs uppercase tracking-wider text-text/45">Streaming payouts</span>
-          <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <i class="fa-solid fa-play text-primary text-xs"></i>
+          <span class="text-xs uppercase tracking-wider text-text/45">Store fees (30%)</span>
+          <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
+            <i class="fa-solid fa-receipt text-text/60 text-xs"></i>
           </div>
         </div>
-        <p class="font-display text-[28px] leading-none text-text">$126.50</p>
-        <p class="text-xs text-text/40 mt-3">26% of total</p>
+        <p class="font-display text-[28px] leading-none text-text/70">$206.57</p>
+        <p class="text-xs text-text/40 mt-3">Deducted from subscription revenue before the artist pool splits</p>
       </div>
-      <div id="metric-tips-earnings" class="bg-surface rounded-2xl border border-white/5 px-6 py-6">
-        <div class="flex items-center justify-between mb-4">
-          <span class="text-xs uppercase tracking-wider text-text/45">Tips</span>
-          <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-            <i class="fa-solid fa-mug-hot text-primary text-xs"></i>
+    </div>
+
+    <!-- How it's calculated -->
+    <div id="how-it-works-panel" class="bg-surface rounded-2xl border border-white/5 p-7 mb-8">
+      <div class="flex items-center gap-2 mb-5">
+        <i class="fa-solid fa-circle-info text-primary text-sm"></i>
+        <h2 class="text-base font-semibold text-text">How it's calculated</h2>
+      </div>
+      <div class="grid grid-cols-3 gap-6">
+        <div class="flex gap-4">
+          <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+            <span class="font-display text-primary text-sm">70%</span>
           </div>
+          <p class="text-sm text-text/60 leading-relaxed">Of every supporter's monthly plan goes into the artist pool after store fees.</p>
         </div>
-        <p class="font-display text-[28px] leading-none text-text">$37.50</p>
-        <p class="text-xs text-text/40 mt-3">8% of total</p>
+        <div class="flex gap-4">
+          <div class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-scale-balanced text-text/60 text-sm"></i>
+          </div>
+          <p class="text-sm text-text/60 leading-relaxed">The pool splits equally across every artist that supporter has routed to.</p>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-user-check text-text/60 text-sm"></i>
+          </div>
+          <p class="text-sm text-text/60 leading-relaxed">You get your equal share for every plan where you're one of the routed artists.</p>
+        </div>
       </div>
     </div>
 
     <!-- Monthly breakdown chart -->
     <div id="monthly-breakdown-section" class="bg-surface rounded-2xl border border-white/5 p-7 mb-8">
       <div class="flex items-center justify-between mb-2">
-        <h2 class="text-lg font-semibold text-text">Breakdown by month</h2>
-        <span class="text-xs text-text/35">Demo data</span>
+        <h2 class="text-lg font-semibold text-text">Monthly totals</h2>
+        <span class="text-xs text-text/35">Your earnings from routed supporters</span>
       </div>
-      <div id="earnings-chart" style="height: 360px;"></div>
+      <div id="earnings-chart" style="height: 320px;"></div>
     </div>
 
     <!-- Monthly table -->
     <div id="monthly-table-section" class="bg-surface rounded-2xl border border-white/5 overflow-hidden">
-      <div id="monthly-table-head" class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-3 border-b border-white/5 text-xs uppercase tracking-wider text-text/40">
+      <div id="monthly-table-head" class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-3 border-b border-white/5 text-xs uppercase tracking-wider text-text/40">
         <span>Month</span>
-        <span>Supporters</span>
-        <span>Streaming</span>
-        <span>Total</span>
+        <span>Supporters routed</span>
+        <span>Earnings</span>
       </div>
       <div id="monthly-table-body" class="divide-y divide-white/5">
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">September</span>
-          <span class="text-sm text-text/60">$318.00</span>
-          <span class="text-sm text-text/60">$126.50</span>
+          <span class="text-sm text-text/60">214</span>
           <span class="text-sm font-semibold text-primary">$482.00</span>
         </div>
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">August</span>
-          <span class="text-sm text-text/60">$284.00</span>
-          <span class="text-sm text-text/60">$111.00</span>
+          <span class="text-sm text-text/60">198</span>
           <span class="text-sm font-semibold text-text/80">$429.00</span>
         </div>
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">July</span>
-          <span class="text-sm text-text/60">$255.00</span>
-          <span class="text-sm text-text/60">$98.00</span>
+          <span class="text-sm text-text/60">181</span>
           <span class="text-sm font-semibold text-text/80">$389.50</span>
         </div>
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">June</span>
-          <span class="text-sm text-text/60">$210.00</span>
-          <span class="text-sm text-text/60">$86.00</span>
+          <span class="text-sm text-text/60">156</span>
           <span class="text-sm font-semibold text-text/80">$322.00</span>
         </div>
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">May</span>
-          <span class="text-sm text-text/60">$192.00</span>
-          <span class="text-sm text-text/60">$74.00</span>
+          <span class="text-sm text-text/60">141</span>
           <span class="text-sm font-semibold text-text/80">$291.00</span>
         </div>
-        <div class="grid grid-cols-[1fr_1fr_1fr_1fr] items-center px-6 py-4">
+        <div class="grid grid-cols-[1fr_1fr_1fr] items-center px-6 py-4">
           <span class="text-sm font-medium text-text">April</span>
-          <span class="text-sm text-text/60">$168.00</span>
-          <span class="text-sm text-text/60">$65.00</span>
+          <span class="text-sm text-text/60">124</span>
           <span class="text-sm font-semibold text-text/80">$254.50</span>
         </div>
       </div>
     </div>
-
-    <p id="footer-disclaimer" class="text-xs text-text/35 mt-6 text-center">All figures on this page are demo earnings for preview purposes only and are not a real payout.</p>
 
   </main>
 </div>
@@ -219,36 +216,26 @@
 window.addEventListener('load', function () {
   try {
     const months = ['April', 'May', 'June', 'July', 'August', 'September'];
-    const supporters = [168.00, 192.00, 210.00, 255.00, 284.00, 318.00];
-    const streaming = [65.00, 74.00, 86.00, 98.00, 111.00, 126.50];
+    const totals = [254.50, 291.00, 322.00, 389.50, 429.00, 482.00];
 
     const data = [
       {
         type: 'bar',
-        name: 'Supporter contributions',
+        name: 'Earnings from supporters',
         x: months,
-        y: supporters,
+        y: totals,
         marker: { color: '#FFD369' }
-      },
-      {
-        type: 'bar',
-        name: 'Streaming payouts',
-        x: months,
-        y: streaming,
-        marker: { color: '#EEEEEE', opacity: 0.35 }
       }
     ];
 
     const layout = {
-      barmode: 'stack',
       font: { color: '#EEEEEE', family: 'Satoshi, Space Grotesk, sans-serif' },
       plot_bgcolor: '#393E46',
       paper_bgcolor: '#393E46',
       margin: { t: 20, r: 20, b: 40, l: 50 },
       xaxis: { gridcolor: 'rgba(238,238,238,0.06)' },
       yaxis: { gridcolor: 'rgba(238,238,238,0.06)', tickprefix: '$' },
-      legend: { orientation: 'h', y: -0.2 },
-      showlegend: true
+      showlegend: false
     };
 
     Plotly.newPlot('earnings-chart', data, layout, { responsive: true, displayModeBar: false, displaylogo: false });
@@ -258,5 +245,5 @@ window.addEventListener('load', function () {
 });
 </script>
 
-</body>
-</html>
+
+</body></html>

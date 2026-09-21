@@ -2,9 +2,11 @@
 
 Locked design system: [design-system.md](./design-system.md). Screen list: [product-requirements.md](../product/product-requirements.md) §9. Layout language from [reference-map.md](./reference-map.md).
 
-**Status:** prompts filled 20 Sep 2026; amended same day — **no fan account on web** (Studio + public + admin only). Before generating, set font (Satoshi + Clash Display if available) and colors (`#222831`, `#FFD369`, `#EEEEEE`) in UX Pilot.
+**Status:** prompts filled 20 Sep 2026; amended same day — **no fan account on web**; amended again — **no “demo” / “not a real payout” copy in any screen UI**. Before generating, set font (Satoshi + Clash Display if available) and colors (`#222831`, `#FFD369`, `#EEEEEE`) in UX Pilot.
 
-**Demo cast (never “test user” or “Artist 1”):** Fan/supporter Efua Boateng (**mobile only**). Hero artists Amaara Mensah (Accra), Kweku Darko (Kumasi), Sela Okoro (Lagos). Also Téwá Nkrumah, Leye Ade. Studio signed in as Amaara Mensah. Admin Delasi Mensah. Money USD. Wordmark Kindred.
+**Cast (never “test user” or “Artist 1”):** Fan/supporter Efua Boateng (**mobile only**). Hero artists Amaara Mensah (Accra), Kweku Darko (Kumasi), Sela Okoro (Lagos). Also Téwá Nkrumah, Leye Ade. Studio signed in as Amaara Mensah. Admin Delasi Mensah. Money USD. Wordmark Kindred.
+
+**UI copy rule:** Screens show a finished product. Never put “demo”, “Demo earnings”, “demo figures”, “not a real payout”, “illustrative only”, or portfolio/disclaimer banners in the design. Only features that exist in V1 appear.
 
 **How to run:** Create flow “Kindred — Mobile” and “Kindred — Web”. Paste the matching Shared context once. Add screens in order below; paste each Screen prompt in full. Only **tab roots** say “Tab bar visible”. Stack, modal, sheet, auth = “No tab bar”. Web fan sign-in / sign-up / account screens are **out** — do not generate them.
 
@@ -19,8 +21,8 @@ Locked design system: [design-system.md](./design-system.md). Screen list: [prod
 - **Type:** Clash Display 600/700 display; Satoshi 400/500/600/700 UI
 - **Layout:** row padding 8–12px; sections 20–24px; radius 12px cards/buttons, 10px inputs, capsule pills; soft lift under glass only; 44px targets
 - **Differentiator:** Dark mode
-- **Anti-style:** No purple/lavender gradients; no cream+terracotta; no Apple red / Spotify green / SoundCloud orange / teal; no coffee-brown page; no fake solid glass; no lyrics, tip jars, social login, 3D mascots, “test user”
-- **Out of every screen:** lyrics, AutoMix, Family plan, music video, podcasts, tip jar, comments, DMs, social login, CarPlay
+- **Anti-style:** No purple/lavender gradients; no cream+terracotta; no Apple red / Spotify green / SoundCloud orange / teal; no coffee-brown page; no fake solid glass; no lyrics, tip jars, social login, 3D mascots, “test user”, no “demo” / payout-disclaimer UI copy
+- **Out of every screen:** lyrics, AutoMix, Family plan, music video, podcasts, tip jar, comments, DMs, social login, CarPlay, streaming payouts, tips as earnings lines, any “demo” or “not a real payout” labels
 
 ---
 
@@ -28,11 +30,11 @@ Locked design system: [design-system.md](./design-system.md). Screen list: [prod
 
 **For mobile flows, paste this:**
 
-Kindred — fans back rising African artists with one monthly subscription routed to artists they choose. Brand: dark, soft gold on cool charcoal, belonging, modern music-app craft with liquid-glass chrome. Design system: Primary `#FFD369` (Follow, Support, Play, active controls; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary text `#EEEEEE` at 60% opacity. Founding and impact chips: `#FFD369` on `#393E46`. Real frosted glass / liquid glass on floating pill tab bar and mini-player — never a solid fake glass box with a border. Typography: Clash Display SemiBold/Bold for now-playing titles, impact numbers, thank-you and paywall headlines (28–36px). Satoshi Regular/Medium/SemiBold/Bold for UI — body 16px, titles 20–24px, meta 13–14px. Layout: tight track rows 8–12px, sections 20–24px, artwork and cards 12px radius, capsule pills, soft lift only under mini-player and glass, 44px targets. Bottom native-style pill tab bar floating above home indicator: 4 tabs — Home (feed), Discover, Search, Library. Active tab tint `#FFD369`, inactive muted. Frosted mini-player sits in the accessory slot above the tab bar when audio is playing (thumbnail, title, artist, play/pause). No fifth Account tab — account from avatar. USD $4.99 and $9.99. Wordmark Kindred. Demo names: Efua Boateng, Amaara Mensah, Kweku Darko, Sela Okoro. No social login, no lyrics, no tip jar, no purple gradients, no cream terracotta SaaS look, no Apple red, no Spotify green, no teal, no coffee-brown page, no “test user”, no comments.
+Kindred — fans back rising African artists with one monthly subscription routed to artists they choose. Brand: dark, soft gold on cool charcoal, belonging, modern music-app craft with liquid-glass chrome. Design system: Primary `#FFD369` (Follow, Support, Play, active controls; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary text `#EEEEEE` at 60% opacity. Founding and impact chips: `#FFD369` on `#393E46`. Real frosted glass / liquid glass on floating pill tab bar and mini-player — never a solid fake glass box with a border. Typography: Clash Display SemiBold/Bold for now-playing titles, impact numbers, thank-you and paywall headlines (28–36px). Satoshi Regular/Medium/SemiBold/Bold for UI — body 16px, titles 20–24px, meta 13–14px. Layout: tight track rows 8–12px, sections 20–24px, artwork and cards 12px radius, capsule pills, soft lift only under mini-player and glass, 44px targets. Bottom native-style pill tab bar floating above home indicator: 4 tabs — Home (feed), Discover, Search, Library. Active tab tint `#FFD369`, inactive muted. Frosted mini-player sits in the accessory slot above the tab bar when audio is playing (thumbnail, title, artist, play/pause). No fifth Account tab — account from avatar. USD $4.99 and $9.99. Wordmark Kindred. People: Efua Boateng, Amaara Mensah, Kweku Darko, Sela Okoro. No social login, no lyrics, no tip jar, no purple gradients, no cream terracotta SaaS look, no Apple red, no Spotify green, no teal, no coffee-brown page, no “test user”, no comments, no “demo” or “not a real payout” copy on any screen.
 
 **For web flows (Artist Studio, public pages, admin), paste this:**
 
-Kindred — Artist Studio, public artist/track/post/mix pages, and thin admin on the web. Brand: same dark soft-gold music product as mobile. Design system: Primary `#FFD369` (CTAs; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary `#EEEEEE` 60%. Typography: Satoshi for UI; Clash Display for large metrics (32–40px). Page titles 28–32px Bold, sections 18–20px SemiBold, body 15–16px, tables 13–14px. Layout: left sidebar + main for Studio and admin; public pages with top wordmark and fixed bottom simple player bar. Dense lists 12–16px, 24px between blocks, 12px cards, 10px inputs. Desktop 1280px+; usable at 1024px. No fan sign up, no fan sign in, no follow on web, no exclusive streaming on web, no purchase, no offline, no waveform scrubber, no shader visualizer, no liquid-glass craft. Public audio plays in a simple player; exclusives show a locked shell plus Get the app. USD demo earnings labelled “Demo — not a real payout”. Wordmark Kindred. Signed-in studio: Amaara Mensah. Admin: Delasi Mensah. No purple SaaS, no light admin theme, no social login, no “test user”.
+Kindred — Artist Studio, public artist/track/post/mix pages, and thin admin on the web. Brand: same dark soft-gold music product as mobile. Design system: Primary `#FFD369` (CTAs; button label `#222831`). Page `#222831`, surface `#393E46`, text `#EEEEEE`, secondary `#EEEEEE` 60%. Typography: Satoshi for UI; Clash Display for large metrics (32–40px). Page titles 28–32px Bold, sections 18–20px SemiBold, body 15–16px, tables 13–14px. Layout: left sidebar + main for Studio and admin; public pages with top wordmark and fixed bottom simple player bar. Dense lists 12–16px, 24px between blocks, 12px cards, 10px inputs. Desktop 1280px+; usable at 1024px. No fan sign up, no fan sign in, no follow on web, no exclusive streaming on web, no purchase, no offline, no waveform scrubber, no shader visualizer, no liquid-glass craft. Public audio plays in a simple player; exclusives show a locked shell plus Get the app. Earnings UI is routed-subscription money only — never streaming payouts, tips, or “demo” / “not a real payout” labels. Wordmark Kindred. Signed-in studio: Amaara Mensah. Admin: Delasi Mensah. No purple SaaS, no light admin theme, no social login, no “test user”.
 
 ---
 
@@ -158,7 +160,7 @@ Stack/sheet after subscribe or from account. Title “Route your support”. Sub
 
 ### Screen: Impact
 
-Stack. Title “Your impact”. Big Clash Display number “$9.99” with label “This month · Demo figures”. Subline “Not a real payout to artists — demo only.” Breakdown list per routed artist: Amaara Mensah $3.33 + Founding chip, Kweku Darko $3.33, Sela Okoro $3.33. Founding badges section with chips. No video reel. No tab bar.
+Stack. Title “Your impact”. Big Clash Display number “$9.99” with label “This month”. Breakdown list per routed artist only (equal split of this month’s subscription): Amaara Mensah $3.33 + Founding chip, Kweku Darko $3.33, Sela Okoro $3.33. Founding badges section with chips. No streaming stats, no tip lines, no “demo” / “not a real payout” copy, no video reel. No tab bar.
 
 ### Screen: Thank-you card
 
@@ -244,7 +246,13 @@ Sidebar Thank-yous. Ranked shortlist with drafted one-liner editable. Primary �
 
 ### Screen: Earnings
 
-Sidebar Earnings. Clash Display “$482.00” label “Demo earnings · September — not a real payout”. Breakdown by month. Disclaimer banner clearly visible.
+Sidebar Earnings selected. Page title “Earnings”. Clash Display total “$482.00” with label “September” (or “This month”) — ordinary product copy, never “demo”, never “not a real payout”, never a disclaimer banner.
+
+**What the numbers are (only this):** money from supporters’ monthly subscriptions who routed to Amaara. Formula shown in the UI as product facts, not caveats: each supporter’s plan contributes 70% to the artist pool (after store fees) and that pool is split equally across the artists they route; Amaara’s share is what appears here. Show “Store fees 30%” as a normal fee line, same as any app store cut — not labelled demo.
+
+**Layout:** Top total for the selected month. Second row: two metrics only — “From supporters” (her share of routed pools) and “Store fees” (the 30% stand-in) — or a single total plus a short “How it’s calculated” panel with that 70/30 + equal-split copy. Below: breakdown by month table or list (Month · Supporters routed · Earnings). Optional simple chart of monthly totals from that same source only.
+
+**Hard bans on this screen:** streaming payouts, play-count royalties, tips, tip jar, merch, donations, ad revenue, “illustrative only”, “demo earnings”, portfolio disclaimers, fake bank payout CTAs, Export report / download report buttons. Nothing that is not V1 routed-subscription earnings. Founding threshold elsewhere is under **100** supporters — do not invent 1,000.
 
 ---
 
@@ -304,5 +312,5 @@ Ordered list of featured artists/slots with drag reorder and Add. Save `#FFD369`
 2. Paste Shared context for the flow.
 3. Mobile tab roots first (Home, Discover, Search, Library) — check mini-player, pill tabs, Follow/Support hierarchy.
 4. Then now-playing, queue, paywall, route — check waveform, both prices, Restore; no lyrics or tip jar.
-5. Then Studio upload and earnings (demo disclaimer visible).
+5. Then Studio upload and earnings — check routed-subscription math only; no streaming/tips; no “demo” copy.
 6. Prefer Edit Section for small fixes over regenerating whole flows.

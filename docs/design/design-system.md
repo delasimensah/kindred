@@ -21,7 +21,7 @@ Cool charcoal page so artwork and liquid glass stay clean. Soft gold primary for
 - **Surface:** `#393E46` — sheets, elevated rows, account cards, studio panels.
 - **Text:** `#EEEEEE` primary. Secondary text is `#EEEEEE` at about 60% opacity.
 - **Muted / border:** mix of `#393E46` and dimmed `#EEEEEE` — hairlines, inactive tabs, locked chip chrome. Do not invent a fifth brand hex.
-- **Accent (founding / impact / money demo):** `#FFD369` on a `#393E46` chip, or outline gold.
+- **Accent (founding / impact / money):** `#FFD369` on a `#393E46` chip, or outline gold.
 - **Glass:** not a hex. iOS 26 uses `expo-glass-effect` (`GlassView`). Older iOS and Android use `expo-blur` over `#222831` / `#393E46`. Do not paint solid fake glass.
 - **Destructive (remove download, decline):** platform red only (iOS system red / Material error). Not a brand color.
 - **Web studio and admin:** same dark map as mobile. No light SaaS theme for V1.
@@ -67,7 +67,7 @@ Do not use Apple Music red, Spotify green, SoundCloud orange, teal `#00ADB5`, co
 - No light white mobile shell pretending to be a music app.
 - No fake solid “glass” rectangles with borders instead of real blur / `GlassView`.
 - No lyrics panels, tip jars, social login buttons, 3D mascot illustrations, or cookie-cutter SaaS hero blocks.
-- No “test user” copy. Demo people have real names from seed.
+- No “test user” copy. People have real names from seed.
 
 ---
 
@@ -88,9 +88,9 @@ Do not use Apple Music red, Spotify green, SoundCloud orange, teal `#00ADB5`, co
 ## Product-specific
 
 - Wordmark: **Kindred** (Clash Display or Satoshi Bold until a logo exists). No logo file yet.
-- Money: USD `$4.99` and `$9.99` monthly. Same entitlements. Demo earnings labelled as demo.
+- Money: USD `$4.99` and `$9.99` monthly. Same entitlements. Earnings and Impact use normal product labels (month, from supporters, store fees). No “demo”, “not a real payout”, or disclaimer banners in UI mockups or prompts.
 - Copy tone: belonging and backing rising African artists — plain English, no influencer slang.
-- Demo artists and fans come from seed (names and artwork with source/rights in the seed docs). Never “Artist 1”.
+- Seed people and artwork use real-looking names (source/rights in the seed docs). Never “Artist 1”. Never put the word “demo” on screen chrome.
 - Mobile is the craft bar. Android matches layout and actions; motion and glass may be softer.
 - Web: no craft techniques, no offline, no purchase — get-the-app for paywall.
 

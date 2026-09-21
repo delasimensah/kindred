@@ -23,12 +23,16 @@ const PersonAvatar: React.FC<PersonAvatarProps> = ({
       align="center"
       justify="center"
       accessibilityLabel={displayName}
-      className="rounded-full border border-border bg-primary"
+      className="rounded-full border border-surface bg-primary"
       style={{ width: size, height: size }}
     >
       <Text
-        className="font-app-bold uppercase text-white"
-        style={{ color: COLORS.white, fontSize, lineHeight: fontSize + 2 }}
+        className="font-app-bold uppercase text-textOnPrimary"
+        style={{
+          color: COLORS.textOnPrimary,
+          fontSize,
+          lineHeight: fontSize + 2,
+        }}
       >
         {getDisplayInitials(displayName)}
       </Text>

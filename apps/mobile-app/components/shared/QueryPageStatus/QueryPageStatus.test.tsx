@@ -5,7 +5,10 @@ import QueryPageStatus from "./QueryPageStatus";
 describe("QueryPageStatus", () => {
   it("shows the default skeleton while loading", () => {
     render(
-      <QueryPageStatus loadState="loading" failedTitle="Couldn't load this page.">
+      <QueryPageStatus
+        loadState="loading"
+        failedTitle="Couldn't load this page."
+      >
         Home
       </QueryPageStatus>
     );

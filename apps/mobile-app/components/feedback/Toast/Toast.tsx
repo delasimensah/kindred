@@ -18,23 +18,23 @@ interface ToastConfig {
 
 const toastConfig: Record<ToastVariant, ToastConfig> = {
   active: {
-    bgColor: "bg-white",
-    textColor: "text-black",
+    bgColor: "bg-surface",
+    textColor: "text-text",
     testID: "active-toast",
   },
   success: {
-    bgColor: "bg-white",
-    textColor: "text-black",
+    bgColor: "bg-surface",
+    textColor: "text-text",
     testID: "success-toast",
   },
   error: {
-    bgColor: "bg-darkGrey",
-    textColor: "text-white",
+    bgColor: "bg-danger",
+    textColor: "text-text",
     testID: "error-toast",
   },
   neutral: {
-    bgColor: "bg-grey",
-    textColor: "text-white",
+    bgColor: "bg-surface",
+    textColor: "text-text",
     testID: "neutral-toast",
   },
 };

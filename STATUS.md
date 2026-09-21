@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — First Version slices KIND-42–KIND-88 are Todo on Linear.
+- **Current phase:** Build — KIND-42 Done; next KIND-43 (mobile email/password auth).
 - **Last updated:** 2026-09-21
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -52,6 +52,7 @@
   - Archived (out of V1): fan Sign In, fan Account Settings
 - [x] Screen design lock — locked enough to build from (21 Sep 2026); refine only if a ticket is blocked by a broken screen
 - [x] Linear build tickets — KIND-42–KIND-88 created as Todo under epics KIND-1–KIND-13 (canceled KIND-14–KIND-41 left untouched); map in `docs/product/_linear-id-map.json`
+- [x] KIND-42 shared design tokens — colors, radii, typography in `packages/shared`; web + mobile consume them; font paths in `docs/design/fonts.md`
 - [ ] Build / demos / TestFlight / Play
 - [ ] Launch
 
@@ -59,7 +60,7 @@
 
 ## Next action (one line)
 
-Start the first Todo (KIND-42 shared design tokens) when Delasi asks.
+Start KIND-43 (fan sign up / sign in / sign out on mobile) when Delasi asks.
 
 ---
 
@@ -71,6 +72,7 @@ Start the first Todo (KIND-42 shared design tokens) when Delasi asks.
 - Linear tickets: `docs/product/linear-tickets.md`
 - Screen keepers (locked): `docs/design/reference-map.md`
 - Design system (locked): `docs/design/design-system.md` — soft gold `#FFD369` on charcoal
+- Fonts: `docs/design/fonts.md`
 - Design index: `docs/design/README.md`
 - HTML exports: `docs/design/exports/` (see `exports/README.md`)
 - Palette preview kept: `docs/design/palette-previews/kindred-palette-locked.png`

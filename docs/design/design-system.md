@@ -6,7 +6,7 @@ Grounded in [reference-map.md](./reference-map.md) and [product-requirements.md]
 
 Preview kept: [palette-previews/kindred-palette-locked.png](./palette-previews/kindred-palette-locked.png) (direction only). UX Pilot screens use the hex below plus Mobbin layout language — they should beat that rough preview.
 
-Tokens also live in Shared context in [kindred-ux-pilot-flow-prompts.md](./kindred-ux-pilot-flow-prompts.md). Build copies them into `packages/shared` before first screens.
+Tokens also live in Shared context in [kindred-ux-pilot-flow-prompts.md](./kindred-ux-pilot-flow-prompts.md). Build copies them into `packages/shared` before first screens. Font load paths: [fonts.md](./fonts.md).
 
 ---
 

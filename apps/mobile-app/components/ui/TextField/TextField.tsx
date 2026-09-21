@@ -25,14 +25,14 @@ const TextField: React.FC<TextFieldProps> = ({
 
   return (
     <VStack spacing="sm">
-      <Text className="font-app-bold text-[14px] text-darkGrey">{label}</Text>
+      <Text className="font-app-bold text-[14px] text-text">{label}</Text>
       <View className="relative justify-center">
         <TextInput
           accessibilityLabel={label}
-          placeholderTextColor={COLORS.grey}
+          placeholderTextColor={`${COLORS.text}99`}
           secureTextEntry={isPassword && !passwordVisible}
           className={cn(
-            "h-[44px] rounded-md border border-border bg-white px-3 text-[15px] text-darkGrey",
+            "h-[44px] rounded-input border border-surface bg-surface px-3 text-[15px] text-text",
             isPassword && "pr-11",
             className
           )}
@@ -52,12 +52,12 @@ const TextField: React.FC<TextFieldProps> = ({
             <Ionicons
               name={passwordVisible ? "eye-off" : "eye"}
               size={20}
-              color={COLORS.grey}
+              color={COLORS.text}
             />
           </Pressable>
         ) : null}
       </View>
-      {error ? <Text className="text-sm text-overdue">{error}</Text> : null}
+      {error ? <Text className="text-sm text-danger">{error}</Text> : null}
     </VStack>
   );
 };

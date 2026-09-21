@@ -10,7 +10,7 @@ export interface LargeTitleProps {
 
 const LargeTitle: React.FC<LargeTitleProps> = ({ title, className }) => {
   return (
-    <Text className={cn("font-app-black text-3xl text-black", className)}>
+    <Text className={cn("font-app-black text-3xl text-text", className)}>
       {title}
     </Text>
   );

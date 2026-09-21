@@ -54,7 +54,7 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({ title, scrollY }) => {
         className="relative h-14 flex-row items-center justify-start"
       >
         <Animated.Text
-          className="font-app-black text-2xl text-black"
+          className="font-app-black text-2xl text-text"
           style={smallTitleStyle}
         >
           {title}
@@ -62,7 +62,7 @@ const AnimatedHeader: React.FC<AnimatedHeaderProps> = ({ title, scrollY }) => {
       </VStack>
 
       <Animated.View
-        className="absolute bottom-0 left-0 right-0 h-0.5 bg-lightGrey"
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-surface"
         style={headerBorderStyle}
       />
     </Animated.View>

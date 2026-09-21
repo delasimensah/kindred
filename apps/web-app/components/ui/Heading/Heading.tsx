@@ -10,10 +10,10 @@ const VARIANT_CONFIG: Record<
   HeadingVariant,
   { order: TitleOrder; className: string }
 > = {
-  page: { order: 1, className: "mb-4 text-darkGrey" },
-  section: { order: 2, className: "mb-6 text-darkGrey" },
-  subsection: { order: 3, className: "mb-4 text-darkGrey" },
-  card: { order: 4, className: "mb-2 text-darkGrey" },
+  page: { order: 1, className: "mb-4 text-text" },
+  section: { order: 2, className: "mb-6 text-text" },
+  subsection: { order: 3, className: "mb-4 text-text" },
+  card: { order: 4, className: "mb-2 text-text" },
 };
 
 interface HeadingProps {

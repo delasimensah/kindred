@@ -22,7 +22,7 @@ const UnauthenticatedState: React.FC<UnauthenticatedStateProps> = ({
     <ScreenWithAnimatedHeader title={pageTitle}>
       <VStack spacing="2xl" justify="center" className="flex-1">
         <VStack spacing="sm">
-          <Text className="font-app-regular text-base text-black/80">
+          <Text className="font-app-regular text-base text-text/60">
             {subtitle}
           </Text>
         </VStack>

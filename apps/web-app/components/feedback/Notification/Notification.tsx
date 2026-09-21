@@ -19,8 +19,8 @@ export const ErrorNotification: React.FC<NotificationProps> = ({
 }) => {
   return (
     <Box className="rounded-md bg-red-600 p-4">
-      <Text className="mb-1 font-bold text-white">{title}</Text>
-      <Text className="text-sm text-white">{message}</Text>
+      <Text className="mb-1 font-bold text-text">{title}</Text>
+      <Text className="text-sm text-text">{message}</Text>
     </Box>
   );
 };
@@ -35,8 +35,8 @@ export const SuccessNotification: React.FC<NotificationProps> = ({
 }) => {
   return (
     <Box className="rounded-md bg-green-600 p-4">
-      <Text className="mb-1 font-bold text-white">{title}</Text>
-      <Text className="text-sm text-white">{message}</Text>
+      <Text className="mb-1 font-bold text-text">{title}</Text>
+      <Text className="text-sm text-text">{message}</Text>
     </Box>
   );
 };
@@ -51,8 +51,8 @@ export const InfoNotification: React.FC<NotificationProps> = ({
 }) => {
   return (
     <Box className="rounded-md bg-blue-600 p-4">
-      <Text className="mb-1 font-bold text-white">{title}</Text>
-      <Text className="text-sm text-white">{message}</Text>
+      <Text className="mb-1 font-bold text-text">{title}</Text>
+      <Text className="text-sm text-text">{message}</Text>
     </Box>
   );
 };

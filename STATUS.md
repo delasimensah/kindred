@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-42 Done; app icon + V1 native libs on main; next EAS development/preview, then KIND-43.
+- **Current phase:** Build — phone setup done (icon, native libs, EAS preview cooking); next KIND-43.
 - **Last updated:** 2026-09-21
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -40,7 +40,7 @@
 - [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
 - [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS
 - [x] Access list (`ACCESS-LIST.md`) — GitHub, Expo, Slack, Vercel, Convex
-- [ ] Preview cooks working (web + phone as needed) — web redeployed with Convex URL; phone when you open Expo
+- [x] Preview cooks working (web + phone as needed) — web redeployed with Convex URL; phone preview cooking / install when ready
 
 ---
 
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-EAS development + preview builds (phone install). After that, KIND-43 when asked.
+KIND-43 when asked (mobile email/password auth).
 
 ---
 

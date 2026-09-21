@@ -5,7 +5,7 @@ Patronage app for rising African artists. Fans support artists with a monthly su
 ## Stack
 
 - **Mobile:** Expo (React Native) — primary fan and supporter surface
-- **Web:** Next.js — Artist Studio, public pages (simple public player), thin admin
+- **Web:** Next.js — Artist Studio, public pages, light fan player
 - **Backend:** Convex with Convex Auth (email and password)
 - **Shared:** `packages/shared` for types, validation, and utilities
 

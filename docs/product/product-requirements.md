@@ -5,7 +5,7 @@
 **Owner:** Delasi Mensah (solo product, portfolio flagship)  
 **Horizon:** V1 through 31 Dec 2026
 
-The product lock was approved 16 Sep 2026 and amended 20 Sep 2026 (no fan account on web). This PRD is the build-facing version of that lock.
+The product lock is [00-locked-decisions.md](./00-locked-decisions.md), approved 16 Sep 2026. This PRD is the build-facing version of that lock, filled from [02-questionnaire.md](./02-questionnaire.md) using [project-requirements-template.md](../../../system-design/project-requirements-template.md).
 
 **Linear tickets come from this file.** If a feature is not here, it is not built. If this file and the lock disagree, the lock wins and this file gets corrected. Nothing moves from Later into V1 without revising and re-approving the lock.
 
@@ -24,15 +24,15 @@ Kindred is a native-feel mobile app where fans back rising African artists with 
   - **Supporter (paying fan).** Everything a fan can do, plus exclusives from routed artists, offline downloads of entitled audio, impact stats, and the founding badge where earned.
   - **Artist.** Verified uploader. Runs the Artist Studio on web for profile, releases, updates, supporters, thank-yous, and demo earnings. May use the mobile app as a fan or supporter; upload and scheduling are web-only in V1.
   - **Studio admin.** Thin web tools: pending artist requests (approve/decline), verify artists, hide or remove catalog items, place featured discovery slots.
-- **V1 platforms:** Both. Mobile (Expo) is the only fan and supporter account surface. Web (Next.js) has exactly three jobs: Artist Studio, public share pages (with a simple public player), and thin admin.
+- **V1 platforms:** Both. Mobile (Expo) is the primary fan and supporter surface. Web (Next.js) has exactly three jobs: Artist Studio, public pages, and a light fan web player.
 - **Notes:**
   - One account per person. An artist account is a fan account with artist privileges after verification via **Request to become an artist** → admin approve, or admin verify directly. Seeded heroes do not replace that path. An artist can support other artists.
   - Studio admin is a Profile role flag set only by seed (admin demo login) or a one-off dashboard/internal mutation — no public become-admin flow.
   - iOS is the craft bar. Android ships functional parity for playback, follow, feed, paywall, notifications, and offline; V1 does not block on Android-perfect motion.
-  - Purchases are mobile-only. No purchase path on web. No fan sign up, fan sign in, follow, or exclusive streaming on web — public pages play public audio only; exclusives show a locked shell and Get the app. Offline and craft stay mobile. Web auth is Artist Studio and admin only.
+  - Purchases are mobile-only. No purchase path on web. Signed-in entitled supporters may stream exclusives on the light web player; offline and craft stay mobile.
   - No craft techniques and no offline on web.
   - Minimum OS versions are set from the Expo SDK at scaffold time and written here after scaffold.
-  - Surface build order: mobile core, discovery, and connection first, then Artist Studio web, then public pages.
+  - Surface build order: mobile core, discovery, and connection first, then Artist Studio web, then public pages and the light fan web player.
   - Basic music listening (play, queue, next/previous, shuffle, repeat, library, playlists, search, background audio) is a V1 baseline. Kindred’s difference is patronage and money routing, not a thin player.
 
 ---
@@ -59,8 +59,8 @@ Acceptance-ready, from the 20 locked journeys. Each one is done when the stated 
 16. **Supporters, earnings, thank-you.** An artist sees their supporter list and demo earnings clearly labelled as not real payouts, opens fans-to-thank for a ranked shortlist with a drafted one-liner, edits it, sends it, and that fan receives a thank-you push and card.
 17. **Impact and founding badge.** A supporter sees their impact stats, and a founding badge on an artist where their routing began while that artist had fewer than 100 supporters.
 18. **Admin.** An admin reviews **pending artist requests**, approves (verify) or declines, can also verify an account directly, hides or removes a catalog item so it stops appearing, and places a featured discovery slot.
-19. **Public web and install.** A public artist, track, post, or mix URL renders on the web with a simple player for public audio, a locked shell plus Get the app for exclusives, an install prompt, and deep links into the app when it is installed. No fan account on web.
-20. **Request to become an artist.** A signed-in fan submits a request (display name/handle + optional note) from **mobile** account settings, sees pending status, and after admin approval signs into Artist Studio on web and can upload.
+19. **Public web and install.** A public artist, track, post, or mix URL renders on the web with a light player and an install prompt, and deep links into the app when it is installed.
+20. **Request to become an artist.** A signed-in fan submits a request (display name/handle + optional note) from account settings, sees pending status, and after admin approval can open Artist Studio and upload.
 
 **Out of scope for V1**
 
@@ -165,7 +165,7 @@ Client-side only, not server entities: the **outbox** queue of pending mutations
 - **Google Play Console** — Subscription products, merchant setup, testing tracks, distribution, and App Links verification. Owner: my Play account.
 - **Expo Notifications and the Expo Push API** — Device tokens stored in Convex; sends triggered from mutations, crons, and the scheduler; quiet hours and per-artist mute filtered server-side. Owner: my Expo account.
 - **EAS Build, Submit, and Update** — Dev clients and store builds. Background audio requires a dev client or EAS build; Expo Go is not assumed. Owner: my Expo account.
-- **Vercel** — Hosts the Next.js web app: Artist Studio, public pages (simple public player), thin admin, and the `apple-app-site-association` and Digital Asset Links files. Owner: my Vercel account.
+- **Vercel** — Hosts the Next.js web app: Artist Studio, public pages, light fan player, and the `apple-app-site-association` and Digital Asset Links files. Owner: my Vercel account.
 - **LLM and embedding API** — Natural-language mix, upload copilot, and fans-to-thank one-liners, plus track embeddings for semantic search. Called only from Convex actions with keys in Convex environment variables. Provider chosen at the vector and AI spikes. Owner: my account.
 - **Transactional email (e.g. Resend)** — Password-reset OTP codes only, and only if the reset spike passes with a verified sendable from-address. If the spike fails, this integration drops out of V1. Owner: my account.
 - **CC0 / CC-BY audio sources** — Seed catalog audio, with a credit to the audio source in the app and a rights note for store review. Not an API; a content dependency of the seed pipeline.
@@ -180,7 +180,7 @@ Client-side only, not server entities: the **outbox** queue of pending mutations
   - Entitlement is written only from the server-side RevenueCat source of truth. The client never decides it. Every exclusive query re-checks Convex. A hidden button is not access control.
   - Routing requires an existing follow, is capped at five, is an equal split with no custom percentages, and cannot be empty while subscribed. Route changes apply immediately going forward and never rewrite past demo-earnings months. A supporter cannot unfollow an artist who is currently in their route set; they must unroute first. Cancellation and billing changes are managed in the App Store or Play; in-app shows status, restore, and store-manage instructions.
   - Locked content returns a shell and a call to action. The server refuses the body and media to unauthorized callers.
-  - Only verified artists upload audio, and only from the web studio. Fans never upload audio. A fan becomes eligible by submitting an artist request from **mobile** account settings (one pending at a time; re-request allowed after decline; not after approve); admin must approve (or verify directly) before Studio upload works. On approve, an Artist is created/linked with the requested display name. That person then signs into Artist Studio on web. An artist sees their own supporters and their own demo earnings, not another artist's.
+  - Only verified artists upload audio, and only from the web studio. Fans never upload audio. A fan becomes eligible by submitting an artist request from mobile or web account settings (one pending at a time; re-request allowed after decline; not after approve); admin must approve (or verify directly) before Studio upload works. On approve, an Artist is created/linked with the requested display name. An artist sees their own supporters and their own demo earnings, not another artist's.
   - Admin can review pending artist requests (approve/decline), verify artists, hide or remove catalog items, and place featured slots. Nothing else.
   - When entitlement ends, exclusives lock again. Downloaded exclusive files may remain on disk, but playback is denied after a cached entitlement expiry check when offline. This is a membership check before play, not DRM (encrypted copy-protection).
 - **Compliance.**
@@ -210,7 +210,7 @@ Client-side only, not server entities: the **outbox** queue of pending mutations
 
 ### Spikes before build
 
-Each spike produces a short written outcome — works, blocked, or cut to Later — before the ticket it gates starts. Source: section 20 of the Kindred product lock.
+Each spike produces a short written outcome — works, blocked, or cut to Later — before the ticket it gates starts. Source: section 20 of [00-locked-decisions.md](./00-locked-decisions.md).
 
 - **RevenueCat webhook to Convex entitlement** — before the paywall ticket. Send a test webhook, purchase in sandbox, confirm the Convex row, kill the app, restore.
 - **Push on a physical device** — before the push tickets. One notification type on a real iPhone and a real Android, including cold start.
@@ -297,10 +297,10 @@ So design and tickets have a list. Screen names are functional, not final copy.
 **Public web**
 
 - Artist page, track page, post page, and mix page, each with a share-friendly URL.
-- Simple public player on those pages: play, pause, seek, next/previous for **public** audio only. Supporters-only content is a locked shell plus Get the app. No fan sign up, sign in, follow, purchase, offline, or craft.
-- Optional signed-out browse home (Featured / Rising) as part of public discovery — still no fan account; Follow and Support send people to Get the app.
+- Light fan player: browse, play public tracks, follow, sign in. Entitled supporters stream exclusives for routed artists; others see locked shells with a get-the-app call to action for purchase. No purchase, no offline, no craft techniques.
+- Account settings on web player: change password, subscription status / restore instructions, **Request to become an artist** (and status), sign out.
 - Install prompt and deep link handoff into the app when installed.
-- Artist Studio sign in and admin sign in only (not fan auth).
+- Sign in and sign up for the web player.
 
 **Admin (thin web)**
 
@@ -324,4 +324,4 @@ So design and tickets have a list. Screen names are functional, not final copy.
 - After you approve this PRD: system design and Convex design, carrying the spike list into ticket ordering.
 - Then Linear epics and tickets, written from this file.
 
-This PRD is the source of truth for what gets built. The product lock is the source of truth for what was decided. Tickets cite this file; scope changes edit the lock first.
+This PRD is the source of truth for what gets built. [00-locked-decisions.md](./00-locked-decisions.md) is the source of truth for what was decided. Tickets cite this file; scope changes edit the lock first.

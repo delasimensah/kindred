@@ -35,7 +35,7 @@
 - [x] Linear team + GitHub connection
 - [x] Vercel (web) — project exists; production redeploy after scaffold fix
 - [x] Expo / EAS (mobile) — `@dm-studios/kindred`, projectId in `app.config.ts`
-- [x] App icon + splash — SnapAI option `02`; background `#222831`; files under `apps/mobile-app/assets/icons/` (including `kindred.icon`). Notes: `docs/design/icon-candidates/`
+- [x] App icon + splash — SnapAI option `02`; background `#222831`; splash image is transparent logo (Expo paints the hex). Files under `apps/mobile-app/assets/icons/` (including `kindred.icon`). Notes: `docs/design/icon-candidates/`
 - [x] V1 native libs (SDK 57) — glass/blur, audio, Skia, notifications, RevenueCat, symbols, `@expo/ui`; plugins in `app.config.ts`
 - [x] Slack workshop channel `#kindred` + bots — GitHub + Linear; **Vercel Slack bot skipped** (slash commands dead; see ACCESS-LIST)
 - [x] Backend cloud (Convex) — `kindred` on team `dm-studios`; thin schema pushed; URL on local / Vercel / EAS

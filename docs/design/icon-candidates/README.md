@@ -12,7 +12,7 @@ Files in the app:
 
 - `apps/mobile-app/assets/icons/icon.png` — logo on the solid background
 - `apps/mobile-app/assets/icons/icon-foreground.png` — logo only (clear around it)
-- `apps/mobile-app/assets/icons/splash-icon.png` — same as `icon.png` for the loading screen
+- `apps/mobile-app/assets/icons/splash-icon.png` — same as `icon-foreground.png` (transparent; Expo paints `#222831` behind it)
 - `apps/mobile-app/assets/icons/kindred.icon` — iOS icon package
 
 How to do this on the next job: studio `project-template/docs/client-delivery/app-icon-with-snapai.md`.

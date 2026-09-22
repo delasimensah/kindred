@@ -35,7 +35,7 @@ const ONBOARDING_ARTISTS = [
  * Where: we make the names (docs/design/kindred-ux-pilot-flow-prompts.md).
  * Rights: original fiction.
  * How: `npx convex run seed:onboardingArtists` (idempotent by handle).
- * Out: no audio, tracks, or artist logins (KIND-48).
+ * Out: the full catalog and demo logins live in seedCatalog.ts.
  */
 export const onboardingArtists = internalMutation({
   args: {},

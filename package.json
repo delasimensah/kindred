@@ -32,11 +32,14 @@
     "test:mobile": "turbo run test --filter=@kindred/mobile-app",
     "test:web": "turbo run test --filter=@kindred/web-app",
     "test:shared": "turbo run test --filter=shared",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "seed:assets": "node seed/scripts/fetch-assets.mjs",
+    "seed:catalog": "node seed/scripts/run-seed.mjs"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^5.0.0",
     "convex-test": "^0.0.56",
+    "ffmpeg-static": "^5.3.0",
     "prettier": "^3.6.2",
     "turbo": "^2.10.11",
     "typescript": "^5.9.2",

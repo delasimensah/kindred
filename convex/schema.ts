@@ -56,7 +56,8 @@ export default defineSchema({
   })
     .index("by_owner", ["ownerProfileId"])
     .index("by_artist_kind", ["artistId", "kind"])
-    .index("by_storageId", ["storageId"]),
+    .index("by_storageId", ["storageId"])
+    .index("by_sourceUrl", ["sourceUrl"]),
 
   follows: defineTable({
     profileId: v.id("profiles"),
@@ -91,6 +92,7 @@ export default defineSchema({
     credit: v.optional(v.string()),
     createdAt: v.number(),
   })
+    .index("by_artist_title", ["artistId", "title"])
     .index("by_artist_state_publishedAt", ["artistId", "state", "publishedAt"])
     .index("by_state_publishAt", ["state", "publishAt"])
     .index("by_genre_publishedAt", ["genre", "publishedAt"])

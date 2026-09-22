@@ -11,8 +11,10 @@
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as lib_accountPassword from "../lib/accountPassword.js";
+import type * as lib_auth from "../lib/auth.js";
 import type * as lib_errors from "../lib/errors.js";
 import type * as lib_functions from "../lib/functions.js";
+import type * as lib_profileName from "../lib/profileName.js";
 import type * as profiles from "../profiles.js";
 
 import type {
@@ -25,8 +27,10 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   "lib/accountPassword": typeof lib_accountPassword;
+  "lib/auth": typeof lib_auth;
   "lib/errors": typeof lib_errors;
   "lib/functions": typeof lib_functions;
+  "lib/profileName": typeof lib_profileName;
   profiles: typeof profiles;
 }>;
 

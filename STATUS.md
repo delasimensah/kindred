@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — phone setup done (icon, native libs, EAS preview cooking); next KIND-43.
-- **Last updated:** 2026-09-21
+- **Current phase:** Build — KIND-43 mobile email/password auth Done; next KIND-44.
+- **Last updated:** 2026-09-22
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
   - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-43 when asked (mobile email/password auth).
+KIND-44 when asked (new fan picks genres and follows at least two artists).
 
 ---
 

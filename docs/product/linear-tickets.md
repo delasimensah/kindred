@@ -28,9 +28,10 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - Epics KIND-1–KIND-13 exist and stay open until children are Done.
 - Premature slices KIND-14–KIND-41 are **Canceled** (pre-screens). Left untouched.
 - **KIND-42** shared design tokens is **Done**.
-- Remaining First Version / Launch slices **KIND-43–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
+- **KIND-43** mobile email/password auth is **Done**.
+- Remaining First Version / Launch slices **KIND-44–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
 - Do not move a slice to In Progress until you ask to start it.
-- Next build slice: [KIND-43](https://linear.app/dm-studios/issue/KIND-43) (mobile email/password auth).
+- Next build slice: [KIND-44](https://linear.app/dm-studios/issue/KIND-44) (onboarding genres and follows).
 
 ---
 
@@ -55,7 +56,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 ## Ordered build list
 
 1. [KIND-42](https://linear.app/dm-studios/issue/KIND-42/shared-design-tokens-match-the-locked-kindred-palette-and-type) **Shared design tokens match the locked Kindred palette and type** — Slice. Epic KIND-1. Apps: shared. Design: docs/design/design-system.md
-2. [KIND-43](https://linear.app/dm-studios/issue/KIND-43/fan-can-sign-up-sign-in-and-sign-out-on-mobile-with-email-and-password) **Fan can sign up, sign in, and sign out on mobile with email and password** — Slice. Epic KIND-1. Apps: mobile, convex. Design: docs/design/exports/mobile/01-auth/01-sign-in.html, docs/design/exports/mobile/01-auth/02-sign-up.html
+2. [KIND-43](https://linear.app/dm-studios/issue/KIND-43/fan-can-sign-up-sign-in-and-sign-out-on-mobile-with-email-and-password) **Fan can sign up, sign in, and sign out on mobile with email and password** — Slice. Epic KIND-1. Apps: mobile, convex. Design: docs/design/exports/mobile/01-auth/00-welcome.html, docs/design/exports/mobile/01-auth/01-sign-in.html, docs/design/exports/mobile/01-auth/02-sign-up.html
 3. [KIND-44](https://linear.app/dm-studios/issue/KIND-44/new-fan-picks-genres-and-follows-at-least-two-artists-before) **New fan picks genres and follows at least two artists before continuing** — Slice. Epic KIND-1. Apps: mobile, convex. Design: docs/design/exports/mobile/01-auth/03-onboarding-genres.html, docs/design/exports/mobile/01-auth/04-onboarding-follow-artists.html
 4. [KIND-45](https://linear.app/dm-studios/issue/KIND-45/verified-artist-or-admin-can-sign-in-to-web-studio-or-admin) **Verified artist or admin can sign in to web Studio or admin** — Slice. Epic KIND-1. Apps: web, convex. Design: docs/design/exports/web/01-studio/01-sign-in.html
 5. [KIND-46](https://linear.app/dm-studios/issue/KIND-46/spike-password-reset-email-otp-end-to-end) **Spike: password reset email OTP end to end** — Spike. Epic KIND-1. Apps: mobile, web, convex. Design: (no screen — spike/infra)
@@ -162,6 +163,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Design:**
 
+- `docs/design/exports/mobile/01-auth/00-welcome.html`
 - `docs/design/exports/mobile/01-auth/01-sign-in.html`
 - `docs/design/exports/mobile/01-auth/02-sign-up.html`
 

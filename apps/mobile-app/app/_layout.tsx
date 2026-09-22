@@ -5,7 +5,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useFonts } from "expo-font";
 import { Image, ImageBackground } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Stack } from "expo-router";
+import { Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { cssInterop } from "nativewind";
 import { useEffect } from "react";
@@ -21,9 +21,13 @@ import {
   NeutralToast,
   SuccessToast,
 } from "@/components";
-import { FONT_LOADING_MAP } from "@/constants";
-import { useApplyAvailableUpdate } from "@/hooks";
-import { defaultStackScreenOptions, screenPresets } from "@/utils";
+import { COLORS, FONT_LOADING_MAP } from "@/constants";
+import { useApplyAvailableUpdate, useFanSession } from "@/hooks";
+import {
+  defaultStackScreenOptions,
+  navigationTheme,
+  screenPresets,
+} from "@/utils";
 
 cssInterop(Image, { className: "style" });
 cssInterop(ImageBackground, { className: "style" });
@@ -38,15 +42,18 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 const RootNavigator = () => {
+  const { isSessionLoading, isAuthenticated, isViewerReady } = useFanSession();
   const isCheckingUpdate = useApplyAvailableUpdate();
+  const isHoldingSplash =
+    isSessionLoading || isCheckingUpdate || (isAuthenticated && !isViewerReady);
 
   useEffect(() => {
-    if (!isCheckingUpdate) {
+    if (!isHoldingSplash) {
       void SplashScreen.hideAsync();
     }
-  }, [isCheckingUpdate]);
+  }, [isHoldingSplash]);
 
-  if (isCheckingUpdate) {
+  if (isHoldingSplash) {
     return null;
   }
 
@@ -59,6 +66,12 @@ const RootNavigator = () => {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Protected guard={isAuthenticated && isViewerReady}>
+        <Stack.Screen name="(main-app)" />
+      </Stack.Protected>
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen name="(auth)" />
+      </Stack.Protected>
     </Stack>
   );
 };
@@ -77,22 +90,27 @@ const RootLayout = () => {
   }
 
   return (
-    <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView
+      className="flex-1 bg-page"
+      style={{ backgroundColor: COLORS.page }}
+    >
       <SafeAreaProvider>
-        <AppProviders>
-          <BottomSheetModalProvider>
-            <RootNavigator />
-            <BottomSheetsManager />
-            <Toast
-              config={{
-                active: (props) => <ActiveToast {...props} />,
-                neutral: (props) => <NeutralToast {...props} />,
-                success: (props) => <SuccessToast {...props} />,
-                error: (props) => <ErrorToast {...props} />,
-              }}
-            />
-          </BottomSheetModalProvider>
-        </AppProviders>
+        <ThemeProvider value={navigationTheme}>
+          <AppProviders>
+            <BottomSheetModalProvider>
+              <RootNavigator />
+              <BottomSheetsManager />
+              <Toast
+                config={{
+                  active: (props) => <ActiveToast {...props} />,
+                  neutral: (props) => <NeutralToast {...props} />,
+                  success: (props) => <SuccessToast {...props} />,
+                  error: (props) => <ErrorToast {...props} />,
+                }}
+              />
+            </BottomSheetModalProvider>
+          </AppProviders>
+        </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

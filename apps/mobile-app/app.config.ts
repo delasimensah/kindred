@@ -45,7 +45,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: "1.0.0",
   orientation: "portrait",
   scheme: "kindred",
-  userInterfaceStyle: "automatic",
+  userInterfaceStyle: "dark",
+  backgroundColor: BRAND_COLOR,
   ios: {
     ...config.ios,
     bundleIdentifier: getUniqueIdentifier(),

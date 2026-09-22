@@ -9,89 +9,33 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @font-face {
-    font-family: 'Clash Display';
-    src: local('Clash Display');
-    font-weight: 700;
-  }
   body { font-family: 'Satoshi', 'Inter', sans-serif; }
-  .font-display { font-family: 'Clash Display', 'Satoshi', sans-serif; }
 </style>
 </head>
 <body class="bg-[#222831]">
 <div id="signup-screen" class="w-full max-w-[430px] mx-auto min-h-[932px] bg-[#222831] flex flex-col px-6 relative overflow-hidden">
 
-  <!-- Decorative glow -->
   <div class="absolute -top-24 -left-20 w-64 h-64 bg-[#FFD369]/10 rounded-full blur-3xl pointer-events-none"></div>
   <div class="absolute bottom-24 -right-24 w-56 h-56 bg-[#FFD369]/5 rounded-full blur-3xl pointer-events-none"></div>
 
-  <div id="signup-content" class="flex-1 flex flex-col justify-center max-w-[360px] mx-auto w-full relative z-10 py-12">
+  <div id="signup-content" class="flex-1 flex flex-col relative z-10 pt-16">
+    <button type="button" id="signup-back" class="h-11 w-11 flex items-center justify-center text-[#EEEEEE]" aria-label="Back">
+      <i class="fa-solid fa-chevron-left text-xl"></i>
+    </button>
 
-    <!-- Wordmark -->
-    <div id="signup-wordmark" class="flex flex-col items-center mb-8">
-      <div class="w-14 h-14 rounded-2xl bg-[#393E46] flex items-center justify-center mb-4 border border-[#FFD369]/20">
-        <i class="fa-solid fa-headphones-simple text-[#FFD369] text-xl"></i>
-      </div>
-      <h1 class="font-display font-bold text-3xl text-[#EEEEEE] tracking-tight">Kindred</h1>
-    </div>
+    <h2 class="font-semibold text-3xl text-[#EEEEEE] mt-6">What's your name?</h2>
+    <p class="text-base text-[#EEEEEE]/50 mt-2">This is how you show up on Kindred.</p>
 
-    <!-- Title -->
-    <div id="signup-title" class="mb-7 text-center">
-      <h2 class="font-semibold text-2xl text-[#EEEEEE]">Create account</h2>
-      <p class="text-sm text-[#EEEEEE]/50 mt-2">Join Kindred and find your sound.</p>
-    </div>
-
-    <!-- Fields -->
-    <form id="signup-form" class="flex flex-col gap-3.5">
-      <div id="field-fullname" class="bg-[#393E46] rounded-[10px] px-4 py-3.5 flex items-center gap-3 border border-white/5 focus-within:border-[#FFD369]/50 transition-colors">
+    <form id="signup-form" class="flex flex-col gap-4 mt-8">
+      <div id="field-fullname" class="bg-[#393E46] rounded-[10px] px-4 py-4 flex items-center gap-3 border border-white/5">
         <i class="fa-regular fa-user text-[#EEEEEE]/40 text-sm w-4"></i>
-        <div class="flex flex-col flex-1">
-          <label class="text-[10px] uppercase tracking-wide text-[#EEEEEE]/40 mb-0.5">Full name</label>
-          <input type="text" value="Efua Boateng" placeholder="Enter your full name" class="bg-transparent text-[#EEEEEE] text-sm placeholder:text-[#EEEEEE]/30 outline-none w-full">
-        </div>
+        <input type="text" value="Efua Boateng" placeholder="Your name" class="bg-transparent text-[#EEEEEE] text-sm placeholder:text-[#EEEEEE]/30 outline-none w-full">
       </div>
 
-      <div id="field-email" class="bg-[#393E46] rounded-[10px] px-4 py-3.5 flex items-center gap-3 border border-white/5 focus-within:border-[#FFD369]/50 transition-colors">
-        <i class="fa-regular fa-envelope text-[#EEEEEE]/40 text-sm w-4"></i>
-        <div class="flex flex-col flex-1">
-          <label class="text-[10px] uppercase tracking-wide text-[#EEEEEE]/40 mb-0.5">Email</label>
-          <input type="email" value="efua.boateng@kindredmail.com" placeholder="Enter your email" class="bg-transparent text-[#EEEEEE] text-sm placeholder:text-[#EEEEEE]/30 outline-none w-full">
-        </div>
-      </div>
-
-      <div id="field-password" class="bg-[#393E46] rounded-[10px] px-4 py-3.5 flex items-center gap-3 border border-white/5 focus-within:border-[#FFD369]/50 transition-colors">
-        <i class="fa-solid fa-lock text-[#EEEEEE]/40 text-sm w-4"></i>
-        <div class="flex flex-col flex-1">
-          <label class="text-[10px] uppercase tracking-wide text-[#EEEEEE]/40 mb-0.5">Password</label>
-          <input id="password-input" type="password" value="kindredsound24" placeholder="Create a password" class="bg-transparent text-[#EEEEEE] text-sm placeholder:text-[#EEEEEE]/30 outline-none w-full">
-        </div>
-        <button type="button" onclick="const i=document.getElementById('password-input'); const ic=document.getElementById('eye-icon-1'); if(i.type==='password'){i.type='text'; ic.classList.remove('fa-eye'); ic.classList.add('fa-eye-slash');}else{i.type='password'; ic.classList.remove('fa-eye-slash'); ic.classList.add('fa-eye');}" class="text-[#EEEEEE]/40 text-sm px-1">
-          <i id="eye-icon-1" class="fa-regular fa-eye"></i>
-        </button>
-      </div>
-
-      <div id="field-confirm-password" class="bg-[#393E46] rounded-[10px] px-4 py-3.5 flex items-center gap-3 border border-white/5 focus-within:border-[#FFD369]/50 transition-colors">
-        <i class="fa-solid fa-lock text-[#EEEEEE]/40 text-sm w-4"></i>
-        <div class="flex flex-col flex-1">
-          <label class="text-[10px] uppercase tracking-wide text-[#EEEEEE]/40 mb-0.5">Confirm password</label>
-          <input id="confirm-password-input" type="password" value="kindredsound24" placeholder="Re-enter your password" class="bg-transparent text-[#EEEEEE] text-sm placeholder:text-[#EEEEEE]/30 outline-none w-full">
-        </div>
-        <button type="button" onclick="const i=document.getElementById('confirm-password-input'); const ic=document.getElementById('eye-icon-2'); if(i.type==='password'){i.type='text'; ic.classList.remove('fa-eye'); ic.classList.add('fa-eye-slash');}else{i.type='password'; ic.classList.remove('fa-eye-slash'); ic.classList.add('fa-eye');}" class="text-[#EEEEEE]/40 text-sm px-1">
-          <i id="eye-icon-2" class="fa-regular fa-eye"></i>
-        </button>
-      </div>
-
-      <button type="button" id="signup-btn" class="mt-4 w-full bg-[#FFD369] text-[#222831] font-semibold text-base py-4 rounded-full shadow-lg shadow-[#FFD369]/20 active:scale-[0.98] transition-transform">
-        Create account
+      <button type="button" id="signup-continue" class="mt-2 w-full bg-[#FFD369] text-[#222831] font-semibold text-base py-4 rounded-full shadow-lg shadow-[#FFD369]/20">
+        Continue
       </button>
     </form>
-
-    <!-- Sign in link -->
-    <div id="signup-footer" class="mt-6 text-center">
-      <span class="text-[#EEEEEE]/50 text-sm">Already have an account? </span>
-      <a href="#" class="text-[#FFD369] text-sm font-medium">Sign in</a>
-    </div>
-
   </div>
 </div>
 </body>

@@ -1,5 +1,7 @@
 # Markdown trees that Prettier corrupts (extra fences, flattened ASCII art)
 apps/mobile-app/docs/project-structure.md
+# Apple Icon Composer source — generated JSON
+apps/mobile-app/assets/icons/*.icon/
 convex/_generated/
 apps/mobile-app/expo-env.d.ts
 .agents/

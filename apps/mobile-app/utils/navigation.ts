@@ -1,3 +1,5 @@
+import { DarkTheme } from "expo-router";
+
 import { COLORS, FONTS } from "@/constants";
 
 /**
@@ -14,6 +16,20 @@ export const defaultStackScreenOptions = {
   },
   contentStyle: {
     backgroundColor: COLORS.page,
+  },
+};
+
+/** Navigator chrome during push/pop. DefaultTheme is light and flashes white. */
+export const navigationTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: COLORS.primary,
+    background: COLORS.page,
+    card: COLORS.page,
+    text: COLORS.text,
+    border: COLORS.surface,
+    notification: COLORS.danger,
   },
 };
 

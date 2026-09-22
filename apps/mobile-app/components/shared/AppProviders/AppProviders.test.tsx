@@ -8,6 +8,10 @@ jest.mock("@convex-dev/auth/react", () => ({
   ConvexAuthProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+jest.mock("@/hooks", () => ({
+  FanSessionProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 jest.mock("@/utils", () => ({
   createConvexClient: () => ({}),
 }));

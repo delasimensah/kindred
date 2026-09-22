@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import React, { useMemo } from "react";
 import { Platform } from "react-native";
 
+import { FanSessionProvider } from "@/hooks";
 import { createConvexClient } from "@/utils";
 
 const secureStorage = {
@@ -27,7 +28,7 @@ const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
           : undefined
       }
     >
-      {children}
+      <FanSessionProvider>{children}</FanSessionProvider>
     </ConvexAuthProvider>
   );
 };

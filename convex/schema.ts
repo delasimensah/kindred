@@ -2,14 +2,16 @@ import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
-/**
- * Thin scaffold schema: Convex Auth tables plus a profile stub.
- * Product catalog tables land after workshop Convex cloud + schema growth from system design.
- */
 export default defineSchema({
   ...authTables,
   profiles: defineTable({
-    userId: v.id("users"),
+    authUserId: v.id("users"),
     displayName: v.string(),
-  }).index("by_userId", ["userId"]),
+    genres: v.array(v.string()),
+    timezone: v.optional(v.string()),
+    isAdmin: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_authUserId", ["authUserId"])
+    .index("by_isAdmin", ["isAdmin"]),
 });

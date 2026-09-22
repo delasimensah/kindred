@@ -48,6 +48,9 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 
+# Full-quality source downloads used only while encoding the seed audio.
+seed/.tmp/
+
 # Vercel
 .vercel
 

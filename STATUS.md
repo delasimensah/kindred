@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-49 catalog schema Done; next KIND-48 seed. KIND-45 waits until after mobile core.
+- **Current phase:** Build — KIND-48 catalog seed Done; next KIND-50 tab shell. KIND-45 waits until after the phone shell.
 - **Last updated:** 2026-09-22
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,12 +62,13 @@
 
 ## Next action (one line)
 
-KIND-48 seed the demo catalog (tracks, audio, artwork). Then KIND-50 tab shell. KIND-45 waits.
+KIND-50 mobile tab shell (liquid-glass tab bar and mini-player slot). KIND-45 waits until after that shell.
 
 ---
 
 ## Pointers
 
+- Pull request (KIND-48): https://github.com/delasimensah/kindred/pull/5
 - Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4
 - Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`

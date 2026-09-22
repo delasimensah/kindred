@@ -6,6 +6,7 @@ export const QUERY_DEFAULT_OPTIONS = {
   refetchOnWindowFocus: false,
 };
 
+export { TRACK_PEAK_BUCKETS } from "./catalog";
 export { COLORS, TEXT_SECONDARY_OPACITY } from "./colors";
 export {
   GENRE_ACCENTS,

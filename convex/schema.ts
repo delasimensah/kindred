@@ -23,12 +23,18 @@ export default defineSchema({
     handle: v.string(),
     bio: v.string(),
     avatarFileId: v.optional(v.id("files")),
+    coverFileId: v.optional(v.id("files")),
     verified: v.boolean(),
     hidden: v.boolean(),
     createdAt: v.number(),
   })
     .index("by_handle", ["handle"])
-    .index("by_hidden_createdAt", ["hidden", "createdAt"]),
+    .index("by_profileId", ["profileId"])
+    .index("by_hidden_createdAt", ["hidden", "createdAt"])
+    .searchIndex("by_name", {
+      searchField: "name",
+      filterFields: ["hidden", "verified"],
+    }),
 
   files: defineTable({
     storageId: v.id("_storage"),
@@ -60,4 +66,59 @@ export default defineSchema({
     .index("by_profile_artist", ["profileId", "artistId"])
     .index("by_artist_createdAt", ["artistId", "createdAt"])
     .index("by_profile_createdAt", ["profileId", "createdAt"]),
+
+  tracks: defineTable({
+    artistId: v.id("artists"),
+    title: v.string(),
+    audioFileId: v.id("files"),
+    artworkFileId: v.optional(v.id("files")),
+    visibility: v.union(v.literal("public"), v.literal("supporters")),
+    state: v.union(
+      v.literal("draft"),
+      v.literal("scheduled"),
+      v.literal("published")
+    ),
+    publishAt: v.optional(v.number()),
+    publishedAt: v.optional(v.number()),
+    durationMs: v.number(),
+    peaks: v.array(v.number()),
+    embedding: v.optional(v.array(v.number())),
+    embeddingText: v.optional(v.string()),
+    tags: v.array(v.string()),
+    description: v.optional(v.string()),
+    genre: v.string(),
+    hidden: v.boolean(),
+    credit: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_artist_state_publishedAt", ["artistId", "state", "publishedAt"])
+    .index("by_state_publishAt", ["state", "publishAt"])
+    .index("by_genre_publishedAt", ["genre", "publishedAt"])
+    .index("by_visibility_publishedAt", ["visibility", "publishedAt"])
+    .searchIndex("by_title", {
+      searchField: "title",
+      filterFields: ["state", "hidden", "visibility"],
+    }),
+
+  libraryItems: defineTable({
+    profileId: v.id("profiles"),
+    trackId: v.id("tracks"),
+    kind: v.union(v.literal("liked"), v.literal("saved")),
+    createdAt: v.number(),
+  })
+    .index("by_profile_createdAt", ["profileId", "createdAt"])
+    .index("by_profile_track", ["profileId", "trackId"]),
+
+  playlists: defineTable({
+    profileId: v.id("profiles"),
+    name: v.string(),
+    createdAt: v.number(),
+  }).index("by_profile_createdAt", ["profileId", "createdAt"]),
+
+  playlistEntries: defineTable({
+    playlistId: v.id("playlists"),
+    trackId: v.id("tracks"),
+    position: v.number(),
+    addedAt: v.number(),
+  }).index("by_playlist_position", ["playlistId", "position"]),
 });

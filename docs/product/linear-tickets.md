@@ -15,6 +15,8 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-45** (web Studio sign-in) stays Todo until after KIND-49, KIND-48, and KIND-50.
+
 **Words we use on purpose:** A **short check** is a small try before the full feature (old docs said “spike”). We learn works / blocked / cut later. The **retry queue** (old docs said “outbox”) is the phone’s saved list of taps that could not reach the server while offline, sent when you are back online.
 
 KIND-46 (password email short check) is on **Backlog** until email sending is ready.
@@ -30,9 +32,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-42** shared design tokens is **Done**.
 - **KIND-43** mobile email/password auth is **Done**.
 - **KIND-44** onboarding genres and follows is **Done**.
-- Remaining First Version / Launch slices **KIND-45–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
+- **KIND-45** web Studio/admin sign-in is **Todo** (deferred until after mobile catalog, seed, and shell).
+- **KIND-49** catalog schema is **Done**.
+- Remaining First Version / Launch slices **KIND-47–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic. KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Next build slice: [KIND-45](https://linear.app/dm-studios/issue/KIND-45) (web Studio/admin sign-in).
+- Next build slice: [KIND-48](https://linear.app/dm-studios/issue/KIND-48) (seed demo catalog). Then KIND-50 tab shell. Circle back to KIND-45 after the phone core.
 
 ---
 

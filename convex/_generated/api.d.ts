@@ -19,9 +19,11 @@ import type * as lib_follows from "../lib/follows.js";
 import type * as lib_functions from "../lib/functions.js";
 import type * as lib_genres from "../lib/genres.js";
 import type * as lib_profileName from "../lib/profileName.js";
+import type * as lib_tracks from "../lib/tracks.js";
 import type * as profiles from "../profiles.js";
 import type * as seed from "../seed.js";
 import type * as seedAvatars from "../seedAvatars.js";
+import type * as tracks from "../tracks.js";
 
 import type {
   ApiFromModules,
@@ -41,9 +43,11 @@ declare const fullApi: ApiFromModules<{
   "lib/functions": typeof lib_functions;
   "lib/genres": typeof lib_genres;
   "lib/profileName": typeof lib_profileName;
+  "lib/tracks": typeof lib_tracks;
   profiles: typeof profiles;
   seed: typeof seed;
   seedAvatars: typeof seedAvatars;
+  tracks: typeof tracks;
 }>;
 
 /**

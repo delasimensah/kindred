@@ -1,0 +1,25 @@
+---
+description: Linear tickets follow Kindred’s product order. Do not jump from phone to web and back.
+alwaysApply: true
+---
+
+# Linear tickets follow product flow
+
+When creating or ordering Linear issues:
+
+## Do
+
+- Follow the product: mobile catalog and listening first, then Artist Studio web, then public pages.
+- Keep a journey in one line: schema → seed → the screen that uses that data.
+- If the numbered list and that order disagree, the product order wins. Leave the later ticket in Todo.
+
+## Do not
+
+- Jump phone → web → phone to finish an epic
+- Start KIND-45 (web Studio sign-in) before catalog, seed, and the mobile shell unless this message says to
+
+## Example
+
+Bad: onboarding (phone) → Studio sign-in (web) → catalog tables (phone).
+
+Good: onboarding → catalog schema → seed → tab shell. Circle back to Studio sign-in when the phone core is standing.

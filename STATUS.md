@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-44 onboarding Done; next KIND-45.
+- **Current phase:** Build — KIND-49 catalog schema Done; next KIND-48 seed. KIND-45 waits until after mobile core.
 - **Last updated:** 2026-09-22
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,12 +62,13 @@
 
 ## Next action (one line)
 
-KIND-45 when asked (verified artist or admin signs in to web Studio or admin).
+KIND-48 seed the demo catalog (tracks, audio, artwork). Then KIND-50 tab shell. KIND-45 waits.
 
 ---
 
 ## Pointers
 
+- Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4
 - Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)

@@ -9,6 +9,7 @@ import { Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { cssInterop } from "nativewind";
 import { useEffect } from "react";
+import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -41,6 +42,26 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 
+/** Android drops the native splash in a dev client; keep the same page on screen. */
+const BootScreen = () => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.page,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Image
+        source={require("../assets/icons/splash-icon.png")}
+        style={{ width: 200, height: 200 }}
+        contentFit="contain"
+      />
+    </View>
+  );
+};
+
 const RootNavigator = () => {
   const {
     isSessionLoading,
@@ -59,7 +80,7 @@ const RootNavigator = () => {
   }, [isHoldingSplash]);
 
   if (isHoldingSplash) {
-    return null;
+    return <BootScreen />;
   }
 
   return (
@@ -98,15 +119,15 @@ const RootLayout = () => {
   }, [error]);
 
   if (!loaded) {
-    return null;
+    return <BootScreen />;
   }
 
   return (
     <GestureHandlerRootView
       className="flex-1 bg-page"
-      style={{ backgroundColor: COLORS.page }}
+      style={{ flex: 1, backgroundColor: COLORS.page }}
     >
-      <SafeAreaProvider>
+      <SafeAreaProvider style={{ flex: 1 }}>
         <ThemeProvider value={navigationTheme}>
           <AppProviders>
             <BottomSheetModalProvider>

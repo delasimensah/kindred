@@ -68,6 +68,7 @@ KIND-44 when asked (new fan picks genres and follows at least two artists).
 
 ## Pointers
 
+- Pull request (KIND-43): https://github.com/delasimensah/kindred/pull/2
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`

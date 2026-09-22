@@ -68,7 +68,7 @@ KIND-45 when asked (verified artist or admin signs in to web Studio or admin).
 
 ## Pointers
 
-- Pull request (KIND-43): https://github.com/delasimensah/kindred/pull/2
+- Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)
 - Product requirements: `docs/product/product-requirements.md`

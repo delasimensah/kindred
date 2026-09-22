@@ -1,6 +1,10 @@
 import { COLORS } from "@/constants";
 
-import { defaultStackScreenOptions, screenPresets } from "../navigation";
+import {
+  defaultStackScreenOptions,
+  navigationTheme,
+  screenPresets,
+} from "../navigation";
 
 describe("navigation utilities", () => {
   describe("defaultStackScreenOptions", () => {
@@ -24,6 +28,11 @@ describe("navigation utilities", () => {
       expect(defaultStackScreenOptions.contentStyle).toEqual({
         backgroundColor: COLORS.page,
       });
+    });
+
+    it("should use the page color for navigator transitions", () => {
+      expect(navigationTheme.colors.background).toBe(COLORS.page);
+      expect(navigationTheme.colors.card).toBe(COLORS.page);
     });
 
     it("should be a valid navigation options object", () => {

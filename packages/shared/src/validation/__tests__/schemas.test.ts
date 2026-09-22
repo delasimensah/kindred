@@ -32,6 +32,7 @@ describe("Validation Schemas", () => {
   describe("signUpSchema", () => {
     it("should validate correct sign up data", () => {
       const validData = {
+        displayName: "Efua Boateng",
         email: "test@example.com",
         password: "password123",
         confirmPassword: "password123",
@@ -41,6 +42,7 @@ describe("Validation Schemas", () => {
 
     it("should reject when passwords do not match", () => {
       const invalidData = {
+        displayName: "Efua Boateng",
         email: "test@example.com",
         password: "password123",
         confirmPassword: "different",
@@ -50,6 +52,7 @@ describe("Validation Schemas", () => {
 
     it("should reject invalid email", () => {
       const invalidData = {
+        displayName: "Efua Boateng",
         email: "invalid",
         password: "password123",
         confirmPassword: "password123",

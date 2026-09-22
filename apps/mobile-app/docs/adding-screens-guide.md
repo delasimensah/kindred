@@ -1,6 +1,6 @@
 # Adding Screens Guide
 
-How to add a screen to the Kindred field or tenant app.
+How to add a screen to the Kindred mobile app.
 
 ## Architecture
 
@@ -9,102 +9,56 @@ Expo Router files under `app/` are thin `*Route` components. They call Convex `u
 ```
 Root Stack (app/_layout.tsx)
 ├── index                  Redirect by session
-├── (auth)                 Sign in
-├── not-allowed            Signed-in staff or owner
-├── lease-ended            Tenant whose lease has ended
-├── (main-app)             Field workers
-│   ├── (tabs)
-│   │   ├── jobs
-│   │   └── account
-│   └── job/[workOrderId]
-│       ├── update-status  Modal
-│       └── completion-photo
-└── (tenant-app)           Tenants with a current lease
-    └── (tabs)
-        ├── home
-        ├── repairs
-        └── rent
+├── (auth)                 Welcome, then sign in / sign up
+└── (main-app)             Signed-in session
+    └── index              Session home until tabs ship
 ```
 
-## 1. Add a tab screen
+## 1. Add a stack screen
 
-1. Put the UI in `components/screens/field/NameScreen/NameScreen.tsx` with a test.
-2. Export it from `components/index.ts`.
-3. Add `app/(main-app)/(tabs)/name/index.tsx` as a `*Route` that loads data and renders the screen.
-4. Register the tab in `app/(main-app)/(tabs)/_layout.tsx`.
-
-```tsx
-<Tabs.Screen
-  name="name"
-  options={{
-    title: "Name",
-    tabBarIcon: ({ color, size }) => (
-      <Ionicons name="ellipse" size={size} color={color} />
-    ),
-  }}
-/>
-```
-
-## 2. Add a stack screen (job-style)
-
-Job detail sits outside the tabs so the tab bar is hidden.
-
-1. Create the screen under `components/screens/field/`.
-2. Add `app/(main-app)/job/[workOrderId]/name.tsx`.
-3. Register it in `app/(main-app)/job/[workOrderId]/_layout.tsx`.
+1. Put the UI in `components/screens/[stack]/NameScreen/NameScreen.tsx` with a test.
+2. Export it from `components/index.ts` if a route file imports it.
+3. Add `app/(group)/name.tsx` as a `*Route` that loads data and renders the screen.
+4. Register it in that group's `_layout.tsx`.
 
 ```tsx
 <Stack.Screen name="name" />
 ```
 
-Navigate with the full path:
+Navigate with the full path when leaving a group:
 
 ```tsx
-router.push(`/(main-app)/job/${workOrderId}/name`);
+router.push("/(auth)/sign-up");
 ```
 
-## 3. Add a modal
+## 2. Add a modal
 
 Same as a stack screen, with modal presentation:
 
 ```tsx
-<Stack.Screen name="update-status" options={{ presentation: "modal" }} />
+<Stack.Screen name="name" options={{ presentation: "modal" }} />
 ```
 
 Close with `router.back()`.
 
-## 4. Add an auth screen
+## 3. Add an auth screen
 
 1. Screen under `components/screens/auth/`.
 2. Route under `app/(auth)/`.
 3. Register in `app/(auth)/_layout.tsx`.
 
-Sign-in is `app/(auth)/sign-in.tsx`. Staff set passwords on the website.
+Welcome is `app/(auth)/index.tsx`. Sign-in is `app/(auth)/sign-in.tsx`. Sign-up is `app/(auth)/sign-up.tsx`. Sign-up is name, then email, then password. There is no forgot-password screen until the password-reset short check passes.
 
 ## Route file shape
 
 ```tsx
-import { api } from "@convex/_generated/api";
-import { useQuery } from "convex/react";
-import { router } from "expo-router";
+import { SignInScreen } from "@/components";
 
-import { JobsScreen } from "@/components";
-
-const JobsRoute = () => {
-  const jobs = useQuery(api.workOrders.listForCurrentField);
-
-  return (
-    <JobsScreen
-      jobs={jobs ?? []}
-      isLoading={jobs === undefined}
-      onOpenJob={(jobId) => {
-        router.push(`/(main-app)/job/${jobId}`);
-      }}
-    />
-  );
+const SignInRoute = () => {
+  return <SignInScreen />;
 };
 
-export default JobsRoute;
+export default SignInRoute;
 ```
 
 Keep route files under a few dozen lines. Layout, copy, and lists live in the screen component. Permission checks stay in Convex.

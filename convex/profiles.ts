@@ -1,49 +1,58 @@
 import { v } from "convex/values";
 
+import { getProfileByAuthUserId } from "./lib/auth";
 import { authedMutation, authedQuery } from "./lib/functions";
+import { displayNameForNewProfile } from "./lib/profileName";
 
-export const me = authedQuery({
+const meValidator = v.object({
+  profileId: v.id("profiles"),
+  displayName: v.string(),
+  isAdmin: v.boolean(),
+  genres: v.array(v.string()),
+  timezone: v.union(v.string(), v.null()),
+  createdAt: v.number(),
+});
+
+export const getMe = authedQuery({
   args: {},
-  returns: v.union(
-    v.null(),
-    v.object({
-      _id: v.id("profiles"),
-      displayName: v.string(),
-    })
-  ),
+  returns: v.union(v.null(), meValidator),
   handler: async (ctx) => {
-    const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", ctx.userId))
-      .unique();
+    const profile = await getProfileByAuthUserId(ctx, ctx.userId);
     if (profile === null) {
       return null;
     }
-    return { _id: profile._id, displayName: profile.displayName };
+    return {
+      profileId: profile._id,
+      displayName: profile.displayName,
+      isAdmin: profile.isAdmin,
+      genres: profile.genres,
+      timezone: profile.timezone ?? null,
+      createdAt: profile.createdAt,
+    };
   },
 });
 
-export const ensure = authedMutation({
-  args: {
-    displayName: v.string(),
-  },
+export const ensureProfile = authedMutation({
+  args: {},
   returns: v.id("profiles"),
-  handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", ctx.userId))
-      .unique();
-    const displayName = args.displayName.trim();
-    if (displayName.length === 0) {
-      throw new Error("Display name is required");
-    }
+  handler: async (ctx) => {
+    const existing = await getProfileByAuthUserId(ctx, ctx.userId);
     if (existing !== null) {
-      await ctx.db.patch(existing._id, { displayName });
       return existing._id;
     }
+
+    const user = await ctx.db.get(ctx.userId);
+    const displayName = displayNameForNewProfile({
+      name: user?.name,
+      email: user?.email,
+    });
+
     return await ctx.db.insert("profiles", {
-      userId: ctx.userId,
+      authUserId: ctx.userId,
       displayName,
+      genres: [],
+      isAdmin: false,
+      createdAt: Date.now(),
     });
   },
 });

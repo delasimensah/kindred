@@ -85,7 +85,7 @@ const sizeStyles: Record<ButtonSize, { container: string; text: string }> = {
     text: "text-base",
   },
   lg: {
-    container: "px-6 py-4 rounded-lg",
+    container: "px-6 py-4 rounded-full",
     text: "text-lg",
   },
 };
@@ -104,6 +104,7 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
   className,
   textClassName,
+  style,
   ...pressableProps
 }) => {
   const router = useRouter();
@@ -126,9 +127,6 @@ const Button: React.FC<ButtonProps> = ({
     <Pressable
       onPress={handlePress}
       disabled={disabled || loading}
-      style={({ pressed }) => ({
-        opacity: pressed ? 0.8 : disabled ? 0.5 : 1,
-      })}
       className={cn(
         "flex-row items-center justify-center",
         variantStyle.container,
@@ -137,6 +135,12 @@ const Button: React.FC<ButtonProps> = ({
         className
       )}
       {...pressableProps}
+      style={(state) => [
+        typeof style === "function" ? style(state) : style,
+        {
+          opacity: state.pressed ? 0.8 : disabled ? 0.5 : 1,
+        },
+      ]}
     >
       {leftIcon && !loading && <View className="mr-2">{leftIcon}</View>}
 
@@ -155,9 +159,10 @@ const Button: React.FC<ButtonProps> = ({
       ) : (
         <Text
           className={cn(
-            "text-center font-app-bold",
+            "text-center font-app-semibold leading-none",
             variantStyle.text,
             sizeStyle.text,
+            fullWidth && "w-full flex-1",
             textClassName
           )}
         >

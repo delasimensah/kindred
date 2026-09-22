@@ -10,6 +10,7 @@ export const passwordSchema = z
 
 export const signUpSchema = z
   .object({
+    displayName: z.string().trim().min(1, "Enter your full name"),
     email: emailSchema,
     password: passwordSchema,
     confirmPassword: z.string(),

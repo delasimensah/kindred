@@ -1,8 +1,10 @@
 import React from "react";
-import { KeyboardAvoidingView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { cn } from "shared";
 
 import { useAppInsets } from "@/hooks";
+
+import { VStack } from "../Stack/Stack";
 
 interface KeyboardFormViewProps {
   children: React.ReactNode;
@@ -18,10 +20,7 @@ const KeyboardFormView: React.FC<KeyboardFormViewProps> = ({
   const insets = useAppInsets();
 
   return (
-    <KeyboardAvoidingView
-      className={cn("flex-1 bg-page", className)}
-      behavior="padding"
-    >
+    <VStack className={cn("flex-1 bg-page", className)}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
@@ -36,7 +35,7 @@ const KeyboardFormView: React.FC<KeyboardFormViewProps> = ({
       >
         {children}
       </ScrollView>
-    </KeyboardAvoidingView>
+    </VStack>
   );
 };
 

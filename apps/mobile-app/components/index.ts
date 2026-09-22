@@ -11,6 +11,8 @@ export { default as Separator } from "./ui/Separator/Separator";
 export { default as WelcomeScreen } from "./screens/auth/WelcomeScreen/WelcomeScreen";
 export { default as SignInScreen } from "./screens/auth/SignInScreen/SignInScreen";
 export { default as SignUpScreen } from "./screens/auth/SignUpScreen/SignUpScreen";
+export { default as OnboardingGenresScreen } from "./screens/onboarding/OnboardingGenresScreen/OnboardingGenresScreen";
+export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
 
 export { default as AppProviders } from "./shared/AppProviders/AppProviders";

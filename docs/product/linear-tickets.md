@@ -29,9 +29,10 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - Premature slices KIND-14–KIND-41 are **Canceled** (pre-screens). Left untouched.
 - **KIND-42** shared design tokens is **Done**.
 - **KIND-43** mobile email/password auth is **Done**.
-- Remaining First Version / Launch slices **KIND-44–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
+- **KIND-44** onboarding genres and follows is **Done**.
+- Remaining First Version / Launch slices **KIND-45–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic.
 - Do not move a slice to In Progress until you ask to start it.
-- Next build slice: [KIND-44](https://linear.app/dm-studios/issue/KIND-44) (onboarding genres and follows).
+- Next build slice: [KIND-45](https://linear.app/dm-studios/issue/KIND-45) (web Studio/admin sign-in).
 
 ---
 

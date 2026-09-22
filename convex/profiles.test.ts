@@ -29,6 +29,9 @@ describe("profiles", () => {
       displayName: "Efua Boateng",
       isAdmin: false,
       genres: [],
+      followCount: 0,
+      hasCompletedOnboarding: false,
+      onboardingStep: "genres",
     });
   });
 

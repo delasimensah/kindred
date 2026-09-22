@@ -70,6 +70,7 @@ const ScrollableStack: React.FC<ScrollableStackProps> = ({
   className,
   children,
   showsVerticalScrollIndicator = false,
+  contentContainerStyle,
   ...props
 }) => {
   return (
@@ -82,7 +83,7 @@ const ScrollableStack: React.FC<ScrollableStackProps> = ({
         className
       )}
       showsVerticalScrollIndicator={showsVerticalScrollIndicator}
-      contentContainerStyle={{ paddingBottom: 100 }}
+      contentContainerStyle={[{ paddingBottom: 100 }, contentContainerStyle]}
       {...props}
     >
       {children}

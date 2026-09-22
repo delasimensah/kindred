@@ -87,10 +87,23 @@ jest.mock("@expo/vector-icons", () => {
   );
 });
 
-jest.mock("expo-image", () => ({
-  Image: "Image",
-  ImageBackground: "ImageBackground",
-}));
+jest.mock("expo-linear-gradient", () => {
+  const mockReact = require("react");
+  return {
+    LinearGradient: ({ children }: { children?: unknown }) =>
+      mockReact.createElement("View", null, children),
+  };
+});
+
+jest.mock("expo-image", () => {
+  const mockReact = require("react");
+  return {
+    Image: (props: Record<string, unknown>) =>
+      mockReact.createElement("Image", props),
+    ImageBackground: ({ children }: { children?: unknown }) =>
+      mockReact.createElement("View", null, children),
+  };
+});
 
 jest.mock("expo-image-picker", () => ({
   requestCameraPermissionsAsync: jest.fn(async () => ({ granted: false })),

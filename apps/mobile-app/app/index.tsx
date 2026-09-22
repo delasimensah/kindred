@@ -3,15 +3,19 @@ import { type Href, Redirect } from "expo-router";
 import { useFanSession } from "@/hooks";
 
 const IndexRoute = () => {
-  const { isAuthenticated, isViewerReady, hasCompletedOnboarding } =
-    useFanSession();
+  const {
+    isSessionLoading,
+    isAuthenticated,
+    isViewerReady,
+    hasCompletedOnboarding,
+  } = useFanSession();
+
+  if (isSessionLoading || (isAuthenticated && !isViewerReady)) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return <Redirect href={"/(auth)" as Href} />;
-  }
-
-  if (!isViewerReady) {
-    return null;
   }
 
   if (!hasCompletedOnboarding) {

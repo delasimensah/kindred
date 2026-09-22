@@ -5,11 +5,9 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useFonts } from "expo-font";
 import { Image, ImageBackground } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Stack, ThemeProvider } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { SplashScreen, Stack, ThemeProvider } from "expo-router";
 import { cssInterop } from "nativewind";
 import { useEffect } from "react";
-import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
@@ -42,46 +40,24 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 
-/** Android drops the native splash in a dev client; keep the same page on screen. */
-const BootScreen = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.page,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Image
-        source={require("../assets/icons/splash-icon.png")}
-        style={{ width: 200, height: 200 }}
-        contentFit="contain"
-      />
-    </View>
-  );
-};
+function SplashScreenController() {
+  const { isSessionLoading, isAuthenticated, isViewerReady } = useFanSession();
+  const isCheckingUpdate = useApplyAvailableUpdate();
+  const isReady =
+    !isSessionLoading &&
+    !isCheckingUpdate &&
+    (!isAuthenticated || isViewerReady);
+
+  if (isReady) {
+    SplashScreen.hide();
+  }
+
+  return null;
+}
 
 const RootNavigator = () => {
-  const {
-    isSessionLoading,
-    isAuthenticated,
-    isViewerReady,
-    hasCompletedOnboarding,
-  } = useFanSession();
-  const isCheckingUpdate = useApplyAvailableUpdate();
-  const isHoldingSplash =
-    isSessionLoading || isCheckingUpdate || (isAuthenticated && !isViewerReady);
-
-  useEffect(() => {
-    if (!isHoldingSplash) {
-      void SplashScreen.hideAsync();
-    }
-  }, [isHoldingSplash]);
-
-  if (isHoldingSplash) {
-    return <BootScreen />;
-  }
+  const { isAuthenticated, isViewerReady, hasCompletedOnboarding } =
+    useFanSession();
 
   return (
     <Stack
@@ -119,7 +95,7 @@ const RootLayout = () => {
   }, [error]);
 
   if (!loaded) {
-    return <BootScreen />;
+    return null;
   }
 
   return (
@@ -130,6 +106,7 @@ const RootLayout = () => {
       <SafeAreaProvider style={{ flex: 1 }}>
         <ThemeProvider value={navigationTheme}>
           <AppProviders>
+            <SplashScreenController />
             <BottomSheetModalProvider>
               <RootNavigator />
               <BottomSheetsManager />

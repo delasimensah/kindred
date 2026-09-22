@@ -68,6 +68,7 @@ KIND-48 seed the demo catalog (tracks, audio, artwork). Then KIND-50 tab shell. 
 
 ## Pointers
 
+- Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4
 - Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
 - Linear team: Kindred (`KIND`)

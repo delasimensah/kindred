@@ -42,7 +42,12 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 const RootNavigator = () => {
-  const { isSessionLoading, isAuthenticated, isViewerReady } = useFanSession();
+  const {
+    isSessionLoading,
+    isAuthenticated,
+    isViewerReady,
+    hasCompletedOnboarding,
+  } = useFanSession();
   const isCheckingUpdate = useApplyAvailableUpdate();
   const isHoldingSplash =
     isSessionLoading || isCheckingUpdate || (isAuthenticated && !isViewerReady);
@@ -66,7 +71,14 @@ const RootNavigator = () => {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Protected guard={isAuthenticated && isViewerReady}>
+      <Stack.Protected
+        guard={isAuthenticated && isViewerReady && !hasCompletedOnboarding}
+      >
+        <Stack.Screen name="(onboarding)" />
+      </Stack.Protected>
+      <Stack.Protected
+        guard={isAuthenticated && isViewerReady && hasCompletedOnboarding}
+      >
         <Stack.Screen name="(main-app)" />
       </Stack.Protected>
       <Stack.Protected guard={!isAuthenticated}>

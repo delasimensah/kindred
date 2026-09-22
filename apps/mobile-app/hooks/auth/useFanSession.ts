@@ -15,6 +15,10 @@ export type FanSession = {
   isAuthenticated: boolean;
   isViewerReady: boolean;
   displayName: string;
+  genres: string[];
+  followCount: number;
+  hasCompletedOnboarding: boolean;
+  onboardingStep: "genres" | "follows" | "done";
   isSigningOut: boolean;
   handleSignOut: () => Promise<void>;
 };
@@ -69,6 +73,10 @@ function useFanSessionState(): FanSession {
     isAuthenticated,
     isViewerReady: isAuthenticated && profileReady && viewer !== undefined,
     displayName: viewer?.displayName ?? "",
+    genres: viewer?.genres ?? [],
+    followCount: viewer?.followCount ?? 0,
+    hasCompletedOnboarding: viewer?.hasCompletedOnboarding ?? false,
+    onboardingStep: viewer?.onboardingStep ?? "genres",
     isSigningOut,
     handleSignOut,
   };

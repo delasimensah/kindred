@@ -1,3 +1,4 @@
+import { Image } from "expo-image";
 import React from "react";
 import { getDisplayInitials } from "shared";
 
@@ -8,14 +9,27 @@ import Text from "../Text/Text";
 
 interface PersonAvatarProps {
   displayName: string;
+  imageUrl?: string | null;
   size?: number;
 }
 
 const PersonAvatar: React.FC<PersonAvatarProps> = ({
   displayName,
+  imageUrl,
   size = 32,
 }) => {
   const fontSize = size <= 32 ? 11 : size <= 48 ? 14 : 20;
+
+  if (imageUrl) {
+    return (
+      <Image
+        accessibilityLabel={displayName}
+        source={{ uri: imageUrl }}
+        contentFit="cover"
+        style={{ width: size, height: size, borderRadius: size / 2 }}
+      />
+    );
+  }
 
   return (
     <VStack

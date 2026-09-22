@@ -136,10 +136,10 @@ const Button: React.FC<ButtonProps> = ({
       )}
       {...pressableProps}
       style={(state) => [
-        typeof style === "function" ? style(state) : style,
         {
           opacity: state.pressed ? 0.8 : disabled ? 0.5 : 1,
         },
+        typeof style === "function" ? style(state) : style,
       ]}
     >
       {leftIcon && !loading && <View className="mr-2">{leftIcon}</View>}

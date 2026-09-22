@@ -10,7 +10,8 @@ Expo Router files under `app/` are thin `*Route` components. They call Convex `u
 Root Stack (app/_layout.tsx)
 ├── index                  Redirect by session
 ├── (auth)                 Welcome, then sign in / sign up
-└── (main-app)             Signed-in session
+├── (onboarding)           Genres, then follow artists
+└── (main-app)             Signed-in session after onboarding
     └── index              Session home until tabs ship
 ```
 
@@ -48,6 +49,14 @@ Close with `router.back()`.
 3. Register in `app/(auth)/_layout.tsx`.
 
 Welcome is `app/(auth)/index.tsx`. Sign-in is `app/(auth)/sign-in.tsx`. Sign-up is `app/(auth)/sign-up.tsx`. Sign-up is name, then email, then password. There is no forgot-password screen until the password-reset short check passes.
+
+## 4. Add an onboarding screen
+
+1. Screen under `components/screens/onboarding/`.
+2. Route under `app/(onboarding)/`.
+3. Register in `app/(onboarding)/_layout.tsx`.
+
+`index` sends a fan to genres or follow-artists based on what they already saved. Genres is `genres`. Follows is `follow-artists`. A fan who signs out mid-flow lands back here on the next sign-in until they tap Continue on follows.
 
 ## Route file shape
 

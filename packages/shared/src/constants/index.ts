@@ -7,6 +7,14 @@ export const QUERY_DEFAULT_OPTIONS = {
 };
 
 export { COLORS, TEXT_SECONDARY_OPACITY } from "./colors";
+export {
+  GENRE_ACCENTS,
+  GENRES,
+  isGenre,
+  ONBOARDING_MIN_FOLLOWS,
+  ONBOARDING_MIN_GENRES,
+  type Genre,
+} from "./genres";
 export { RADII } from "./radii";
 export {
   FONT_FAMILIES,

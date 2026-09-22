@@ -7,7 +7,7 @@ import { COLORS } from "@/constants";
 import { VStack } from "../../ui/Stack/Stack";
 
 interface AuthGlowBackgroundProps {
-  variant: "welcome" | "sign-in" | "sign-up";
+  variant: "welcome" | "sign-in" | "sign-up" | "onboarding";
 }
 
 const AuthGlowBackground: React.FC<AuthGlowBackgroundProps> = ({ variant }) => {

@@ -5,7 +5,7 @@ import { VStack } from "../../ui/Stack/Stack";
 import AuthGlowBackground from "../AuthGlowBackground/AuthGlowBackground";
 
 interface AuthScreenShellProps {
-  glow: "welcome" | "sign-in" | "sign-up";
+  glow: "welcome" | "sign-in" | "sign-up" | "onboarding";
   children: React.ReactNode;
 }
 
@@ -13,10 +13,10 @@ const AuthScreenShell: React.FC<AuthScreenShellProps> = ({
   glow,
   children,
 }) => {
-  if (glow === "welcome") {
+  if (glow === "welcome" || glow === "onboarding") {
     return (
       <VStack className="flex-1 overflow-hidden bg-page">
-        <AuthGlowBackground variant="welcome" />
+        <AuthGlowBackground variant={glow} />
         {children}
       </VStack>
     );

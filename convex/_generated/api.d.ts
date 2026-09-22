@@ -8,14 +8,20 @@
  * @module
  */
 
+import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
+import type * as follows from "../follows.js";
 import type * as http from "../http.js";
 import type * as lib_accountPassword from "../lib/accountPassword.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_errors from "../lib/errors.js";
+import type * as lib_follows from "../lib/follows.js";
 import type * as lib_functions from "../lib/functions.js";
+import type * as lib_genres from "../lib/genres.js";
 import type * as lib_profileName from "../lib/profileName.js";
 import type * as profiles from "../profiles.js";
+import type * as seed from "../seed.js";
+import type * as seedAvatars from "../seedAvatars.js";
 
 import type {
   ApiFromModules,
@@ -24,14 +30,20 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  artists: typeof artists;
   auth: typeof auth;
+  follows: typeof follows;
   http: typeof http;
   "lib/accountPassword": typeof lib_accountPassword;
   "lib/auth": typeof lib_auth;
   "lib/errors": typeof lib_errors;
+  "lib/follows": typeof lib_follows;
   "lib/functions": typeof lib_functions;
+  "lib/genres": typeof lib_genres;
   "lib/profileName": typeof lib_profileName;
   profiles: typeof profiles;
+  seed: typeof seed;
+  seedAvatars: typeof seedAvatars;
 }>;
 
 /**

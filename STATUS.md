@@ -68,6 +68,7 @@ KIND-50 mobile tab shell (liquid-glass tab bar and mini-player slot). KIND-45 wa
 
 ## Pointers
 
+- Pull request (KIND-48): https://github.com/delasimensah/kindred/pull/5
 - Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4
 - Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
 - Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`

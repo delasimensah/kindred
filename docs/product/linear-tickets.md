@@ -15,7 +15,9 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell is Done. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell and **KIND-53** Discover are Done. Next phone catalog slice is **KIND-51** artist and track. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+
+A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
 **Words we use on purpose:** A **short check** is a small try before the full feature (old docs said “spike”). We learn works / blocked / cut later. The **retry queue** (old docs said “outbox”) is the phone’s saved list of taps that could not reach the server while offline, sent when you are back online.
 
@@ -36,9 +38,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
-- Remaining First Version / Launch slices **KIND-47** and **KIND-51–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic. KIND-45 is Todo but not next.
+- **KIND-53** Discover is **Done**.
+- Remaining First Version / Launch slices **KIND-47**, **KIND-51–KIND-52**, and **KIND-54–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Next build slice: [KIND-51](https://linear.app/dm-studios/issue/KIND-51) (artist profile and track detail). KIND-45 stays Todo until the phone catalog screens are in place.
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library → player work → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-51](https://linear.app/dm-studios/issue/KIND-51) (artist profile and track detail).
 
 ---
 
@@ -71,9 +75,9 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 7. [KIND-49](https://linear.app/dm-studios/issue/KIND-49/convex-catalog-schema-for-artists-tracks-files-and-peaks) **Convex catalog schema for artists, tracks, files, and peaks** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — spike/infra)
 8. [KIND-48](https://linear.app/dm-studios/issue/KIND-48/seed-pipeline-loads-artists-tracks-with-peaks-and-demo-logins) **Seed pipeline loads artists, tracks with peaks, and demo logins** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — spike/infra)
 9. [KIND-50](https://linear.app/dm-studios/issue/KIND-50/mobile-app-shell-liquid-glass-tab-bar-and-mini-player-chrome) **Mobile app shell: liquid-glass tab bar and mini-player chrome** — Slice. Epic KIND-2. Apps: mobile. Design: docs/design/exports/mobile/02-tabs/01-home.html
-10. [KIND-51](https://linear.app/dm-studios/issue/KIND-51/fan-can-open-artist-profile-and-track-detail-locked-and-unlocked) **Fan can open artist profile and track detail (locked and unlocked)** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/03-library/04-artist-profile.html, docs/design/exports/mobile/03-library/05-track-detail-unlocked.html
-11. [KIND-52](https://linear.app/dm-studios/issue/KIND-52/fan-can-use-library-destinations-liked-songs-and-private-playlists) **Fan can use Library destinations, liked songs, and private playlists** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/04-library.html, docs/design/exports/mobile/03-library/01-playlists.html
-12. [KIND-53](https://linear.app/dm-studios/issue/KIND-53/fan-can-browse-discover-featured-and-rising-artists) **Fan can browse Discover featured and rising artists** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/02-discover.html
+10. [KIND-53](https://linear.app/dm-studios/issue/KIND-53/fan-can-browse-discover-featured-and-rising-artists) **Fan can browse Discover featured and rising artists** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/02-discover.html
+11. [KIND-51](https://linear.app/dm-studios/issue/KIND-51/fan-can-open-artist-profile-and-track-detail-locked-and-unlocked) **Fan can open artist profile and track detail (locked and unlocked)** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/03-library/04-artist-profile.html, docs/design/exports/mobile/03-library/05-track-detail-unlocked.html
+12. [KIND-52](https://linear.app/dm-studios/issue/KIND-52/fan-can-use-library-destinations-liked-songs-and-private-playlists) **Fan can use Library destinations, liked songs, and private playlists** — Slice. Epic KIND-2. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/04-library.html, docs/design/exports/mobile/03-library/01-playlists.html
 13. [KIND-54](https://linear.app/dm-studios/issue/KIND-54/spike-background-audio-and-lock-screen-controls-on-a-real-device) **Spike: background audio and lock-screen controls on a real device** — Spike. Epic KIND-3. Apps: mobile. Design: (no screen — spike/infra)
 14. [KIND-55](https://linear.app/dm-studios/issue/KIND-55/fan-can-play-music-with-queue-shuffle-repeat-nextprevious) **Fan can play music with queue, shuffle, repeat, next/previous** — Slice. Epic KIND-3. Apps: mobile, convex. Design: docs/design/exports/mobile/04-player/01-now-playing.html, docs/design/exports/mobile/04-player/02-queue.html
 15. [KIND-56](https://linear.app/dm-studios/issue/KIND-56/mini-player-shared-transition-and-skia-waveform-scrubber-on-real) **Mini-player shared transition and Skia waveform scrubber on real screens** — Slice. Epic KIND-4. Apps: mobile. Design: docs/design/exports/mobile/04-player/01-now-playing.html

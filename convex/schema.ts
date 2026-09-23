@@ -123,4 +123,32 @@ export default defineSchema({
     position: v.number(),
     addedAt: v.number(),
   }).index("by_playlist_position", ["playlistId", "position"]),
+
+  artistStats: defineTable({
+    artistId: v.id("artists"),
+    followerCount: v.number(),
+    supporterCount: v.number(),
+    followers7d: v.number(),
+    distinctListeners7d: v.number(),
+    plays7d: v.number(),
+    risingScore: v.number(),
+    firstPublishedAt: v.optional(v.number()),
+    lastPublishedAt: v.optional(v.number()),
+    updatedAt: v.number(),
+  })
+    .index("by_artistId", ["artistId"])
+    .index("by_risingScore", ["risingScore"]),
+
+  featuredSlots: defineTable({
+    position: v.number(),
+    targetType: v.union(v.literal("artist"), v.literal("track")),
+    artistId: v.optional(v.id("artists")),
+    trackId: v.optional(v.id("tracks")),
+    activeFrom: v.number(),
+    activeTo: v.optional(v.number()),
+    createdByProfileId: v.optional(v.id("profiles")),
+    note: v.optional(v.string()),
+  })
+    .index("by_position", ["position"])
+    .index("by_activeFrom", ["activeFrom"]),
 });

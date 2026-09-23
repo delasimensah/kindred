@@ -74,6 +74,98 @@ export const upsertArtists = internalMutation({
   },
 });
 
+/** Featured slots and rising scores so Discover is not empty on day one. */
+export const upsertDiscovery = internalMutation({
+  args: {},
+  returns: v.object({
+    stats: v.number(),
+    featured: v.number(),
+  }),
+  handler: async (ctx) => {
+    const now = Date.now();
+    const artists = seedArtists();
+    let statsWritten = 0;
+    for (const [index, artist] of artists.entries()) {
+      const row = await ctx.db
+        .query("artists")
+        .withIndex("by_handle", (q) => q.eq("handle", artist.handle))
+        .unique();
+      if (row === null) {
+        continue;
+      }
+      const risingScore = artist.hero ? 900 - index * 10 : 400 - index * 15;
+      const existingStats = await ctx.db
+        .query("artistStats")
+        .withIndex("by_artistId", (q) => q.eq("artistId", row._id))
+        .unique();
+      if (existingStats !== null) {
+        await ctx.db.patch(existingStats._id, {
+          risingScore,
+          updatedAt: now,
+        });
+      } else {
+        await ctx.db.insert("artistStats", {
+          artistId: row._id,
+          followerCount: 0,
+          supporterCount: 0,
+          followers7d: artist.hero ? 40 - index : 12 - index,
+          distinctListeners7d: artist.hero ? 30 - index : 8 - index,
+          plays7d: artist.hero ? 200 - index * 5 : 40 - index,
+          risingScore,
+          updatedAt: now,
+        });
+      }
+      statsWritten += 1;
+    }
+
+    const featuredHandles = ["sela-okoro", "amaara"];
+    let featuredWritten = 0;
+    for (const [position, handle] of featuredHandles.entries()) {
+      const artist = await ctx.db
+        .query("artists")
+        .withIndex("by_handle", (q) => q.eq("handle", handle))
+        .unique();
+      if (artist === null) {
+        continue;
+      }
+      const existingSlots = await ctx.db
+        .query("featuredSlots")
+        .withIndex("by_position", (q) => q.eq("position", position))
+        .collect();
+      const match = existingSlots.find(
+        (slot) => slot.targetType === "artist" && slot.artistId === artist._id
+      );
+      if (match !== undefined) {
+        await ctx.db.patch(match._id, {
+          activeFrom: Date.UTC(2026, 0, 1),
+          activeTo: undefined,
+          note: "seed",
+        });
+      } else if (existingSlots.length === 0) {
+        await ctx.db.insert("featuredSlots", {
+          position,
+          targetType: "artist",
+          artistId: artist._id,
+          activeFrom: Date.UTC(2026, 0, 1),
+          note: "seed",
+        });
+      } else {
+        await ctx.db.patch(existingSlots[0]._id, {
+          targetType: "artist",
+          artistId: artist._id,
+          trackId: undefined,
+          activeFrom: Date.UTC(2026, 0, 1),
+          activeTo: undefined,
+          note: "seed",
+        });
+      }
+      featuredWritten += 1;
+    }
+
+    return { stats: statsWritten, featured: featuredWritten };
+  },
+});
+
 export const storedAssets = internalQuery({
   args: {},
   returns: v.array(

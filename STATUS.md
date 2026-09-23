@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-50 tab shell Done; next KIND-51 artist profile and track detail. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-53 Discover Done; next KIND-51 artist profile and track detail. KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-23
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.

@@ -1,6 +1,9 @@
-import { DarkTheme } from "expo-router";
+import { DarkTheme, type Href } from "expo-router";
 
 import { COLORS, FONTS } from "@/constants";
+
+/** Account modal above the tab shell — open from any tab avatar. */
+export const ACCOUNT_HREF = "/(main-app)/account" as Href;
 
 /**
  * Default screen options for Stack navigator

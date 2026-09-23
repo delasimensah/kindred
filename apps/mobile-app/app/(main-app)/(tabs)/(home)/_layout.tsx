@@ -11,7 +11,6 @@ const HomeLayout = () => {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="account" />
     </Stack>
   );
 };

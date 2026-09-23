@@ -10,9 +10,11 @@
 
 import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
+import type * as discovery from "../discovery.js";
 import type * as follows from "../follows.js";
 import type * as http from "../http.js";
 import type * as lib_accountPassword from "../lib/accountPassword.js";
+import type * as lib_artistStats from "../lib/artistStats.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_errors from "../lib/errors.js";
 import type * as lib_follows from "../lib/follows.js";
@@ -37,9 +39,11 @@ import type {
 declare const fullApi: ApiFromModules<{
   artists: typeof artists;
   auth: typeof auth;
+  discovery: typeof discovery;
   follows: typeof follows;
   http: typeof http;
   "lib/accountPassword": typeof lib_accountPassword;
+  "lib/artistStats": typeof lib_artistStats;
   "lib/auth": typeof lib_auth;
   "lib/errors": typeof lib_errors;
   "lib/follows": typeof lib_follows;

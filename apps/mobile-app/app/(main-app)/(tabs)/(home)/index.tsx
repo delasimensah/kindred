@@ -1,7 +1,8 @@
-import { type Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 import { HomeTabScreen } from "@/components";
 import { useFanSession } from "@/hooks";
+import { ACCOUNT_HREF } from "@/utils";
 
 const HomeRoute = () => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const HomeRoute = () => {
     <HomeTabScreen
       displayName={displayName}
       onOpenAccount={() => {
-        router.push("/(main-app)/(home)/account" as Href);
+        router.push(ACCOUNT_HREF);
       }}
     />
   );

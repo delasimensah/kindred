@@ -3,6 +3,7 @@ export { getConvexErrorMessage } from "./convexError";
 export { createConvexClient } from "./convexClient";
 export { bottomSafePad } from "./insets";
 export {
+  ACCOUNT_HREF,
   defaultStackScreenOptions,
   navigationTheme,
   screenPresets,

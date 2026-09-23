@@ -10,12 +10,15 @@ interface KeyboardFormViewProps {
   children: React.ReactNode;
   className?: string;
   contentJustify?: "center" | "flex-start";
+  /** When false, skip the status-bar inset (native header already owns it). */
+  includeTopSafeArea?: boolean;
 }
 
 const KeyboardFormView: React.FC<KeyboardFormViewProps> = ({
   children,
   className,
   contentJustify = "center",
+  includeTopSafeArea = true,
 }) => {
   const insets = useAppInsets();
 
@@ -28,7 +31,7 @@ const KeyboardFormView: React.FC<KeyboardFormViewProps> = ({
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: contentJustify,
-          paddingTop: insets.top + 24,
+          paddingTop: includeTopSafeArea ? insets.top + 24 : 24,
           paddingBottom: insets.bottom + 24,
           paddingHorizontal: 24,
         }}

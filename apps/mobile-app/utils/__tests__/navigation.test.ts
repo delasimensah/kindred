@@ -1,12 +1,17 @@
 import { COLORS } from "@/constants";
 
 import {
+  ACCOUNT_HREF,
   defaultStackScreenOptions,
   navigationTheme,
   screenPresets,
 } from "../navigation";
 
 describe("navigation utilities", () => {
+  it("points account at the modal above the tab shell", () => {
+    expect(ACCOUNT_HREF).toBe("/(main-app)/account");
+  });
+
   describe("defaultStackScreenOptions", () => {
     it("should have correct header style", () => {
       expect(defaultStackScreenOptions.headerStyle).toEqual({

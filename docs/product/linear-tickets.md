@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell and **KIND-53** Discover are Done. Next phone catalog slice is **KIND-51** artist and track. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, and **KIND-51** artist and track are Done. Next phone catalog slice is **KIND-52** Library. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -39,10 +39,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
 - **KIND-53** Discover is **Done**.
-- Remaining First Version / Launch slices **KIND-47**, **KIND-51–KIND-52**, and **KIND-54–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- **KIND-51** artist profile and track detail is **Done**.
+- Remaining First Version / Launch slices **KIND-47**, **KIND-52**, and **KIND-54–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library → player work → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-51](https://linear.app/dm-studios/issue/KIND-51) (artist profile and track detail).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library → player work → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-52](https://linear.app/dm-studios/issue/KIND-52) (Library destinations, liked songs, and private playlists).
 
 ---
 
@@ -465,9 +466,9 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Acceptance:**
 
-- Signed-in fan can open a seeded artist profile and see tracks/updates sections as designed.
-- Public track detail is openable; supporters-only track shows lock shell + Support CTA when not entitled.
-- No audio URL leaked in list responses.
+- Signed-in fan can open a seeded artist profile from Discover. The profile stays on the Discover stack, so the tab bar stays. Loading uses a skeleton of the screen, not a text placeholder.
+- The profile shows a short popular-track list. View all opens the rest of that list on the same stack. A public row plays in place (mini player title and pause). A supporters-only row opens the lock shell and Support call to action. Support does not check out.
+- No audio URL leaked in list responses. Playback itself is a later slice.
 
 **Do not:**
 

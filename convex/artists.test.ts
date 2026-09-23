@@ -52,4 +52,34 @@ describe("artists", () => {
     );
     expect(withPhotos.some((artist) => artist.avatarUrl !== null)).toBe(true);
   });
+
+  it("returns one artist profile and whether the fan follows them", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "efua.boateng@kindredmail.com",
+        name: "Efua Boateng",
+      });
+    });
+    await asUser(t, userId).mutation(api.profiles.ensureProfile, {});
+    await t.mutation(internal.seed.onboardingArtists, {});
+    const artistId = await t.run(async (ctx) => {
+      const artist = await ctx.db
+        .query("artists")
+        .withIndex("by_handle", (q) => q.eq("handle", "amaara"))
+        .unique();
+      if (artist === null) {
+        throw new Error("expected Amaara");
+      }
+      return artist._id;
+    });
+
+    const before = await asUser(t, userId).query(api.artists.get, { artistId });
+    expect(before?.name).toBe("Amaara Mensah");
+    expect(before?.isFollowed).toBe(false);
+
+    await asUser(t, userId).mutation(api.follows.add, { artistId });
+    const after = await asUser(t, userId).query(api.artists.get, { artistId });
+    expect(after?.isFollowed).toBe(true);
+  });
 });

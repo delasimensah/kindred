@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 
 import { DiscoverScreen } from "@/components";
 import { useFanSession } from "@/hooks";
-import { ACCOUNT_HREF } from "@/utils";
+import { ACCOUNT_HREF, artistHref } from "@/utils";
 
 const DiscoverRoute = () => {
   const router = useRouter();
@@ -36,6 +36,9 @@ const DiscoverRoute = () => {
       isLoading={page === undefined}
       onToggleFollow={(artistId) => {
         void handleToggle(artistId);
+      }}
+      onOpenArtist={(artistId) => {
+        router.push(artistHref(artistId));
       }}
       onOpenAccount={() => {
         router.push(ACCOUNT_HREF);

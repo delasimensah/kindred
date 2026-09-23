@@ -1,6 +1,8 @@
 import { v } from "convex/values";
 
 import { requireProfile } from "./lib/auth";
+import { fileUrl } from "./lib/files";
+import { getFollow } from "./lib/follows";
 import { authedQuery } from "./lib/functions";
 
 const onboardingArtistValidator = v.object({
@@ -62,5 +64,35 @@ export const listForOnboarding = authedQuery({
       avatarUrl: row.avatarUrl,
       isFollowed: row.isFollowed,
     }));
+  },
+});
+
+const artistProfileValidator = v.object({
+  artistId: v.id("artists"),
+  name: v.string(),
+  bio: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
+  coverUrl: v.union(v.string(), v.null()),
+  isFollowed: v.boolean(),
+});
+
+export const get = authedQuery({
+  args: { artistId: v.id("artists") },
+  returns: v.union(artistProfileValidator, v.null()),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const artist = await ctx.db.get(args.artistId);
+    if (artist === null || artist.hidden) {
+      return null;
+    }
+    const follow = await getFollow(ctx, profile._id, artist._id);
+    return {
+      artistId: artist._id,
+      name: artist.name,
+      bio: artist.bio,
+      avatarUrl: await fileUrl(ctx, artist.avatarFileId),
+      coverUrl: await fileUrl(ctx, artist.coverFileId),
+      isFollowed: follow !== null,
+    };
   },
 });

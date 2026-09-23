@@ -32,6 +32,7 @@ describe("DiscoverScreen", () => {
         rising={[rising]}
         isLoading={false}
         onToggleFollow={onToggleFollow}
+        onOpenArtist={jest.fn()}
         onOpenAccount={jest.fn()}
       />
     );
@@ -45,6 +46,24 @@ describe("DiscoverScreen", () => {
     expect(onToggleFollow).toHaveBeenCalledWith("artist_sela");
   });
 
+  it("opens an artist from a featured card", () => {
+    const onOpenArtist = jest.fn();
+    render(
+      <DiscoverScreen
+        displayName="Efua"
+        featured={[featured]}
+        rising={[rising]}
+        isLoading={false}
+        onToggleFollow={jest.fn()}
+        onOpenArtist={onOpenArtist}
+        onOpenAccount={jest.fn()}
+      />
+    );
+
+    fireEvent.press(screen.getByLabelText("Open Sela Okoro"));
+    expect(onOpenArtist).toHaveBeenCalledWith("artist_sela");
+  });
+
   it("opens account from the avatar", () => {
     const onOpenAccount = jest.fn();
     render(
@@ -54,6 +73,7 @@ describe("DiscoverScreen", () => {
         rising={[]}
         isLoading={false}
         onToggleFollow={jest.fn()}
+        onOpenArtist={jest.fn()}
         onOpenAccount={onOpenAccount}
       />
     );

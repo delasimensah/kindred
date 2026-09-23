@@ -19,6 +19,9 @@ export { default as HomeTabScreen } from "./screens/main/HomeTabScreen/HomeTabSc
 export { default as TabRootScreen } from "./screens/main/TabRootScreen/TabRootScreen";
 export { default as SearchTabScreen } from "./screens/main/SearchTabScreen/SearchTabScreen";
 export { default as DiscoverScreen } from "./screens/main/DiscoverScreen/DiscoverScreen";
+export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
+export { default as PopularTracksScreen } from "./screens/main/PopularTracksScreen/PopularTracksScreen";
+export { default as TrackDetailScreen } from "./screens/main/TrackDetailScreen/TrackDetailScreen";
 
 export { default as AppProviders } from "./shared/AppProviders/AppProviders";
 export { default as LoadFailed } from "./shared/LoadFailed/LoadFailed";

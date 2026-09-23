@@ -111,4 +111,20 @@ describe("seedCatalog", () => {
     expect(efua?.onboardingCompletedAt).toEqual(expect.any(Number));
     expect(rows.profileId).toBeDefined();
   });
+
+  it("inserts hero updates once", async () => {
+    const t = makeBackend();
+    await t.mutation(internal.seedCatalog.upsertArtists, {});
+    const first = await t.mutation(
+      internal.seedCatalog.insertArtistUpdates,
+      {}
+    );
+    const second = await t.mutation(
+      internal.seedCatalog.insertArtistUpdates,
+      {}
+    );
+    expect(first.inserted).toBeGreaterThan(0);
+    expect(second.inserted).toBe(0);
+    expect(second.skipped).toBe(first.inserted);
+  });
 });

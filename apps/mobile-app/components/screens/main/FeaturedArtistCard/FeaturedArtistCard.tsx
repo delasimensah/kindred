@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable } from "react-native";
 
 import { COLORS } from "@/constants";
 
@@ -21,27 +21,41 @@ export interface DiscoverArtistCard {
 interface FeaturedArtistCardProps {
   artist: DiscoverArtistCard;
   onToggleFollow: () => void;
+  onOpen: () => void;
 }
 
 const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
   artist,
   onToggleFollow,
+  onOpen,
 }) => {
   const followLabel = artist.isFollowed
     ? `Following ${artist.name}`
     : `Follow ${artist.name}`;
 
   return (
-    <View className="overflow-hidden rounded-3xl" style={{ height: 420 }}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Open ${artist.name}`}
+      onPress={onOpen}
+      className="overflow-hidden rounded-3xl bg-surface"
+      style={{ height: 420, backgroundColor: COLORS.surface }}
+    >
       {artist.coverUrl || artist.avatarUrl ? (
         <Image
           accessibilityLabel={artist.name}
           source={{ uri: artist.coverUrl ?? artist.avatarUrl ?? undefined }}
           contentFit="cover"
-          style={{ position: "absolute", width: "100%", height: "100%" }}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            backgroundColor: COLORS.surface,
+          }}
         />
       ) : (
-        <View
+        <VStack
+          spacing="none"
           className="absolute inset-0 bg-surface"
           accessibilityLabel={artist.name}
         />
@@ -57,11 +71,14 @@ const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
           left: 0,
         }}
       />
-      <View className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1.5">
+      <VStack
+        spacing="none"
+        className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1.5"
+      >
         <Text className="font-app-bold text-[10px] uppercase tracking-wide text-textOnPrimary">
           Featured
         </Text>
-      </View>
+      </VStack>
       <VStack spacing="sm" className="absolute bottom-0 left-0 right-0 p-5">
         <VStack spacing="none">
           <Text className="font-display-bold text-2xl text-text">
@@ -94,7 +111,7 @@ const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
           </Pressable>
         </HStack>
       </VStack>
-    </View>
+    </Pressable>
   );
 };
 

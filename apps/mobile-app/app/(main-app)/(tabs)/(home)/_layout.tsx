@@ -1,16 +1,11 @@
 import { Stack } from "expo-router";
 
-import { defaultStackScreenOptions, screenPresets } from "@/utils";
+import { tabStackScreenOptions } from "@/utils";
 
 const HomeLayout = () => {
   return (
-    <Stack
-      screenOptions={{
-        ...defaultStackScreenOptions,
-        ...screenPresets.noHeader,
-      }}
-    >
-      <Stack.Screen name="index" />
+    <Stack screenOptions={tabStackScreenOptions}>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
   );
 };

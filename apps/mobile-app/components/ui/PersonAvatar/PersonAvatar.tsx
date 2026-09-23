@@ -26,7 +26,12 @@ const PersonAvatar: React.FC<PersonAvatarProps> = ({
         accessibilityLabel={displayName}
         source={{ uri: imageUrl }}
         contentFit="cover"
-        style={{ width: size, height: size, borderRadius: size / 2 }}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: COLORS.surface,
+        }}
       />
     );
   }

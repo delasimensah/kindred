@@ -139,6 +139,19 @@ export default defineSchema({
     .index("by_artistId", ["artistId"])
     .index("by_risingScore", ["risingScore"]),
 
+  updatePosts: defineTable({
+    artistId: v.id("artists"),
+    body: v.string(),
+    photoFileId: v.optional(v.id("files")),
+    voiceFileId: v.optional(v.id("files")),
+    voiceDurationMs: v.optional(v.number()),
+    audience: v.union(v.literal("everyone"), v.literal("supporters")),
+    hidden: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_artist_createdAt", ["artistId", "createdAt"])
+    .index("by_audience_createdAt", ["audience", "createdAt"]),
+
   featuredSlots: defineTable({
     position: v.number(),
     targetType: v.union(v.literal("artist"), v.literal("track")),

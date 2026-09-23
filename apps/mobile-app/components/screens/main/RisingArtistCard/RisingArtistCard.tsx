@@ -1,13 +1,15 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable } from "react-native";
 
 import PersonAvatar from "../../../ui/PersonAvatar/PersonAvatar";
+import { VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import type { DiscoverArtistCard } from "../FeaturedArtistCard/FeaturedArtistCard";
 
 interface RisingArtistCardProps {
   artist: DiscoverArtistCard;
   onToggleFollow: () => void;
+  onOpen: () => void;
 }
 
 function shortName(name: string): string {
@@ -18,6 +20,7 @@ function shortName(name: string): string {
 const RisingArtistCard: React.FC<RisingArtistCardProps> = ({
   artist,
   onToggleFollow,
+  onOpen,
 }) => {
   const label = shortName(artist.name);
   const followLabel = artist.isFollowed
@@ -25,18 +28,26 @@ const RisingArtistCard: React.FC<RisingArtistCardProps> = ({
     : `Follow ${artist.name}`;
 
   return (
-    <View className="w-[92px] items-center gap-2.5">
-      <PersonAvatar
-        displayName={artist.name}
-        imageUrl={artist.avatarUrl}
-        size={80}
-      />
-      <Text
-        className="w-full text-center font-app-medium text-xs text-text"
-        numberOfLines={1}
+    <VStack spacing="sm" align="center" className="w-[92px]">
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Open ${artist.name}`}
+        onPress={onOpen}
       >
-        {label}
-      </Text>
+        <VStack spacing="sm" align="center">
+          <PersonAvatar
+            displayName={artist.name}
+            imageUrl={artist.avatarUrl}
+            size={80}
+          />
+          <Text
+            className="w-full text-center font-app-medium text-xs text-text"
+            numberOfLines={1}
+          >
+            {label}
+          </Text>
+        </VStack>
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={followLabel}
@@ -57,7 +68,7 @@ const RisingArtistCard: React.FC<RisingArtistCardProps> = ({
           {artist.isFollowed ? "Following" : "Follow"}
         </Text>
       </Pressable>
-    </View>
+    </VStack>
   );
 };
 

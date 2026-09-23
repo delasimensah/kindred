@@ -20,6 +20,7 @@ interface DiscoverScreenProps {
   rising: DiscoverArtistCard[];
   isLoading: boolean;
   onToggleFollow: (artistId: string) => void;
+  onOpenArtist: (artistId: string) => void;
   onOpenAccount: () => void;
 }
 
@@ -35,6 +36,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
   rising,
   isLoading,
   onToggleFollow,
+  onOpenArtist,
   onOpenAccount,
 }) => {
   const { height } = useWindowDimensions();
@@ -77,6 +79,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
             key={artist.artistId}
             artist={artist}
             onToggleFollow={() => onToggleFollow(artist.artistId)}
+            onOpen={() => onOpenArtist(artist.artistId)}
           />
         ))}
 
@@ -100,6 +103,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
                     key={artist.artistId}
                     artist={artist}
                     onToggleFollow={() => onToggleFollow(artist.artistId)}
+                    onOpen={() => onOpenArtist(artist.artistId)}
                   />
                 ))}
               </ScrollView>

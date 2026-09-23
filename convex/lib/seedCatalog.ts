@@ -373,3 +373,52 @@ export function seedAccounts(): SeedAccount[] {
 export function demoAccounts(): SeedAccount[] {
   return DEMO_ACCOUNTS;
 }
+
+export type SeedUpdate = {
+  artistHandle: string;
+  body: string;
+  audience: "everyone" | "supporters";
+  ageDays: number;
+};
+
+/**
+ * What: short updates on the three hero acts.
+ * Where: we write them.
+ * Rights: original fiction for this demo.
+ * How: seedCatalog.insertArtistUpdates, after artists exist.
+ * Out: photos, voice notes, and a home feed.
+ */
+export function seedUpdates(): SeedUpdate[] {
+  return [
+    {
+      artistHandle: "amaara",
+      body: "Asase is finished. The title is the word for earth, and the song is for home.",
+      audience: "everyone",
+      ageDays: 1,
+    },
+    {
+      artistHandle: "amaara",
+      body: "Horn section in a small room in Accra this afternoon. Loud in the best way.",
+      audience: "everyone",
+      ageDays: 3,
+    },
+    {
+      artistHandle: "amaara",
+      body: "A rough night-session mix. Supporters hear it before anyone else.",
+      audience: "supporters",
+      ageDays: 2,
+    },
+    {
+      artistHandle: "kweku-darko",
+      body: "New highlife guitar line from Kumasi. Still deciding where the chorus sits.",
+      audience: "everyone",
+      ageDays: 4,
+    },
+    {
+      artistHandle: "sela-okoro",
+      body: "Lagos session ran late. The log drum finally sat in the pocket.",
+      audience: "everyone",
+      ageDays: 5,
+    },
+  ];
+}

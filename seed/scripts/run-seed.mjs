@@ -166,6 +166,11 @@ async function main() {
     );
   }
 
+  const updates = convexRun("seedCatalog:insertArtistUpdates", {});
+  console.log(
+    `Updates inserted ${updates.inserted}, already there ${updates.skipped}.`
+  );
+
   const accounts = convexRun("seedCatalog:ensureAccounts", { password });
   console.log(
     `Accounts created ${accounts.created}, already there ${accounts.existing}, profiles ${accounts.profiles}.`

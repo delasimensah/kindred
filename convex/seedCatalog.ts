@@ -17,6 +17,7 @@ import {
   SEED_TRACK_CHUNK,
   seedAccounts,
   seedArtists,
+  seedUpdates,
   type SeedAccount,
 } from "./lib/seedCatalog";
 import { TRACK_PEAK_BUCKETS } from "./lib/tracks";
@@ -416,6 +417,38 @@ export const insertTrackChunk = internalMutation({
           : { credit: audioFile.credit }),
         createdAt:
           track.publishedAt ?? track.publishAt ?? Date.UTC(2026, 0, 15),
+      });
+      inserted += 1;
+    }
+    return { inserted, skipped };
+  },
+});
+
+const DAY_MS = 86_400_000;
+
+export const insertArtistUpdates = internalMutation({
+  args: {},
+  returns: v.object({ inserted: v.number(), skipped: v.number() }),
+  handler: async (ctx) => {
+    let inserted = 0;
+    let skipped = 0;
+    const now = Date.now();
+    for (const update of seedUpdates()) {
+      const artistId = await artistIdByHandle(ctx, update.artistHandle);
+      const existing = await ctx.db
+        .query("updatePosts")
+        .withIndex("by_artist_createdAt", (q) => q.eq("artistId", artistId))
+        .collect();
+      if (existing.some((post) => post.body === update.body)) {
+        skipped += 1;
+        continue;
+      }
+      await ctx.db.insert("updatePosts", {
+        artistId,
+        body: update.body,
+        audience: update.audience,
+        hidden: false,
+        createdAt: now - update.ageDays * DAY_MS,
       });
       inserted += 1;
     }

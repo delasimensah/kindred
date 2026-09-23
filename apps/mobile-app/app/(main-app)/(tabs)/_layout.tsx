@@ -1,12 +1,10 @@
 import { ThemeProvider } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
-import { useState } from "react";
 import { Platform } from "react-native";
 
-import MiniPlayerSlot, {
-  type MiniPlayerTrack,
-} from "@/components/screens/main/MiniPlayerSlot/MiniPlayerSlot";
+import MiniPlayerSlot from "@/components/screens/main/MiniPlayerSlot/MiniPlayerSlot";
 import { COLORS } from "@/constants";
+import { PreviewPlayerProvider, usePreviewPlayer } from "@/hooks";
 import { navigationTheme } from "@/utils";
 
 /**
@@ -23,7 +21,16 @@ const tabScreenStyle = { backgroundColor: COLORS.page };
 const ANDROID_TAB_INDICATOR = "#2C3138";
 
 const MainTabsLayout = () => {
-  const activeTrack = useActiveTrack();
+  return (
+    // iOS mounts two accessory copies that do not share local state.
+    <PreviewPlayerProvider>
+      <TabsShell />
+    </PreviewPlayerProvider>
+  );
+};
+
+const TabsShell = () => {
+  const player = usePreviewPlayer();
 
   return (
     <ThemeProvider value={navigationTheme}>
@@ -39,9 +46,9 @@ const MainTabsLayout = () => {
       >
         <NativeTabs.BottomAccessory>
           <MiniPlayerSlot
-            track={activeTrack.track}
-            isPlaying={activeTrack.isPlaying}
-            onToggle={activeTrack.onToggle}
+            track={player.track}
+            isPlaying={player.isPlaying}
+            onToggle={player.toggle}
           />
         </NativeTabs.BottomAccessory>
         <NativeTabs.Trigger name="(home)" contentStyle={tabScreenStyle}>
@@ -71,26 +78,5 @@ const MainTabsLayout = () => {
     </ThemeProvider>
   );
 };
-
-interface ActiveTrack {
-  track: MiniPlayerTrack;
-  isPlaying: boolean;
-  onToggle: () => void;
-}
-
-/**
- * Stand-in so the accessory is visible on this shell.
- * The player ticket replaces this with the track that is actually playing.
- * Play state stays here: iOS draws the bar and the gap as two copies.
- */
-function useActiveTrack(): ActiveTrack {
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  return {
-    track: { title: "Asase", artistName: "Amaara Mensah" },
-    isPlaying,
-    onToggle: () => setIsPlaying((playing) => !playing),
-  };
-}
 
 export default MainTabsLayout;

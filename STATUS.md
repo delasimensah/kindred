@@ -68,6 +68,7 @@ KIND-52 Library destinations, liked songs, and private playlists. KIND-45 waits 
 
 ## Pointers
 
+- Pull request (KIND-51): https://github.com/delasimensah/kindred/pull/8
 - Pull request (KIND-53): https://github.com/delasimensah/kindred/pull/7
 - Pull request (KIND-50): https://github.com/delasimensah/kindred/pull/6
 - Pull request (KIND-48): https://github.com/delasimensah/kindred/pull/5

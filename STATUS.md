@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-51 artist profile and track detail Done; next KIND-52 Library. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-52 Library destinations, liked songs, and private playlists Done; next KIND-54 background-audio short check. KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-23
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-52 Library destinations, liked songs, and private playlists. KIND-45 waits until the phone catalog screens are in place.
+KIND-54 Spike: background audio and lock-screen controls on a real device. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

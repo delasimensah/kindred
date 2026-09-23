@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, and **KIND-51** artist and track are Done. Next phone catalog slice is **KIND-52** Library. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, and **KIND-52** Library are Done. Next phone slice is **KIND-54** background audio. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -40,10 +40,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-50** mobile tab shell is **Done**.
 - **KIND-53** Discover is **Done**.
 - **KIND-51** artist profile and track detail is **Done**.
-- Remaining First Version / Launch slices **KIND-47**, **KIND-52**, and **KIND-54–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- **KIND-52** Library destinations, liked songs, and private playlists is **Done**.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-54–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library → player work → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-52](https://linear.app/dm-studios/issue/KIND-52) (Library destinations, liked songs, and private playlists).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio → player work → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-54](https://linear.app/dm-studios/issue/KIND-54) (Spike: background audio and lock-screen controls on a real device).
 
 ---
 
@@ -508,11 +509,12 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Acceptance:**
 
-- Library tab lists destinations: Playlists, Liked, Downloads (can deep-link empty), Artists, Make a mix (can stub navigate).
-- User can create a private playlist, open it, and add/remove tracks.
-- Liked songs list works for the signed-in profile.
-- Library artists lists followed artists.
-- Locked tracks in a playlist show as locked, not playable.
+- Library tab lists destinations: Playlists, Liked songs, Downloaded (empty note), Artists, and Make a mix (empty note). Each opens on the Library stack, so the tab bar stays. The system back button returns. Account stays the modal on the parent stack.
+- A signed-in fan can create a private playlist (name only; back cancels), open it, add a published public track, and remove a track. Another fan cannot open that playlist.
+- Liked songs lists tracks the fan liked from a track row. Unlike removes the row. A supporters-only track can be liked and stays locked.
+- Library artists lists artists this fan follows and opens that artist on the Library stack.
+- A locked track in a playlist or liked list opens the support gate on the Library stack. It does not play. No audio URL in these responses.
+- Play all, shuffle, download, a playlist cover, and a generated mix are not on these screens. Downloads do not save files. Playback itself is a later slice.
 
 **Do not:**
 

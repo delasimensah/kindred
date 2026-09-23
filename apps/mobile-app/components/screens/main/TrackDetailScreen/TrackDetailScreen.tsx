@@ -8,6 +8,7 @@ import { useAppInsets } from "@/hooks";
 import { formatDuration } from "@/utils";
 
 import TrackSupportGate from "../../../catalog/TrackSupportGate/TrackSupportGate";
+import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import PersonAvatar from "../../../ui/PersonAvatar/PersonAvatar";
 import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
@@ -61,9 +62,11 @@ const TrackDetailScreen: React.FC<TrackDetailScreenProps> = ({
   if (track === null) {
     return (
       <VStack spacing="md" padding="lg" className="flex-1 bg-page">
-        <Text className="text-sm text-text/50">
-          This track is not available.
-        </Text>
+        <CollectionEmptyState
+          icon="musical-notes"
+          title="Track not available"
+          subtitle="This track may be hidden, or the link is no longer valid."
+        />
       </VStack>
     );
   }

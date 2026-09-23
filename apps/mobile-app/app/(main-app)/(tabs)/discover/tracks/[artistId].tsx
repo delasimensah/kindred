@@ -1,6 +1,6 @@
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import { PopularTracksScreen } from "@/components";
@@ -17,6 +17,7 @@ const ArtistTracksRoute = () => {
     api.artists.get,
     artistId === undefined ? "skip" : { artistId: artistId as Id<"artists"> }
   );
+  const setLiked = useMutation(api.library.setLiked);
   const listed = useQuery(
     api.tracks.listPublishedForArtist,
     artistId === undefined ? "skip" : { artistId: artistId as Id<"artists"> }
@@ -43,6 +44,13 @@ const ArtistTracksRoute = () => {
         playingTrackId={player.track.trackId}
         isPlaying={player.isPlaying}
         onPlay={playTrack}
+        onToggleLike={(trackId) => {
+          const track = listed?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined) {
+            return;
+          }
+          void setLiked({ trackId: track.trackId, liked: !track.liked });
+        }}
         onOpenLocked={(trackId) => {
           router.push(trackHref(trackId));
         }}

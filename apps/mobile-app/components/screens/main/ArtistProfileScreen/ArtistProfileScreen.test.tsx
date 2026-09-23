@@ -21,6 +21,7 @@ const screenProps = {
       artworkUrl: null,
       durationMs: 212000,
       locked: false,
+      liked: false,
     },
     {
       trackId: "track_night",
@@ -28,6 +29,7 @@ const screenProps = {
       artworkUrl: null,
       durationMs: 180000,
       locked: true,
+      liked: false,
     },
   ],
   updates: [
@@ -46,6 +48,7 @@ const screenProps = {
   isPlaying: false,
   onToggleFollow: jest.fn(),
   onPlay: jest.fn(),
+  onToggleLike: jest.fn(),
   onOpenLocked: jest.fn(),
   onViewAllTracks: jest.fn(),
   onSupport: jest.fn(),

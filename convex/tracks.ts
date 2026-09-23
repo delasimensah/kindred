@@ -4,6 +4,7 @@ import { decideTrackAccess, isLocked } from "./lib/access";
 import { requireProfile } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { authedQuery } from "./lib/functions";
+import { likedTrackIdSet } from "./lib/library";
 
 const publishedTrackValidator = v.object({
   trackId: v.id("tracks"),
@@ -13,6 +14,7 @@ const publishedTrackValidator = v.object({
   genre: v.string(),
   artworkUrl: v.union(v.string(), v.null()),
   locked: v.boolean(),
+  liked: v.boolean(),
 });
 
 export const listPublishedForArtist = authedQuery({
@@ -40,6 +42,7 @@ export const listPublishedForArtist = authedQuery({
     const visible = scanned.filter((track) => !track.hidden);
     const hasMore = cap !== undefined && visible.length > cap;
     const page = cap === undefined ? visible : visible.slice(0, cap);
+    const likedIds = await likedTrackIdSet(ctx, profile._id);
     const tracks = [];
     for (const track of page) {
       tracks.push({
@@ -50,6 +53,7 @@ export const listPublishedForArtist = authedQuery({
         genre: track.genre,
         artworkUrl: await fileUrl(ctx, track.artworkFileId),
         locked: isLocked(decideTrackAccess(track, isOwner)),
+        liked: likedIds.has(track._id),
       });
     }
     return { tracks, hasMore };
@@ -67,6 +71,7 @@ const trackDetailValidator = v.object({
   visibility: v.union(v.literal("public"), v.literal("supporters")),
   description: v.union(v.string(), v.null()),
   locked: v.boolean(),
+  liked: v.boolean(),
 });
 
 export const get = authedQuery({
@@ -88,6 +93,7 @@ export const get = authedQuery({
       return null;
     }
     const locked = isLocked(access);
+    const likedIds = await likedTrackIdSet(ctx, profile._id);
     return {
       trackId: track._id,
       artistId: artist._id,
@@ -99,6 +105,7 @@ export const get = authedQuery({
       visibility: track.visibility,
       description: locked ? null : (track.description ?? null),
       locked,
+      liked: likedIds.has(track._id),
     };
   },
 });

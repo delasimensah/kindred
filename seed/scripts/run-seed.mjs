@@ -87,6 +87,10 @@ async function main() {
   const peaksByFile = JSON.parse(await readFile(peaksPath, "utf8"));
   const entries = [...manifest.audio, ...manifest.images];
   convexRun("seedCatalog:upsertArtists", {});
+  const discovery = convexRun("seedCatalog:upsertDiscovery", {});
+  console.log(
+    `Discovery stats ${discovery.stats}, featured ${discovery.featured}.`
+  );
   const stored = convexRun("seedCatalog:storedAssets", {});
   const storedIds = new Map(
     stored.map((file) => [file.sourceUrl, file.storageId])

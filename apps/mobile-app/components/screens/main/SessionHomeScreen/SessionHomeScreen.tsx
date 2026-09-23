@@ -1,5 +1,6 @@
 import React from "react";
 
+import AuthBackButton from "../../../auth/AuthBackButton/AuthBackButton";
 import AuthWordmark from "../../../auth/AuthWordmark/AuthWordmark";
 import Button from "../../../ui/Button/Button";
 import KeyboardFormView from "../../../ui/KeyboardFormView/KeyboardFormView";
@@ -10,16 +11,19 @@ interface SessionHomeScreenProps {
   displayName: string;
   isSigningOut: boolean;
   onSignOut: () => void;
+  onBack?: () => void;
 }
 
 const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
   displayName,
   isSigningOut,
   onSignOut,
+  onBack,
 }) => {
   return (
     <KeyboardFormView>
       <VStack spacing="lg" className="w-full">
+        {onBack ? <AuthBackButton onPress={onBack} /> : null}
         <AuthWordmark />
         <VStack spacing="sm" align="center">
           <Text className="font-app-semibold text-2xl text-text">

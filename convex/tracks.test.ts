@@ -227,6 +227,18 @@ describe("tracks", () => {
     expect(locked?.description).toBeNull();
     expect(JSON.stringify(locked)).not.toMatch(/rough mix/i);
     expect(JSON.stringify(locked)).not.toMatch(/audio\/mpeg/);
+
+    const playable = await asUser(t, userId).query(api.tracks.playbackUrl, {
+      trackId: publicId,
+    });
+    expect(playable?.title).toBe("Asase");
+    expect(playable?.artistName).toBe("Amaara Mensah");
+    expect(playable?.audioUrl).toEqual(expect.any(String));
+
+    const denied = await asUser(t, userId).query(api.tracks.playbackUrl, {
+      trackId: lockedId,
+    });
+    expect(denied).toBeNull();
   });
 
   it("lets the owning artist read a supporters-only note", async () => {
@@ -284,6 +296,10 @@ describe("tracks", () => {
     const opened = await asUser(t, userId).query(api.tracks.get, { trackId });
     expect(opened?.locked).toBe(false);
     expect(opened?.description).toBe("The rough mix stays with supporters.");
+    const playable = await asUser(t, userId).query(api.tracks.playbackUrl, {
+      trackId,
+    });
+    expect(playable?.audioUrl).toEqual(expect.any(String));
   });
 
   it("stores a liked library row against a track", async () => {

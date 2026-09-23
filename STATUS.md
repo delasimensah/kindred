@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-52 Library destinations, liked songs, and private playlists Done; next KIND-54 background-audio short check. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-54 background audio short check Done. A public track plays in the background with lock-screen play, pause, and seek. Next and previous track are not on the lock screen. Next is KIND-55, the full player. KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-23
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,12 +62,13 @@
 
 ## Next action (one line)
 
-KIND-54 Spike: background audio and lock-screen controls on a real device. KIND-45 waits until the phone catalog screens are in place.
+KIND-55 Fan can play music with queue, shuffle, repeat, and next/previous. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 
 ## Pointers
 
+- Pull request (KIND-54): https://github.com/delasimensah/kindred/pull/10
 - Pull request (KIND-52): https://github.com/delasimensah/kindred/pull/9
 - Pull request (KIND-51): https://github.com/delasimensah/kindred/pull/8
 - Pull request (KIND-53): https://github.com/delasimensah/kindred/pull/7

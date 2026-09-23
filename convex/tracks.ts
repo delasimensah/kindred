@@ -74,6 +74,43 @@ const trackDetailValidator = v.object({
   liked: v.boolean(),
 });
 
+const playbackValidator = v.object({
+  audioUrl: v.string(),
+  title: v.string(),
+  artistName: v.string(),
+  artworkUrl: v.union(v.string(), v.null()),
+});
+
+export const playbackUrl = authedQuery({
+  args: { trackId: v.id("tracks") },
+  returns: v.union(playbackValidator, v.null()),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const track = await ctx.db.get(args.trackId);
+    if (track === null) {
+      return null;
+    }
+    const artist = await ctx.db.get(track.artistId);
+    if (artist === null || artist.hidden) {
+      return null;
+    }
+    const access = decideTrackAccess(track, artist.profileId === profile._id);
+    if (!access.allowed) {
+      return null;
+    }
+    const audioUrl = await fileUrl(ctx, track.audioFileId);
+    if (audioUrl === null) {
+      return null;
+    }
+    return {
+      audioUrl,
+      title: track.title,
+      artistName: artist.name,
+      artworkUrl: await fileUrl(ctx, track.artworkFileId),
+    };
+  },
+});
+
 export const get = authedQuery({
   args: { trackId: v.id("tracks") },
   returns: v.union(trackDetailValidator, v.null()),

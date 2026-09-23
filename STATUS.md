@@ -68,6 +68,7 @@ KIND-51 artist profile and track detail (locked and unlocked). KIND-45 waits unt
 
 ## Pointers
 
+- Pull request (KIND-53): https://github.com/delasimensah/kindred/pull/7
 - Pull request (KIND-50): https://github.com/delasimensah/kindred/pull/6
 - Pull request (KIND-48): https://github.com/delasimensah/kindred/pull/5
 - Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4

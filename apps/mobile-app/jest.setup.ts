@@ -138,3 +138,16 @@ jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: unknown }) => children,
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
+
+jest.mock("expo-audio", () => ({
+  createAudioPlayer: jest.fn(() => ({
+    play: jest.fn(),
+    pause: jest.fn(),
+    replace: jest.fn(),
+    setActiveForLockScreen: jest.fn(),
+    clearLockScreenControls: jest.fn(),
+    remove: jest.fn(),
+  })),
+  setAudioModeAsync: jest.fn(async () => undefined),
+  useAudioPlayerStatus: jest.fn(() => ({ playing: false })),
+}));

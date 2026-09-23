@@ -6,8 +6,8 @@ import { useAppInsets } from "@/hooks";
 import { formatDuration } from "@/utils";
 
 import PopularTrackRow from "../../../catalog/PopularTrackRow/PopularTrackRow";
+import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import { VStack } from "../../../ui/Stack/Stack";
-import Text from "../../../ui/Text/Text";
 import PopularTracksScreenSkeleton from "./PopularTracksScreenSkeleton";
 
 export interface PopularTrack {
@@ -16,6 +16,7 @@ export interface PopularTrack {
   artworkUrl: string | null;
   durationMs: number;
   locked: boolean;
+  liked: boolean;
 }
 
 interface PopularTracksScreenProps {
@@ -24,6 +25,7 @@ interface PopularTracksScreenProps {
   playingTrackId: string | null;
   isPlaying: boolean;
   onPlay: (trackId: string) => void;
+  onToggleLike: (trackId: string) => void;
   onOpenLocked: (trackId: string) => void;
 }
 
@@ -33,6 +35,7 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
   playingTrackId,
   isPlaying,
   onPlay,
+  onToggleLike,
   onOpenLocked,
 }) => {
   const insets = useAppInsets();
@@ -50,7 +53,11 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
     >
       <VStack spacing="none" paddingX="lg">
         {tracks.length === 0 ? (
-          <Text className="text-sm text-text/50">No published tracks yet.</Text>
+          <CollectionEmptyState
+            icon="musical-notes"
+            title="No published tracks yet"
+            subtitle="Tracks this artist publishes show up here."
+          />
         ) : (
           tracks.map((track) => (
             <PopularTrackRow
@@ -63,8 +70,10 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
               }
               artworkUrl={track.artworkUrl}
               locked={track.locked}
+              liked={track.liked}
               isPlaying={isPlaying && playingTrackId === track.trackId}
               onPlay={() => onPlay(track.trackId)}
+              onToggleLike={() => onToggleLike(track.trackId)}
               onOpenLocked={() => onOpenLocked(track.trackId)}
             />
           ))

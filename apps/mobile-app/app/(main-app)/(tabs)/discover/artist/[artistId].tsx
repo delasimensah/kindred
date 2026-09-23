@@ -36,6 +36,7 @@ const ArtistRoute = () => {
   const updates = useQuery(api.posts.listForArtist, artistArgs);
   const addFollow = useMutation(api.follows.add);
   const removeFollow = useMutation(api.follows.remove);
+  const setLiked = useMutation(api.library.setLiked);
   const [now] = useState(() => Date.now());
 
   const isLoading =
@@ -82,6 +83,16 @@ const ArtistRoute = () => {
           void addFollow({ artistId: id });
         }}
         onPlay={playTrack}
+        onToggleLike={(trackId) => {
+          const track = listed?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined) {
+            return;
+          }
+          void setLiked({
+            trackId: track.trackId,
+            liked: !track.liked,
+          });
+        }}
         onOpenLocked={(trackId) => {
           router.push(trackHref(trackId));
         }}

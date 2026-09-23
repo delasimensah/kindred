@@ -19,6 +19,13 @@ export { default as HomeTabScreen } from "./screens/main/HomeTabScreen/HomeTabSc
 export { default as TabRootScreen } from "./screens/main/TabRootScreen/TabRootScreen";
 export { default as SearchTabScreen } from "./screens/main/SearchTabScreen/SearchTabScreen";
 export { default as DiscoverScreen } from "./screens/main/DiscoverScreen/DiscoverScreen";
+export { default as LibraryScreen } from "./screens/main/LibraryScreen/LibraryScreen";
+export { default as LibraryTracksScreen } from "./screens/main/LibraryTracksScreen/LibraryTracksScreen";
+export { default as LibraryArtistsScreen } from "./screens/main/LibraryArtistsScreen/LibraryArtistsScreen";
+export { default as LibraryMessageScreen } from "./screens/main/LibraryMessageScreen/LibraryMessageScreen";
+export { default as PlaylistListScreen } from "./screens/main/PlaylistListScreen/PlaylistListScreen";
+export { default as CreatePlaylistScreen } from "./screens/main/CreatePlaylistScreen/CreatePlaylistScreen";
+export { default as AddPlaylistTracksScreen } from "./screens/main/AddPlaylistTracksScreen/AddPlaylistTracksScreen";
 export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
 export { default as PopularTracksScreen } from "./screens/main/PopularTracksScreen/PopularTracksScreen";
 export { default as TrackDetailScreen } from "./screens/main/TrackDetailScreen/TrackDetailScreen";

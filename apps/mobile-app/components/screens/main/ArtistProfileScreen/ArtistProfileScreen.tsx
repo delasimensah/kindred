@@ -9,6 +9,7 @@ import ArtistProfileActions from "../../../catalog/ArtistProfileActions/ArtistPr
 import ArtistProfileHero from "../../../catalog/ArtistProfileHero/ArtistProfileHero";
 import ArtistUpdateCard from "../../../catalog/ArtistUpdateCard/ArtistUpdateCard";
 import PopularTrackRow from "../../../catalog/PopularTrackRow/PopularTrackRow";
+import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import ArtistProfileScreenSkeleton from "./ArtistProfileScreenSkeleton";
@@ -19,6 +20,7 @@ export interface ArtistProfileTrack {
   artworkUrl: string | null;
   durationMs: number;
   locked: boolean;
+  liked: boolean;
 }
 
 export interface ArtistProfileUpdate {
@@ -48,6 +50,7 @@ interface ArtistProfileScreenProps {
   isPlaying: boolean;
   onToggleFollow: () => void;
   onPlay: (trackId: string) => void;
+  onToggleLike: (trackId: string) => void;
   onOpenLocked: (trackId: string) => void;
   onViewAllTracks: () => void;
   onSupport: () => void;
@@ -64,6 +67,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   isPlaying,
   onToggleFollow,
   onPlay,
+  onToggleLike,
   onOpenLocked,
   onViewAllTracks,
   onSupport,
@@ -82,9 +86,11 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
         className="flex-1 bg-page"
         style={{ paddingTop: insets.top }}
       >
-        <Text className="text-sm text-text/50">
-          This artist is not available.
-        </Text>
+        <CollectionEmptyState
+          icon="person"
+          title="Artist not available"
+          subtitle="This artist may be hidden, or the link is no longer valid."
+        />
       </VStack>
     );
   }
@@ -127,9 +133,12 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
             ) : null}
           </HStack>
           {tracks.length === 0 ? (
-            <Text className="text-sm text-text/50">
-              No published tracks yet.
-            </Text>
+            <CollectionEmptyState
+              compact
+              icon="musical-notes"
+              title="No published tracks yet"
+              subtitle="Tracks this artist publishes show up here."
+            />
           ) : (
             tracks.map((track) => (
               <PopularTrackRow
@@ -142,8 +151,10 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
                 }
                 artworkUrl={track.artworkUrl}
                 locked={track.locked}
+                liked={track.liked}
                 isPlaying={isPlaying && playingTrackId === track.trackId}
                 onPlay={() => onPlay(track.trackId)}
+                onToggleLike={() => onToggleLike(track.trackId)}
                 onOpenLocked={() => onOpenLocked(track.trackId)}
               />
             ))
@@ -152,7 +163,12 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
         <VStack spacing="sm">
           <Text className="font-app-semibold text-lg text-text">Updates</Text>
           {updates.length === 0 ? (
-            <Text className="text-sm text-text/50">No updates yet.</Text>
+            <CollectionEmptyState
+              compact
+              icon="megaphone"
+              title="No updates yet"
+              subtitle="Posts from this artist show up here."
+            />
           ) : (
             updates.map((update) => (
               <ArtistUpdateCard

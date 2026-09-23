@@ -30,6 +30,68 @@ export function artistTracksHref(artistId: string): Href {
   };
 }
 
+export function libraryPlaylistsHref(): Href {
+  return "/(main-app)/(tabs)/library/playlists";
+}
+
+export function libraryNewPlaylistHref(): Href {
+  return "/(main-app)/(tabs)/library/playlists/new";
+}
+
+export function libraryPlaylistHref(playlistId: string, name?: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/playlist/[playlistId]",
+    params:
+      name === undefined || name.length === 0
+        ? { playlistId }
+        : { playlistId, name },
+  };
+}
+
+export function libraryAddTracksHref(playlistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/playlist/[playlistId]/add",
+    params: { playlistId },
+  };
+}
+
+export function libraryLikedHref(): Href {
+  return "/(main-app)/(tabs)/library/liked";
+}
+
+export function libraryArtistsHref(): Href {
+  return "/(main-app)/(tabs)/library/artists";
+}
+
+export function libraryDownloadsHref(): Href {
+  return "/(main-app)/(tabs)/library/downloads";
+}
+
+export function libraryMixHref(): Href {
+  return "/(main-app)/(tabs)/library/mix";
+}
+
+export function libraryArtistHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/artist/[artistId]",
+    params: { artistId },
+  };
+}
+
+export function libraryArtistTracksHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/tracks/[artistId]",
+    params: { artistId },
+  };
+}
+
+export function libraryTrackHref(trackId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/track/[trackId]",
+    params: { trackId },
+  };
+}
+
 /** Supporters-only track gate on the Discover stack. */
 export function trackHref(trackId: string): Href {
   return {

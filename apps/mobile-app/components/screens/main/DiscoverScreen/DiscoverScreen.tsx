@@ -5,6 +5,7 @@ import { COLORS } from "@/constants";
 import { useTabScrollTopPad } from "@/hooks";
 
 import AccountAvatarButton from "../../../ui/AccountAvatarButton/AccountAvatarButton";
+import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import FeaturedArtistCard, {
@@ -68,10 +69,11 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
         ) : null}
 
         {!isLoading && featured.length === 0 && rising.length === 0 ? (
-          <Text className="text-sm text-text/50">
-            No artists to show yet. Run the catalog seed, then open Discover
-            again.
-          </Text>
+          <CollectionEmptyState
+            icon="compass"
+            title="No artists yet"
+            subtitle="Featured and rising artists show up here."
+          />
         ) : null}
 
         {featured.map((artist) => (

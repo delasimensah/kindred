@@ -14,12 +14,14 @@ describe("PopularTracksScreen", () => {
             artworkUrl: null,
             durationMs: 212000,
             locked: false,
+            liked: false,
           },
         ]}
         isLoading={false}
         playingTrackId={null}
         isPlaying={false}
         onPlay={onPlay}
+        onToggleLike={jest.fn()}
         onOpenLocked={jest.fn()}
       />
     );
@@ -35,6 +37,7 @@ describe("PopularTracksScreen", () => {
         playingTrackId={null}
         isPlaying={false}
         onPlay={jest.fn()}
+        onToggleLike={jest.fn()}
         onOpenLocked={jest.fn()}
       />
     );

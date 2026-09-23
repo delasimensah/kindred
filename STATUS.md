@@ -68,6 +68,7 @@ KIND-54 Spike: background audio and lock-screen controls on a real device. KIND-
 
 ## Pointers
 
+- Pull request (KIND-52): https://github.com/delasimensah/kindred/pull/9
 - Pull request (KIND-51): https://github.com/delasimensah/kindred/pull/8
 - Pull request (KIND-53): https://github.com/delasimensah/kindred/pull/7
 - Pull request (KIND-50): https://github.com/delasimensah/kindred/pull/6

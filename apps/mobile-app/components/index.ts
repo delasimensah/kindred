@@ -14,6 +14,8 @@ export { default as SignUpScreen } from "./screens/auth/SignUpScreen/SignUpScree
 export { default as OnboardingGenresScreen } from "./screens/onboarding/OnboardingGenresScreen/OnboardingGenresScreen";
 export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
+export { default as HomeTabScreen } from "./screens/main/HomeTabScreen/HomeTabScreen";
+export { default as TabRootScreen } from "./screens/main/TabRootScreen/TabRootScreen";
 
 export { default as AppProviders } from "./shared/AppProviders/AppProviders";
 export { default as LoadFailed } from "./shared/LoadFailed/LoadFailed";

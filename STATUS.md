@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-48 catalog seed Done; next KIND-50 tab shell. KIND-45 waits until after the phone shell.
-- **Last updated:** 2026-09-22
+- **Current phase:** Build — KIND-50 tab shell Done; next KIND-51 artist profile and track detail. KIND-45 waits until the phone catalog screens are in place.
+- **Last updated:** 2026-09-23
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
   - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-50 mobile tab shell (liquid-glass tab bar and mini-player slot). KIND-45 waits until after that shell.
+KIND-51 artist profile and track detail (locked and unlocked). KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

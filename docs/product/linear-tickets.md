@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-45** (web Studio sign-in) stays Todo until after KIND-50.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell is Done. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 **Words we use on purpose:** A **short check** is a small try before the full feature (old docs said “spike”). We learn works / blocked / cut later. The **retry queue** (old docs said “outbox”) is the phone’s saved list of taps that could not reach the server while offline, sent when you are back online.
 
@@ -35,9 +35,10 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-45** web Studio/admin sign-in is **Todo** (deferred until after mobile catalog, seed, and shell).
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
-- Remaining First Version / Launch slices **KIND-47** and **KIND-50–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic. KIND-45 is Todo but not next.
+- **KIND-50** mobile tab shell is **Done**.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-51–KIND-88** are **Todo** (KIND-46 Backlog), assignee Delasi, under the correct epic. KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Next build slice: [KIND-50](https://linear.app/dm-studios/issue/KIND-50) (mobile tab shell). Circle back to KIND-45 after the phone shell.
+- Next build slice: [KIND-51](https://linear.app/dm-studios/issue/KIND-51) (artist profile and track detail). KIND-45 stays Todo until the phone catalog screens are in place.
 
 ---
 

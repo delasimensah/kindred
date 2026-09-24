@@ -56,7 +56,11 @@ const FeedReleaseCard: React.FC<FeedReleaseCardProps> = ({
           onSupport={onSupport}
         />
       ) : (
-        <HStack spacing="sm" align="center" className="rounded-xl bg-page p-2.5">
+        <HStack
+          spacing="sm"
+          align="center"
+          className="rounded-xl bg-page p-2.5"
+        >
           <HStack
             spacing="none"
             className="h-12 w-12 overflow-hidden rounded-md bg-surface"

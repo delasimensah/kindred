@@ -1,11 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import {
-  Alert,
-  Pressable,
-  ScrollView,
-  useWindowDimensions,
-} from "react-native";
+import { Alert, Pressable, ScrollView } from "react-native";
 import Swipeable, {
   type SwipeableMethods,
 } from "react-native-gesture-handler/ReanimatedSwipeable";
@@ -15,9 +10,9 @@ import { useAppInsets } from "@/hooks";
 
 import PlaylistCover from "../../../library/PlaylistCover/PlaylistCover";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
-import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
+import PlaylistListScreenSkeleton from "./PlaylistListScreenSkeleton";
 
 export interface PlaylistSummary {
   playlistId: string;
@@ -42,8 +37,6 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
   onDelete,
 }) => {
   const insets = useAppInsets();
-  const { width } = useWindowDimensions();
-  const titleWidth = Math.max(80, width - 48 - 64 - 16 - 16);
 
   return (
     <ScrollView
@@ -72,27 +65,7 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
           </Pressable>
         ) : null}
         {isLoading ? (
-          <VStack spacing="sm">
-            {[0.62, 0.4, 0.55, 0.34].map((scale, index) => (
-              <HStack
-                key={index}
-                spacing="md"
-                align="center"
-                className="rounded-2xl bg-surface p-3"
-              >
-                <SkeletonCard width={64} height={64} radius={12} />
-                <VStack spacing="xs" className="min-w-0 flex-1">
-                  <SkeletonCard
-                    width={titleWidth * scale}
-                    height={14}
-                    radius={4}
-                  />
-                  <SkeletonCard width={72} height={10} radius={4} />
-                </VStack>
-                <SkeletonCard width={10} height={16} radius={3} />
-              </HStack>
-            ))}
-          </VStack>
+          <PlaylistListScreenSkeleton />
         ) : playlists.length === 0 ? (
           <CollectionEmptyState
             icon="disc"

@@ -39,6 +39,6 @@ describe("PlaylistListScreen", () => {
       />
     );
     expect(screen.queryByLabelText("Create playlist")).toBeNull();
-    expect(screen.getAllByTestId("skeleton-card").length).toBeGreaterThan(8);
+    expect(screen.getByTestId("playlist-list-skeleton")).toBeTruthy();
   });
 });

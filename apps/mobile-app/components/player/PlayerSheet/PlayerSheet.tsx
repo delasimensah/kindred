@@ -1,5 +1,10 @@
-import type { BottomSheetMethods } from "@expo/ui/community/bottom-sheet";
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import {
   Dimensions,
   Platform,
@@ -19,9 +24,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
 
 import { COLORS } from "@/constants";
-import { normalizeTrack, usePreviewPlayer } from "@/hooks";
+import { normalizeTrack, useBottomsheetStore, usePreviewPlayer } from "@/hooks";
 
-import QueuePanel from "../../bottom-sheets/QueuePanel/QueuePanel";
 import MiniPlayerChrome from "../../screens/main/MiniPlayerChrome/MiniPlayerChrome";
 import NowPlaying from "../NowPlaying/NowPlaying";
 import PlayerArtworkFlight from "../PlayerArtworkFlight/PlayerArtworkFlight";
@@ -43,11 +47,12 @@ interface PlayerSheetProps {
 const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
   ({ showCollapsedBar }, ref) => {
     const player = usePreviewPlayer();
+    const openQueueSheet = useBottomsheetStore((s) => s.openQueueSheet);
+    const closeQueueSheet = useBottomsheetStore((s) => s.closeQueueSheet);
     const insets = useSafeAreaInsets();
     const { height } = useWindowDimensions();
     const progress = useSharedValue(0);
     const startProgress = useSharedValue(0);
-    const queueRef = useRef<BottomSheetMethods>(null);
     const seenQueueEpoch = useRef(player.queueEpoch);
     const [expanded, setExpanded] = useState(false);
 
@@ -56,19 +61,16 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
         return;
       }
       seenQueueEpoch.current = player.queueEpoch;
-      queueRef.current?.dismiss();
-    }, [player.queueEpoch]);
+      closeQueueSheet();
+    }, [player.queueEpoch, closeQueueSheet]);
     const shown = normalizeTrack(player.track);
 
-    const closeQueue = () => {
-      queueRef.current?.dismiss();
-    };
     const open = () => {
       setExpanded(true);
       progress.value = withSpring(1, SPRING);
     };
     const close = () => {
-      queueRef.current?.dismiss();
+      closeQueueSheet();
       setExpanded(false);
       progress.value = withSpring(0, SPRING);
     };
@@ -92,7 +94,7 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
             (event.velocityY >= -500 && progress.value > 0.5);
           scheduleOnRN(setExpanded, shouldOpen);
           if (!shouldOpen) {
-            scheduleOnRN(closeQueue);
+            scheduleOnRN(closeQueueSheet);
           }
           progress.value = withSpring(shouldOpen ? 1 : 0, SPRING);
         });
@@ -148,37 +150,39 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
           </GestureDetector>
         ) : null}
 
-        <GestureDetector gesture={fullPlayerPan}>
-          <Animated.View
-            pointerEvents={expanded ? "auto" : "none"}
-            style={[
-              StyleSheet.absoluteFill,
-              { zIndex: expanded ? 30 : 0, elevation: expanded ? 16 : 0 },
-              fullPlayerStyle,
-            ]}
-          >
-            <NowPlaying
-              track={shown}
-              isPlaying={player.isPlaying}
-              shuffle={player.shuffle}
-              repeat={player.repeat}
-              progress={player.progress}
-              positionMs={player.positionMs}
-              durationMs={player.durationMs}
-              onClose={close}
-              onToggle={player.toggle}
-              onPrevious={player.previous}
-              onNext={player.next}
-              onSeek={player.seek}
-              onShuffle={() => player.setShuffle(!player.shuffle)}
-              onRepeat={player.cycleRepeat}
-              onQueue={() => queueRef.current?.present()}
-              onPlayNext={() => player.playNext(player.track)}
-              onAddToQueue={() => player.addToQueue(player.track)}
-              coverProgress={progress}
-            />
-          </Animated.View>
-        </GestureDetector>
+        <Animated.View
+          pointerEvents={expanded ? "auto" : "none"}
+          style={[
+            StyleSheet.absoluteFill,
+            { zIndex: expanded ? 30 : 0, elevation: expanded ? 16 : 0 },
+            fullPlayerStyle,
+          ]}
+        >
+          <GestureDetector gesture={fullPlayerPan}>
+            <Animated.View style={{ flex: 1 }}>
+              <NowPlaying
+                track={shown}
+                isPlaying={player.isPlaying}
+                shuffle={player.shuffle}
+                repeat={player.repeat}
+                progress={player.progress}
+                positionMs={player.positionMs}
+                durationMs={player.durationMs}
+                onClose={close}
+                onToggle={player.toggle}
+                onPrevious={player.previous}
+                onNext={player.next}
+                onSeek={player.seek}
+                onShuffle={() => player.setShuffle(!player.shuffle)}
+                onRepeat={player.cycleRepeat}
+                onQueue={openQueueSheet}
+                onPlayNext={() => player.playNext(player.track)}
+                onAddToQueue={() => player.addToQueue(player.track)}
+                coverProgress={progress}
+              />
+            </Animated.View>
+          </GestureDetector>
+        </Animated.View>
         <PlayerArtworkFlight
           progress={progress}
           artworkUrl={shown.artworkUrl}
@@ -193,19 +197,6 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
                 (64 - 40) / 2
               : height - Math.max(insets.bottom, 12) - 96,
           }}
-        />
-        <QueuePanel
-          ref={queueRef}
-          current={shown}
-          upcoming={player.upcoming}
-          isPlaying={player.isPlaying}
-          shuffle={player.shuffle}
-          repeat={player.repeat}
-          onShuffle={() => player.setShuffle(!player.shuffle)}
-          onRepeat={player.cycleRepeat}
-          onRemove={player.removeUpcoming}
-          onMove={player.moveUpcoming}
-          onPlay={player.playUpcoming}
         />
       </View>
     );

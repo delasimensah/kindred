@@ -1,31 +1,36 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { RefObject } from "react";
+import { type RefObject } from "react";
 import { create } from "zustand";
 
 /**
- * Generic Bottom Sheet Store
- *
- * Manages bottom sheet refs and provides imperative methods to open sheets.
- * Customize by adding more sheet types as needed.
+ * Manages bottom sheet refs and imperative open methods.
  */
 interface BottomsheetState {
-  // Store setters for refs
   setGenericRef: (ref: RefObject<BottomSheetModal | null> | null) => void;
-
-  // Imperative methods to open sheets
+  setQueueRef: (ref: RefObject<BottomSheetModal | null> | null) => void;
   openGenericSheet: () => void;
-
-  // Ref storage
+  openQueueSheet: () => void;
+  closeQueueSheet: () => void;
   genericRef: RefObject<BottomSheetModal | null> | null;
+  queueRef: RefObject<BottomSheetModal | null> | null;
 }
 
 export const useBottomsheetStore = create<BottomsheetState>((set, get) => ({
   genericRef: null,
+  queueRef: null,
 
   setGenericRef: (ref) => set({ genericRef: ref }),
+  setQueueRef: (ref) => set({ queueRef: ref }),
 
   openGenericSheet: () => {
-    const ref = get().genericRef;
-    ref?.current?.present();
+    get().genericRef?.current?.present();
+  },
+
+  openQueueSheet: () => {
+    get().queueRef?.current?.present();
+  },
+
+  closeQueueSheet: () => {
+    get().queueRef?.current?.dismiss();
   },
 }));

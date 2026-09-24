@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Alert, Pressable, TouchableOpacity } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 import { TEXT_SECONDARY_OPACITY } from "shared";
 
 import { COLORS } from "@/constants";
@@ -13,15 +13,17 @@ import QueueArtwork from "../QueueArtwork/QueueArtwork";
 interface QueueDragRowProps {
   track: QueueTrack;
   drag?: () => void;
-  active?: boolean;
   onPlay: () => void;
   onRemove: () => void;
 }
 
+/**
+ * Same split as Aria’s QueueItem: tap the track to play, long-press only the
+ * handle to reorder — so a vertical swipe on the row closes the sheet / scrolls.
+ */
 const QueueDragRow: React.FC<QueueDragRowProps> = ({
   track,
   drag,
-  active = false,
   onPlay,
   onRemove,
 }) => {
@@ -33,81 +35,75 @@ const QueueDragRow: React.FC<QueueDragRowProps> = ({
     drag();
   };
 
-  return (
-    <HStack
-      align="center"
-      spacing="sm"
-      className="rounded-2xl px-1 py-2.5"
-      style={
-        track.locked
-          ? { opacity: 0.45 }
-          : active
-            ? {
-                backgroundColor: COLORS.surface,
-                shadowColor: COLORS.black,
-                shadowOpacity: 0.35,
-                shadowRadius: 12,
-                elevation: 8,
-              }
-            : undefined
-      }
-    >
-      {track.locked ? (
+  if (track.locked) {
+    return (
+      <HStack
+        align="center"
+        spacing="sm"
+        className="mb-1 rounded-2xl px-1 py-2.5"
+        style={{ opacity: 0.45 }}
+      >
         <Ionicons name="lock-closed" size={16} color={COLORS.text} />
-      ) : (
-        <TouchableOpacity
-          accessibilityRole="button"
-          accessibilityLabel={track.title}
-          accessibilityHint="Hold to reorder"
-          accessibilityState={{ selected: active }}
-          onPress={onPlay}
-          onLongPress={pickUp}
-          delayLongPress={180}
-          disabled={active}
-          className="min-w-0 flex-1"
+        <QueueArtwork url={track.artworkUrl} size={52} dimmed />
+        <TrackCopy title={track.title} artistName={track.artistName} />
+        <Text
+          className="font-app-semibold text-xs uppercase tracking-wide"
+          style={{ color: COLORS.text, opacity: TEXT_SECONDARY_OPACITY }}
         >
-          <HStack align="center" spacing="sm" className="min-w-0 flex-1">
-            <Ionicons
-              name="reorder-three"
-              size={26}
-              color={active ? COLORS.primary : COLORS.text}
-              style={{
-                width: 32,
-                opacity: active ? 1 : TEXT_SECONDARY_OPACITY,
-              }}
-            />
-            <QueueArtwork url={track.artworkUrl} size={52} />
-            <TrackCopy title={track.title} artistName={track.artistName} />
-          </HStack>
-        </TouchableOpacity>
-      )}
-      {track.locked ? (
-        <>
-          <QueueArtwork url={track.artworkUrl} size={52} dimmed />
+          Skipped
+        </Text>
+      </HStack>
+    );
+  }
+
+  return (
+    <View className="mb-1 flex-row items-center px-1 py-2.5">
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={track.title}
+        onPress={onPlay}
+        className="min-w-0 flex-1 flex-row items-center"
+      >
+        <QueueArtwork url={track.artworkUrl} size={52} />
+        <View className="ml-3 min-w-0 flex-1">
           <TrackCopy title={track.title} artistName={track.artistName} />
-          <Text
-            className="font-app-semibold text-xs uppercase tracking-wide"
-            style={{ color: COLORS.text, opacity: TEXT_SECONDARY_OPACITY }}
-          >
-            Skipped
-          </Text>
-        </>
-      ) : (
+        </View>
+      </Pressable>
+
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Remove ${track.title}`}
+        onPress={() => confirmRemove(track.title, onRemove)}
+        hitSlop={8}
+        className="h-11 w-11 items-center justify-center"
+      >
+        <Ionicons
+          name="close"
+          size={22}
+          color={COLORS.text}
+          style={{ opacity: TEXT_SECONDARY_OPACITY }}
+        />
+      </Pressable>
+
+      {drag ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Remove ${track.title}`}
-          onPress={() => confirmRemove(track.title, onRemove)}
+          accessibilityLabel={`Reorder ${track.title}`}
+          accessibilityHint="Hold to reorder"
+          onLongPress={pickUp}
+          delayLongPress={100}
+          hitSlop={8}
           className="h-11 w-11 items-center justify-center"
         >
           <Ionicons
-            name="close"
-            size={22}
+            name="menu"
+            size={24}
             color={COLORS.text}
             style={{ opacity: TEXT_SECONDARY_OPACITY }}
           />
         </Pressable>
-      )}
-    </HStack>
+      ) : null}
+    </View>
   );
 };
 

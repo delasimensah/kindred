@@ -10,9 +10,7 @@ export function useVoiceNote() {
   const player = useAudioPlayer(null);
   const status = useAudioPlayerStatus(player);
   const [activeUrl, setActiveUrl] = useState<string | null>(null);
-  const [held, setHeld] = useState<{ url: string; ratio: number } | null>(
-    null
-  );
+  const [held, setHeld] = useState<{ url: string; ratio: number } | null>(null);
   const pendingRatio = useRef<number | null>(null);
 
   useEffect(() => {

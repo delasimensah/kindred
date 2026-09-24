@@ -85,21 +85,6 @@ export function libraryArtistTracksHref(artistId: string): Href {
   };
 }
 
-export function libraryTrackHref(trackId: string): Href {
-  return {
-    pathname: "/(main-app)/(tabs)/library/track/[trackId]",
-    params: { trackId },
-  };
-}
-
-/** Supporters-only track gate on the Discover stack. */
-export function trackHref(trackId: string): Href {
-  return {
-    pathname: "/(main-app)/(tabs)/discover/track/[trackId]",
-    params: { trackId },
-  };
-}
-
 /**
  * Default screen options for Stack navigator
  * Provides consistent styling across all screens
@@ -110,7 +95,7 @@ export const defaultStackScreenOptions = {
   },
   headerTintColor: COLORS.text,
   headerTitleStyle: {
-    fontFamily: FONTS.regular,
+    fontFamily: FONTS.medium,
   },
   contentStyle: {
     backgroundColor: COLORS.page,

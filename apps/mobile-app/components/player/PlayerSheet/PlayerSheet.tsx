@@ -196,6 +196,7 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
           onRepeat={player.cycleRepeat}
           onRemove={player.removeUpcoming}
           onMove={player.moveUpcoming}
+          onPlay={player.playUpcoming}
         />
       </View>
     );

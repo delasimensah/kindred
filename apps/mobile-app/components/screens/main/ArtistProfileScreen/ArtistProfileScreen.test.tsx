@@ -49,21 +49,18 @@ const screenProps = {
   onToggleFollow: jest.fn(),
   onPlay: jest.fn(),
   onToggleLike: jest.fn(),
-  onOpenLocked: jest.fn(),
   onViewAllTracks: jest.fn(),
   onSupport: jest.fn(),
 };
 
 describe("ArtistProfileScreen", () => {
-  it("plays a public track, opens a locked one, and offers view all", () => {
+  it("plays a public track, leaves a locked one, and offers view all", () => {
     const onPlay = jest.fn();
-    const onOpenLocked = jest.fn();
     const onViewAllTracks = jest.fn();
     render(
       <ArtistProfileScreen
         {...screenProps}
         onPlay={onPlay}
-        onOpenLocked={onOpenLocked}
         onViewAllTracks={onViewAllTracks}
       />
     );
@@ -74,7 +71,8 @@ describe("ArtistProfileScreen", () => {
     fireEvent.press(screen.getByLabelText("Play Asase"));
     expect(onPlay).toHaveBeenCalledWith("track_asase");
     fireEvent.press(screen.getByLabelText("Night Mix, supporters only"));
-    expect(onOpenLocked).toHaveBeenCalledWith("track_night");
+    expect(onPlay).not.toHaveBeenCalledWith("track_night");
+    expect(screen.getByLabelText("More options for Night Mix")).toBeDisabled();
     fireEvent.press(screen.getByLabelText("View all popular tracks"));
     expect(onViewAllTracks).toHaveBeenCalledTimes(1);
   });

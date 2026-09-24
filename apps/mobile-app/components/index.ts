@@ -28,7 +28,6 @@ export { default as CreatePlaylistScreen } from "./screens/main/CreatePlaylistSc
 export { default as AddPlaylistTracksScreen } from "./screens/main/AddPlaylistTracksScreen/AddPlaylistTracksScreen";
 export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
 export { default as PopularTracksScreen } from "./screens/main/PopularTracksScreen/PopularTracksScreen";
-export { default as TrackDetailScreen } from "./screens/main/TrackDetailScreen/TrackDetailScreen";
 
 export { default as AppProviders } from "./shared/AppProviders/AppProviders";
 export { default as LoadFailed } from "./shared/LoadFailed/LoadFailed";

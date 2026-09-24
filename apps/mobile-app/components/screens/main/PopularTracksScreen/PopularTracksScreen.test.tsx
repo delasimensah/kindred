@@ -22,7 +22,6 @@ describe("PopularTracksScreen", () => {
         isPlaying={false}
         onPlay={onPlay}
         onToggleLike={jest.fn()}
-        onOpenLocked={jest.fn()}
       />
     );
     fireEvent.press(screen.getByLabelText("Play Asase"));
@@ -38,7 +37,6 @@ describe("PopularTracksScreen", () => {
         isPlaying={false}
         onPlay={jest.fn()}
         onToggleLike={jest.fn()}
-        onOpenLocked={jest.fn()}
       />
     );
     expect(screen.getAllByTestId("skeleton-card").length).toBeGreaterThan(12);

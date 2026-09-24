@@ -29,6 +29,7 @@ describe("QueuePanel", () => {
         onRepeat={jest.fn()}
         onRemove={jest.fn()}
         onMove={jest.fn()}
+        onPlay={jest.fn()}
       />
     );
     expect(screen.getByText("Next up")).toBeTruthy();

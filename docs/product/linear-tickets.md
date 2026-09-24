@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, and **KIND-55** the player are Done. Next phone slice is **KIND-56** the waveform craft on that player. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, **KIND-55** the player, and **KIND-56** the player craft are Done. Next phone slice is **KIND-57** the Home feed. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -43,10 +43,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-52** Library destinations, liked songs, and private playlists is **Done**.
 - **KIND-54** background audio short check is **Done**. Outcome: works. Lock-screen next and previous track are not in `expo-audio` 57.0.5.
 - **KIND-55** player is **Done**. Queue, shuffle, repeat, next and previous. A listen is recorded after about 30 seconds of that play. Lock-screen next and previous stay out of this SDK.
-- Remaining First Version / Launch slices **KIND-47** and **KIND-56–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- **KIND-56** player craft is **Done**. Reordering a queue row does not drag the sheet. A tap on a queued track plays it. A locked track stays in the list, and its menu does not open.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-57–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) waveform craft → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-56](https://linear.app/dm-studios/issue/KIND-56) (Mini-player shared transition and Skia waveform scrubber on real screens).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-57](https://linear.app/dm-studios/issue/KIND-57) (Fan can follow artists, see Home feed updates, and react to tracks).
 
 ---
 
@@ -470,7 +471,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Acceptance:**
 
 - Signed-in fan can open a seeded artist profile from Discover. The profile stays on the Discover stack, so the tab bar stays. Loading uses a skeleton of the screen, not a text placeholder.
-- The profile shows a short popular-track list. View all opens the rest of that list on the same stack. A public row plays in place (mini player title and pause). A supporters-only row opens the lock shell and Support call to action. Support does not check out.
+- The profile shows a short popular-track list. View all opens the rest of that list on the same stack. A public row plays in place (mini player title and pause). A supporters-only row stays in the list with a lock. It does not play, and its menu does not open. There is no support screen.
 - No audio URL leaked in list responses. Playback itself is a later slice.
 
 **Do not:**
@@ -513,9 +514,9 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 - Library tab lists destinations: Playlists, Liked songs, Downloaded (empty note), Artists, and Make a mix (empty note). Each opens on the Library stack, so the tab bar stays. The system back button returns. Account stays the modal on the parent stack.
 - A signed-in fan can create a private playlist (name only; back cancels), open it, add a published public track, and remove a track. Another fan cannot open that playlist.
-- Liked songs lists tracks the fan liked from a track row. Unlike removes the row. A supporters-only track can be liked and stays locked.
+- Liked songs lists tracks the fan liked from a track row. Unlike on a public row removes it. A supporters-only track that is already liked stays in the list, locked.
 - Library artists lists artists this fan follows and opens that artist on the Library stack.
-- A locked track in a playlist or liked list opens the support gate on the Library stack. It does not play. No audio URL in these responses.
+- A locked track in a playlist or liked list stays in the list with a lock. It does not play, and its menu does not open. No audio URL in these responses.
 - Play all, shuffle, download, a playlist cover, and a generated mix are not on these screens. Downloads do not save files. Playback itself is a later slice.
 
 **Do not:**

@@ -1,7 +1,7 @@
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 
 import { LibraryTracksScreen } from "@/components";
 import { usePreviewPlayer } from "@/hooks";
@@ -9,11 +9,9 @@ import {
   bindQueueActions,
   catalogQueue,
   coverHeaderScreenOptions,
-  libraryTrackHref,
 } from "@/utils";
 
 const LikedRoute = () => {
-  const router = useRouter();
   const player = usePreviewPlayer();
   const tracks = useQuery(api.library.listLiked, {});
   const setLiked = useMutation(api.library.setLiked);
@@ -51,9 +49,6 @@ const LikedRoute = () => {
         onPlay={actions.play}
         onPlayNext={actions.playNext}
         onAddToQueue={actions.addToQueue}
-        onOpenLocked={(trackId) => {
-          router.push(libraryTrackHref(trackId));
-        }}
         onToggleLike={(trackId) => {
           const track = tracks?.find((row) => row.trackId === trackId);
           if (track === undefined) {

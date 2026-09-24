@@ -158,6 +158,19 @@ export function removeAt(queue: PlaybackQueue, index: number): PlaybackQueue {
   };
 }
 
+/** Makes an upcoming slot the track that is playing. Locked rows stay where they are. */
+export function jumpToUpcoming(
+  queue: PlaybackQueue,
+  slot: number
+): PlaybackQueue {
+  const index = upcomingIndexes(queue)[slot];
+  const item = index === undefined ? undefined : queue.tracks[index];
+  if (index === undefined || item === undefined || item.locked) {
+    return queue;
+  }
+  return { ...queue, index };
+}
+
 export function removeUpcoming(
   queue: PlaybackQueue,
   slot: number

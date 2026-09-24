@@ -10,7 +10,6 @@ import {
   catalogQueue,
   coverHeaderScreenOptions,
   libraryAddTracksHref,
-  libraryTrackHref,
   routeParam,
 } from "@/utils";
 
@@ -82,9 +81,6 @@ const PlaylistRoute = () => {
         onPlay={actions.play}
         onPlayNext={actions.playNext}
         onAddToQueue={actions.addToQueue}
-        onOpenLocked={(trackId) => {
-          router.push(libraryTrackHref(trackId));
-        }}
         onToggleLike={(trackId) => {
           const track = playlist?.tracks.find((row) => row.trackId === trackId);
           if (track === undefined) {

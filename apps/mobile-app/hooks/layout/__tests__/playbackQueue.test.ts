@@ -1,8 +1,10 @@
 import {
   appendTrack,
+  currentTrack,
   cycleRepeat,
   emptyQueue,
   insertNext,
+  jumpToUpcoming,
   moveUpcoming,
   removeUpcoming,
   replaceQueue,
@@ -105,6 +107,26 @@ describe("playbackQueue", () => {
       "Coastline",
     ]);
     expect(stepPrevious(queue).index).toBe(queue.index);
+  });
+
+  it("plays an upcoming track and leaves a locked one alone", () => {
+    const queue = replaceQueue(
+      [asase, harmattan, coastline],
+      asase.trackId,
+      emptyQueue()
+    );
+    const playing = jumpToUpcoming(queue, 1);
+    expect(currentTrack(playing)?.title).toBe("Coastline");
+    const locked = jumpToUpcoming(
+      {
+        ...queue,
+        tracks: queue.tracks.map((item, index) =>
+          index === 1 ? { ...item, locked: true } : item
+        ),
+      },
+      0
+    );
+    expect(locked.index).toBe(queue.index);
   });
 
   it("cycles repeat and keeps the current track first when shuffle turns on", () => {

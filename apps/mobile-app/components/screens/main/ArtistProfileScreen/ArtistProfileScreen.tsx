@@ -53,7 +53,6 @@ interface ArtistProfileScreenProps {
   onPlayNext?: (trackId: string) => void;
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
-  onOpenLocked: (trackId: string) => void;
   onViewAllTracks: () => void;
   onSupport: () => void;
 }
@@ -72,7 +71,6 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onPlayNext,
   onAddToQueue,
   onToggleLike,
-  onOpenLocked,
   onViewAllTracks,
   onSupport,
 }) => {
@@ -170,7 +168,6 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
                     : () => onAddToQueue(track.trackId)
                 }
                 onToggleLike={() => onToggleLike(track.trackId)}
-                onOpenLocked={() => onOpenLocked(track.trackId)}
               />
             ))
           )}

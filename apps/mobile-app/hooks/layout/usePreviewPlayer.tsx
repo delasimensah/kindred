@@ -51,6 +51,7 @@ interface PreviewPlayerValue {
   setShuffle: (enabled: boolean) => void;
   cycleRepeat: () => void;
   playNext: (track: PreviewTrack) => void;
+  playUpcoming: (slot: number) => void;
   addToQueue: (track: PreviewTrack) => void;
   removeUpcoming: (slot: number) => void;
   moveUpcoming: (fromSlot: number, toSlot: number) => void;
@@ -266,6 +267,7 @@ export function PreviewPlayerProvider({
           });
         },
         playNext: controls.playNext,
+        playUpcoming: controls.playUpcoming,
         addToQueue: controls.addToQueue,
         removeUpcoming: (slot) => {
           setQueue((current) => {

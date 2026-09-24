@@ -1,0 +1,126 @@
+import { type MenuAction, MenuView } from "@expo/ui/community/menu";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+
+import { COLORS } from "@/constants";
+import { STAND_IN_TRACK_ID } from "@/hooks";
+import { showLikedToast } from "@/utils";
+
+import { HStack } from "../../ui/Stack/Stack";
+import AddToPlaylistSheet from "../AddToPlaylistSheet/AddToPlaylistSheet";
+
+interface TrackMenuProps {
+  title: string;
+  trackId: string;
+  artworkUrl?: string | null;
+  liked?: boolean;
+  onPlayNext?: () => void;
+  onAddToQueue?: () => void;
+  onToggleLike?: () => void;
+  onRemove?: () => void;
+  /** Dark circle behind the icon, for controls that sit on artwork. */
+  filled?: boolean;
+}
+
+const TrackMenu: React.FC<TrackMenuProps> = ({
+  title,
+  trackId,
+  liked = false,
+  onPlayNext,
+  onAddToQueue,
+  onToggleLike,
+  onRemove,
+  filled = false,
+}) => {
+  const [playlistOpen, setPlaylistOpen] = useState(false);
+  const realTrack = trackId !== STAND_IN_TRACK_ID;
+  const actions: MenuAction[] = [];
+
+  if (onPlayNext) {
+    actions.push({
+      id: "play-next",
+      title: "Play next",
+      image: "text.line.first.and.arrowtriangle.forward",
+    });
+  }
+  if (onAddToQueue) {
+    actions.push({
+      id: "add-queue",
+      title: "Add to queue",
+      image: "text.badge.plus",
+    });
+  }
+  if (onToggleLike && realTrack) {
+    actions.push({
+      id: "like",
+      title: liked ? `Unlike ${title}` : `Like ${title}`,
+      image: liked ? "heart.fill" : "heart",
+    });
+  }
+  if (realTrack) {
+    actions.push({
+      id: "add-playlist",
+      title: "Add to playlist",
+      image: "text.badge.plus",
+    });
+  }
+  if (onRemove) {
+    actions.push({
+      id: "remove",
+      title: `Delete ${title}`,
+      image: "trash",
+      attributes: { destructive: true },
+    });
+  }
+
+  if (actions.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      <MenuView
+        colorScheme="dark"
+        actions={actions}
+        onPressAction={({ nativeEvent }) => {
+          if (nativeEvent.event === "play-next") {
+            onPlayNext?.();
+          } else if (nativeEvent.event === "add-queue") {
+            onAddToQueue?.();
+          } else if (nativeEvent.event === "like") {
+            onToggleLike?.();
+            showLikedToast(!liked);
+          } else if (nativeEvent.event === "add-playlist") {
+            setPlaylistOpen(true);
+          } else if (nativeEvent.event === "remove") {
+            onRemove?.();
+          }
+        }}
+      >
+        <HStack
+          spacing="none"
+          align="center"
+          justify="center"
+          accessibilityRole="button"
+          accessibilityLabel={`More options for ${title}`}
+          className={
+            filled
+              ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
+              : "h-11 w-11"
+          }
+        >
+          <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
+        </HStack>
+      </MenuView>
+      {playlistOpen ? (
+        <AddToPlaylistSheet
+          trackId={trackId}
+          open
+          onClose={() => setPlaylistOpen(false)}
+        />
+      ) : null}
+    </>
+  );
+};
+
+export default TrackMenu;

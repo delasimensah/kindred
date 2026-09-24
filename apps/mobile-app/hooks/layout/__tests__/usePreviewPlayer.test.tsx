@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, renderHook } from "@testing-library/react-native";
 import React from "react";
 
@@ -7,6 +8,7 @@ const mockAudio = {
   play: jest.fn(),
   pause: jest.fn(),
   replace: jest.fn(),
+  seekTo: jest.fn(async () => undefined),
   setActiveForLockScreen: jest.fn(),
   clearLockScreenControls: jest.fn(),
   remove: jest.fn(),
@@ -15,13 +17,19 @@ const mockAudio = {
 jest.mock("expo-audio", () => ({
   createAudioPlayer: () => mockAudio,
   setAudioModeAsync: jest.fn(async () => undefined),
-  useAudioPlayerStatus: () => ({ playing: false }),
+  useAudioPlayerStatus: () => ({
+    playing: false,
+    currentTime: 0,
+    duration: 0,
+    didJustFinish: false,
+  }),
 }));
 
 const mockQuery = jest.fn();
+const mockMutation = jest.fn(async () => null);
 
 jest.mock("convex/react", () => ({
-  useConvex: () => ({ query: mockQuery }),
+  useConvex: () => ({ query: mockQuery, mutation: mockMutation }),
 }));
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -35,7 +43,8 @@ const next = {
 };
 
 describe("usePreviewPlayer", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
     mockAudio.play.mockClear();
     mockAudio.pause.mockClear();
     mockAudio.replace.mockClear();
@@ -77,6 +86,31 @@ describe("usePreviewPlayer", () => {
     act(() => result.current.play(next));
     expect(mockAudio.pause).toHaveBeenCalledTimes(1);
     expect(result.current.isPlaying).toBe(false);
+  });
+
+  it("plays the next track in the queue and stops after the last one", async () => {
+    const coast = {
+      trackId: "track_coast",
+      title: "Coastline",
+      artistName: "Sela Okoro",
+    };
+    const { result } = renderHook(() => usePreviewPlayer(), { wrapper });
+
+    act(() => result.current.play(next, [next, coast]));
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    act(() => result.current.next());
+    expect(result.current.track.trackId).toBe("track_coast");
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    act(() => result.current.next());
+    expect(result.current.isPlaying).toBe(false);
+    expect(result.current.track.trackId).toBe("track_coast");
   });
 
   it("does not play when the track is locked", async () => {

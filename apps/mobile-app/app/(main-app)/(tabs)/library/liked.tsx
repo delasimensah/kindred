@@ -5,18 +5,40 @@ import { Stack, useRouter } from "expo-router";
 
 import { LibraryTracksScreen } from "@/components";
 import { usePreviewPlayer } from "@/hooks";
-import { libraryTrackHref } from "@/utils";
+import {
+  bindQueueActions,
+  catalogQueue,
+  coverHeaderScreenOptions,
+  libraryTrackHref,
+} from "@/utils";
 
 const LikedRoute = () => {
   const router = useRouter();
   const player = usePreviewPlayer();
   const tracks = useQuery(api.library.listLiked, {});
   const setLiked = useMutation(api.library.setLiked);
+  const actions = bindQueueActions(
+    player,
+    catalogQueue("library", "", undefined, tracks ?? [])
+  );
 
   return (
     <>
-      <Stack.Screen options={{ title: "Liked songs" }} />
+      <Stack.Screen options={coverHeaderScreenOptions} />
       <LibraryTracksScreen
+        collection={{
+          title: "Liked songs",
+          fallbackIcon: "heart",
+          detail:
+            tracks === undefined
+              ? ""
+              : tracks.length === 1
+                ? "1 liked track"
+                : `${tracks.length} liked tracks`,
+          artworkUrls: (tracks ?? []).flatMap((track) =>
+            track.artworkUrl ? [track.artworkUrl] : []
+          ),
+        }}
         tracks={tracks ?? []}
         isLoading={tracks === undefined}
         empty={{
@@ -26,17 +48,9 @@ const LikedRoute = () => {
         }}
         playingTrackId={player.track.trackId}
         isPlaying={player.isPlaying}
-        onPlay={(trackId) => {
-          const track = tracks?.find((row) => row.trackId === trackId);
-          if (track === undefined || track.locked) {
-            return;
-          }
-          player.play({
-            trackId: track.trackId,
-            title: track.title,
-            artistName: track.artistName,
-          });
-        }}
+        onPlay={actions.play}
+        onPlayNext={actions.playNext}
+        onAddToQueue={actions.addToQueue}
         onOpenLocked={(trackId) => {
           router.push(libraryTrackHref(trackId));
         }}

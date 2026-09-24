@@ -93,7 +93,9 @@ describe("library", () => {
 
   it("likes a track for the signed-in fan and locks a supporters-only playlist row", async () => {
     const { fan, trackId } = await fanWithTrack("supporters");
+    expect(await fan.query(api.library.isLiked, { trackId })).toBe(false);
     await fan.mutation(api.library.setLiked, { trackId, liked: true });
+    expect(await fan.query(api.library.isLiked, { trackId })).toBe(true);
     const liked = await fan.query(api.library.listLiked, {});
     expect(liked).toHaveLength(1);
     expect(liked[0]?.locked).toBe(true);

@@ -6,30 +6,48 @@ import { COLORS } from "@/constants";
 
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 
-const SIZE = 64;
-const HALF = 31;
 const GAP = 2;
 
 interface PlaylistCoverProps {
   urls: string[];
+  size?: number;
+  width?: number;
+  height?: number;
+  radius?: number;
+  icon?: keyof typeof Ionicons.glyphMap;
 }
 
-const tileStyle = {
-  backgroundColor: COLORS.page,
-};
-
-const PlaylistCover: React.FC<PlaylistCoverProps> = ({ urls }) => {
+const PlaylistCover: React.FC<PlaylistCoverProps> = ({
+  urls,
+  size = 64,
+  width,
+  height,
+  radius: radiusProp,
+  icon = "musical-notes",
+}) => {
   const art = urls.slice(0, 4);
+  const coverWidth = width ?? size;
+  const coverHeight = height ?? size;
+  const halfWidth = (coverWidth - GAP) / 2;
+  const halfHeight = (coverHeight - GAP) / 2;
+  const radius =
+    radiusProp ?? (Math.min(coverWidth, coverHeight) >= 120 ? 16 : 12);
+  const compact = coverHeight < 200;
+  const frame = {
+    width: coverWidth,
+    height: coverHeight,
+    borderRadius: radius,
+    backgroundColor: compact ? COLORS.page : COLORS.surface,
+  };
 
   if (art.length === 0) {
     return (
-      <VStack
-        spacing="none"
-        align="center"
-        justify="center"
-        className="h-16 w-16 rounded-xl bg-page"
-      >
-        <Ionicons name="musical-notes" size={22} color={COLORS.primary} />
+      <VStack spacing="none" align="center" justify="center" style={frame}>
+        <Ionicons
+          name={icon}
+          size={Math.round(Math.min(coverWidth, coverHeight) * 0.28)}
+          color={COLORS.primary}
+        />
       </VStack>
     );
   }
@@ -40,12 +58,7 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({ urls }) => {
         accessibilityLabel=""
         source={{ uri: art[0] }}
         contentFit="cover"
-        style={{
-          width: SIZE,
-          height: SIZE,
-          borderRadius: 12,
-          backgroundColor: COLORS.surface,
-        }}
+        style={frame}
       />
     );
   }
@@ -54,11 +67,11 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({ urls }) => {
     return (
       <HStack
         spacing="none"
-        className="h-16 w-16 overflow-hidden rounded-xl"
-        style={{ gap: GAP }}
+        className="overflow-hidden"
+        style={{ ...frame, gap: GAP }}
       >
-        <CoverTile uri={art[0]} width={HALF} height={SIZE} />
-        <CoverTile uri={art[1]} width={HALF} height={SIZE} />
+        <CoverTile uri={art[0]} width={halfWidth} height={coverHeight} />
+        <CoverTile uri={art[1]} width={halfWidth} height={coverHeight} />
       </HStack>
     );
   }
@@ -67,13 +80,13 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({ urls }) => {
     return (
       <HStack
         spacing="none"
-        className="h-16 w-16 overflow-hidden rounded-xl"
-        style={{ gap: GAP }}
+        className="overflow-hidden"
+        style={{ ...frame, gap: GAP }}
       >
-        <CoverTile uri={art[0]} width={HALF} height={SIZE} />
+        <CoverTile uri={art[0]} width={halfWidth} height={coverHeight} />
         <VStack spacing="none" style={{ gap: GAP }}>
-          <CoverTile uri={art[1]} width={HALF} height={HALF} />
-          <CoverTile uri={art[2]} width={HALF} height={HALF} />
+          <CoverTile uri={art[1]} width={halfWidth} height={halfHeight} />
+          <CoverTile uri={art[2]} width={halfWidth} height={halfHeight} />
         </VStack>
       </HStack>
     );
@@ -82,16 +95,16 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({ urls }) => {
   return (
     <VStack
       spacing="none"
-      className="h-16 w-16 overflow-hidden rounded-xl"
-      style={{ gap: GAP }}
+      className="overflow-hidden"
+      style={{ ...frame, gap: GAP }}
     >
       <HStack spacing="none" style={{ gap: GAP }}>
-        <CoverTile uri={art[0]} width={HALF} height={HALF} />
-        <CoverTile uri={art[1]} width={HALF} height={HALF} />
+        <CoverTile uri={art[0]} width={halfWidth} height={halfHeight} />
+        <CoverTile uri={art[1]} width={halfWidth} height={halfHeight} />
       </HStack>
       <HStack spacing="none" style={{ gap: GAP }}>
-        <CoverTile uri={art[2]} width={HALF} height={HALF} />
-        <CoverTile uri={art[3]} width={HALF} height={HALF} />
+        <CoverTile uri={art[2]} width={halfWidth} height={halfHeight} />
+        <CoverTile uri={art[3]} width={halfWidth} height={halfHeight} />
       </HStack>
     </VStack>
   );
@@ -107,7 +120,7 @@ const CoverTile: React.FC<{ uri: string; width: number; height: number }> = ({
       accessibilityLabel=""
       source={{ uri }}
       contentFit="cover"
-      style={{ width, height, ...tileStyle }}
+      style={{ width, height, backgroundColor: COLORS.surface }}
     />
   );
 };

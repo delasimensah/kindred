@@ -53,6 +53,17 @@ jest.mock("expo-router", () => ({
   },
 }));
 
+jest.mock("react-native-gesture-handler", () => {
+  const actual = jest.requireActual("react-native-gesture-handler");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { View, TouchableOpacity } = require("react-native");
+  return {
+    ...actual,
+    GestureHandlerRootView: View,
+    TouchableOpacity,
+  };
+});
+
 jest.mock("react-native-reanimated", () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const Reanimated = require("react-native-reanimated/mock");
@@ -137,6 +148,133 @@ jest.mock("expo-secure-store", () => ({
 jest.mock("react-native-safe-area-context", () => ({
   SafeAreaProvider: ({ children }: { children: unknown }) => children,
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
+
+jest.mock("@expo/ui/community/bottom-sheet", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mockReact = require("react");
+  const { forwardRef, useImperativeHandle } = mockReact;
+  const BottomSheetModal = forwardRef(
+    (
+      { children }: { children?: unknown },
+      ref: { present?: () => void; dismiss?: () => void }
+    ) => {
+      useImperativeHandle(ref, () => ({
+        present: () => undefined,
+        dismiss: () => undefined,
+        close: () => undefined,
+        forceClose: () => undefined,
+        expand: () => undefined,
+        collapse: () => undefined,
+        snapToIndex: () => undefined,
+        snapToPosition: () => undefined,
+      }));
+      return mockReact.createElement("View", null, children);
+    }
+  );
+  const BottomSheetView = ({ children }: { children?: unknown }) =>
+    mockReact.createElement("View", null, children);
+  return { BottomSheetModal, BottomSheetView };
+});
+
+jest.mock("@expo/ui/swift-ui", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mockReact = require("react");
+  const Host = ({ children }: { children?: unknown }) =>
+    mockReact.createElement("View", null, children);
+  const Menu = ({ children, label }: { children?: unknown; label?: string }) =>
+    mockReact.createElement("View", { accessibilityLabel: label }, children);
+  const Button = ({
+    label,
+    onPress,
+  }: {
+    label?: string;
+    onPress?: () => void;
+  }) =>
+    mockReact.createElement(
+      "Pressable",
+      { accessibilityLabel: label, onPress },
+      label
+    );
+  return { Host, Menu, Button };
+});
+
+jest.mock("@expo/ui/community/menu", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mockReact = require("react");
+  const MenuView = ({
+    actions,
+    onPressAction,
+    children,
+  }: {
+    actions?: { id?: string; title: string }[];
+    onPressAction?: (event: { nativeEvent: { event: string } }) => void;
+    children?: unknown;
+  }) =>
+    mockReact.createElement(
+      "View",
+      null,
+      children,
+      ...(actions ?? []).map((action) =>
+        mockReact.createElement("Pressable", {
+          key: action.id ?? action.title,
+          accessibilityLabel: action.title,
+          onPress: () =>
+            onPressAction?.({
+              nativeEvent: { event: action.id ?? action.title },
+            }),
+        })
+      )
+    );
+  return { MenuView };
+});
+
+jest.mock("react-native-draggable-flatlist", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mockReact = require("react");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { FlatList } = require("react-native");
+  const DraggableFlatList = ({
+    data,
+    keyExtractor,
+    renderItem,
+    ListHeaderComponent,
+    contentContainerStyle,
+  }: {
+    data: unknown[];
+    keyExtractor?: (item: unknown, index: number) => string;
+    renderItem: (info: {
+      item: unknown;
+      index: number;
+      drag: () => void;
+      isActive: boolean;
+      getIndex: () => number;
+    }) => unknown;
+    ListHeaderComponent?: unknown;
+    contentContainerStyle?: unknown;
+  }) =>
+    mockReact.createElement(FlatList, {
+      data,
+      keyExtractor,
+      ListHeaderComponent,
+      contentContainerStyle,
+      renderItem: ({ item, index }: { item: unknown; index: number }) =>
+        renderItem({
+          item,
+          index,
+          drag: () => undefined,
+          isActive: false,
+          getIndex: () => index,
+        }),
+    });
+  return { __esModule: true, default: DraggableFlatList };
+});
+
+jest.mock("@expo/ui/swift-ui/modifiers", () => ({
+  menuStyle: () => ({}),
+  buttonStyle: () => ({}),
+  menuIndicator: () => ({}),
+  labelStyle: () => ({}),
 }));
 
 jest.mock("expo-audio", () => ({

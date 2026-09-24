@@ -5,7 +5,7 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import { PopularTracksScreen } from "@/components";
 import { usePreviewPlayer } from "@/hooks";
-import { routeParam, trackHref } from "@/utils";
+import { bindQueueActions, catalogQueue, routeParam, trackHref } from "@/utils";
 
 const ArtistTracksRoute = () => {
   const router = useRouter();
@@ -23,17 +23,12 @@ const ArtistTracksRoute = () => {
     artistId === undefined ? "skip" : { artistId: artistId as Id<"artists"> }
   );
 
-  const playTrack = (trackId: string) => {
-    const track = listed?.tracks.find((row) => row.trackId === trackId);
-    if (track === undefined || artist === undefined || artist === null) {
-      return;
-    }
-    player.play({
-      trackId: track.trackId,
-      title: track.title,
-      artistName: artist.name,
-    });
-  };
+  const queue =
+    artist === undefined || artist === null
+      ? []
+      : catalogQueue("artist", artist.name, artistId, listed?.tracks ?? []);
+
+  const actions = bindQueueActions(player, queue);
 
   return (
     <>
@@ -43,7 +38,9 @@ const ArtistTracksRoute = () => {
         isLoading={artistId !== undefined && listed === undefined}
         playingTrackId={player.track.trackId}
         isPlaying={player.isPlaying}
-        onPlay={playTrack}
+        onPlay={actions.play}
+        onPlayNext={actions.playNext}
+        onAddToQueue={actions.addToQueue}
         onToggleLike={(trackId) => {
           const track = listed?.tracks.find((row) => row.trackId === trackId);
           if (track === undefined) {

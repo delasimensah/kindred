@@ -77,8 +77,11 @@ const trackDetailValidator = v.object({
 const playbackValidator = v.object({
   audioUrl: v.string(),
   title: v.string(),
+  artistId: v.id("artists"),
   artistName: v.string(),
   artworkUrl: v.union(v.string(), v.null()),
+  durationMs: v.number(),
+  peaks: v.array(v.number()),
 });
 
 export const playbackUrl = authedQuery({
@@ -105,8 +108,11 @@ export const playbackUrl = authedQuery({
     return {
       audioUrl,
       title: track.title,
+      artistId: artist._id,
       artistName: artist.name,
       artworkUrl: await fileUrl(ctx, track.artworkFileId),
+      durationMs: track.durationMs,
+      peaks: track.peaks,
     };
   },
 });

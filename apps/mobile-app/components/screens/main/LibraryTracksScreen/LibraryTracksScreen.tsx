@@ -11,6 +11,10 @@ import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmp
 import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
+import LibraryCollectionHeader, {
+  COLLECTION_HERO_HEIGHT,
+  type LibraryCollection,
+} from "./LibraryCollectionHeader";
 
 export interface LibraryTrack {
   trackId: string;
@@ -35,10 +39,13 @@ interface LibraryTracksScreenProps {
   playingTrackId: string | null;
   isPlaying: boolean;
   onPlay: (trackId: string) => void;
+  onPlayNext?: (trackId: string) => void;
+  onAddToQueue?: (trackId: string) => void;
   onOpenLocked: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
   onRemove?: (trackId: string) => void;
   headerAction?: { label: string; onPress: () => void };
+  collection?: LibraryCollection;
 }
 
 const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
@@ -48,30 +55,41 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
   playingTrackId,
   isPlaying,
   onPlay,
+  onPlayNext,
+  onAddToQueue,
   onOpenLocked,
   onToggleLike,
   onRemove,
   headerAction,
+  collection,
 }) => {
   const insets = useAppInsets();
   const { width } = useWindowDimensions();
+  const firstPlayable = tracks.find((track) => !track.locked);
 
   if (isLoading) {
     return (
-      <VStack spacing="md" padding="lg" className="flex-1 bg-page">
-        {headerAction ? (
+      <VStack spacing="md" className="flex-1 bg-page">
+        {collection ? (
           <SkeletonCard
-            width={Math.max(0, width - 48)}
-            height={48}
-            radius={24}
+            width={width}
+            height={COLLECTION_HERO_HEIGHT}
+            radius={0}
           />
+        ) : headerAction ? (
+          <VStack padding="lg">
+            <SkeletonCard
+              width={Math.max(0, width - 48)}
+              height={48}
+              radius={24}
+            />
+          </VStack>
         ) : null}
-        <VStack spacing="none">
+        <VStack spacing="none" paddingX="lg">
           {TITLE_SCALES.map((titleScale, index) => (
             <PopulatedTrackSkeleton
               key={index}
               titleScale={titleScale}
-              showRemove={onRemove !== undefined}
               width={width}
             />
           ))}
@@ -84,9 +102,19 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
     <ScrollView
       className="flex-1 bg-page"
       style={{ flex: 1, backgroundColor: COLORS.page }}
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior={collection ? "never" : "automatic"}
       contentContainerStyle={{ paddingBottom: insets.bottom }}
     >
+      {collection ? (
+        <LibraryCollectionHeader
+          collection={collection}
+          onPlayAll={
+            firstPlayable === undefined
+              ? undefined
+              : () => onPlay(firstPlayable.trackId)
+          }
+        />
+      ) : null}
       <VStack spacing="md" padding="lg">
         {headerAction && tracks.length > 0 ? (
           <Pressable
@@ -109,6 +137,7 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
           tracks.map((track) => (
             <PopularTrackRow
               key={track.trackId}
+              trackId={track.trackId}
               title={track.title}
               subtitle={
                 track.locked
@@ -120,6 +149,16 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
               liked={track.liked}
               isPlaying={isPlaying && playingTrackId === track.trackId}
               onPlay={() => onPlay(track.trackId)}
+              onPlayNext={
+                onPlayNext === undefined
+                  ? undefined
+                  : () => onPlayNext(track.trackId)
+              }
+              onAddToQueue={
+                onAddToQueue === undefined
+                  ? undefined
+                  : () => onAddToQueue(track.trackId)
+              }
               onOpenLocked={() => onOpenLocked(track.trackId)}
               onToggleLike={() => onToggleLike(track.trackId)}
               onRemove={
@@ -139,11 +178,9 @@ const TITLE_SCALES = [0.72, 0.46, 0.6, 0.38, 0.66, 0.52];
 
 const PopulatedTrackSkeleton: React.FC<{
   titleScale: number;
-  showRemove: boolean;
   width: number;
-}> = ({ titleScale, showRemove, width }) => {
-  const trailing = 36 + 44 + (showRemove ? 36 : 0) + 24;
-  const textWidth = Math.max(80, width - 48 - 48 - trailing);
+}> = ({ titleScale, width }) => {
+  const textWidth = Math.max(80, width - 48 - 48 - 44 - 16);
 
   return (
     <HStack spacing="sm" align="center" paddingY="sm">
@@ -152,9 +189,7 @@ const PopulatedTrackSkeleton: React.FC<{
         <SkeletonCard width={textWidth * titleScale} height={12} radius={4} />
         <SkeletonCard width={textWidth * 0.4} height={10} radius={4} />
       </VStack>
-      <SkeletonCard width={36} height={36} radius={18} />
-      <SkeletonCard width={26} height={26} radius={13} />
-      {showRemove ? <SkeletonCard width={22} height={22} radius={4} /> : null}
+      <SkeletonCard width={20} height={6} radius={3} />
     </HStack>
   );
 };

@@ -50,6 +50,8 @@ interface ArtistProfileScreenProps {
   isPlaying: boolean;
   onToggleFollow: () => void;
   onPlay: (trackId: string) => void;
+  onPlayNext?: (trackId: string) => void;
+  onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
   onOpenLocked: (trackId: string) => void;
   onViewAllTracks: () => void;
@@ -67,6 +69,8 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   isPlaying,
   onToggleFollow,
   onPlay,
+  onPlayNext,
+  onAddToQueue,
   onToggleLike,
   onOpenLocked,
   onViewAllTracks,
@@ -143,6 +147,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
             tracks.map((track) => (
               <PopularTrackRow
                 key={track.trackId}
+                trackId={track.trackId}
                 title={track.title}
                 subtitle={
                   track.locked
@@ -154,6 +159,16 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
                 liked={track.liked}
                 isPlaying={isPlaying && playingTrackId === track.trackId}
                 onPlay={() => onPlay(track.trackId)}
+                onPlayNext={
+                  onPlayNext === undefined
+                    ? undefined
+                    : () => onPlayNext(track.trackId)
+                }
+                onAddToQueue={
+                  onAddToQueue === undefined
+                    ? undefined
+                    : () => onAddToQueue(track.trackId)
+                }
                 onToggleLike={() => onToggleLike(track.trackId)}
                 onOpenLocked={() => onOpenLocked(track.trackId)}
               />

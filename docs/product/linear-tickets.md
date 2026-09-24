@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, and **KIND-54** background audio are Done. Next phone slice is **KIND-55** the full player. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, and **KIND-55** the player are Done. Next phone slice is **KIND-56** the waveform craft on that player. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -42,10 +42,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-51** artist profile and track detail is **Done**.
 - **KIND-52** Library destinations, liked songs, and private playlists is **Done**.
 - **KIND-54** background audio short check is **Done**. Outcome: works. Lock-screen next and previous track are not in `expo-audio` 57.0.5.
-- Remaining First Version / Launch slices **KIND-47** and **KIND-55–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- **KIND-55** player is **Done**. Queue, shuffle, repeat, next and previous. A listen is recorded after about 30 seconds of that play. Lock-screen next and previous stay out of this SDK.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-56–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-55](https://linear.app/dm-studios/issue/KIND-55) (Fan can play music with queue, shuffle, repeat, next/previous).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) waveform craft → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-56](https://linear.app/dm-studios/issue/KIND-56) (Mini-player shared transition and Skia waveform scrubber on real screens).
 
 ---
 

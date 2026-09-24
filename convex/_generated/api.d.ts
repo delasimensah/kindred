@@ -28,6 +28,8 @@ import type * as lib_profileName from "../lib/profileName.js";
 import type * as lib_seedCatalog from "../lib/seedCatalog.js";
 import type * as lib_tracks from "../lib/tracks.js";
 import type * as library from "../library.js";
+import type * as listen from "../listen.js";
+import type * as player from "../player.js";
 import type * as posts from "../posts.js";
 import type * as profiles from "../profiles.js";
 import type * as seed from "../seed.js";
@@ -62,6 +64,8 @@ declare const fullApi: ApiFromModules<{
   "lib/seedCatalog": typeof lib_seedCatalog;
   "lib/tracks": typeof lib_tracks;
   library: typeof library;
+  listen: typeof listen;
+  player: typeof player;
   posts: typeof posts;
   profiles: typeof profiles;
   seed: typeof seed;

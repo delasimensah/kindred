@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-54 background audio short check Done. A public track plays in the background with lock-screen play, pause, and seek. Next and previous track are not on the lock screen. Next is KIND-55, the full player. KIND-45 waits until the phone catalog screens are in place.
-- **Last updated:** 2026-09-23
+- **Current phase:** Build — KIND-55 player Done. A fan can play a public track with a queue, shuffle, repeat, and next or previous. Next is KIND-56, the shared move from the mini-player into now-playing and the waveform scrubber. KIND-45 waits until the phone catalog screens are in place.
+- **Last updated:** 2026-09-24
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
   - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-55 Fan can play music with queue, shuffle, repeat, and next/previous. KIND-45 waits until the phone catalog screens are in place.
+KIND-56 Mini-player shared transition and waveform scrubber on the real player. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

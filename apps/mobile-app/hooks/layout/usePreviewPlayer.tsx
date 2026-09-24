@@ -2,7 +2,6 @@ import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { useConvex } from "convex/react";
 import {
-  type AudioPlayer,
   createAudioPlayer,
   setAudioModeAsync,
   useAudioPlayerStatus,
@@ -15,26 +14,58 @@ import React, {
   useState,
 } from "react";
 
-export interface PreviewTrack {
-  trackId: string;
-  title: string;
-  artistName: string;
-}
+import { usePlaybackControls } from "./playbackControls";
+import {
+  applyPlayable,
+  currentTrack,
+  cycleRepeat,
+  emptyQueue,
+  moveUpcoming,
+  type PlaybackQueue,
+  type PreviewTrack,
+  type QueueTrack,
+  removeUpcoming,
+  type RepeatMode,
+  setShuffle as shuffleQueue,
+  STAND_IN_TRACK_ID,
+  upcomingIndexes,
+} from "./playbackQueue";
+import { usePlaybackPersistence } from "./playbackSession";
+
+export type { PreviewTrack, QueueTrack, RepeatMode };
 
 interface PreviewPlayerValue {
   track: PreviewTrack;
   isPlaying: boolean;
-  play: (track: PreviewTrack) => void;
+  shuffle: boolean;
+  repeat: RepeatMode;
+  progress: number;
+  positionMs: number;
+  durationMs: number;
+  upcoming: QueueTrack[];
+  play: (track: PreviewTrack, queue?: PreviewTrack[]) => void;
   toggle: () => void;
+  next: () => void;
+  previous: () => void;
+  seek: (ratio: number) => void;
+  setShuffle: (enabled: boolean) => void;
+  cycleRepeat: () => void;
+  playNext: (track: PreviewTrack) => void;
+  addToQueue: (track: PreviewTrack) => void;
+  removeUpcoming: (slot: number) => void;
+  moveUpcoming: (fromSlot: number, toSlot: number) => void;
+  ready: boolean;
 }
 
 const PreviewPlayerContext = createContext<PreviewPlayerValue | null>(null);
 
 const STAND_IN: PreviewTrack = {
-  trackId: "stand-in",
+  trackId: STAND_IN_TRACK_ID,
   title: "Asase",
   artistName: "Amaara Mensah",
 };
+
+const LISTEN_AFTER_SECONDS = 30;
 
 export function PreviewPlayerProvider({
   children,
@@ -45,14 +76,70 @@ export function PreviewPlayerProvider({
   const [audio] = useState(() =>
     createAudioPlayer(null, { keepAudioSessionActive: true })
   );
-  const nativePlaying = useAudioPlayerStatus(audio).playing;
-  const [track, setTrack] = useState<PreviewTrack>(STAND_IN);
+  const status = useAudioPlayerStatus(audio);
+  const [queue, setQueue] = useState<PlaybackQueue>(emptyQueue);
   const [isPlaying, setIsPlaying] = useState(false);
+  const queueRef = useRef(queue);
+  const statusRef = useRef(status);
   const loadedId = useRef<string | null>(null);
   const request = useRef(0);
   const sawNativeStatus = useRef(false);
+  const finished = useRef(false);
+  const listenId = useRef<string | null>(null);
+  const listenStarted = useRef(0);
+  const recorded = useRef<string | null>(null);
+  const resumeAt = useRef<number | null>(null);
+  const seekArm = useRef<{
+    trackId: string;
+    seconds: number;
+    sawUnload: boolean;
+  } | null>(null);
+  const listenFloor = useRef(0);
+  const accessRequest = useRef(0);
+  const controls = usePlaybackControls({
+    audio,
+    convex,
+    isPlaying,
+    queueRef,
+    statusRef,
+    loadedIdRef: loadedId,
+    requestRef: request,
+    listenIdRef: listenId,
+    listenStartedRef: listenStarted,
+    recordedRef: recorded,
+    resumeAtRef: resumeAt,
+    seekArmRef: seekArm,
+    listenFloorRef: listenFloor,
+    setIsPlaying,
+    setQueue,
+  });
+  const ready = usePlaybackPersistence({
+    audio,
+    queue,
+    queueRef,
+    setQueue,
+    status,
+    isPlaying,
+    loadedIdRef: loadedId,
+    resumeAtRef: resumeAt,
+    seekArmRef: seekArm,
+    listenFloorRef: listenFloor,
+    start: controls.start,
+  });
 
   useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
+
+  const playing = currentTrack(queue) ?? STAND_IN;
+  const accessKey = queue.tracks.map((track) => track.trackId).join("|");
+
+  useEffect(() => {
+    // https://docs.expo.dev/versions/v57.0.0/sdk/audio/
     void setAudioModeAsync({
       playsInSilentMode: true,
       shouldPlayInBackground: true,
@@ -69,69 +156,134 @@ export function PreviewPlayerProvider({
       sawNativeStatus.current = true;
       return;
     }
-    setIsPlaying(nativePlaying);
-  }, [nativePlaying]);
+    setIsPlaying(status.playing);
+  }, [status.playing]);
 
-  const start = (next: PreviewTrack, player: AudioPlayer) => {
-    const ticket = request.current + 1;
-    request.current = ticket;
+  useEffect(() => {
+    if (!status.didJustFinish) {
+      finished.current = false;
+      return;
+    }
+    if (finished.current) {
+      return;
+    }
+    finished.current = true;
+    controls.next();
+  }, [controls, status.didJustFinish]);
+
+  useEffect(() => {
+    const ids = accessKey.split("|").filter((id) => id.length > 0);
+    if (ids.length === 0) {
+      return;
+    }
+    const ticket = accessRequest.current + 1;
+    accessRequest.current = ticket;
     void convex
-      .query(api.tracks.playbackUrl, {
-        trackId: next.trackId as Id<"tracks">,
+      .query(api.player.resolveQueueAccess, {
+        trackIds: ids as Id<"tracks">[],
       })
-      .then((row) => {
-        if (ticket !== request.current) {
+      .then((rows) => {
+        if (ticket !== accessRequest.current || !Array.isArray(rows)) {
           return;
         }
-        if (row === null) {
-          setIsPlaying(false);
-          return;
-        }
-        player.replace({ uri: row.audioUrl });
-        player.setActiveForLockScreen(
-          true,
-          {
-            title: row.title,
-            artist: row.artistName,
-            artworkUrl: row.artworkUrl ?? undefined,
-          },
-          { showSeekForward: true, showSeekBackward: true }
-        );
-        loadedId.current = next.trackId;
-        player.play();
+        setQueue((current) => {
+          const nextQueue = applyPlayable(current, rows);
+          queueRef.current = nextQueue;
+          return nextQueue;
+        });
+      })
+      .catch(() => undefined);
+  }, [accessKey, convex]);
+
+  useEffect(() => {
+    const eventId = listenId.current;
+    const row = currentTrack(queueRef.current);
+    if (
+      eventId === null ||
+      recorded.current === eventId ||
+      row === null ||
+      (row.artistId ?? "").length === 0 ||
+      (status.currentTime ?? 0) - listenFloor.current < LISTEN_AFTER_SECONDS
+    ) {
+      return;
+    }
+    recorded.current = eventId;
+    void convex
+      .mutation(api.listen.record, {
+        trackId: row.trackId as Id<"tracks">,
+        artistId: row.artistId as Id<"artists">,
+        startedAt: listenStarted.current,
+        msPlayed: Math.round((status.currentTime ?? 0) * 1000),
+        completed:
+          status.duration > 0 && status.currentTime >= status.duration - 1,
+        source: row.source,
+        clientEventId: eventId,
       })
       .catch(() => {
-        if (ticket === request.current) {
-          setIsPlaying(false);
+        if (recorded.current === eventId) {
+          recorded.current = null;
         }
       });
-  };
+  }, [convex, queue, status.currentTime, status.duration]);
 
-  const play = (next: PreviewTrack) => {
-    if (next.trackId === STAND_IN.trackId) {
-      return;
-    }
-    if (next.trackId === track.trackId && loadedId.current === next.trackId) {
-      if (isPlaying) {
-        audio.pause();
-        setIsPlaying(false);
-      } else {
-        audio.play();
-        setIsPlaying(true);
-      }
-      return;
-    }
-    setTrack(next);
-    setIsPlaying(true);
-    start(next, audio);
-  };
-
-  const toggle = () => {
-    play(track);
-  };
+  const durationMs =
+    status.duration > 0
+      ? status.duration * 1000
+      : (currentTrack(queue)?.durationMs ?? 0);
+  const positionMs = Math.max(0, (status.currentTime ?? 0) * 1000);
 
   return (
-    <PreviewPlayerContext.Provider value={{ track, isPlaying, play, toggle }}>
+    <PreviewPlayerContext.Provider
+      value={{
+        track: playing,
+        isPlaying,
+        shuffle: queue.shuffle,
+        repeat: queue.repeat,
+        progress: durationMs > 0 ? Math.min(1, positionMs / durationMs) : 0,
+        positionMs,
+        durationMs,
+        upcoming: upcomingIndexes(queue).flatMap((index) => {
+          const item = queue.tracks[index];
+          return item === undefined ? [] : [item];
+        }),
+        play: controls.play,
+        toggle: controls.toggle,
+        next: controls.next,
+        previous: controls.previous,
+        seek: controls.seek,
+        setShuffle: (enabled) => {
+          setQueue((current) => {
+            const nextQueue = shuffleQueue(current, enabled);
+            queueRef.current = nextQueue;
+            return nextQueue;
+          });
+        },
+        cycleRepeat: () => {
+          setQueue((current) => {
+            const nextQueue = cycleRepeat(current);
+            queueRef.current = nextQueue;
+            return nextQueue;
+          });
+        },
+        playNext: controls.playNext,
+        addToQueue: controls.addToQueue,
+        removeUpcoming: (slot) => {
+          setQueue((current) => {
+            const nextQueue = removeUpcoming(current, slot);
+            queueRef.current = nextQueue;
+            return nextQueue;
+          });
+        },
+        moveUpcoming: (fromSlot, toSlot) => {
+          setQueue((current) => {
+            const nextQueue = moveUpcoming(current, fromSlot, toSlot);
+            queueRef.current = nextQueue;
+            return nextQueue;
+          });
+        },
+        ready,
+      }}
+    >
       {children}
     </PreviewPlayerContext.Provider>
   );

@@ -27,4 +27,18 @@ describe("PlaylistListScreen", () => {
     expect(onCreate).toHaveBeenCalledTimes(1);
     expect(onOpen).toHaveBeenCalledWith("pl_1");
   });
+
+  it("hides create playlist while the list is loading", () => {
+    render(
+      <PlaylistListScreen
+        playlists={[]}
+        isLoading
+        onCreate={jest.fn()}
+        onOpen={jest.fn()}
+        onDelete={jest.fn()}
+      />
+    );
+    expect(screen.queryByLabelText("Create playlist")).toBeNull();
+    expect(screen.getAllByTestId("skeleton-card").length).toBeGreaterThan(8);
+  });
 });

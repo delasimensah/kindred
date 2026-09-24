@@ -51,7 +51,7 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
       contentContainerStyle={{ paddingBottom: insets.bottom }}
     >
       <VStack spacing="md" padding="lg">
-        {isLoading || playlists.length > 0 ? (
+        {!isLoading && playlists.length > 0 ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Create playlist"
@@ -87,6 +87,7 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
                   />
                   <SkeletonCard width={72} height={10} radius={4} />
                 </VStack>
+                <SkeletonCard width={10} height={16} radius={3} />
               </HStack>
             ))}
           </VStack>

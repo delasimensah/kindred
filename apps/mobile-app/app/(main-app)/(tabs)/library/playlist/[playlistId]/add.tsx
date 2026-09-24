@@ -5,7 +5,11 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { Alert } from "react-native";
 
 import { AddPlaylistTracksScreen } from "@/components";
-import { getConvexErrorMessage, routeParam } from "@/utils";
+import {
+  getConvexErrorMessage,
+  routeParam,
+  showPlaylistAddedToast,
+} from "@/utils";
 
 const AddTracksRoute = () => {
   const playlistId = routeParam(
@@ -13,6 +17,12 @@ const AddTracksRoute = () => {
   );
   const tracks = useQuery(
     api.library.listAddableTracks,
+    playlistId === undefined
+      ? "skip"
+      : { playlistId: playlistId as Id<"playlists"> }
+  );
+  const playlist = useQuery(
+    api.library.getPlaylist,
     playlistId === undefined
       ? "skip"
       : { playlistId: playlistId as Id<"playlists"> }
@@ -29,18 +39,12 @@ const AddTracksRoute = () => {
           if (playlistId === undefined) {
             return;
           }
-          const track = tracks?.find((row) => row.trackId === trackId);
           void addTrack({
             playlistId: playlistId as Id<"playlists">,
             trackId: trackId as Id<"tracks">,
           })
             .then(() => {
-              Alert.alert(
-                "Track added",
-                track === undefined
-                  ? "This track was added to the playlist."
-                  : `${track.title} was added to the playlist.`
-              );
+              showPlaylistAddedToast(playlist?.name ?? "playlist");
             })
             .catch((error: unknown) => {
               Alert.alert("Could not add track", getConvexErrorMessage(error));

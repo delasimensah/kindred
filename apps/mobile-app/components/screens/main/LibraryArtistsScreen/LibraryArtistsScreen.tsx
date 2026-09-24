@@ -46,9 +46,22 @@ const LibraryArtistsScreen: React.FC<LibraryArtistsScreenProps> = ({
         ) : null}
         {isLoading ? (
           <VStack spacing="sm">
-            <SkeletonCard width={rowWidth} height={64} radius={16} />
-            <SkeletonCard width={rowWidth} height={64} radius={16} />
-            <SkeletonCard width={rowWidth} height={64} radius={16} />
+            {[0.46, 0.62, 0.38].map((scale, index) => (
+              <HStack
+                key={index}
+                spacing="md"
+                align="center"
+                padding="sm"
+                className="rounded-2xl bg-surface"
+              >
+                <SkeletonCard width={48} height={48} radius={24} />
+                <SkeletonCard
+                  width={Math.max(80, (rowWidth - 80) * scale)}
+                  height={14}
+                  radius={4}
+                />
+              </HStack>
+            ))}
           </VStack>
         ) : artists.length === 0 ? (
           <CollectionEmptyState

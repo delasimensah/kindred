@@ -6,6 +6,7 @@ import { useTabScrollTopPad } from "@/hooks";
 
 import AccountAvatarButton from "../../../ui/AccountAvatarButton/AccountAvatarButton";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
+import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import FeaturedArtistCard, {
@@ -64,9 +65,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
       </HStack>
 
       <VStack spacing="lg" className="pt-4">
-        {isLoading ? (
-          <Text className="text-sm text-text/50">Loading artists…</Text>
-        ) : null}
+        {isLoading ? <DiscoverSkeleton /> : null}
 
         {!isLoading && featured.length === 0 && rising.length === 0 ? (
           <CollectionEmptyState
@@ -116,5 +115,44 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
     </ScrollView>
   );
 };
+
+function DiscoverSkeleton() {
+  const { width } = useWindowDimensions();
+  const cardWidth = Math.max(0, width - PAGE_PADDING * 2);
+
+  return (
+    <VStack spacing="lg">
+      <VStack
+        spacing="none"
+        justify="between"
+        className="overflow-hidden rounded-3xl bg-surface p-5"
+        style={{ height: 360 }}
+      >
+        <SkeletonCard width={72} height={22} radius={11} />
+        <VStack spacing="sm">
+          <SkeletonCard width={cardWidth * 0.46} height={28} radius={6} />
+          <SkeletonCard width={cardWidth * 0.62} height={12} radius={4} />
+          <SkeletonCard width={108} height={40} radius={20} />
+        </VStack>
+      </VStack>
+      <VStack spacing="sm">
+        <SkeletonCard width={132} height={18} radius={6} />
+        <HStack spacing="md">
+          {[0, 1, 2, 3].map((index) => (
+            <VStack
+              key={index}
+              spacing="sm"
+              align="center"
+              className="w-[92px]"
+            >
+              <SkeletonCard width={72} height={72} radius={36} />
+              <SkeletonCard width={56} height={10} radius={4} />
+            </VStack>
+          ))}
+        </HStack>
+      </VStack>
+    </VStack>
+  );
+}
 
 export default DiscoverScreen;

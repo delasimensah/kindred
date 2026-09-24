@@ -4,6 +4,7 @@ export { formatDuration } from "./formatDuration";
 export { getConvexErrorMessage } from "./convexError";
 export { createConvexClient } from "./convexClient";
 export { bottomSafePad } from "./insets";
+export { bindQueueActions, catalogQueue } from "./playerTracks";
 export {
   ACCOUNT_HREF,
   artistHref,
@@ -33,6 +34,8 @@ export {
   showActiveToast,
   showErrorToast,
   showNeutralToast,
+  showLikedToast,
+  showPlaylistAddedToast,
   showSuccessToast,
 } from "./toastUtils";
 

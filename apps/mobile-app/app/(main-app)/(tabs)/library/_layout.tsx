@@ -1,10 +1,6 @@
 import { Stack } from "expo-router";
 
-import {
-  coverHeaderScreenOptions,
-  routeParam,
-  tabStackScreenOptions,
-} from "@/utils";
+import { coverHeaderScreenOptions, tabStackScreenOptions } from "@/utils";
 
 const LibraryLayout = () => {
   return (
@@ -16,13 +12,9 @@ const LibraryLayout = () => {
       />
       <Stack.Screen
         name="playlist/[playlistId]/index"
-        options={({ route }) => ({
-          title:
-            routeParam(
-              (route.params as { name?: string | string[] } | undefined)?.name
-            ) ?? "",
-        })}
+        options={coverHeaderScreenOptions}
       />
+      <Stack.Screen name="liked" options={coverHeaderScreenOptions} />
     </Stack>
   );
 };

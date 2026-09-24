@@ -47,6 +47,21 @@ export const listLiked = authedQuery({
   },
 });
 
+export const isLiked = authedQuery({
+  args: { trackId: v.id("tracks") },
+  returns: v.boolean(),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const rows = await ctx.db
+      .query("libraryItems")
+      .withIndex("by_profile_track", (q) =>
+        q.eq("profileId", profile._id).eq("trackId", args.trackId)
+      )
+      .collect();
+    return rows.some((row) => row.kind === "liked");
+  },
+});
+
 export const setLiked = authedMutation({
   args: { trackId: v.id("tracks"), liked: v.boolean() },
   returns: v.null(),

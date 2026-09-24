@@ -1,8 +1,12 @@
 import { ThemeProvider } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
-import { Platform } from "react-native";
+import { useRef } from "react";
+import { Platform, View } from "react-native";
 
 import MiniPlayerSlot from "@/components/screens/main/MiniPlayerSlot/MiniPlayerSlot";
+import PlayerSheet, {
+  type PlayerSheetHandle,
+} from "@/components/screens/main/PlayerSheet/PlayerSheet";
 import { COLORS } from "@/constants";
 import { PreviewPlayerProvider, usePreviewPlayer } from "@/hooks";
 import { navigationTheme } from "@/utils";
@@ -31,50 +35,59 @@ const MainTabsLayout = () => {
 
 const TabsShell = () => {
   const player = usePreviewPlayer();
+  const sheetRef = useRef<PlayerSheetHandle>(null);
 
   return (
     <ThemeProvider value={navigationTheme}>
-      <NativeTabs
-        minimizeBehavior="onScrollDown"
-        disableTransparentOnScrollEdge
-        tintColor={COLORS.primary}
-        backgroundColor={Platform.OS === "android" ? COLORS.surface : undefined}
-        indicatorColor={
-          Platform.OS === "android" ? ANDROID_TAB_INDICATOR : undefined
-        }
-        tabBarRespectsIMEInsets
-      >
-        <NativeTabs.BottomAccessory>
-          <MiniPlayerSlot
-            track={player.track}
-            isPlaying={player.isPlaying}
-            onToggle={player.toggle}
-          />
-        </NativeTabs.BottomAccessory>
-        <NativeTabs.Trigger name="(home)" contentStyle={tabScreenStyle}>
-          <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-          <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="discover" contentStyle={tabScreenStyle}>
-          <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
-          <NativeTabs.Trigger.Icon sf="safari.fill" md="explore" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="library" contentStyle={tabScreenStyle}>
-          <NativeTabs.Trigger.Label>Library</NativeTabs.Trigger.Label>
-          <NativeTabs.Trigger.Icon
-            sf="books.vertical.fill"
-            md="library_music"
-          />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger
-          name="search"
-          role="search"
-          contentStyle={tabScreenStyle}
+      <View style={{ flex: 1 }}>
+        <NativeTabs
+          minimizeBehavior="onScrollDown"
+          disableTransparentOnScrollEdge
+          tintColor={COLORS.primary}
+          backgroundColor={
+            Platform.OS === "android" ? COLORS.surface : undefined
+          }
+          indicatorColor={
+            Platform.OS === "android" ? ANDROID_TAB_INDICATOR : undefined
+          }
+          tabBarRespectsIMEInsets
         >
-          <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
-          <NativeTabs.Trigger.Icon sf="magnifyingglass" md="search" />
-        </NativeTabs.Trigger>
-      </NativeTabs>
+          {Platform.OS === "ios" ? (
+            <NativeTabs.BottomAccessory>
+              <MiniPlayerSlot
+                track={player.track}
+                isPlaying={player.isPlaying}
+                onToggle={player.toggle}
+                onOpen={() => sheetRef.current?.open()}
+              />
+            </NativeTabs.BottomAccessory>
+          ) : null}
+          <NativeTabs.Trigger name="(home)" contentStyle={tabScreenStyle}>
+            <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="house.fill" md="home" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="discover" contentStyle={tabScreenStyle}>
+            <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="safari.fill" md="explore" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="library" contentStyle={tabScreenStyle}>
+            <NativeTabs.Trigger.Label>Library</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon
+              sf="books.vertical.fill"
+              md="library_music"
+            />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger
+            name="search"
+            role="search"
+            contentStyle={tabScreenStyle}
+          >
+            <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
+            <NativeTabs.Trigger.Icon sf="magnifyingglass" md="search" />
+          </NativeTabs.Trigger>
+        </NativeTabs>
+        <PlayerSheet ref={sheetRef} showCollapsedBar={Platform.OS !== "ios"} />
+      </View>
     </ThemeProvider>
   );
 };

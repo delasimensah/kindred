@@ -68,6 +68,7 @@ KIND-56 Mini-player shared transition and waveform scrubber on the real player. 
 
 ## Pointers
 
+- Pull request (KIND-55): https://github.com/delasimensah/kindred/pull/11
 - Pull request (KIND-54): https://github.com/delasimensah/kindred/pull/10
 - Pull request (KIND-52): https://github.com/delasimensah/kindred/pull/9
 - Pull request (KIND-51): https://github.com/delasimensah/kindred/pull/8

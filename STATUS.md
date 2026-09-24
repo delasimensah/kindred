@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-56 player craft Done. A fan can reorder the queue without dragging the sheet, tap a queued track to play it, and a locked track stays in the list with its menu closed. Next is KIND-57, the Home feed. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-57 Home feed Done. A fan sees updates from artists they follow, including a voice note, and a locked post asks them to support. Reactions on the player save for everyone watching that track. Unfollow is blocked while an artist is in the support route. Next is KIND-58, the live listener short check. KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-24
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-57 Home feed of updates from followed artists, and reactions on tracks. KIND-45 waits until the phone catalog screens are in place.
+KIND-58 short check: live listener count on two phones. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

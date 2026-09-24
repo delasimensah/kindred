@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 
 import { DiscoverScreen } from "@/components";
 import { useFanSession } from "@/hooks";
-import { ACCOUNT_HREF, artistHref } from "@/utils";
+import { ACCOUNT_HREF, artistHref, changeFollow } from "@/utils";
 
 const DiscoverRoute = () => {
   const router = useRouter();
@@ -22,10 +22,14 @@ const DiscoverRoute = () => {
       return;
     }
     if (row.isFollowed) {
-      await removeFollow({ artistId: artistId as Id<"artists"> });
+      await changeFollow(() =>
+        removeFollow({ artistId: artistId as Id<"artists"> })
+      );
       return;
     }
-    await addFollow({ artistId: artistId as Id<"artists"> });
+    await changeFollow(() =>
+      addFollow({ artistId: artistId as Id<"artists"> })
+    );
   };
 
   return (

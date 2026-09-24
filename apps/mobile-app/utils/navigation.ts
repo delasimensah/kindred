@@ -14,7 +14,7 @@ export function routeParam(
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
 
-/** Artist profile on the Discover stack, above the tab bar. */
+/** Artist profile on the Discover stack. Home and Library keep their own. */
 export function artistHref(artistId: string): Href {
   return {
     pathname: "/(main-app)/(tabs)/discover/artist/[artistId]",
@@ -69,6 +69,22 @@ export function libraryDownloadsHref(): Href {
 
 export function libraryMixHref(): Href {
   return "/(main-app)/(tabs)/library/mix";
+}
+
+/** Artist profile on the Home stack, so back returns to the feed. */
+export function homeArtistHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/(home)/artist/[artistId]",
+    params: { artistId },
+  };
+}
+
+/** Full popular-track list opened from Home, still on the Home stack. */
+export function homeArtistTracksHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/(home)/tracks/[artistId]",
+    params: { artistId },
+  };
 }
 
 export function libraryArtistHref(artistId: string): Href {

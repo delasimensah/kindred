@@ -20,6 +20,7 @@ import {
   seedUpdates,
   type SeedAccount,
 } from "./lib/seedCatalog";
+import { SEED_VOICE_NOTE } from "./lib/seedVoice";
 import { TRACK_PEAK_BUCKETS } from "./lib/tracks";
 import { ERROR_CODES, raise } from "./lib/errors";
 
@@ -27,7 +28,9 @@ const fileKind = v.union(
   v.literal("trackAudio"),
   v.literal("artwork"),
   v.literal("avatar"),
-  v.literal("cover")
+  v.literal("cover"),
+  v.literal("updatePhoto"),
+  v.literal("voiceNote")
 );
 
 async function fileIdBySourceUrl(
@@ -426,6 +429,84 @@ export const insertTrackChunk = internalMutation({
 
 const DAY_MS = 86_400_000;
 
+async function newestArtwork(ctx: MutationCtx, artistId: Id<"artists">) {
+  const track = await ctx.db
+    .query("tracks")
+    .withIndex("by_artist_state_publishedAt", (q) =>
+      q.eq("artistId", artistId).eq("state", "published")
+    )
+    .order("desc")
+    .first();
+  if (track?.artworkFileId === undefined) {
+    return null;
+  }
+  return await ctx.db.get(track.artworkFileId);
+}
+
+async function attachSeedPhoto(
+  ctx: MutationCtx,
+  artistId: Id<"artists">,
+  postId: Id<"updatePosts">
+) {
+  const post = await ctx.db.get(postId);
+  if (post === null || post.photoFileId !== undefined) {
+    return;
+  }
+  const sourceUrl = `seed://update-photo/${artistId}`;
+  let fileId = await fileIdBySourceUrl(ctx, sourceUrl);
+  if (fileId === null) {
+    const artwork = await newestArtwork(ctx, artistId);
+    if (artwork === null) {
+      return;
+    }
+    fileId = await ctx.db.insert("files", {
+      storageId: artwork.storageId,
+      kind: "updatePhoto",
+      artistId,
+      contentType: artwork.contentType,
+      sizeBytes: artwork.sizeBytes,
+      ...(artwork.credit === undefined ? {} : { credit: artwork.credit }),
+      sourceUrl,
+      createdAt: Date.now(),
+    });
+  }
+  await ctx.db.patch(postId, { photoFileId: fileId });
+}
+
+async function attachSeedVoice(
+  ctx: MutationCtx,
+  artistId: Id<"artists">,
+  postId: Id<"updatePosts">
+) {
+  const fileId = await fileIdBySourceUrl(ctx, SEED_VOICE_NOTE.sourceUrl);
+  const post = await ctx.db.get(postId);
+  if (post === null) {
+    return;
+  }
+  if (fileId === null) {
+    if (post.voiceFileId !== undefined) {
+      const current = await ctx.db.get(post.voiceFileId);
+      if (current?.sourceUrl !== SEED_VOICE_NOTE.sourceUrl) {
+        await ctx.db.patch(postId, { voiceFileId: undefined });
+      }
+    }
+    await ctx.db.patch(postId, {
+      voiceDurationMs: SEED_VOICE_NOTE.durationMs,
+      voicePeaks: SEED_VOICE_NOTE.peaks,
+    });
+    return;
+  }
+  const voice = await ctx.db.get(fileId);
+  if (voice !== null && voice.artistId === undefined) {
+    await ctx.db.patch(fileId, { artistId });
+  }
+  await ctx.db.patch(postId, {
+    voiceFileId: fileId,
+    voiceDurationMs: SEED_VOICE_NOTE.durationMs,
+    voicePeaks: SEED_VOICE_NOTE.peaks,
+  });
+}
+
 export const insertArtistUpdates = internalMutation({
   args: {},
   returns: v.object({ inserted: v.number(), skipped: v.number() }),
@@ -439,17 +520,36 @@ export const insertArtistUpdates = internalMutation({
         .query("updatePosts")
         .withIndex("by_artist_createdAt", (q) => q.eq("artistId", artistId))
         .collect();
-      if (existing.some((post) => post.body === update.body)) {
+      const match = existing.find((post) => post.body === update.body);
+      if (match !== undefined) {
+        if (update.photo === true) {
+          await attachSeedPhoto(ctx, artistId, match._id);
+        }
+        if (update.voice === true) {
+          await attachSeedVoice(ctx, artistId, match._id);
+        }
         skipped += 1;
         continue;
       }
-      await ctx.db.insert("updatePosts", {
+      const postId = await ctx.db.insert("updatePosts", {
         artistId,
         body: update.body,
         audience: update.audience,
         hidden: false,
         createdAt: now - update.ageDays * DAY_MS,
+        ...(update.voiceDurationMs === undefined
+          ? {}
+          : {
+              voiceDurationMs: update.voiceDurationMs,
+              voicePeaks: SEED_VOICE_NOTE.peaks,
+            }),
       });
+      if (update.photo === true) {
+        await attachSeedPhoto(ctx, artistId, postId);
+      }
+      if (update.voice === true) {
+        await attachSeedVoice(ctx, artistId, postId);
+      }
       inserted += 1;
     }
     return { inserted, skipped };

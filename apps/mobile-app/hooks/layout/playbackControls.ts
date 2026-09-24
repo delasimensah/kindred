@@ -20,6 +20,7 @@ import {
   type PreviewTrack,
   type QueueTrack,
   replaceQueue,
+  soloQueue,
   STAND_IN_TRACK_ID,
   stepNext,
   stepPrevious,
@@ -44,6 +45,7 @@ interface PlaybackControlsInput {
   listenFloorRef: RefObject<number>;
   setIsPlaying: Dispatch<SetStateAction<boolean>>;
   setQueue: Dispatch<SetStateAction<PlaybackQueue>>;
+  setQueueEpoch: Dispatch<SetStateAction<number>>;
 }
 
 function stampListen(trackId: string) {
@@ -67,6 +69,7 @@ export function usePlaybackControls({
   listenFloorRef,
   setIsPlaying,
   setQueue,
+  setQueueEpoch,
 }: PlaybackControlsInput) {
   const startRef = useRef<(track: QueueTrack) => void>(() => undefined);
 
@@ -244,6 +247,7 @@ export function usePlaybackControls({
       );
       queueRef.current = nextQueue;
       setQueue(nextQueue);
+      setQueueEpoch((epoch) => epoch + 1);
       const starting = currentTrack(nextQueue);
       if (starting === null || starting.locked) {
         setIsPlaying(false);
@@ -262,9 +266,54 @@ export function usePlaybackControls({
       recordedRef,
       setIsPlaying,
       setQueue,
+      setQueueEpoch,
       start,
     ]
   );
+
+  const playAlone = useCallback(
+    (track: PreviewTrack) => {
+      if (track.trackId === STAND_IN_TRACK_ID || track.locked) {
+        return;
+      }
+      const active = currentTrack(queueRef.current);
+      const already =
+        active?.trackId === track.trackId &&
+        loadedIdRef.current === track.trackId;
+      const nextQueue = soloQueue(track, queueRef.current.repeat);
+      queueRef.current = nextQueue;
+      setQueue(nextQueue);
+      setQueueEpoch((epoch) => epoch + 1);
+      if (already) {
+        if (!isPlaying) {
+          audio.play();
+          setIsPlaying(true);
+        }
+        return;
+      }
+      const starting = currentTrack(nextQueue);
+      if (starting === null) {
+        return;
+      }
+      setIsPlaying(true);
+      start(starting);
+    },
+    [
+      audio,
+      isPlaying,
+      loadedIdRef,
+      queueRef,
+      setIsPlaying,
+      setQueue,
+      setQueueEpoch,
+      start,
+    ]
+  );
+
+  const pause = useCallback(() => {
+    audio.pause();
+    setIsPlaying(false);
+  }, [audio, setIsPlaying]);
 
   const previous = useCallback(() => {
     const before = queueRef.current;
@@ -319,6 +368,8 @@ export function usePlaybackControls({
 
   return {
     play,
+    playAlone,
+    pause,
     start,
     toggle: () => {
       const active = currentTrack(queueRef.current);

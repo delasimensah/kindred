@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, **KIND-55** the player, and **KIND-56** the player craft are Done. Next phone slice is **KIND-57** the Home feed. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, **KIND-55** the player, **KIND-56** the player craft, and **KIND-57** the Home feed are Done. Next phone slice is **KIND-58**, the live listener short check. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -44,10 +44,11 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-54** background audio short check is **Done**. Outcome: works. Lock-screen next and previous track are not in `expo-audio` 57.0.5.
 - **KIND-55** player is **Done**. Queue, shuffle, repeat, next and previous. A listen is recorded after about 30 seconds of that play. Lock-screen next and previous stay out of this SDK.
 - **KIND-56** player craft is **Done**. Reordering a queue row does not drag the sheet. A tap on a queued track plays it. A locked track stays in the list, and its menu does not open.
-- Remaining First Version / Launch slices **KIND-47** and **KIND-57–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- **KIND-57** Home feed is **Done**. Followed artists’ updates show on Home, including a voice-note card. A supporters-only post stays locked with Support to unlock. A reaction on the player saves and shows up for anyone watching that track. Unfollow refuses while that artist is in the support route.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-58–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-57](https://linear.app/dm-studios/issue/KIND-57) (Fan can follow artists, see Home feed updates, and react to tracks).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed (Done) → [KIND-58](https://linear.app/dm-studios/issue/KIND-58) live listener short check. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-58](https://linear.app/dm-studios/issue/KIND-58) (Short check: live listener count on two phones).
 
 ---
 

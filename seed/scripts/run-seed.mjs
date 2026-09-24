@@ -166,6 +166,28 @@ async function main() {
     );
   }
 
+  const voiceSource =
+    "https://archive.org/download/snf076_2008_librivox/snf076_gettysburgaddress_lincoln_sbw_64kb.mp3";
+  const voicePath = path.join(root, "seed/assets/voice/gettysburg.mp3");
+  if (!storedIds.has(voiceSource)) {
+    const urls = convexRun("seedCatalog:generateUploadUrls", { count: 1 });
+    const storageId = await uploadFile(urls[0], voicePath, "audio/mpeg");
+    const voiceStat = await stat(voicePath);
+    convexRun("seedCatalog:registerFiles", {
+      files: [
+        {
+          sourceUrl: voiceSource,
+          storageId,
+          contentType: "audio/mpeg",
+          sizeBytes: voiceStat.size,
+          credit: "The Gettysburg Address, read for LibriVox. Public domain.",
+          kind: "voiceNote",
+          artistHandle: "sela-okoro",
+        },
+      ],
+    });
+    console.log("Uploaded gettysburg.mp3");
+  }
   const updates = convexRun("seedCatalog:insertArtistUpdates", {});
   console.log(
     `Updates inserted ${updates.inserted}, already there ${updates.skipped}.`

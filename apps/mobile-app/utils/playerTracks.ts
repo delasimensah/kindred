@@ -7,6 +7,7 @@ interface CatalogRow {
   durationMs: number;
   locked: boolean;
   artistName?: string;
+  peaks?: number[];
 }
 
 interface QueuePlayer {
@@ -59,5 +60,6 @@ export function catalogQueue(
     durationMs: track.durationMs,
     locked: track.locked,
     source,
+    ...(track.peaks === undefined ? {} : { peaks: track.peaks }),
   }));
 }

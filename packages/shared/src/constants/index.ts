@@ -16,6 +16,12 @@ export {
   ONBOARDING_MIN_GENRES,
   type Genre,
 } from "./genres";
+export {
+  isReactionEmoji,
+  REACTION_COUNT_KEY,
+  REACTION_EMOJIS,
+  type ReactionEmoji,
+} from "./reactions";
 export { RADII } from "./radii";
 export {
   FONT_FAMILIES,

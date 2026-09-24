@@ -1,5 +1,5 @@
 import type { BottomSheetMethods } from "@expo/ui/community/bottom-sheet";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import {
   Dimensions,
   Platform,
@@ -48,7 +48,16 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
     const progress = useSharedValue(0);
     const startProgress = useSharedValue(0);
     const queueRef = useRef<BottomSheetMethods>(null);
+    const seenQueueEpoch = useRef(player.queueEpoch);
     const [expanded, setExpanded] = useState(false);
+
+    useEffect(() => {
+      if (seenQueueEpoch.current === player.queueEpoch) {
+        return;
+      }
+      seenQueueEpoch.current = player.queueEpoch;
+      queueRef.current?.dismiss();
+    }, [player.queueEpoch]);
     const shown = normalizeTrack(player.track);
 
     const closeQueue = () => {

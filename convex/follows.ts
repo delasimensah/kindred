@@ -6,6 +6,7 @@ import { ERROR_CODES, raise } from "./lib/errors";
 import { fileUrl } from "./lib/files";
 import { getFollow } from "./lib/follows";
 import { authedMutation, authedQuery } from "./lib/functions";
+import { hasActiveSupportRoute, ROUTED_UNFOLLOW_MESSAGE } from "./lib/routes";
 
 export const add = authedMutation({
   args: { artistId: v.id("artists") },
@@ -38,6 +39,9 @@ export const remove = authedMutation({
     const existing = await getFollow(ctx, profile._id, args.artistId);
     if (existing === null) {
       return null;
+    }
+    if (await hasActiveSupportRoute(ctx, profile._id, args.artistId)) {
+      raise(ERROR_CODES.NOT_PERMITTED, ROUTED_UNFOLLOW_MESSAGE);
     }
     await ctx.db.delete(existing._id);
     await bumpFollowerCount(ctx, args.artistId, -1);

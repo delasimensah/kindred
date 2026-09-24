@@ -168,12 +168,48 @@ export default defineSchema({
     photoFileId: v.optional(v.id("files")),
     voiceFileId: v.optional(v.id("files")),
     voiceDurationMs: v.optional(v.number()),
+    voicePeaks: v.optional(v.array(v.number())),
     audience: v.union(v.literal("everyone"), v.literal("supporters")),
     hidden: v.boolean(),
     createdAt: v.number(),
   })
     .index("by_artist_createdAt", ["artistId", "createdAt"])
     .index("by_audience_createdAt", ["audience", "createdAt"]),
+
+  reactions: defineTable({
+    profileId: v.id("profiles"),
+    trackId: v.id("tracks"),
+    emoji: v.string(),
+    clientEventId: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_profile_track", ["profileId", "trackId"])
+    .index("by_track_createdAt", ["trackId", "createdAt"])
+    .index("by_profile_clientEventId", ["profileId", "clientEventId"]),
+
+  trackReactionCounts: defineTable({
+    trackId: v.id("tracks"),
+    counts: v.object({
+      fire: v.number(),
+      heart: v.number(),
+      praise: v.number(),
+      clap: v.number(),
+      sparkle: v.number(),
+    }),
+    updatedAt: v.number(),
+  }).index("by_trackId", ["trackId"]),
+
+  supportRoutes: defineTable({
+    profileId: v.id("profiles"),
+    artistId: v.id("artists"),
+    active: v.boolean(),
+    startedAt: v.number(),
+    endedAt: v.optional(v.number()),
+    founding: v.boolean(),
+  })
+    .index("by_profile_active", ["profileId", "active"])
+    .index("by_artist_active", ["artistId", "active"])
+    .index("by_profile_artist", ["profileId", "artistId"]),
 
   featuredSlots: defineTable({
     position: v.number(),

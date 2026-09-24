@@ -2,7 +2,7 @@ import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -14,6 +14,7 @@ import { formatDuration } from "@/utils";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import NowPlayingHero from "../NowPlayingHero/NowPlayingHero";
+import TrackReactionRow from "../TrackReactionRow/TrackReactionRow";
 import WaveformScrubber from "../WaveformScrubber/WaveformScrubber";
 
 interface NowPlayingProps {
@@ -42,9 +43,6 @@ const REPEAT_LABEL: Record<RepeatMode, string> = {
   all: "Repeat all",
   one: "Repeat one",
 };
-
-/** The set on the now-playing design. Saving a reaction is the home-feed ticket. */
-const REACTIONS = ["🔥", "❤️", "🙌", "👏", "✨"] as const;
 
 const NowPlaying: React.FC<NowPlayingProps> = ({
   track,
@@ -76,8 +74,6 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     canLike ? { trackId: track.trackId as Id<"tracks"> } : "skip"
   );
   const setLiked = useMutation(api.library.setLiked);
-  const [reactions, setReactions] = useState<Record<string, string>>({});
-  const shownReaction = reactions[track.trackId] ?? null;
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.page }}>
@@ -199,37 +195,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
           />
         </HStack>
 
-        <HStack align="center" justify="center" spacing="sm" className="mt-7">
-          {REACTIONS.map((emoji) => {
-            const selected = shownReaction === emoji;
-            return (
-              <Pressable
-                key={emoji}
-                accessibilityRole="button"
-                accessibilityLabel={`React with ${emoji}`}
-                onPress={() =>
-                  setReactions((current) => {
-                    const next = { ...current };
-                    if (selected) {
-                      delete next[track.trackId];
-                    } else {
-                      next[track.trackId] = emoji;
-                    }
-                    return next;
-                  })
-                }
-                className="h-11 w-11 items-center justify-center rounded-full bg-surface"
-                style={
-                  selected
-                    ? { borderWidth: 2, borderColor: COLORS.primary }
-                    : undefined
-                }
-              >
-                <Text className="text-xl">{emoji}</Text>
-              </Pressable>
-            );
-          })}
-        </HStack>
+        <TrackReactionRow trackId={track.trackId} enabled={canLike} />
 
         <Pressable
           accessibilityRole="button"

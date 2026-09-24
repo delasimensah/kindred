@@ -126,5 +126,12 @@ describe("seedCatalog", () => {
     expect(first.inserted).toBeGreaterThan(0);
     expect(second.inserted).toBe(0);
     expect(second.skipped).toBe(first.inserted);
+    const posts = await t.run(async (ctx) => {
+      return await ctx.db.query("updatePosts").collect();
+    });
+    expect(posts.some((post) => post.voiceDurationMs === 98_847)).toBe(true);
+    expect(
+      posts.some((post) => post.voicePeaks && post.voicePeaks.length === 48)
+    ).toBe(true);
   });
 });

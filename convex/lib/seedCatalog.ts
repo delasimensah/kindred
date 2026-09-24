@@ -1,4 +1,5 @@
 import { GENRES } from "./genres";
+import { SEED_VOICE_NOTE } from "./seedVoice";
 
 export const SEED_AUDIO_COUNT = 40;
 export const SEED_ARTWORK_COUNT = 36;
@@ -379,14 +380,17 @@ export type SeedUpdate = {
   body: string;
   audience: "everyone" | "supporters";
   ageDays: number;
+  photo?: boolean;
+  voice?: boolean;
+  voiceDurationMs?: number;
 };
 
 /**
- * What: short updates on the three hero acts.
- * Where: we write them.
- * Rights: original fiction for this demo.
- * How: seedCatalog.insertArtistUpdates, after artists exist.
- * Out: photos, voice notes, and a home feed.
+ * What: short updates on the three hero acts, one photo, and one spoken voice note.
+ * Where: the words are ours. The photo reuses that artist's Unsplash artwork already in the catalog. The voice file is seed/assets/voice/gettysburg.mp3.
+ * Rights: Unsplash license, same credit line as the artwork. The reading is a LibriVox public-domain recording of the Gettysburg Address (Internet Archive snf076_2008_librivox).
+ * How: seed/scripts/run-seed.mjs uploads the voice file, then seedCatalog.insertArtistUpdates attaches it and the photo.
+ * Out: a photo shoot of our own, and any music file used as a voice note.
  */
 export function seedUpdates(): SeedUpdate[] {
   return [
@@ -395,6 +399,7 @@ export function seedUpdates(): SeedUpdate[] {
       body: "Asase is finished. The title is the word for earth, and the song is for home.",
       audience: "everyone",
       ageDays: 1,
+      photo: true,
     },
     {
       artistHandle: "amaara",
@@ -419,6 +424,8 @@ export function seedUpdates(): SeedUpdate[] {
       body: "Lagos session ran late. The log drum finally sat in the pocket.",
       audience: "everyone",
       ageDays: 5,
+      voice: true,
+      voiceDurationMs: SEED_VOICE_NOTE.durationMs,
     },
   ];
 }

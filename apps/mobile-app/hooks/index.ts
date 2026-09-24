@@ -14,5 +14,6 @@ export {
   usePreviewPlayer,
 } from "./layout/usePreviewPlayer";
 export { useTabScrollTopPad } from "./layout/useTabScrollTopPad";
+export { useVoiceNote } from "./layout/useVoiceNote";
 export { useRetryKey } from "./query/useRetryKey";
 export { useApplyAvailableUpdate } from "./updates/useApplyAvailableUpdate";

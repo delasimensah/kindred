@@ -8,6 +8,7 @@ describe("PopularTrackRow", () => {
     const onOpenLocked = jest.fn();
     const { rerender } = render(
       <PopularTrackRow
+        trackId="track_asase"
         title="Asase"
         subtitle="3:32"
         artworkUrl={null}
@@ -22,6 +23,7 @@ describe("PopularTrackRow", () => {
 
     rerender(
       <PopularTrackRow
+        trackId="track_night"
         title="Night Mix"
         subtitle="Supporters only"
         artworkUrl={null}

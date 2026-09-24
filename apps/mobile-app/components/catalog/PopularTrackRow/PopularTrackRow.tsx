@@ -7,8 +7,10 @@ import { COLORS } from "@/constants";
 
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
+import TrackMenu from "../TrackMenu/TrackMenu";
 
 interface PopularTrackRowProps {
+  trackId: string;
   title: string;
   subtitle: string;
   artworkUrl: string | null;
@@ -17,11 +19,14 @@ interface PopularTrackRowProps {
   liked?: boolean;
   onPlay: () => void;
   onOpenLocked: () => void;
+  onPlayNext?: () => void;
+  onAddToQueue?: () => void;
   onToggleLike?: () => void;
   onRemove?: () => void;
 }
 
 const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
+  trackId,
   title,
   subtitle,
   artworkUrl,
@@ -30,12 +35,15 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
   liked = false,
   onPlay,
   onOpenLocked,
+  onPlayNext,
+  onAddToQueue,
   onToggleLike,
   onRemove,
 }) => {
+  const playing = isPlaying && !locked;
   const label = locked
     ? `${title}, supporters only`
-    : isPlaying
+    : playing
       ? `Pause ${title}`
       : `Play ${title}`;
 
@@ -48,29 +56,34 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
         style={{ flex: 1, minWidth: 0 }}
       >
         <HStack spacing="sm" align="center">
-          {artworkUrl ? (
-            <Image
-              accessibilityLabel=""
-              source={{ uri: artworkUrl }}
-              contentFit="cover"
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 6,
-                backgroundColor: COLORS.surface,
-                opacity: locked ? 0.45 : 1,
-              }}
-            />
-          ) : (
-            <VStack
-              spacing="none"
-              className="h-12 w-12 rounded-md bg-surface"
-            />
-          )}
+          <VStack
+            spacing="none"
+            align="center"
+            justify="center"
+            className="h-12 w-12 overflow-hidden rounded-md bg-surface"
+          >
+            {artworkUrl ? (
+              <Image
+                accessibilityLabel=""
+                source={{ uri: artworkUrl }}
+                contentFit="cover"
+                style={{
+                  position: "absolute",
+                  width: 48,
+                  height: 48,
+                  opacity: locked ? 0.45 : 1,
+                }}
+              />
+            ) : null}
+            {playing ? <Equalizer /> : null}
+            {locked ? (
+              <Ionicons name="lock-closed" size={14} color={COLORS.primary} />
+            ) : null}
+          </VStack>
           <VStack spacing="none" className="min-w-0 flex-1">
             <Text
               className={
-                isPlaying && !locked
+                playing
                   ? "font-app-medium text-sm text-primary"
                   : locked
                     ? "font-app-medium text-sm text-text/50"
@@ -84,65 +97,49 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
               {subtitle}
             </Text>
           </VStack>
-          <HStack
-            spacing="none"
-            align="center"
-            justify="center"
-            className={
-              locked
-                ? "h-9 w-9 rounded-full bg-surface"
-                : "h-9 w-9 rounded-full bg-primary"
-            }
-          >
-            <Ionicons
-              name={locked ? "lock-closed" : isPlaying ? "pause" : "play"}
-              size={14}
-              color={locked ? COLORS.primary : COLORS.textOnPrimary}
-            />
-          </HStack>
         </HStack>
       </Pressable>
-      {onToggleLike ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={liked ? `Unlike ${title}` : `Like ${title}`}
-          onPress={onToggleLike}
-        >
-          <HStack
-            spacing="none"
-            align="center"
-            justify="center"
-            className="h-11 w-11"
-          >
-            <Ionicons
-              name={liked ? "heart" : "heart-outline"}
-              size={26}
-              color={COLORS.primary}
-            />
-          </HStack>
-        </Pressable>
-      ) : null}
-      {onRemove ? (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={`Delete ${title}`}
-          onPress={() => {
-            confirmDeleteTrack(title, onRemove);
-          }}
-        >
-          <HStack
-            spacing="none"
-            align="center"
-            justify="center"
-            className="h-9 w-9"
-          >
-            <Ionicons name="close" size={22} color={COLORS.danger} />
-          </HStack>
-        </Pressable>
-      ) : null}
+      <TrackMenu
+        title={title}
+        trackId={trackId}
+        artworkUrl={artworkUrl}
+        liked={liked}
+        onPlayNext={onPlayNext}
+        onAddToQueue={onAddToQueue}
+        onToggleLike={onToggleLike}
+        onRemove={
+          onRemove === undefined
+            ? undefined
+            : () => {
+                confirmDeleteTrack(title, onRemove);
+              }
+        }
+      />
     </HStack>
   );
 };
+
+function Equalizer() {
+  const heights = [8, 14, 10];
+  return (
+    <HStack
+      spacing="none"
+      align="center"
+      justify="center"
+      className="absolute inset-0 gap-[3px]"
+      style={{ backgroundColor: "rgba(34,40,49,0.45)" }}
+    >
+      {heights.map((height) => (
+        <VStack
+          key={height}
+          spacing="none"
+          className="w-[3px] rounded-sm bg-primary"
+          style={{ height }}
+        />
+      ))}
+    </HStack>
+  );
+}
 
 function confirmDeleteTrack(title: string, onRemove: () => void) {
   Alert.alert("Delete track", `Are you sure you want to delete ${title}?`, [

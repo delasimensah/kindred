@@ -5,7 +5,14 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import { LibraryMessageScreen, LibraryTracksScreen } from "@/components";
 import { usePreviewPlayer } from "@/hooks";
-import { libraryAddTracksHref, libraryTrackHref, routeParam } from "@/utils";
+import {
+  bindQueueActions,
+  catalogQueue,
+  coverHeaderScreenOptions,
+  libraryAddTracksHref,
+  libraryTrackHref,
+  routeParam,
+} from "@/utils";
 
 const PlaylistRoute = () => {
   const router = useRouter();
@@ -24,6 +31,10 @@ const PlaylistRoute = () => {
   );
   const setLiked = useMutation(api.library.setLiked);
   const removeTrack = useMutation(api.library.removeTrack);
+  const actions = bindQueueActions(
+    player,
+    catalogQueue("playlist", "", undefined, playlist?.tracks ?? [])
+  );
 
   if (playlist === null) {
     return (
@@ -40,8 +51,15 @@ const PlaylistRoute = () => {
 
   return (
     <>
-      <Stack.Screen options={{ title: playlist?.name ?? openedName ?? "" }} />
+      <Stack.Screen options={coverHeaderScreenOptions} />
       <LibraryTracksScreen
+        collection={{
+          title: playlist?.name ?? openedName ?? "Playlist",
+          detail: playlistDetail(playlist?.tracks.length ?? 0),
+          artworkUrls: (playlist?.tracks ?? []).flatMap((track) =>
+            track.artworkUrl ? [track.artworkUrl] : []
+          ),
+        }}
         tracks={playlist?.tracks ?? []}
         isLoading={playlistId !== undefined && playlist === undefined}
         empty={{
@@ -61,17 +79,9 @@ const PlaylistRoute = () => {
                 },
               }
         }
-        onPlay={(trackId) => {
-          const track = playlist?.tracks.find((row) => row.trackId === trackId);
-          if (track === undefined || track.locked) {
-            return;
-          }
-          player.play({
-            trackId: track.trackId,
-            title: track.title,
-            artistName: track.artistName,
-          });
-        }}
+        onPlay={actions.play}
+        onPlayNext={actions.playNext}
+        onAddToQueue={actions.addToQueue}
         onOpenLocked={(trackId) => {
           router.push(libraryTrackHref(trackId));
         }}
@@ -95,5 +105,9 @@ const PlaylistRoute = () => {
     </>
   );
 };
+
+function playlistDetail(count: number) {
+  return count === 1 ? "1 track" : `${count} tracks`;
+}
 
 export default PlaylistRoute;

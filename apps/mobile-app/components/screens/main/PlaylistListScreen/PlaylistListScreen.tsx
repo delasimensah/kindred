@@ -6,16 +6,18 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import Swipeable, {
+  type SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
 
 import { COLORS } from "@/constants";
 import { useAppInsets } from "@/hooks";
 
+import PlaylistCover from "../../../library/PlaylistCover/PlaylistCover";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
-import PlaylistCover from "./PlaylistCover";
 
 export interface PlaylistSummary {
   playlistId: string;
@@ -51,7 +53,7 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
       contentContainerStyle={{ paddingBottom: insets.bottom }}
     >
       <VStack spacing="md" padding="lg">
-        {isLoading || playlists.length > 0 ? (
+        {!isLoading && playlists.length > 0 ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Create playlist"
@@ -87,6 +89,7 @@ const PlaylistListScreen: React.FC<PlaylistListScreenProps> = ({
                   />
                   <SkeletonCard width={72} height={10} radius={4} />
                 </VStack>
+                <SkeletonCard width={10} height={16} radius={3} />
               </HStack>
             ))}
           </VStack>
@@ -125,7 +128,7 @@ const SwipeablePlaylistRow: React.FC<{
   onOpen: (playlistId: string) => void;
   onDelete: (playlistId: string) => void;
 }> = ({ playlist, onOpen, onDelete }) => {
-  const swipeableRef = useRef<Swipeable>(null);
+  const swipeableRef = useRef<SwipeableMethods>(null);
   const confirming = useRef(false);
 
   const askDelete = () => {

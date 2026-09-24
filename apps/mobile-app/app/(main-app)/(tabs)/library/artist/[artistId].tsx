@@ -8,6 +8,8 @@ import { Alert } from "react-native";
 import { ArtistProfileScreen } from "@/components";
 import { usePreviewPlayer } from "@/hooks";
 import {
+  bindQueueActions,
+  catalogQueue,
   coverHeaderScreenOptions,
   libraryArtistTracksHref,
   libraryTrackHref,
@@ -43,17 +45,12 @@ const ArtistRoute = () => {
     artistId !== undefined &&
     (artist === undefined || listed === undefined || updates === undefined);
 
-  const playTrack = (trackId: string) => {
-    const track = listed?.tracks.find((row) => row.trackId === trackId);
-    if (track === undefined || artist === undefined || artist === null) {
-      return;
-    }
-    player.play({
-      trackId: track.trackId,
-      title: track.title,
-      artistName: artist.name,
-    });
-  };
+  const queue =
+    artist === undefined || artist === null
+      ? []
+      : catalogQueue("artist", artist.name, artistId, listed?.tracks ?? []);
+
+  const actions = bindQueueActions(player, queue);
 
   return (
     <>
@@ -82,7 +79,9 @@ const ArtistRoute = () => {
           }
           void addFollow({ artistId: id });
         }}
-        onPlay={playTrack}
+        onPlay={actions.play}
+        onPlayNext={actions.playNext}
+        onAddToQueue={actions.addToQueue}
         onToggleLike={(trackId) => {
           const track = listed?.tracks.find((row) => row.trackId === trackId);
           if (track === undefined) {

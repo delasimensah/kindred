@@ -9,6 +9,7 @@ interface MiniPlayerSlotProps {
   track: MiniPlayerTrack;
   isPlaying: boolean;
   onToggle: () => void;
+  onOpen: () => void;
 }
 
 /**

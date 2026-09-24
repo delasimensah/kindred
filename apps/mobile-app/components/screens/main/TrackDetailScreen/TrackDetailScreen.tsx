@@ -50,13 +50,7 @@ const TrackDetailScreen: React.FC<TrackDetailScreenProps> = ({
   const insets = useAppInsets();
 
   if (isLoading) {
-    return (
-      <VStack spacing="lg" padding="lg" className="flex-1 bg-page">
-        <SkeletonCard width={96} height={96} radius={12} />
-        <SkeletonCard width={180} height={22} radius={6} />
-        <SkeletonCard width={280} height={160} radius={24} />
-      </VStack>
-    );
+    return <TrackDetailSkeleton />;
   }
 
   if (track === null) {
@@ -187,5 +181,33 @@ const TrackDetailScreen: React.FC<TrackDetailScreenProps> = ({
     </ScrollView>
   );
 };
+
+function TrackDetailSkeleton() {
+  return (
+    <VStack spacing="lg" padding="lg" className="flex-1 bg-page">
+      <HStack spacing="md" align="center">
+        <SkeletonCard width={96} height={96} radius={12} />
+        <VStack spacing="sm" className="min-w-0 flex-1">
+          <SkeletonCard width={160} height={22} radius={6} />
+          <SkeletonCard width={120} height={16} radius={6} />
+          <HStack spacing="sm" align="center">
+            <SkeletonCard width={20} height={20} radius={10} />
+            <SkeletonCard width={96} height={12} radius={4} />
+          </HStack>
+          <SkeletonCard width={88} height={10} radius={4} />
+        </VStack>
+      </HStack>
+      <HStack spacing="sm" align="center">
+        <SkeletonCard width={48} height={48} radius={24} />
+        <SkeletonCard width={48} height={14} radius={4} />
+      </HStack>
+      <VStack spacing="sm">
+        <SkeletonCard width={132} height={14} radius={4} />
+        <SkeletonCard width={240} height={12} radius={4} />
+        <SkeletonCard width={180} height={12} radius={4} />
+      </VStack>
+    </VStack>
+  );
+}
 
 export default TrackDetailScreen;

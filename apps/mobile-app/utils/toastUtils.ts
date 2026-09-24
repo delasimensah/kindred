@@ -44,6 +44,16 @@ export const showSuccessToast = (
   });
 };
 
+export function showLikedToast(nowLiked: boolean) {
+  showSuccessToast(
+    nowLiked ? "Saved to Liked songs" : "Removed from Liked songs"
+  );
+}
+
+export function showPlaylistAddedToast(playlistName: string) {
+  showSuccessToast(`Added to ${playlistName}`);
+}
+
 /**
  * Show neutral/info toast
  * Gray background, white text, auto-dismisses after 2 seconds

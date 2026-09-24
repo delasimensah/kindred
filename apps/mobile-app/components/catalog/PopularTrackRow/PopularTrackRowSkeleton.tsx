@@ -8,13 +8,13 @@ interface PopularTrackRowSkeletonProps {
   titleScale?: number;
 }
 
-/** Cover, title, length, and play circle. Matches a popular-track row. */
+/** Cover, title, length, and the track menu. Matches a popular-track row. */
 const PopularTrackRowSkeleton: React.FC<PopularTrackRowSkeletonProps> = ({
   titleScale = 0.62,
 }) => {
   const { width } = useWindowDimensions();
   const contentWidth = Math.max(0, width - 48);
-  const textWidth = Math.max(80, contentWidth - 48 - 36 - 16);
+  const textWidth = Math.max(80, contentWidth - 48 - 44 - 16);
 
   return (
     <HStack spacing="sm" align="center" paddingY="sm">
@@ -23,7 +23,7 @@ const PopularTrackRowSkeleton: React.FC<PopularTrackRowSkeletonProps> = ({
         <SkeletonCard width={textWidth * titleScale} height={12} radius={4} />
         <SkeletonCard width={textWidth * 0.28} height={10} radius={4} />
       </VStack>
-      <SkeletonCard width={36} height={36} radius={18} />
+      <SkeletonCard width={20} height={6} radius={3} />
     </HStack>
   );
 };

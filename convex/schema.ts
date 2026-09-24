@@ -102,6 +102,29 @@ export default defineSchema({
       filterFields: ["state", "hidden", "visibility"],
     }),
 
+  listenEvents: defineTable({
+    profileId: v.id("profiles"),
+    trackId: v.id("tracks"),
+    artistId: v.id("artists"),
+    startedAt: v.number(),
+    msPlayed: v.number(),
+    completed: v.boolean(),
+    source: v.union(
+      v.literal("feed"),
+      v.literal("artist"),
+      v.literal("playlist"),
+      v.literal("library"),
+      v.literal("mix"),
+      v.literal("search"),
+      v.literal("offline")
+    ),
+    clientEventId: v.string(),
+  })
+    .index("by_profile_clientEventId", ["profileId", "clientEventId"])
+    .index("by_profile_startedAt", ["profileId", "startedAt"])
+    .index("by_artist_startedAt", ["artistId", "startedAt"])
+    .index("by_track_startedAt", ["trackId", "startedAt"]),
+
   libraryItems: defineTable({
     profileId: v.id("profiles"),
     trackId: v.id("tracks"),

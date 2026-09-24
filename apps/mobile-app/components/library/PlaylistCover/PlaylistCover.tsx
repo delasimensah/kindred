@@ -4,7 +4,7 @@ import React from "react";
 
 import { COLORS } from "@/constants";
 
-import { HStack, VStack } from "../../../ui/Stack/Stack";
+import { HStack, VStack } from "../../ui/Stack/Stack";
 
 const GAP = 2;
 
@@ -42,7 +42,13 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({
 
   if (art.length === 0) {
     return (
-      <VStack spacing="none" align="center" justify="center" style={frame}>
+      <VStack
+        spacing="none"
+        align="center"
+        justify="center"
+        accessibilityLabel="Playlist cover"
+        style={frame}
+      >
         <Ionicons
           name={icon}
           size={Math.round(Math.min(coverWidth, coverHeight) * 0.28)}

@@ -7,14 +7,14 @@ import { useAppInsets } from "@/hooks";
 import { formatDuration } from "@/utils";
 
 import PopularTrackRow from "../../../catalog/PopularTrackRow/PopularTrackRow";
+import LibraryCollectionHeader, {
+  COLLECTION_HERO_HEIGHT,
+  type LibraryCollection,
+} from "../../../library/LibraryCollectionHeader/LibraryCollectionHeader";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
-import LibraryCollectionHeader, {
-  COLLECTION_HERO_HEIGHT,
-  type LibraryCollection,
-} from "./LibraryCollectionHeader";
 
 export interface LibraryTrack {
   trackId: string;

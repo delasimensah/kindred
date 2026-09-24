@@ -3,10 +3,8 @@ import { NativeTabs } from "expo-router/unstable-native-tabs";
 import { useRef } from "react";
 import { Platform, View } from "react-native";
 
+import { PlayerSheet, type PlayerSheetHandle } from "@/components";
 import MiniPlayerSlot from "@/components/screens/main/MiniPlayerSlot/MiniPlayerSlot";
-import PlayerSheet, {
-  type PlayerSheetHandle,
-} from "@/components/screens/main/PlayerSheet/PlayerSheet";
 import { COLORS } from "@/constants";
 import { PreviewPlayerProvider, usePreviewPlayer } from "@/hooks";
 import { navigationTheme } from "@/utils";

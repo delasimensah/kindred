@@ -4,16 +4,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import React, { useState } from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
+import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COLORS } from "@/constants";
 import { type QueueTrack, type RepeatMode, STAND_IN_TRACK_ID } from "@/hooks";
 import { formatDuration } from "@/utils";
 
-import { HStack, VStack } from "../../../ui/Stack/Stack";
-import Text from "../../../ui/Text/Text";
+import { HStack, VStack } from "../../ui/Stack/Stack";
+import Text from "../../ui/Text/Text";
+import NowPlayingHero from "../NowPlayingHero/NowPlayingHero";
 import WaveformScrubber from "../WaveformScrubber/WaveformScrubber";
-import NowPlayingHero from "./NowPlayingHero";
 
 interface NowPlayingProps {
   track: QueueTrack;
@@ -33,6 +34,7 @@ interface NowPlayingProps {
   onQueue: () => void;
   onPlayNext: () => void;
   onAddToQueue: () => void;
+  coverProgress?: SharedValue<number>;
 }
 
 const REPEAT_LABEL: Record<RepeatMode, string> = {
@@ -62,6 +64,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
   onQueue,
   onPlayNext,
   onAddToQueue,
+  coverProgress,
 }) => {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -89,6 +92,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
         onClose={onClose}
         onPlayNext={onPlayNext}
         onAddToQueue={onAddToQueue}
+        coverProgress={coverProgress}
         onToggleLike={(nextLiked) => {
           void setLiked({
             trackId: track.trackId as Id<"tracks">,

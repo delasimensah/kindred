@@ -1,0 +1,77 @@
+# Same rules as .gitignore. EAS uses this file instead of every .gitignore.
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Turborepo
+.turbo
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.expo/
+.expo-shared/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.auth-keys.json
+
+# Local access-list draft for Bitwarden or 1Password
+ACCESS-LIST.md
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo
+expo-env.d.ts
+
+# Full-quality source downloads used only while encoding the seed audio.
+seed/.tmp/
+
+# Vercel
+.vercel
+
+# EAS local cache. Workflow YAML in apps/mobile-app/.eas/workflows/ is committed.
+**/.eas/*
+!**/.eas/workflows/
+!**/.eas/workflows/**
+
+# Claude Code skill copies (Cursor uses .agents/skills/). Keep local; do not commit.
+.claude/
+
+# Not needed to compile the phone app.
+# .git is a second copy of the repo. Seed audio is uploaded to Convex on its own.
+.git
+/seed
+/docs
+
+# Prebuild creates these on the build worker.
+/android
+/ios

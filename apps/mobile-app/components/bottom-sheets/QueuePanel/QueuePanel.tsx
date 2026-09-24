@@ -8,15 +8,19 @@ import { forwardRef, useImperativeHandle, useRef } from "react";
 import { Platform, Pressable, useWindowDimensions } from "react-native";
 import DraggableFlatList, {
   type RenderItemParams,
+  ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { TEXT_SECONDARY_OPACITY } from "shared";
 
 import { COLORS } from "@/constants";
 import type { QueueTrack, RepeatMode } from "@/hooks";
+import { tapHaptic } from "@/utils";
 
-import { HStack, VStack } from "../../../ui/Stack/Stack";
-import Text from "../../../ui/Text/Text";
-import { NowPlayingRow, QueueDragRow } from "./QueueRows";
+import NowPlayingRow from "../../player/NowPlayingRow/NowPlayingRow";
+import QueueDragRow from "../../player/QueueDragRow/QueueDragRow";
+import { HStack, VStack } from "../../ui/Stack/Stack";
+import Text from "../../ui/Text/Text";
 
 interface QueuePanelProps {
   current: QueueTrack;
@@ -90,27 +94,40 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
                 accessibilityRole="button"
                 accessibilityLabel="Close queue"
                 onPress={() => sheetRef.current?.dismiss()}
-                className="h-9 w-9 items-center justify-center rounded-full bg-surface"
+                className="h-11 w-11 items-center justify-center rounded-full bg-surface"
               >
-                <Ionicons name="chevron-down" size={16} color={COLORS.text} />
+                <Ionicons name="chevron-down" size={22} color={COLORS.text} />
               </Pressable>
-              <Text className="font-display-bold text-lg text-text">Queue</Text>
+              <Text
+                className="font-display-bold text-xl"
+                style={{ color: COLORS.text }}
+              >
+                Queue
+              </Text>
               <HStack spacing="none" align="center">
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={shuffle ? "Shuffle on" : "Shuffle off"}
                   onPress={onShuffle}
-                  className="h-9 w-9 items-center justify-center rounded-full"
-                  style={
-                    shuffle
-                      ? { backgroundColor: "rgba(255,211,105,0.15)" }
-                      : undefined
-                  }
+                  className="h-11 w-11 items-center justify-center overflow-hidden rounded-full"
                 >
+                  {shuffle ? (
+                    <VStack
+                      spacing="none"
+                      className="absolute inset-0"
+                      style={{
+                        backgroundColor: COLORS.primary,
+                        opacity: 0.15,
+                      }}
+                    />
+                  ) : null}
                   <Ionicons
                     name="shuffle"
-                    size={16}
-                    color={shuffle ? COLORS.primary : "rgba(238,238,238,0.5)"}
+                    size={22}
+                    color={shuffle ? COLORS.primary : COLORS.text}
+                    style={{
+                      opacity: shuffle ? 1 : TEXT_SECONDARY_OPACITY,
+                    }}
                   />
                 </Pressable>
                 <Pressable
@@ -123,19 +140,21 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
                         : "Repeat all"
                   }
                   onPress={onRepeat}
-                  className="h-9 w-9 items-center justify-center rounded-full"
+                  className="h-11 w-11 items-center justify-center rounded-full"
                 >
                   <Ionicons
                     name="repeat"
-                    size={16}
-                    color={
-                      repeat === "off"
-                        ? "rgba(238,238,238,0.5)"
-                        : COLORS.primary
-                    }
+                    size={22}
+                    color={repeat === "off" ? COLORS.text : COLORS.primary}
+                    style={{
+                      opacity: repeat === "off" ? TEXT_SECONDARY_OPACITY : 1,
+                    }}
                   />
                   {repeat === "one" ? (
-                    <Text className="absolute right-1 top-0.5 text-[9px] text-primary">
+                    <Text
+                      className="absolute right-1.5 top-1 text-[11px]"
+                      style={{ color: COLORS.primary }}
+                    >
                       1
                     </Text>
                   ) : null}
@@ -144,21 +163,39 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
             </HStack>
 
             <VStack spacing="sm" className="px-6">
-              <Text className="font-app-semibold text-[11px] uppercase tracking-wider text-primary">
+              <Text
+                className="font-app-semibold text-[13px] uppercase tracking-wider"
+                style={{ color: COLORS.primary }}
+              >
                 Now playing
               </Text>
               <NowPlayingRow track={current} isPlaying={isPlaying} />
               <HStack justify="between" align="center" className="pt-4">
-                <Text className="font-app-semibold text-[11px] uppercase tracking-wider text-text/50">
+                <Text
+                  className="font-app-semibold text-[13px] uppercase tracking-wider"
+                  style={{
+                    color: COLORS.text,
+                    opacity: TEXT_SECONDARY_OPACITY,
+                  }}
+                >
                   Next up
                 </Text>
-                <Text className="text-[11px] text-text/30">
+                <Text
+                  className="text-[13px]"
+                  style={{
+                    color: COLORS.text,
+                    opacity: TEXT_SECONDARY_OPACITY,
+                  }}
+                >
                   {upcoming.length} {upcoming.length === 1 ? "track" : "tracks"}
                 </Text>
               </HStack>
             </VStack>
             {upcoming.length === 0 ? (
-              <Text className="px-6 pt-3 text-sm text-text/50">
+              <Text
+                className="px-6 pt-3 text-base"
+                style={{ color: COLORS.text, opacity: TEXT_SECONDARY_OPACITY }}
+              >
                 Nothing is queued after this.
               </Text>
             ) : (
@@ -167,20 +204,27 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
                 keyExtractor={(item, index) => `${item.trackId}-${index}`}
                 activationDistance={12}
                 onDragEnd={({ from, to }) => {
+                  if (from !== to) {
+                    void tapHaptic("drop");
+                  }
                   onMove(from, to);
                 }}
                 renderItem={({
                   item,
                   drag,
+                  isActive,
                   getIndex,
                 }: RenderItemParams<QueueTrack>) => {
                   const slot = getIndex() ?? 0;
                   return (
-                    <QueueDragRow
-                      track={item}
-                      drag={item.locked ? undefined : drag}
-                      onRemove={() => onRemove(slot)}
-                    />
+                    <ScaleDecorator activeScale={1.03}>
+                      <QueueDragRow
+                        track={item}
+                        drag={item.locked ? undefined : drag}
+                        active={isActive}
+                        onRemove={() => onRemove(slot)}
+                      />
+                    </ScaleDecorator>
                   );
                 }}
                 containerStyle={{ height: listHeight }}

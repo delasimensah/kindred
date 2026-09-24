@@ -1,23 +1,30 @@
 import type { BottomSheetMethods } from "@expo/ui/community/bottom-sheet";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Dimensions, Platform, StyleSheet, View } from "react-native";
+import {
+  Dimensions,
+  Platform,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Extrapolation,
   interpolate,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { scheduleOnRN } from "react-native-worklets";
 
 import { COLORS } from "@/constants";
 import { normalizeTrack, usePreviewPlayer } from "@/hooks";
 
-import MiniPlayerChrome from "../MiniPlayerChrome/MiniPlayerChrome";
+import QueuePanel from "../../bottom-sheets/QueuePanel/QueuePanel";
+import MiniPlayerChrome from "../../screens/main/MiniPlayerChrome/MiniPlayerChrome";
 import NowPlaying from "../NowPlaying/NowPlaying";
-import QueuePanel from "../QueuePanel/QueuePanel";
+import PlayerArtworkFlight from "../PlayerArtworkFlight/PlayerArtworkFlight";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SPRING = { stiffness: 400, damping: 60 };
@@ -37,6 +44,7 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
   ({ showCollapsedBar }, ref) => {
     const player = usePreviewPlayer();
     const insets = useSafeAreaInsets();
+    const { height } = useWindowDimensions();
     const progress = useSharedValue(0);
     const startProgress = useSharedValue(0);
     const queueRef = useRef<BottomSheetMethods>(null);
@@ -73,9 +81,9 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
           const shouldOpen =
             event.velocityY < -500 ||
             (event.velocityY >= -500 && progress.value > 0.5);
-          runOnJS(setExpanded)(shouldOpen);
+          scheduleOnRN(setExpanded, shouldOpen);
           if (!shouldOpen) {
-            runOnJS(closeQueue)();
+            scheduleOnRN(closeQueue);
           }
           progress.value = withSpring(shouldOpen ? 1 : 0, SPRING);
         });
@@ -158,9 +166,25 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
               onQueue={() => queueRef.current?.present()}
               onPlayNext={() => player.playNext(player.track)}
               onAddToQueue={() => player.addToQueue(player.track)}
+              coverProgress={progress}
             />
           </Animated.View>
         </GestureDetector>
+        <PlayerArtworkFlight
+          progress={progress}
+          artworkUrl={shown.artworkUrl}
+          heroHeight={height * 0.5}
+          collapsed={{
+            left: showCollapsedBar ? 24 : 20,
+            size: 40,
+            top: showCollapsedBar
+              ? height -
+                (insets.bottom + ANDROID_TAB_CLEARANCE) -
+                64 +
+                (64 - 40) / 2
+              : height - Math.max(insets.bottom, 12) - 96,
+          }}
+        />
         <QueuePanel
           ref={queueRef}
           current={shown}

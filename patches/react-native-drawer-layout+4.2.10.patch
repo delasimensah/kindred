@@ -1,0 +1,102 @@
+diff --git a/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.js b/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.js
+index 2eb59cc..3fdf2ec 100644
+--- a/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.js
++++ b/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.js
+@@ -1,13 +1,4 @@
+ "use strict";
+ 
+-/* eslint-disable no-restricted-imports */
+-import * as ReactNative from 'react-native';
+-let InteractionManager;
+-try {
+-  InteractionManager = ReactNative.InteractionManager;
+-} catch (e) {
+-  // On newer React Native versions, accessing InteractionManager throws an error
+-  // https://github.com/react/react-native/pull/57026
+-}
++const InteractionManager = undefined;
+ export { InteractionManager };
+-//# sourceMappingURL=InteractionManager.js.map
+\ No newline at end of file
+diff --git a/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.native.js b/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.native.js
+index dc893b7..3fdf2ec 100644
+--- a/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.native.js
++++ b/node_modules/react-native-drawer-layout/lib/module/views/InteractionManager.native.js
+@@ -1,13 +1,4 @@
+ "use strict";
+ 
+-import { Platform } from 'react-native';
+-let InteractionManager;
+-const version = Platform.constants?.reactNativeVersion;
+-try {
+-  InteractionManager = version?.major === 0 && version.minor >= 82 ? undefined : require('react-native').InteractionManager;
+-} catch (e) {
+-  // On newer React Native versions, accessing InteractionManager throws an error
+-  // https://github.com/react/react-native/pull/57026
+-}
++const InteractionManager = undefined;
+ export { InteractionManager };
+-//# sourceMappingURL=InteractionManager.native.js.map
+\ No newline at end of file
+diff --git a/node_modules/react-native-drawer-layout/src/views/InteractionManager.native.tsx b/node_modules/react-native-drawer-layout/src/views/InteractionManager.native.tsx
+index a01b6e7..f9fad5c 100644
+--- a/node_modules/react-native-drawer-layout/src/views/InteractionManager.native.tsx
++++ b/node_modules/react-native-drawer-layout/src/views/InteractionManager.native.tsx
+@@ -1,22 +1,8 @@
+-import { Platform } from 'react-native';
+-
+-type InteractionManagerType = {
+-  createInteractionHandle(): number;
+-  clearInteractionHandle(handle: number): void;
+-};
+-
+-let InteractionManager: InteractionManagerType | undefined;
+-
+-const version = Platform.constants?.reactNativeVersion;
+-
+-try {
+-  InteractionManager =
+-    version?.major === 0 && version.minor >= 82
+-      ? undefined
+-      : require('react-native').InteractionManager;
+-} catch (e) {
+-  // On newer React Native versions, accessing InteractionManager throws an error
+-  // https://github.com/react/react-native/pull/57026
+-}
++/**
++ * Reading InteractionManager from react-native warns on React Native 0.86.
++ * The drawer only used it to delay work, and that call is already skipped
++ * on 0.82 and newer.
++ */
++const InteractionManager = undefined;
+ 
+ export { InteractionManager };
+diff --git a/node_modules/react-native-drawer-layout/src/views/InteractionManager.tsx b/node_modules/react-native-drawer-layout/src/views/InteractionManager.tsx
+index 3e137b3..f9fad5c 100644
+--- a/node_modules/react-native-drawer-layout/src/views/InteractionManager.tsx
++++ b/node_modules/react-native-drawer-layout/src/views/InteractionManager.tsx
+@@ -1,18 +1,8 @@
+-/* eslint-disable no-restricted-imports */
+-import * as ReactNative from 'react-native';
+-
+-type InteractionManagerType = {
+-  createInteractionHandle(): number;
+-  clearInteractionHandle(handle: number): void;
+-};
+-
+-let InteractionManager: InteractionManagerType | undefined;
+-
+-try {
+-  InteractionManager = ReactNative.InteractionManager;
+-} catch (e) {
+-  // On newer React Native versions, accessing InteractionManager throws an error
+-  // https://github.com/react/react-native/pull/57026
+-}
++/**
++ * Reading InteractionManager from react-native warns on React Native 0.86.
++ * The drawer only used it to delay work, and that call is already skipped
++ * on 0.82 and newer.
++ */
++const InteractionManager = undefined;
+ 
+ export { InteractionManager };

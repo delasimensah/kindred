@@ -13,7 +13,7 @@ import { Alert, Pressable, ScrollView } from "react-native";
 import { COLORS } from "@/constants";
 import { getConvexErrorMessage, showPlaylistAddedToast } from "@/utils";
 
-import PlaylistCover from "../../screens/main/PlaylistListScreen/PlaylistCover";
+import PlaylistCover from "../../library/PlaylistCover/PlaylistCover";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import TextField from "../../ui/TextField/TextField";

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { AudioPlayer, AudioStatus } from "expo-audio";
 import {
   type Dispatch,
-  type MutableRefObject,
+  type RefObject,
   type SetStateAction,
   useEffect,
   useRef,
@@ -136,14 +136,14 @@ export async function savePlaybackSession(
 interface PersistenceInput {
   audio: AudioPlayer;
   queue: PlaybackQueue;
-  queueRef: MutableRefObject<PlaybackQueue>;
+  queueRef: RefObject<PlaybackQueue>;
   setQueue: Dispatch<SetStateAction<PlaybackQueue>>;
   status: AudioStatus;
   isPlaying: boolean;
-  loadedIdRef: MutableRefObject<string | null>;
-  resumeAtRef: MutableRefObject<number | null>;
-  seekArmRef: MutableRefObject<SeekArm | null>;
-  listenFloorRef: MutableRefObject<number>;
+  loadedIdRef: RefObject<string | null>;
+  resumeAtRef: RefObject<number | null>;
+  seekArmRef: RefObject<SeekArm | null>;
+  listenFloorRef: RefObject<number>;
   start: (track: QueueTrack) => void;
 }
 

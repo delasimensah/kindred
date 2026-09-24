@@ -267,7 +267,13 @@ jest.mock("react-native-draggable-flatlist", () => {
           getIndex: () => index,
         }),
     });
-  return { __esModule: true, default: DraggableFlatList };
+  const ScaleDecorator = ({
+    children,
+  }: {
+    children?: unknown;
+    activeScale?: number;
+  }) => children;
+  return { __esModule: true, default: DraggableFlatList, ScaleDecorator };
 });
 
 jest.mock("@expo/ui/swift-ui/modifiers", () => ({

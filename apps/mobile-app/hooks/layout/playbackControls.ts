@@ -4,7 +4,7 @@ import type { useConvex } from "convex/react";
 import type { AudioPlayer, AudioStatus } from "expo-audio";
 import {
   type Dispatch,
-  type MutableRefObject,
+  type RefObject,
   type SetStateAction,
   useCallback,
   useEffect,
@@ -31,16 +31,16 @@ interface PlaybackControlsInput {
   audio: AudioPlayer;
   convex: Convex;
   isPlaying: boolean;
-  queueRef: MutableRefObject<PlaybackQueue>;
-  statusRef: MutableRefObject<AudioStatus>;
-  loadedIdRef: MutableRefObject<string | null>;
-  requestRef: MutableRefObject<number>;
-  listenIdRef: MutableRefObject<string | null>;
-  listenStartedRef: MutableRefObject<number>;
-  recordedRef: MutableRefObject<string | null>;
-  resumeAtRef: MutableRefObject<number | null>;
-  seekArmRef: MutableRefObject<SeekArm | null>;
-  listenFloorRef: MutableRefObject<number>;
+  queueRef: RefObject<PlaybackQueue>;
+  statusRef: RefObject<AudioStatus>;
+  loadedIdRef: RefObject<string | null>;
+  requestRef: RefObject<number>;
+  listenIdRef: RefObject<string | null>;
+  listenStartedRef: RefObject<number>;
+  recordedRef: RefObject<string | null>;
+  resumeAtRef: RefObject<number | null>;
+  seekArmRef: RefObject<SeekArm | null>;
+  listenFloorRef: RefObject<number>;
   setIsPlaying: Dispatch<SetStateAction<boolean>>;
   setQueue: Dispatch<SetStateAction<PlaybackQueue>>;
 }

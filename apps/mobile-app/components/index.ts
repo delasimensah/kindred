@@ -42,6 +42,9 @@ export {
   SuccessToast,
 } from "./feedback/Toast/Toast";
 
+export { default as PlayerSheet } from "./player/PlayerSheet/PlayerSheet";
+export type { PlayerSheetHandle } from "./player/PlayerSheet/PlayerSheet";
+
 export { default as GenericBottomSheet } from "./bottom-sheets/GenericBottomSheet/GenericBottomSheet";
 export { default as BottomSheetsManager } from "./bottom-sheets/BottomSheetsManager/BottomSheetsManager";
 export { default as BottomSheetHeader } from "./bottom-sheets/BottomSheetHeader/BottomSheetHeader";

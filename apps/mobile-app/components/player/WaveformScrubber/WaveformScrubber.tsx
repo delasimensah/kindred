@@ -3,8 +3,7 @@ import { LayoutChangeEvent, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 import { COLORS } from "@/constants";
-
-import { centeredBarLayout, samplePeaks, WAVEFORM_HEIGHT } from "./waveform";
+import { centeredBarLayout, samplePeaks, WAVEFORM_HEIGHT } from "@/utils";
 
 interface WaveformScrubberProps {
   peaks: number[];

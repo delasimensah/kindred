@@ -4,9 +4,9 @@ import { Pressable, useWindowDimensions, View } from "react-native";
 
 import { COLORS } from "@/constants";
 
-import { HStack, VStack } from "../../../ui/Stack/Stack";
-import Text from "../../../ui/Text/Text";
-import PlaylistCover from "../PlaylistListScreen/PlaylistCover";
+import { HStack, VStack } from "../../ui/Stack/Stack";
+import Text from "../../ui/Text/Text";
+import PlaylistCover from "../PlaylistCover/PlaylistCover";
 
 export interface LibraryCollection {
   title: string;

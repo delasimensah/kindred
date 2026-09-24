@@ -6,16 +6,18 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import Swipeable, {
+  type SwipeableMethods,
+} from "react-native-gesture-handler/ReanimatedSwipeable";
 
 import { COLORS } from "@/constants";
 import { useAppInsets } from "@/hooks";
 
+import PlaylistCover from "../../../library/PlaylistCover/PlaylistCover";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
-import PlaylistCover from "./PlaylistCover";
 
 export interface PlaylistSummary {
   playlistId: string;
@@ -126,7 +128,7 @@ const SwipeablePlaylistRow: React.FC<{
   onOpen: (playlistId: string) => void;
   onDelete: (playlistId: string) => void;
 }> = ({ playlist, onOpen, onDelete }) => {
-  const swipeableRef = useRef<Swipeable>(null);
+  const swipeableRef = useRef<SwipeableMethods>(null);
   const confirming = useRef(false);
 
   const askDelete = () => {

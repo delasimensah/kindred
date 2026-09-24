@@ -1,4 +1,4 @@
-import { centeredBarLayout, samplePeaks, WAVEFORM_HEIGHT } from "./waveform";
+import { centeredBarLayout, samplePeaks, WAVEFORM_HEIGHT } from "../waveform";
 
 describe("waveform", () => {
   it("centers every bar on the midline", () => {

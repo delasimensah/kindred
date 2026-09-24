@@ -12,7 +12,6 @@ import {
   catalogQueue,
   coverHeaderScreenOptions,
   libraryArtistTracksHref,
-  libraryTrackHref,
   POPULAR_TRACK_PREVIEW,
   routeParam,
 } from "@/utils";
@@ -91,9 +90,6 @@ const ArtistRoute = () => {
             trackId: track.trackId,
             liked: !track.liked,
           });
-        }}
-        onOpenLocked={(trackId) => {
-          router.push(libraryTrackHref(trackId));
         }}
         onViewAllTracks={() => {
           if (artistId === undefined) {

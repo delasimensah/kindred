@@ -25,9 +25,8 @@ const tracks = [
 ];
 
 describe("LibraryTracksScreen", () => {
-  it("plays a public track, opens a locked track, and removes a row", () => {
+  it("plays a public track, keeps a locked track, and removes a row", () => {
     const onPlay = jest.fn();
-    const onOpenLocked = jest.fn();
     const onToggleLike = jest.fn();
     const onRemove = jest.fn();
     render(
@@ -42,14 +41,12 @@ describe("LibraryTracksScreen", () => {
         playingTrackId={null}
         isPlaying={false}
         onPlay={onPlay}
-        onOpenLocked={onOpenLocked}
         onToggleLike={onToggleLike}
         onRemove={onRemove}
       />
     );
     fireEvent.press(screen.getByLabelText("Play Accra Night"));
     fireEvent.press(screen.getByLabelText("Like Accra Night"));
-    fireEvent.press(screen.getByLabelText("Unlike Quiet Room"));
     const alert = jest
       .spyOn(Alert, "alert")
       .mockImplementation((_title, _message, buttons) => {
@@ -62,9 +59,9 @@ describe("LibraryTracksScreen", () => {
     alert.mockRestore();
     fireEvent.press(screen.getByLabelText("Quiet Room, supporters only"));
     expect(onPlay).toHaveBeenCalledWith("tr_open");
+    expect(onPlay).not.toHaveBeenCalledWith("tr_locked");
     expect(onToggleLike).toHaveBeenCalledWith("tr_open");
-    expect(onToggleLike).toHaveBeenCalledWith("tr_locked");
     expect(onRemove).toHaveBeenCalledWith("tr_open");
-    expect(onOpenLocked).toHaveBeenCalledWith("tr_locked");
+    expect(screen.getByLabelText("More options for Quiet Room")).toBeDisabled();
   });
 });

@@ -26,6 +26,8 @@ interface TrackMenuProps {
   onToggleLike?: () => void;
   onRemove?: () => void;
   filled?: boolean;
+  /** Locked tracks stay in the list. The menu does not open. */
+  disabled?: boolean;
 }
 
 interface MenuRow {
@@ -46,6 +48,7 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
   onToggleLike,
   onRemove,
   filled = false,
+  disabled = false,
 }) => {
   const sheetRef = useRef<BottomSheetMethods>(null);
   const [playlistOpen, setPlaylistOpen] = useState(false);
@@ -98,8 +101,26 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
     });
   }
 
-  if (rows.length === 0) {
-    return null;
+  if (disabled || rows.length === 0) {
+    if (!disabled) {
+      return null;
+    }
+    return (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`More options for ${title}`}
+        accessibilityState={{ disabled: true }}
+        disabled
+        className={
+          filled
+            ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
+            : "h-11 w-11 items-center justify-center"
+        }
+        style={{ opacity: 0.35 }}
+      >
+        <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
+      </Pressable>
+    );
   }
 
   return (

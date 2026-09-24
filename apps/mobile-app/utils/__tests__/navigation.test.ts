@@ -25,7 +25,7 @@ describe("navigation utilities", () => {
 
     it("should have correct header title style", () => {
       expect(defaultStackScreenOptions.headerTitleStyle).toEqual({
-        fontFamily: "Satoshi-Regular",
+        fontFamily: "Satoshi-Medium",
       });
     });
 

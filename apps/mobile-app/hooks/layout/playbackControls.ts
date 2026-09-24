@@ -15,6 +15,7 @@ import {
   appendTrack,
   currentTrack,
   insertNext,
+  jumpToUpcoming,
   type PlaybackQueue,
   type PreviewTrack,
   type QueueTrack,
@@ -328,6 +329,20 @@ export function usePlaybackControls({
     next,
     previous,
     seek,
+    playUpcoming: (slot: number) => {
+      const nextQueue = jumpToUpcoming(queueRef.current, slot);
+      if (nextQueue === queueRef.current) {
+        return;
+      }
+      queueRef.current = nextQueue;
+      setQueue(nextQueue);
+      const item = currentTrack(nextQueue);
+      if (item === null) {
+        return;
+      }
+      setIsPlaying(true);
+      start(item);
+    },
     playNext: (track: PreviewTrack) => {
       enqueue(track, insertNext);
     },

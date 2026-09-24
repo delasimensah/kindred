@@ -28,7 +28,6 @@ interface PopularTracksScreenProps {
   onPlayNext?: (trackId: string) => void;
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
-  onOpenLocked: (trackId: string) => void;
 }
 
 const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
@@ -40,7 +39,6 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
   onPlayNext,
   onAddToQueue,
   onToggleLike,
-  onOpenLocked,
 }) => {
   const insets = useAppInsets();
 
@@ -89,7 +87,6 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
                   : () => onAddToQueue(track.trackId)
               }
               onToggleLike={() => onToggleLike(track.trackId)}
-              onOpenLocked={() => onOpenLocked(track.trackId)}
             />
           ))
         )}

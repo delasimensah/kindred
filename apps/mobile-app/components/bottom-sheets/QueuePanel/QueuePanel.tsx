@@ -5,7 +5,7 @@ import {
 } from "@expo/ui/community/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
 import { forwardRef, useImperativeHandle, useRef } from "react";
-import { Platform, Pressable, useWindowDimensions } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import DraggableFlatList, {
   type RenderItemParams,
   ScaleDecorator,
@@ -32,6 +32,7 @@ interface QueuePanelProps {
   onRepeat: () => void;
   onRemove: (slot: number) => void;
   onMove: (fromSlot: number, toSlot: number) => void;
+  onPlay: (slot: number) => void;
 }
 
 const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
@@ -46,6 +47,7 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
       onRepeat,
       onRemove,
       onMove,
+      onPlay,
     },
     ref
   ) => {
@@ -84,7 +86,8 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
         ref={sheetRef}
         snapPoints={["90%"]}
         enableDynamicSizing={false}
-        enablePanDownToClose={Platform.OS !== "android"}
+        // The native sheet uses this same vertical drag, so reordering moved the sheet.
+        enablePanDownToClose={false}
         backgroundStyle={{ backgroundColor: COLORS.page }}
       >
         <BottomSheetView style={{ flex: 1, height: height * 0.9 }}>
@@ -202,7 +205,7 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
               <DraggableFlatList
                 data={upcoming}
                 keyExtractor={(item, index) => `${item.trackId}-${index}`}
-                activationDistance={12}
+                activationDistance={0}
                 onDragEnd={({ from, to }) => {
                   if (from !== to) {
                     void tapHaptic("drop");
@@ -222,6 +225,7 @@ const QueuePanel = forwardRef<BottomSheetMethods, QueuePanelProps>(
                         track={item}
                         drag={item.locked ? undefined : drag}
                         active={isActive}
+                        onPlay={() => onPlay(slot)}
                         onRemove={() => onRemove(slot)}
                       />
                     </ScaleDecorator>

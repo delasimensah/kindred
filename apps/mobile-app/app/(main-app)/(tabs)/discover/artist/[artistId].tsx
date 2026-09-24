@@ -14,7 +14,6 @@ import {
   coverHeaderScreenOptions,
   POPULAR_TRACK_PREVIEW,
   routeParam,
-  trackHref,
 } from "@/utils";
 
 const ArtistRoute = () => {
@@ -91,9 +90,6 @@ const ArtistRoute = () => {
             trackId: track.trackId,
             liked: !track.liked,
           });
-        }}
-        onOpenLocked={(trackId) => {
-          router.push(trackHref(trackId));
         }}
         onViewAllTracks={() => {
           if (artistId === undefined) {

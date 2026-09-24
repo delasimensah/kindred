@@ -19,7 +19,9 @@ const track: QueueTrack = {
 
 describe("QueueDragRow", () => {
   it("marks a locked track as skipped", () => {
-    render(<QueueDragRow track={track} onRemove={jest.fn()} />);
+    render(
+      <QueueDragRow track={track} onPlay={jest.fn()} onRemove={jest.fn()} />
+    );
     expect(screen.getByText("Asase")).toBeTruthy();
     expect(screen.getByText("Amaara Mensah")).toBeTruthy();
     expect(screen.getByText("Skipped")).toBeTruthy();
@@ -37,10 +39,27 @@ describe("QueueDragRow", () => {
         confirm?.onPress?.();
       });
     render(
-      <QueueDragRow track={{ ...track, locked: false }} onRemove={onRemove} />
+      <QueueDragRow
+        track={{ ...track, locked: false }}
+        onPlay={jest.fn()}
+        onRemove={onRemove}
+      />
     );
     fireEvent.press(screen.getByLabelText("Remove Asase"));
     expect(onRemove).toHaveBeenCalledTimes(1);
     alert.mockRestore();
+  });
+
+  it("plays the track when the row is tapped", () => {
+    const onPlay = jest.fn();
+    render(
+      <QueueDragRow
+        track={{ ...track, locked: false }}
+        onPlay={onPlay}
+        onRemove={jest.fn()}
+      />
+    );
+    fireEvent.press(screen.getByRole("button", { name: "Asase" }));
+    expect(onPlay).toHaveBeenCalledTimes(1);
   });
 });

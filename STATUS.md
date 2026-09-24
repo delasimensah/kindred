@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-55 player Done. A fan can play a public track with a queue, shuffle, repeat, and next or previous. Next is KIND-56, the shared move from the mini-player into now-playing and the waveform scrubber. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-56 player craft Done. A fan can reorder the queue without dragging the sheet, tap a queued track to play it, and a locked track stays in the list with its menu closed. Next is KIND-57, the Home feed. KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-24
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
@@ -62,7 +62,7 @@
 
 ## Next action (one line)
 
-KIND-56 Mini-player shared transition and waveform scrubber on the real player. KIND-45 waits until the phone catalog screens are in place.
+KIND-57 Home feed of updates from followed artists, and reactions on tracks. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

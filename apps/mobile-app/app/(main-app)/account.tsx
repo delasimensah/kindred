@@ -2,7 +2,7 @@ import { Stack, useRouter } from "expo-router";
 import { Platform } from "react-native";
 
 import { SessionHomeScreen } from "@/components";
-import { COLORS } from "@/constants";
+import { COLORS, FONTS } from "@/constants";
 import { useFanSession } from "@/hooks";
 
 /**
@@ -24,7 +24,10 @@ const AccountRoute = () => {
           headerShadowVisible: false,
           headerTintColor: COLORS.text,
           headerStyle: { backgroundColor: COLORS.page },
-          headerTitleStyle: { color: COLORS.text },
+          headerTitleStyle: {
+            color: COLORS.text,
+            fontFamily: FONTS.medium,
+          },
         }}
       />
       {Platform.OS === "ios" ? (

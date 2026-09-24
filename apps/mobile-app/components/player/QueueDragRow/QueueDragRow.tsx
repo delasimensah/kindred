@@ -14,6 +14,7 @@ interface QueueDragRowProps {
   track: QueueTrack;
   drag?: () => void;
   active?: boolean;
+  onPlay: () => void;
   onRemove: () => void;
 }
 
@@ -21,6 +22,7 @@ const QueueDragRow: React.FC<QueueDragRowProps> = ({
   track,
   drag,
   active = false,
+  onPlay,
   onRemove,
 }) => {
   const pickUp = () => {
@@ -55,8 +57,10 @@ const QueueDragRow: React.FC<QueueDragRowProps> = ({
       ) : (
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel={`Reorder ${track.title}`}
+          accessibilityLabel={track.title}
+          accessibilityHint="Hold to reorder"
           accessibilityState={{ selected: active }}
+          onPress={onPlay}
           onLongPress={pickUp}
           delayLongPress={180}
           disabled={active}

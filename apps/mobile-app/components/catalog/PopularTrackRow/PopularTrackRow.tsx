@@ -18,7 +18,6 @@ interface PopularTrackRowProps {
   isPlaying: boolean;
   liked?: boolean;
   onPlay: () => void;
-  onOpenLocked: () => void;
   onPlayNext?: () => void;
   onAddToQueue?: () => void;
   onToggleLike?: () => void;
@@ -34,7 +33,6 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
   isPlaying,
   liked = false,
   onPlay,
-  onOpenLocked,
   onPlayNext,
   onAddToQueue,
   onToggleLike,
@@ -52,7 +50,14 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
-        onPress={locked ? onOpenLocked : onPlay}
+        accessibilityState={{ disabled: locked }}
+        disabled={locked}
+        onPress={() => {
+          if (locked) {
+            return;
+          }
+          onPlay();
+        }}
         style={{ flex: 1, minWidth: 0 }}
       >
         <HStack spacing="sm" align="center">
@@ -107,6 +112,7 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
         onPlayNext={onPlayNext}
         onAddToQueue={onAddToQueue}
         onToggleLike={onToggleLike}
+        disabled={locked}
         onRemove={
           onRemove === undefined
             ? undefined

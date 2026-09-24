@@ -20,6 +20,8 @@ interface TrackMenuProps {
   onRemove?: () => void;
   /** Dark circle behind the icon, for controls that sit on artwork. */
   filled?: boolean;
+  /** Locked tracks stay in the list. The menu does not open. */
+  disabled?: boolean;
 }
 
 const TrackMenu: React.FC<TrackMenuProps> = ({
@@ -31,6 +33,7 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
   onToggleLike,
   onRemove,
   filled = false,
+  disabled = false,
 }) => {
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const realTrack = trackId !== STAND_IN_TRACK_ID;
@@ -73,6 +76,10 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
     });
   }
 
+  if (disabled) {
+    return <TrackMenuIcon title={title} filled={filled} disabled />;
+  }
+
   if (actions.length === 0) {
     return null;
   }
@@ -97,20 +104,7 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
           }
         }}
       >
-        <HStack
-          spacing="none"
-          align="center"
-          justify="center"
-          accessibilityRole="button"
-          accessibilityLabel={`More options for ${title}`}
-          className={
-            filled
-              ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
-              : "h-11 w-11"
-          }
-        >
-          <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
-        </HStack>
+        <TrackMenuIcon title={title} filled={filled} />
       </MenuView>
       {playlistOpen ? (
         <AddToPlaylistSheet
@@ -122,5 +116,35 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
     </>
   );
 };
+
+function TrackMenuIcon({
+  title,
+  filled,
+  disabled = false,
+}: {
+  title: string;
+  filled: boolean;
+  disabled?: boolean;
+}) {
+  return (
+    <HStack
+      spacing="none"
+      align="center"
+      justify="center"
+      accessibilityRole="button"
+      accessibilityLabel={`More options for ${title}`}
+      accessibilityState={{ disabled }}
+      pointerEvents={disabled ? "none" : "auto"}
+      className={
+        filled
+          ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
+          : "h-11 w-11"
+      }
+      style={disabled ? { opacity: 0.35 } : undefined}
+    >
+      <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
+    </HStack>
+  );
+}
 
 export default TrackMenu;

@@ -31,6 +31,7 @@ import {
   upcomingIndexes,
 } from "./playbackQueue";
 import { usePlaybackPersistence } from "./playbackSession";
+import { usePresenceHeartbeat } from "./usePresenceHeartbeat";
 
 export type { PreviewTrack, QueueTrack, RepeatMode };
 
@@ -143,6 +144,12 @@ export function PreviewPlayerProvider({
 
   const playing = currentTrack(queue) ?? STAND_IN;
   const accessKey = queue.tracks.map((track) => track.trackId).join("|");
+  usePresenceHeartbeat({
+    convex,
+    isPlaying,
+    queueRef,
+    trackKey: `${playing.trackId}:${playing.artistId ?? ""}`,
+  });
 
   useEffect(() => {
     // https://docs.expo.dev/versions/v57.0.0/sdk/audio/

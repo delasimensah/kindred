@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, **KIND-55** the player, **KIND-56** the player craft, and **KIND-57** the Home feed are Done. Next phone slice is **KIND-58**, the live listener short check. **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone. **KIND-50** tab shell, **KIND-53** Discover, **KIND-51** artist and track, **KIND-52** Library, **KIND-54** background audio, **KIND-55** the player, **KIND-56** the player craft, **KIND-57** the Home feed, **KIND-89** shrink seed, and **KIND-58** live listener short check are Done. Next phone slice is **KIND-59** (presence number on the artist page). **KIND-45** (web Studio sign-in) stays Todo until the phone catalog screens are in place.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
@@ -47,10 +47,10 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-57** Home feed is **Done**. Followed artists’ updates show on Home, including a voice-note card. A supporters-only post stays locked with Support to unlock. A reaction on the player saves and shows up for anyone watching that track. Unfollow refuses while that artist is in the support route.
 - **KIND-89** shrink seed audio for free-plan Convex egress is **Done**. Unique audio ~34 MB; apply with `yarn seed:shrink` then `yarn seed:apply-shrunk`. Guide: `docs/convex-usage.md`.
 - **KIND-90** serve track audio from R2 (egress escape hatch) is **Todo** (after KIND-89 if still needed, or before KIND-85 public streaming).
-- Remaining First Version / Launch slices **KIND-47** and **KIND-58–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
+- Remaining First Version / Launch slices **KIND-47** and **KIND-59–KIND-88** are **Todo** (KIND-46 Backlog; KIND-58 Done). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed (Done) → [KIND-89](https://linear.app/dm-studios/issue/KIND-89) shrink seed (Done) → [KIND-58](https://linear.app/dm-studios/issue/KIND-58) live listener short check. KIND-45 stays Todo until those screens are in place.
-- Next build slice: [KIND-58](https://linear.app/dm-studios/issue/KIND-58) (Short check: live listener count on two phones).
+- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed (Done) → [KIND-89](https://linear.app/dm-studios/issue/KIND-89) shrink seed (Done) → [KIND-58](https://linear.app/dm-studios/issue/KIND-58) live listener short check (Done) → [KIND-59](https://linear.app/dm-studios/issue/KIND-59) presence on artist page. KIND-45 stays Todo until those screens are in place.
+- Next build slice: [KIND-59](https://linear.app/dm-studios/issue/KIND-59) (Artist page shows approximate live listener count).
 
 ---
 

@@ -4,6 +4,7 @@ import { requireProfile } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { getFollow } from "./lib/follows";
 import { authedQuery } from "./lib/functions";
+import { presenceCutoff } from "./lib/presence";
 
 const onboardingArtistValidator = v.object({
   artistId: v.id("artists"),
@@ -74,6 +75,8 @@ const artistProfileValidator = v.object({
   avatarUrl: v.union(v.string(), v.null()),
   coverUrl: v.union(v.string(), v.null()),
   isFollowed: v.boolean(),
+  /** Approximate live listeners; UI ships in KIND-59. */
+  liveListenerCount: v.number(),
 });
 
 export const get = authedQuery({
@@ -86,6 +89,13 @@ export const get = authedQuery({
       return null;
     }
     const follow = await getFollow(ctx, profile._id, artist._id);
+    const cutoff = presenceCutoff();
+    const live = await ctx.db
+      .query("presenceHeartbeats")
+      .withIndex("by_artist_lastBeatAt", (q) =>
+        q.eq("artistId", artist._id).gt("lastBeatAt", cutoff)
+      )
+      .collect();
     return {
       artistId: artist._id,
       name: artist.name,
@@ -93,6 +103,7 @@ export const get = authedQuery({
       avatarUrl: await fileUrl(ctx, artist.avatarFileId),
       coverUrl: await fileUrl(ctx, artist.coverFileId),
       isFollowed: follow !== null,
+      liveListenerCount: live.length,
     };
   },
 });

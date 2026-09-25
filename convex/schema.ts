@@ -125,6 +125,17 @@ export default defineSchema({
     .index("by_artist_startedAt", ["artistId", "startedAt"])
     .index("by_track_startedAt", ["trackId", "startedAt"]),
 
+  /** One row per listener, patched while playing. Stale after ~60s. */
+  presenceHeartbeats: defineTable({
+    profileId: v.id("profiles"),
+    artistId: v.id("artists"),
+    trackId: v.id("tracks"),
+    lastBeatAt: v.number(),
+  })
+    .index("by_profileId", ["profileId"])
+    .index("by_artist_lastBeatAt", ["artistId", "lastBeatAt"])
+    .index("by_lastBeatAt", ["lastBeatAt"]),
+
   libraryItems: defineTable({
     profileId: v.id("profiles"),
     trackId: v.id("tracks"),

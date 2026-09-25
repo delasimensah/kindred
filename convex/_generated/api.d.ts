@@ -10,6 +10,7 @@
 
 import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
+import type * as crons from "../crons.js";
 import type * as discovery from "../discovery.js";
 import type * as feed from "../feed.js";
 import type * as follows from "../follows.js";
@@ -25,6 +26,7 @@ import type * as lib_functions from "../lib/functions.js";
 import type * as lib_genres from "../lib/genres.js";
 import type * as lib_library from "../lib/library.js";
 import type * as lib_peaks from "../lib/peaks.js";
+import type * as lib_presence from "../lib/presence.js";
 import type * as lib_profileName from "../lib/profileName.js";
 import type * as lib_reactions from "../lib/reactions.js";
 import type * as lib_routes from "../lib/routes.js";
@@ -35,6 +37,7 @@ import type * as library from "../library.js";
 import type * as listen from "../listen.js";
 import type * as player from "../player.js";
 import type * as posts from "../posts.js";
+import type * as presence from "../presence.js";
 import type * as profiles from "../profiles.js";
 import type * as reactions from "../reactions.js";
 import type * as seed from "../seed.js";
@@ -51,6 +54,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   artists: typeof artists;
   auth: typeof auth;
+  crons: typeof crons;
   discovery: typeof discovery;
   feed: typeof feed;
   follows: typeof follows;
@@ -66,6 +70,7 @@ declare const fullApi: ApiFromModules<{
   "lib/genres": typeof lib_genres;
   "lib/library": typeof lib_library;
   "lib/peaks": typeof lib_peaks;
+  "lib/presence": typeof lib_presence;
   "lib/profileName": typeof lib_profileName;
   "lib/reactions": typeof lib_reactions;
   "lib/routes": typeof lib_routes;
@@ -76,6 +81,7 @@ declare const fullApi: ApiFromModules<{
   listen: typeof listen;
   player: typeof player;
   posts: typeof posts;
+  presence: typeof presence;
   profiles: typeof profiles;
   reactions: typeof reactions;
   seed: typeof seed;

@@ -9,3 +9,11 @@ export {
   InfoNotification,
   SuccessNotification,
 } from "./feedback/Notification/Notification";
+
+export { default as SignInForm } from "./auth/SignInForm/SignInForm";
+export { default as StudioGate } from "./auth/StudioGate/StudioGate";
+export { default as StudioWordmark } from "./auth/StudioWordmark/StudioWordmark";
+
+export { default as NotAllowedPage } from "./pages/NotAllowedPage/NotAllowedPage";
+export { default as SignInPage } from "./pages/SignInPage/SignInPage";
+export { default as StudioHomePlaceholder } from "./pages/StudioHomePlaceholder/StudioHomePlaceholder";

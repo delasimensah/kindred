@@ -1,2 +1,5 @@
-// Hooks barrel — scaffold start. Product hooks land with first slices.
-export {};
+export {
+  StudioSessionProvider,
+  useStudioSession,
+  type StudioSession,
+} from "./auth/useStudioSession";

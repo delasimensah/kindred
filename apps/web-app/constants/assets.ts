@@ -26,9 +26,9 @@
 export const ASSETS = {
   // Icons (stored in public/icons/)
   icons: {
-    // Add your icon assets here
-    // appIcon: "/icons/app-icon.png",
-    // logo: "/icons/logo.svg",
+    /** Shipped Kindred mark (gold on charcoal). Same art as the mobile app icon. */
+    logo: "/icons/logo.png",
+    appIcon: "/icons/app-icon.png",
   },
   // Images (stored in public/images/)
   images: {

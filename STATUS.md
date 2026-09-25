@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — phone listening core through KIND-59 **Done**. Separate short-check tickets retired (25 Sep 2026); hard bits prove inside the feature ticket. **Next:** KIND-45 (Artist Studio / admin sign-in on web).
+- **Current phase:** Build — **KIND-45** Artist Studio / admin web sign-in **Done**. Phone listening core through KIND-59 **Done**. **Next:** KIND-78 (Studio home and profile on web).
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,13 +64,13 @@
 
 ## Next action (one line)
 
-**KIND-45** — verified artist or admin can sign in to web Studio or admin. Do not start until Delasi says so.
+**KIND-78** — artist can use Studio home and edit profile on web.
 
 ---
 
 ## Remaining First Version (how to test)
 
-- **Web (browser):** KIND-45 → Studio home/profile → upload/releases → updates → supporters → admin → public pages.
+- **Web (browser):** KIND-78 Studio home/profile → upload/releases → updates → supporters → admin → public pages.
 - **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
 - **Backlog until email:** KIND-46.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.

@@ -28,10 +28,77 @@ describe("profiles", () => {
       profileId,
       displayName: "Efua Boateng",
       isAdmin: false,
+      canAccessStudio: false,
+      artistId: null,
       genres: [],
       followCount: 0,
       hasCompletedOnboarding: false,
       onboardingStep: "genres",
+    });
+  });
+
+  it("grants studio access when the profile is admin", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "delasi.mensah@kindred.example",
+        name: "Delasi Mensah",
+      });
+    });
+    await asUser(t, userId).mutation(api.profiles.ensureProfile, {});
+    await t.mutation(internal.profiles.grantAdminByEmail, {
+      email: "delasi.mensah@kindred.example",
+    });
+
+    const me = await asUser(t, userId).query(api.profiles.getMe, {});
+    expect(me).toMatchObject({
+      isAdmin: true,
+      canAccessStudio: true,
+      artistId: null,
+    });
+  });
+
+  it("grants studio access when a verified artist is linked", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "amaara.mensah@kindred.example",
+        name: "Amaara Mensah",
+      });
+    });
+    const profileId = await asUser(t, userId).mutation(
+      api.profiles.ensureProfile,
+      {}
+    );
+    const artistId = await t.run(async (ctx) => {
+      return await ctx.db.insert("artists", {
+        profileId,
+        name: "Amaara Mensah",
+        handle: "amaara",
+        bio: "Seed artist",
+        verified: true,
+        hidden: false,
+        createdAt: Date.now(),
+      });
+    });
+
+    const me = await asUser(t, userId).query(api.profiles.getMe, {});
+    expect(me).toMatchObject({
+      isAdmin: false,
+      canAccessStudio: true,
+      artistId,
+    });
+  });
+
+  it("grantAdminByEmail reports missing users", async () => {
+    const t = makeBackend();
+    const result = await t.mutation(internal.profiles.grantAdminByEmail, {
+      email: "nobody@kindred.example",
+    });
+    expect(result).toEqual({
+      found: false,
+      alreadyAdmin: false,
+      profileId: null,
     });
   });
 

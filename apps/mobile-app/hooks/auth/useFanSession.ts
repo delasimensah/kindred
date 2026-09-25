@@ -29,31 +29,33 @@ function useFanSessionState(): FanSession {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const { signOut } = useAuthActions();
   const ensureProfile = useMutation(api.profiles.ensureProfile);
-  const [profileReady, setProfileReady] = useState(false);
+  const [profileEnsured, setProfileEnsured] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const canLoadProfile = isAuthenticated && !isLoading;
 
   useEffect(() => {
-    if (isLoading || !isAuthenticated) {
-      setProfileReady(false);
+    if (!canLoadProfile) {
       return;
     }
     let cancelled = false;
     void ensureProfile({})
       .then(() => {
         if (!cancelled) {
-          setProfileReady(true);
+          setProfileEnsured(true);
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setProfileReady(true);
+          setProfileEnsured(true);
         }
       });
     return () => {
       cancelled = true;
+      setProfileEnsured(false);
     };
-  }, [ensureProfile, isAuthenticated, isLoading]);
+  }, [canLoadProfile, ensureProfile]);
 
+  const profileReady = canLoadProfile && profileEnsured;
   const viewer = useQuery(
     api.profiles.getMe,
     isAuthenticated && profileReady ? {} : "skip"

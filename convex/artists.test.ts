@@ -77,6 +77,7 @@ describe("artists", () => {
     const before = await asUser(t, userId).query(api.artists.get, { artistId });
     expect(before?.name).toBe("Amaara Mensah");
     expect(before?.isFollowed).toBe(false);
+    expect(before?.liveListenerCount).toBe(0);
 
     await asUser(t, userId).mutation(api.follows.add, { artistId });
     const after = await asUser(t, userId).query(api.artists.get, { artistId });

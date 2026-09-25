@@ -22,6 +22,11 @@ export {
   REACTION_EMOJIS,
   type ReactionEmoji,
 } from "./reactions";
+export {
+  PRESENCE_CLEANUP_AFTER_MS,
+  PRESENCE_FRESH_MS,
+  PRESENCE_HEARTBEAT_MS,
+} from "./presence";
 export { RADII } from "./radii";
 export {
   FONT_FAMILIES,

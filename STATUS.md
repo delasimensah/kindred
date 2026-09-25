@@ -10,10 +10,11 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-58 live listener short check Done (20s heartbeat / 60s freshness; no presence UI). Next is KIND-59 (show the count on the artist page). KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-59 live listener count on artist page is in PR (merge when ready). Phone-alert short check (KIND-60) and web-link short check (KIND-61) are **Backlog** until a Google + Apple setup day. **Next build:** KIND-45 (Artist Studio / admin sign-in on web).
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this. Do not set up R2 for presence.
+  - **Phone alerts + web links (KIND-60, KIND-61):** Backlog. Need Google + Apple keys on Expo and (usually) a new preview cook before those short checks are testable on real phones. Click guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
   - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
   - Offline retry queue: explain at KIND-68 time; if we cut it, edit the lock with Delasi first.
@@ -63,12 +64,27 @@
 
 ## Next action (one line)
 
-KIND-59: show approximate live listener count on the artist page. KIND-45 waits until the phone catalog screens are in place.
+1. Merge KIND-59 PR if still open: https://github.com/delasimensah/kindred/pull/16  
+2. Then **KIND-45** — verified artist or admin can sign in to web Studio or admin. Do not start until you say so.
+
+---
+
+## Remaining First Version (how to test)
+
+- **Merge then web (test in browser):** KIND-45 Studio/admin sign-in, then later Studio upload / publish tickets in that epic line.
+- **Preview on real phone (JS / already-cooked native):** most catalog and player work already Done; use `update:preview` when you need the phone.
+- **Needs your Google + Apple setup day first (Backlog):** KIND-60 phone alerts, KIND-61 web links into the app, then KIND-62 release alert product.
+- **Needs store / purchase accounts later:** KIND-63+ money path.
+- **Later / other Backlog:** KIND-46 password email until email sending exists.
+
+Phone vs simulator rule: `.cursor/rules/phone-tasks-must-be-testable.mdc`.  
+Phone-alert clicks: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
 
 ---
 
 ## Pointers
 
+- Pull request (KIND-59): https://github.com/delasimensah/kindred/pull/16
 - Pull request (KIND-58): https://github.com/delasimensah/kindred/pull/15
 - Pull request (KIND-89): https://github.com/delasimensah/kindred/pull/14
 - Pull request (KIND-57): https://github.com/delasimensah/kindred/pull/13

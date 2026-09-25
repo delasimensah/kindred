@@ -1,0 +1,29 @@
+---
+description: Never call a phone task ready unless it matches Kindred’s preview-on-device vs simulator setup.
+alwaysApply: true
+---
+
+# Phone tasks must be testable on this setup
+
+How Kindred phone builds are used:
+
+- **Development build** — simulator only. Day-to-day Metro. App id: `com.dmstudios.kindred.dev`.
+- **Preview build** — real phones. App id: `com.dmstudios.kindred.staging`. This is how device features are proved.
+- **Production** — store later. App id: `com.dmstudios.kindred`.
+
+## Before you say a phone ticket is ready, doable, or “next”
+
+In plain English, state:
+
+1. **Where he tests it** — simulator, or preview on a real phone.
+2. **What he must do with his hands** — numbered clicks or commands. Define every hard word the first time.
+3. **How he knows it worked** — one line.
+4. If Google, Apple, or a **new preview cook** is required first — say that **up front**.
+
+Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-notifications-setup.md` (until copied into this repo).
+
+## Do not
+
+- Say “dev or preview” when only preview on a real phone counts.
+- Call KIND-60 / KIND-61 ready while they are **Backlog** waiting on setup day.
+- Use unexplained short names instead of a click list.

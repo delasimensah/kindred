@@ -12,7 +12,7 @@ import {
 
 /**
  * While audio is playing, send a presence heartbeat now and every 20s.
- * Paused means no beats. Spike only — no presence UI yet (KIND-59).
+ * Paused means no beats. Artist page shows the approximate count (KIND-59).
  */
 export function usePresenceHeartbeat({
   convex,

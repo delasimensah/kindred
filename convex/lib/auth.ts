@@ -24,6 +24,27 @@ export async function getProfileByAuthUserId(
     .unique();
 }
 
+export async function getVerifiedArtistForProfile(
+  ctx: AuthCtx,
+  profileId: Id<"profiles">
+): Promise<Doc<"artists"> | null> {
+  const artist = await ctx.db
+    .query("artists")
+    .withIndex("by_profileId", (q) => q.eq("profileId", profileId))
+    .unique();
+  if (artist === null || !artist.verified || artist.hidden) {
+    return null;
+  }
+  return artist;
+}
+
+export function canAccessStudio(args: {
+  isAdmin: boolean;
+  verifiedArtist: Doc<"artists"> | null;
+}): boolean {
+  return args.isAdmin || args.verifiedArtist !== null;
+}
+
 export async function requireProfile(ctx: AuthCtx): Promise<{
   userId: Id<"users">;
   profile: Doc<"profiles">;
@@ -45,4 +66,25 @@ export async function requireAdmin(ctx: AuthCtx): Promise<{
     raise(ERROR_CODES.NOT_PERMITTED);
   }
   return session;
+}
+
+export async function requireStudioAccess(ctx: AuthCtx): Promise<{
+  userId: Id<"users">;
+  profile: Doc<"profiles">;
+  verifiedArtist: Doc<"artists"> | null;
+}> {
+  const session = await requireProfile(ctx);
+  const verifiedArtist = await getVerifiedArtistForProfile(
+    ctx,
+    session.profile._id
+  );
+  if (
+    !canAccessStudio({
+      isAdmin: session.profile.isAdmin,
+      verifiedArtist,
+    })
+  ) {
+    raise(ERROR_CODES.NOT_PERMITTED, "Studio access requires artist or admin");
+  }
+  return { ...session, verifiedArtist };
 }

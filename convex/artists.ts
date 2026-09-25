@@ -75,7 +75,7 @@ const artistProfileValidator = v.object({
   avatarUrl: v.union(v.string(), v.null()),
   coverUrl: v.union(v.string(), v.null()),
   isFollowed: v.boolean(),
-  /** Approximate live listeners; UI ships in KIND-59. */
+  /** Approximate live listeners; number only, never identities. */
   liveListenerCount: v.number(),
 });
 

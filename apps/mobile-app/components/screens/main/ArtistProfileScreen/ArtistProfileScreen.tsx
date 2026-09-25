@@ -41,6 +41,8 @@ export interface ArtistProfile {
   avatarUrl: string | null;
   coverUrl: string | null;
   isFollowed: boolean;
+  /** Approximate live listeners; number only, never identities. */
+  liveListenerCount: number;
 }
 
 interface ArtistProfileScreenProps {
@@ -127,6 +129,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
       <ArtistProfileHero
         name={artist.name}
         imageUrl={artist.coverUrl ?? artist.avatarUrl}
+        liveListenerCount={artist.liveListenerCount}
       />
       <VStack spacing="lg" paddingX="lg" paddingY="lg">
         <ArtistProfileActions

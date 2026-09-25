@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-58 live listener short check Done (20s heartbeat / 60s freshness; no presence UI). Next is KIND-59 (show the count on the artist page). KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-59 artist page live listener count Done (approximate “N listening now” chip; number only). Next is KIND-60 (push notification cold-start spike). KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this. Do not set up R2 for presence.
@@ -63,7 +63,7 @@
 
 ## Next action (one line)
 
-KIND-59: show approximate live listener count on the artist page. KIND-45 waits until the phone catalog screens are in place.
+KIND-60: Spike — push notification cold start on physical devices. KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

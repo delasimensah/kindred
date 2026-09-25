@@ -6,15 +6,18 @@ import { COLORS } from "@/constants";
 
 import { VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
+import LiveListenerChip from "../LiveListenerChip/LiveListenerChip";
 
 interface ArtistProfileHeroProps {
   name: string;
   imageUrl: string | null;
+  liveListenerCount: number;
 }
 
 const ArtistProfileHero: React.FC<ArtistProfileHeroProps> = ({
   name,
   imageUrl,
+  liveListenerCount,
 }) => {
   return (
     <VStack
@@ -42,10 +45,11 @@ const ArtistProfileHero: React.FC<ArtistProfileHeroProps> = ({
         style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }}
       />
       <VStack
-        spacing="none"
+        spacing="sm"
         paddingX="lg"
         style={{ position: "absolute", left: 0, right: 0, bottom: 20 }}
       >
+        <LiveListenerChip count={liveListenerCount} />
         <Text className="font-display-bold text-3xl text-text">{name}</Text>
       </VStack>
     </VStack>

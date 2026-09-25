@@ -8,6 +8,7 @@ const artist = {
   avatarUrl: null,
   coverUrl: null,
   isFollowed: false,
+  liveListenerCount: 2,
 };
 
 const now = Date.UTC(2026, 8, 23, 12, 0, 0);
@@ -68,6 +69,7 @@ describe("ArtistProfileScreen", () => {
     expect(screen.getByText("Popular tracks")).toBeTruthy();
     expect(screen.getByText("Updates")).toBeTruthy();
     expect(screen.getByText("Asase is finished.")).toBeTruthy();
+    expect(screen.getByLabelText("2 listening now")).toBeTruthy();
     fireEvent.press(screen.getByLabelText("Play Asase"));
     expect(onPlay).toHaveBeenCalledWith("track_asase");
     fireEvent.press(screen.getByLabelText("Night Mix, supporters only"));

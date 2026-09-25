@@ -2,20 +2,10 @@
 
 import React from "react";
 
-import { StudioHomePlaceholder } from "@/components";
-import { useStudioSession } from "@/hooks";
+import { StudioHomePage } from "@/components";
 
 const HomeRoute = () => {
-  const session = useStudioSession();
-
-  return (
-    <StudioHomePlaceholder
-      displayName={session.displayName}
-      isAdmin={session.isAdmin}
-      onSignOut={session.handleSignOut}
-      isSigningOut={session.isSigningOut}
-    />
-  );
+  return <StudioHomePage />;
 };
 
 export default HomeRoute;

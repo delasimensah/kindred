@@ -88,3 +88,19 @@ export async function requireStudioAccess(ctx: AuthCtx): Promise<{
   }
   return { ...session, verifiedArtist };
 }
+
+export async function requireVerifiedArtist(ctx: AuthCtx): Promise<{
+  userId: Id<"users">;
+  profile: Doc<"profiles">;
+  artist: Doc<"artists">;
+}> {
+  const session = await requireStudioAccess(ctx);
+  if (session.verifiedArtist === null) {
+    raise(ERROR_CODES.NOT_PERMITTED, "A verified artist profile is required");
+  }
+  return {
+    userId: session.userId,
+    profile: session.profile,
+    artist: session.verifiedArtist,
+  };
+}

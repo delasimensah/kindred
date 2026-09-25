@@ -7,3 +7,4 @@ export {
 } from "./notificationUtils";
 export { getConvexErrorInfo, getConvexErrorMessage } from "./convexError";
 export { reloadWindow } from "./reloadWindow";
+export { uploadStudioImage } from "./studioUpload";

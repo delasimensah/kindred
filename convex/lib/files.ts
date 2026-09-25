@@ -1,8 +1,8 @@
 import type { Id } from "../_generated/dataModel";
-import type { QueryCtx } from "../_generated/server";
+import type { MutationCtx, QueryCtx } from "../_generated/server";
 
 export async function fileUrl(
-  ctx: QueryCtx,
+  ctx: QueryCtx | MutationCtx,
   fileId: Id<"files"> | undefined
 ): Promise<string | null> {
   if (fileId === undefined) {

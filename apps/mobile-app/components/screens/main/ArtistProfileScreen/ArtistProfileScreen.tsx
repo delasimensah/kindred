@@ -29,6 +29,10 @@ export interface ArtistProfileUpdate {
   audience: "everyone" | "supporters";
   body: string | null;
   locked: boolean;
+  photoUrl?: string | null;
+  voiceDurationMs?: number | null;
+  voiceUrl?: string | null;
+  voicePeaks?: number[];
 }
 
 export interface ArtistProfile {
@@ -48,6 +52,11 @@ interface ArtistProfileScreenProps {
   hasMoreTracks: boolean;
   playingTrackId: string | null;
   isPlaying: boolean;
+  playingVoiceUrl?: string | null;
+  voiceActiveUrl?: string | null;
+  voiceProgress?: number;
+  heldVoiceUrl?: string | null;
+  heldVoiceRatio?: number;
   onToggleFollow: () => void;
   onPlay: (trackId: string) => void;
   onPlayNext?: (trackId: string) => void;
@@ -55,6 +64,8 @@ interface ArtistProfileScreenProps {
   onToggleLike: (trackId: string) => void;
   onViewAllTracks: () => void;
   onSupport: () => void;
+  onToggleVoice?: (url: string) => void;
+  onSeekVoice?: (url: string, ratio: number) => void;
 }
 
 const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
@@ -66,6 +77,11 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   hasMoreTracks,
   playingTrackId,
   isPlaying,
+  playingVoiceUrl = null,
+  voiceActiveUrl = null,
+  voiceProgress = 0,
+  heldVoiceUrl = null,
+  heldVoiceRatio = 0,
   onToggleFollow,
   onPlay,
   onPlayNext,
@@ -73,6 +89,8 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onToggleLike,
   onViewAllTracks,
   onSupport,
+  onToggleVoice,
+  onSeekVoice,
 }) => {
   const insets = useAppInsets();
 
@@ -185,6 +203,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
             updates.map((update) => (
               <ArtistUpdateCard
                 key={update.postId}
+                artistName={artist.name}
                 whenLabel={formatAge(update.createdAt, now)}
                 audienceLabel={
                   update.audience === "supporters" || update.locked
@@ -193,6 +212,45 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
                 }
                 body={update.body}
                 locked={update.locked}
+                photoUrl={update.photoUrl}
+                voiceDurationMs={update.voiceDurationMs}
+                voicePeaks={update.voicePeaks}
+                voiceProgress={
+                  update.voiceUrl !== null &&
+                  update.voiceUrl !== undefined &&
+                  heldVoiceUrl === update.voiceUrl
+                    ? heldVoiceRatio
+                    : update.voiceUrl !== null &&
+                        update.voiceUrl !== undefined &&
+                        voiceActiveUrl === update.voiceUrl
+                      ? voiceProgress
+                      : 0
+                }
+                voicePlaying={
+                  update.voiceUrl !== null &&
+                  update.voiceUrl !== undefined &&
+                  playingVoiceUrl === update.voiceUrl
+                }
+                canPlayVoice={
+                  update.voiceUrl !== null && update.voiceUrl !== undefined
+                }
+                onToggleVoice={() => {
+                  if (
+                    update.voiceUrl !== null &&
+                    update.voiceUrl !== undefined
+                  ) {
+                    onToggleVoice?.(update.voiceUrl);
+                  }
+                }}
+                onSeekVoice={(ratio) => {
+                  if (
+                    update.voiceUrl !== null &&
+                    update.voiceUrl !== undefined
+                  ) {
+                    onSeekVoice?.(update.voiceUrl, ratio);
+                  }
+                }}
+                onSupport={onSupport}
               />
             ))
           )}

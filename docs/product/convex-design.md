@@ -548,7 +548,7 @@ Run as a Convex internal mutation plus a companion action (the action does the u
 4. **Tracks.** About 500 rows. The heroes get deep catalogs with a believable mix of public and supporters-only, including a couple of `scheduled` ones so the studio's scheduled state is visible. Filler rows reuse the 40 audio files, which keeps the storage budget under 200 MB while still proving long-list performance.
 5. **Peaks.** Written from `peaks.json` onto every track at insert time.
 6. **Embeddings.** One batched action run over all tracks after insert.
-7. **Update posts.** History for the heroes, mixed Everyone and Supporters only, including one voice note so that format is visible without waiting for the Safari spike.
+7. **Update posts.** History for the heroes, mixed Everyone and Supporters only. One post carries a photo copied from that artist's Unsplash artwork. One post carries a spoken voice note: a public-domain LibriVox reading of the Gettysburg Address, so the clip is speech and not a music track. That format is visible without waiting for the Safari recording spike.
 8. **Follows, listen events, and reactions.** Synthetic, and deliberately dated **inside the 7-day rising window** so discovery is not empty on day one and the rising score has something to rank.
 9. **Entitlement and routes for the supporter demo login.** Written directly by seed, which is the one place a client-free write is allowed, with a note in the code that this bypasses RevenueCat on purpose.
 10. **Demo earnings.** Two or three past months so the artist earnings screen has a history, labelled as demo.

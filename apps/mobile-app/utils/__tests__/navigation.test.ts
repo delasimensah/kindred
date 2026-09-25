@@ -3,6 +3,7 @@ import { COLORS } from "@/constants";
 import {
   ACCOUNT_HREF,
   defaultStackScreenOptions,
+  homeArtistHref,
   navigationTheme,
   screenPresets,
 } from "../navigation";
@@ -10,6 +11,13 @@ import {
 describe("navigation utilities", () => {
   it("points account at the modal above the tab shell", () => {
     expect(ACCOUNT_HREF).toBe("/(main-app)/account");
+  });
+
+  it("keeps a home artist on the home stack", () => {
+    expect(homeArtistHref("artist_1")).toEqual({
+      pathname: "/(main-app)/(tabs)/(home)/artist/[artistId]",
+      params: { artistId: "artist_1" },
+    });
   });
 
   describe("defaultStackScreenOptions", () => {

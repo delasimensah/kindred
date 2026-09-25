@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { decidePostAccess, isLocked } from "./lib/access";
 import { requireProfile } from "./lib/auth";
+import { fileUrl } from "./lib/files";
 import { authedQuery } from "./lib/functions";
 
 const artistPostValidator = v.object({
@@ -10,6 +11,10 @@ const artistPostValidator = v.object({
   audience: v.union(v.literal("everyone"), v.literal("supporters")),
   body: v.union(v.string(), v.null()),
   locked: v.boolean(),
+  photoUrl: v.union(v.string(), v.null()),
+  voiceDurationMs: v.union(v.number(), v.null()),
+  voiceUrl: v.union(v.string(), v.null()),
+  voicePeaks: v.array(v.number()),
 });
 
 export const listForArtist = authedQuery({
@@ -39,6 +44,10 @@ export const listForArtist = authedQuery({
         audience: post.audience,
         body: locked ? null : post.body,
         locked,
+        photoUrl: locked ? null : await fileUrl(ctx, post.photoFileId),
+        voiceDurationMs: locked ? null : (post.voiceDurationMs ?? null),
+        voiceUrl: locked ? null : await fileUrl(ctx, post.voiceFileId),
+        voicePeaks: locked ? [] : (post.voicePeaks ?? []),
       });
     }
     return rows;

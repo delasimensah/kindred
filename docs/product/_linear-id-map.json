@@ -186,5 +186,13 @@
   "launch-stores": {
     "slug": "KIND-87",
     "title": "TestFlight, Play closed testing, ACCESS-LIST, and 90-second demo script"
+  },
+  "shrink-seed-audio": {
+    "slug": "KIND-89",
+    "title": "Shrink seed audio so free-plan Convex egress lasts"
+  },
+  "audio-object-storage": {
+    "slug": "KIND-90",
+    "title": "Serve track audio from object storage (R2) when Convex egress forces it"
   }
 }

@@ -15,6 +15,8 @@ interface SkeletonCardProps {
   mb?: number;
   mr?: number;
   ml?: number;
+  /** page bars sit on a surface card. surface bars sit on the page. */
+  tone?: "surface" | "page";
 }
 
 /**
@@ -29,7 +31,12 @@ const SkeletonCard: React.FC<SkeletonCardProps> = ({
   mb,
   mr,
   ml,
+  tone = "surface",
 }) => {
+  const shimmerColors =
+    tone === "page"
+      ? ([COLORS.page, COLORS.surface, COLORS.page] as const)
+      : ([COLORS.surface, COLORS.surface, COLORS.surface] as const);
   return (
     <View testID="skeleton-card">
       <ShimmerPlaceholder
@@ -41,7 +48,7 @@ const SkeletonCard: React.FC<SkeletonCardProps> = ({
           marginLeft: ml || 0,
           marginRight: mr || 0,
         }}
-        shimmerColors={[COLORS.surface, COLORS.surface, COLORS.surface]}
+        shimmerColors={[...shimmerColors]}
         width={width || 100}
         height={height || 15}
       />

@@ -43,7 +43,10 @@ interface PreviewPlayerValue {
   positionMs: number;
   durationMs: number;
   upcoming: QueueTrack[];
+  queueEpoch: number;
   play: (track: PreviewTrack, queue?: PreviewTrack[]) => void;
+  playAlone: (track: PreviewTrack) => void;
+  pause: () => void;
   toggle: () => void;
   next: () => void;
   previous: () => void;
@@ -80,6 +83,7 @@ export function PreviewPlayerProvider({
   const status = useAudioPlayerStatus(audio);
   const [queue, setQueue] = useState<PlaybackQueue>(emptyQueue);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [queueEpoch, setQueueEpoch] = useState(0);
   const queueRef = useRef(queue);
   const statusRef = useRef(status);
   const loadedId = useRef<string | null>(null);
@@ -113,6 +117,7 @@ export function PreviewPlayerProvider({
     listenFloorRef: listenFloor,
     setIsPlaying,
     setQueue,
+    setQueueEpoch,
   });
   const ready = usePlaybackPersistence({
     audio,
@@ -247,7 +252,10 @@ export function PreviewPlayerProvider({
           const item = queue.tracks[index];
           return item === undefined ? [] : [item];
         }),
+        queueEpoch,
         play: controls.play,
+        playAlone: controls.playAlone,
+        pause: controls.pause,
         toggle: controls.toggle,
         next: controls.next,
         previous: controls.previous,

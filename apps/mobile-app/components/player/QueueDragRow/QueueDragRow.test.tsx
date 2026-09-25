@@ -62,4 +62,16 @@ describe("QueueDragRow", () => {
     fireEvent.press(screen.getByRole("button", { name: "Asase" }));
     expect(onPlay).toHaveBeenCalledTimes(1);
   });
+
+  it("shows a reorder handle when drag is available", () => {
+    render(
+      <QueueDragRow
+        track={{ ...track, locked: false }}
+        drag={jest.fn()}
+        onPlay={jest.fn()}
+        onRemove={jest.fn()}
+      />
+    );
+    expect(screen.getByLabelText("Reorder Asase")).toBeTruthy();
+  });
 });

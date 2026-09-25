@@ -6,10 +6,10 @@ import { useBottomsheetStore } from "../useBottomsheetStore";
 
 describe("useBottomsheetStore", () => {
   beforeEach(() => {
-    // Reset store state before each test
     const { result } = renderHook(() => useBottomsheetStore());
     act(() => {
       result.current.setGenericRef(null);
+      result.current.setQueueRef(null);
     });
   });
 
@@ -66,12 +66,29 @@ describe("useBottomsheetStore", () => {
       expect(mockPresent).toHaveBeenCalledTimes(1);
     });
 
+    it("should call present on queue sheet when ref is set", () => {
+      const { result } = renderHook(() => useBottomsheetStore());
+      const mockPresent = jest.fn();
+      const mockRef = {
+        current: { present: mockPresent } as any,
+      };
+
+      act(() => {
+        result.current.setQueueRef(mockRef as any);
+        result.current.openQueueSheet();
+      });
+
+      expect(mockPresent).toHaveBeenCalledTimes(1);
+    });
+
     it("should not throw when calling methods with null refs", () => {
       const { result } = renderHook(() => useBottomsheetStore());
 
       expect(() => {
         act(() => {
           result.current.openGenericSheet();
+          result.current.openQueueSheet();
+          result.current.closeQueueSheet();
         });
       }).not.toThrow();
     });

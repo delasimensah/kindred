@@ -16,6 +16,10 @@ export { default as OnboardingGenresScreen } from "./screens/onboarding/Onboardi
 export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
 export { default as HomeTabScreen } from "./screens/main/HomeTabScreen/HomeTabScreen";
+export type {
+  HomeFeedPost,
+  HomeFeedRelease,
+} from "./screens/main/HomeTabScreen/HomeTabScreen";
 export { default as TabRootScreen } from "./screens/main/TabRootScreen/TabRootScreen";
 export { default as SearchTabScreen } from "./screens/main/SearchTabScreen/SearchTabScreen";
 export { default as DiscoverScreen } from "./screens/main/DiscoverScreen/DiscoverScreen";
@@ -27,7 +31,9 @@ export { default as PlaylistListScreen } from "./screens/main/PlaylistListScreen
 export { default as CreatePlaylistScreen } from "./screens/main/CreatePlaylistScreen/CreatePlaylistScreen";
 export { default as AddPlaylistTracksScreen } from "./screens/main/AddPlaylistTracksScreen/AddPlaylistTracksScreen";
 export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
+export { default as ArtistProfileRoute } from "./screens/main/ArtistProfileRoute/ArtistProfileRoute";
 export { default as PopularTracksScreen } from "./screens/main/PopularTracksScreen/PopularTracksScreen";
+export { default as PopularTracksRoute } from "./screens/main/PopularTracksRoute/PopularTracksRoute";
 
 export { default as AppProviders } from "./shared/AppProviders/AppProviders";
 export { default as LoadFailed } from "./shared/LoadFailed/LoadFailed";

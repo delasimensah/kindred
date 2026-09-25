@@ -1,6 +1,7 @@
 export { applyAvailableUpdate } from "./applyAvailableUpdate";
 export { formatAge } from "./formatAge";
 export { formatDuration } from "./formatDuration";
+export { changeFollow } from "./changeFollow";
 export { getConvexErrorMessage } from "./convexError";
 export { tapHaptic } from "./haptics";
 export { createConvexClient } from "./convexClient";
@@ -9,6 +10,7 @@ export { bindQueueActions, catalogQueue } from "./playerTracks";
 export {
   centeredBarLayout,
   samplePeaks,
+  FEED_WAVEFORM_HEIGHT,
   WAVEFORM_BARS,
   WAVEFORM_HEIGHT,
 } from "./waveform";
@@ -16,6 +18,8 @@ export {
   ACCOUNT_HREF,
   artistHref,
   artistTracksHref,
+  homeArtistHref,
+  homeArtistTracksHref,
   coverHeaderScreenOptions,
   libraryAddTracksHref,
   libraryArtistHref,

@@ -282,6 +282,8 @@ Do this arithmetic before seeding, per section F of the lock.
 - The number that would force the R2 move: about 50 regular testers each playing 30 tracks a month is roughly **5 GB a month** of audio leaving Convex. If real usage heads there, open the object-storage ticket. The product rules do not change; only the URL does.
 - Vector storage for 500 tracks at 1536 numbers each is single-digit megabytes. Not a concern.
 
+**What happened (Sep 2026).** Team `dm-studios` Free plan exceeded **file data egress** (1 GB/month). Kindred alone was about **1.02 GB** that month; Ridgeway was negligible. Storage on disk (~141 MB) was fine. Ops guide (studio-wide, copied into Convex clients): [convex-usage.md](../convex-usage.md).
+
 ---
 
 ## 9. External dependencies, decided

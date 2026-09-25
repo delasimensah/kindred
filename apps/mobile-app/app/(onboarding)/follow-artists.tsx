@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { OnboardingFollowArtistsScreen } from "@/components";
 import { useFanSession } from "@/hooks";
+import { changeFollow } from "@/utils";
 
 const OnboardingFollowArtistsRoute = () => {
   const router = useRouter();
@@ -23,11 +24,11 @@ const OnboardingFollowArtistsRoute = () => {
     }
     setIsSaving(true);
     try {
-      if (row.isFollowed) {
-        await removeFollow({ artistId: artistId as Id<"artists"> });
-      } else {
-        await addFollow({ artistId: artistId as Id<"artists"> });
-      }
+      await changeFollow(() =>
+        row.isFollowed
+          ? removeFollow({ artistId: artistId as Id<"artists"> })
+          : addFollow({ artistId: artistId as Id<"artists"> })
+      );
     } finally {
       setIsSaving(false);
     }

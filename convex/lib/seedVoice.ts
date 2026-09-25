@@ -1,0 +1,23 @@
+/**
+ * Spoken clip for the seeded voice-note update.
+ * What: a reading of the Gettysburg Address, about 1:39.
+ * Where: LibriVox collection snf076_2008_librivox on the Internet Archive.
+ * File: snf076_gettysburgaddress_lincoln_sbw_64kb.mp3
+ * Rights: LibriVox recordings are dedicated to the public domain.
+ * How: seed/scripts/run-seed.mjs uploads seed/assets/voice/gettysburg.mp3.
+ * Out: a second spoken clip, and any music file used as a voice note.
+ */
+export const SEED_VOICE_NOTE = {
+  sourceUrl:
+    "https://archive.org/download/snf076_2008_librivox/snf076_gettysburgaddress_lincoln_sbw_64kb.mp3",
+  durationMs: 98_847,
+  credit: "The Gettysburg Address, read for LibriVox. Public domain.",
+  peaks: [
+    0.6608, 0.6408, 0.4421, 0.4972, 0.5547, 0.6441, 0.6805, 0.6156, 0.6545,
+    0.727, 0.4857, 0.5653, 0.63, 0.778, 0.6075, 0.4754, 0.4435, 0.5188, 0.4925,
+    0.6531, 0.7266, 0.636, 0.6437, 0.508, 0.6958, 0.5154, 0.6275, 0.7704,
+    0.6639, 0.5352, 0.6001, 0.6372, 0.7859, 0.736, 0.9427, 0.8717, 0.7978,
+    0.6026, 0.754, 0.7133, 0.7899, 0.8252, 0.858, 1, 0.7569, 0.3042, 0.0038,
+    0.0076,
+  ],
+};

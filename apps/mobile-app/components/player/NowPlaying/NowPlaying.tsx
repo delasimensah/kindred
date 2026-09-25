@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
 import React, { useState } from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
+import { Pressable as GesturePressable } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -231,15 +232,25 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
           })}
         </HStack>
 
-        <Pressable
+        <GesturePressable
           accessibilityRole="button"
           accessibilityLabel="Queue"
           onPress={onQueue}
-          className="mb-2 mt-6 flex-row items-center justify-center gap-2 rounded-full bg-surface py-3.5"
+          style={{
+            marginTop: 24,
+            marginBottom: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            borderRadius: 999,
+            backgroundColor: COLORS.surface,
+            paddingVertical: 14,
+          }}
         >
           <Ionicons name="list" size={16} color={COLORS.text} />
           <Text className="font-app-semibold text-sm text-text">Queue</Text>
-        </Pressable>
+        </GesturePressable>
       </View>
     </View>
   );

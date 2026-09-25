@@ -32,6 +32,12 @@ const WaveformScrubber: React.FC<WaveformScrubberProps> = ({
     return Math.min(1, Math.max(0, x / width));
   };
 
+  const seekTo = (x: number) => {
+    const ratio = ratioAt(x);
+    setScrub(null);
+    onSeek(ratio);
+  };
+
   const pan = Gesture.Pan()
     .runOnJS(true)
     .activeOffsetX([-6, 6])
@@ -42,15 +48,26 @@ const WaveformScrubber: React.FC<WaveformScrubberProps> = ({
       setScrub(ratioAt(event.x));
     })
     .onEnd((event) => {
-      const ratio = ratioAt(event.x);
-      setScrub(null);
-      onSeek(ratio);
+      seekTo(event.x);
+    })
+    .onFinalize((_event, success) => {
+      if (!success) {
+        setScrub(null);
+      }
     });
+
+  const tap = Gesture.Tap()
+    .runOnJS(true)
+    .onEnd((event) => {
+      seekTo(event.x);
+    });
+
+  const gesture = Gesture.Exclusive(pan, tap);
 
   const slot = width > 0 ? width / bars.length : 0;
 
   return (
-    <GestureDetector gesture={pan}>
+    <GestureDetector gesture={gesture}>
       <View
         accessibilityLabel="Waveform"
         onLayout={onLayout}

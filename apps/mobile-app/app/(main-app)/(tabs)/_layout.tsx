@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Platform, View } from "react-native";
 
 import { PlayerSheet, type PlayerSheetHandle } from "@/components";
+import QueuePanel from "@/components/bottom-sheets/QueuePanel/QueuePanel";
 import MiniPlayerSlot from "@/components/screens/main/MiniPlayerSlot/MiniPlayerSlot";
 import { COLORS } from "@/constants";
 import { PreviewPlayerProvider, usePreviewPlayer } from "@/hooks";
@@ -85,6 +86,7 @@ const TabsShell = () => {
           </NativeTabs.Trigger>
         </NativeTabs>
         <PlayerSheet ref={sheetRef} showCollapsedBar={Platform.OS !== "ios"} />
+        <QueuePanel />
       </View>
     </ThemeProvider>
   );

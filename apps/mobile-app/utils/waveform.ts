@@ -1,4 +1,5 @@
 export const WAVEFORM_HEIGHT = 56;
+export const FEED_WAVEFORM_HEIGHT = 36;
 export const WAVEFORM_BARS = 48;
 
 /** Each bar is centered on the midline. Height grows up and down together. */

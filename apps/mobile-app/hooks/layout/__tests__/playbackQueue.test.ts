@@ -8,6 +8,7 @@ import {
   moveUpcoming,
   removeUpcoming,
   replaceQueue,
+  soloQueue,
   setShuffle,
   stepNext,
   stepPrevious,
@@ -140,5 +141,13 @@ describe("playbackQueue", () => {
     const shuffled = setShuffle(queue, true, () => 0);
     expect(shuffled.order[0]).toBe(queue.index);
     expect(shuffled.shuffle).toBe(true);
+  });
+
+  it("drops the previous list when a track plays alone", () => {
+    const queue = soloQueue(asase, "off");
+    expect(queue.tracks).toHaveLength(1);
+    expect(queue.tracks[0]?.trackId).toBe("asase");
+    expect(upcomingIndexes(queue)).toEqual([]);
+    expect(queue.shuffle).toBe(false);
   });
 });

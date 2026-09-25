@@ -105,6 +105,14 @@ export function replaceQueue(
   return previous.shuffle ? setShuffle(queue, true, rng) : queue;
 }
 
+/** This track only. The previous list, including its shuffle order, is dropped. */
+export function soloQueue(
+  track: PreviewTrack,
+  repeat: RepeatMode
+): PlaybackQueue {
+  return replaceQueue([track], track.trackId, { shuffle: false, repeat });
+}
+
 export function insertNext(
   queue: PlaybackQueue,
   track: PreviewTrack

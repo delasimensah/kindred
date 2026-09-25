@@ -69,6 +69,7 @@ KIND-60: Spike — push notification cold start on physical devices. KIND-45 wai
 
 ## Pointers
 
+- Pull request (KIND-59): https://github.com/delasimensah/kindred/pull/16
 - Pull request (KIND-58): https://github.com/delasimensah/kindred/pull/15
 - Pull request (KIND-89): https://github.com/delasimensah/kindred/pull/14
 - Pull request (KIND-57): https://github.com/delasimensah/kindred/pull/13

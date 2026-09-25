@@ -69,6 +69,7 @@ KIND-59: show approximate live listener count on the artist page. KIND-45 waits 
 
 ## Pointers
 
+- Pull request (KIND-58): https://github.com/delasimensah/kindred/pull/15
 - Pull request (KIND-89): https://github.com/delasimensah/kindred/pull/14
 - Pull request (KIND-57): https://github.com/delasimensah/kindred/pull/13
 - Pull request (KIND-56): https://github.com/delasimensah/kindred/pull/12

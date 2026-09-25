@@ -12,7 +12,7 @@ When creating or ordering Linear issues:
 - Follow the product: mobile catalog and listening first, then Artist Studio web, then public pages.
 - Keep a journey in one line: schema → seed → a tab or list the fan can open → the detail screen that list opens.
 - Every phone slice must be reachable by tapping through the app when it is Done. No orphan screens.
-- If the numbered list and that order disagree, the product order wins. Leave the later ticket in Todo.
+- If the numbered list and that order disagree, the product order wins.
 
 ## Phone catalog after the tab shell
 
@@ -21,19 +21,24 @@ When creating or ordering Linear issues:
 3. Library (KIND-52)
 4. Audio spike → player → mini-player craft (KIND-54 → KIND-55 → KIND-56)
 5. Home feed (KIND-57)
+6. Presence short check → presence number (KIND-58 → KIND-59)
+
+When that phone core is standing: **KIND-45** (web Studio sign-in) is a valid next build.  
+**KIND-60** and **KIND-61** stay **Backlog** until Google + Apple / link setup day. See `phone-tasks-must-be-testable.mdc`.
 
 Do not put KIND-51 before Discover.
 
 ## Do not
 
-- Jump phone → web → phone to finish an epic
-- Start KIND-45 (web Studio sign-in) before catalog, seed, and the mobile shell unless this message says to
+- Jump phone → web → phone to finish an epic while phone core is unfinished
+- Start KIND-45 before catalog, seed, shell, and listening core unless this message says to
+- Start KIND-60 / KIND-61 while Backlog unless this message says setup day is on
 - Build a detail screen with no tab or list that opens it
 
 ## Example
 
 Bad: onboarding (phone) → Studio sign-in (web) → catalog tables (phone).
 
-Bad: tab shell → artist profile (no door) → Discover.
+Bad: after KIND-59, force KIND-60 when phone-alert keys are not set.
 
-Good: onboarding → catalog schema → seed → tab shell → Discover → artist and track. Circle back to Studio sign-in when the phone core is standing.
+Good: … → KIND-59. Then KIND-45 web Studio while KIND-60/61 wait on setup day.

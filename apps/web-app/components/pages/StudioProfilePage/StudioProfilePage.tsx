@@ -3,9 +3,9 @@
 import { api } from "@convex/_generated/api";
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconCamera, IconEye } from "@tabler/icons-react";
+import { IconEye } from "@tabler/icons-react";
 import { useMutation, useQuery } from "convex/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { uploadStudioImage } from "@/utils";
 
@@ -13,11 +13,23 @@ import {
   ErrorNotification,
   SuccessNotification,
 } from "../../feedback/Notification/Notification";
+import ImageCropModal, {
+  type ImageCropKind,
+} from "../../media/ImageCropModal/ImageCropModal";
 import Heading from "../../ui/Heading/Heading";
 import Skeleton from "../../ui/Skeleton/Skeleton";
 import Text from "../../ui/Text/Text";
+import ProfileAvatarField from "./ProfileAvatarField";
+import ProfileCoverField from "./ProfileCoverField";
+import ProfileStatusCard from "./ProfileStatusCard";
 
 const BIO_MAX = 300;
+
+type CropDraft = {
+  kind: ImageCropKind;
+  imageSrc: string;
+  fileName: string;
+};
 
 const StudioProfilePage: React.FC = () => {
   const profile = useQuery(api.studio.getMyProfile, {});
@@ -29,8 +41,7 @@ const StudioProfilePage: React.FC = () => {
   const [isUploading, setIsUploading] = useState<"avatar" | "cover" | null>(
     null
   );
-  const avatarInputRef = useRef<HTMLInputElement>(null);
-  const coverInputRef = useRef<HTMLInputElement>(null);
+  const [cropDraft, setCropDraft] = useState<CropDraft | null>(null);
   const form = useForm({ initialValues: { name: "", bio: "" } });
 
   useEffect(() => {
@@ -39,6 +50,14 @@ const StudioProfilePage: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?.artistId, profile?.name, profile?.bio]);
+
+  useEffect(() => {
+    return () => {
+      if (cropDraft?.imageSrc) {
+        URL.revokeObjectURL(cropDraft.imageSrc);
+      }
+    };
+  }, [cropDraft?.imageSrc]);
 
   if (profile === undefined) {
     return (
@@ -64,6 +83,24 @@ const StudioProfilePage: React.FC = () => {
     );
   }
 
+  const closeCrop = () => {
+    if (cropDraft?.imageSrc) {
+      URL.revokeObjectURL(cropDraft.imageSrc);
+    }
+    setCropDraft(null);
+  };
+
+  const openCrop = (file: File, kind: ImageCropKind) => {
+    if (cropDraft?.imageSrc) {
+      URL.revokeObjectURL(cropDraft.imageSrc);
+    }
+    setCropDraft({
+      kind,
+      imageSrc: URL.createObjectURL(file),
+      fileName: file.name,
+    });
+  };
+
   const onSave = async (values: { name: string; bio: string }) => {
     setIsSaving(true);
     try {
@@ -83,7 +120,8 @@ const StudioProfilePage: React.FC = () => {
     }
   };
 
-  const onPickImage = async (file: File, kind: "avatar" | "cover") => {
+  const onCroppedImage = async (file: File, kind: ImageCropKind) => {
+    closeCrop();
     setIsUploading(kind);
     try {
       await uploadStudioImage({
@@ -108,6 +146,20 @@ const StudioProfilePage: React.FC = () => {
 
   return (
     <div className="px-4 py-8 sm:px-8 sm:py-9 lg:px-10">
+      {cropDraft ? (
+        <ImageCropModal
+          key={cropDraft.imageSrc}
+          opened
+          imageSrc={cropDraft.imageSrc}
+          fileName={cropDraft.fileName}
+          kind={cropDraft.kind}
+          onCancel={closeCrop}
+          onConfirm={(file) => {
+            void onCroppedImage(file, cropDraft.kind);
+          }}
+        />
+      ) : null}
+
       <div className="mb-9 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <Heading
@@ -141,48 +193,11 @@ const StudioProfilePage: React.FC = () => {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
-            <div className="relative h-44 bg-page">
-              {profile.coverUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={profile.coverUrl}
-                  alt=""
-                  className="h-full w-full object-cover"
-                />
-              ) : null}
-              <div className="absolute inset-0 flex items-center justify-center bg-page/40">
-                <Button
-                  loading={isUploading === "cover"}
-                  onClick={() => coverInputRef.current?.click()}
-                  leftSection={
-                    <IconCamera size={14} className="text-primary" />
-                  }
-                  className="h-auto rounded-xl bg-surface/90 px-5 py-2.5 text-sm font-medium text-text backdrop-blur hover:bg-surface"
-                >
-                  Change cover image
-                </Button>
-                <input
-                  ref={coverInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (file) {
-                      void onPickImage(file, "cover");
-                    }
-                    event.target.value = "";
-                  }}
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between px-6 py-3">
-              <Text className="text-xs text-text/45">
-                Recommended 1600×400px, JPG or PNG
-              </Text>
-            </div>
-          </div>
+          <ProfileCoverField
+            coverUrl={profile.coverUrl}
+            isUploading={isUploading === "cover"}
+            onPickFile={(file) => openCrop(file, "cover")}
+          />
 
           <form
             className="space-y-6 rounded-2xl border border-white/5 bg-surface p-7"
@@ -228,71 +243,13 @@ const StudioProfilePage: React.FC = () => {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-2xl border border-white/5 bg-surface p-7">
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-text/80">
-              Avatar
-            </h2>
-            <div className="flex flex-col items-center">
-              <div className="relative mb-4 h-28 w-28">
-                {profile.avatarUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={profile.avatarUrl}
-                    alt=""
-                    className="h-28 w-28 rounded-full border-4 border-page object-cover"
-                  />
-                ) : (
-                  <div className="flex h-28 w-28 items-center justify-center rounded-full border-4 border-page bg-primary/15 text-2xl font-semibold text-primary">
-                    {profile.name.slice(0, 1)}
-                  </div>
-                )}
-                <button
-                  type="button"
-                  aria-label="Change avatar"
-                  disabled={isUploading === "avatar"}
-                  onClick={() => avatarInputRef.current?.click()}
-                  className="absolute bottom-0 right-0 flex h-9 w-9 items-center justify-center rounded-full border-2 border-surface bg-primary hover:brightness-95 disabled:opacity-60"
-                >
-                  <IconCamera size={14} className="text-textOnPrimary" />
-                </button>
-                <input
-                  ref={avatarInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (file) {
-                      void onPickImage(file, "avatar");
-                    }
-                    event.target.value = "";
-                  }}
-                />
-              </div>
-              <Text className="text-center text-xs text-text/45">
-                Square image, at least 400×400px
-              </Text>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/5 bg-surface p-7">
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-text/80">
-              Page status
-            </h2>
-            <div className="mb-4 flex items-center justify-between">
-              <Text className="text-sm text-text/70">Public page</Text>
-              <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                {profile.hidden ? "Hidden" : "Live"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <Text className="text-sm text-text/70">Profile URL</Text>
-              <Text className="truncate text-xs text-primary">
-                kindred.fm/{profile.handle}
-              </Text>
-            </div>
-          </div>
+          <ProfileAvatarField
+            avatarUrl={profile.avatarUrl}
+            displayName={profile.name}
+            isUploading={isUploading === "avatar"}
+            onPickFile={(file) => openCrop(file, "avatar")}
+          />
+          <ProfileStatusCard handle={profile.handle} hidden={profile.hidden} />
         </div>
       </div>
     </div>

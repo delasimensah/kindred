@@ -6,7 +6,7 @@ The demo catalog uses forty music files and sixty images. This note is the list 
 
 Each file is a track by Kevin MacLeod, downloaded from incompetech.com and licensed Creative Commons Attribution 4.0. The licence page is https://creativecommons.org/licenses/by/4.0/. Attribution required by that licence is the credit string in `seed/manifest.json`: the track title, Kevin MacLeod, incompetech.com, and the licence link.
 
-The files in `seed/assets/audio` are those downloads re-encoded to 128 kbps MP3. Re-encoding is allowed by this licence. It keeps forty tracks at about 135 MB instead of the larger originals. Each encoded file runs between 2 minutes 53 seconds and 4 minutes 9 seconds. The source page for every file is the MP3 address on incompetech.com, stored as `sourceUrl` in the manifest.
+The files in `seed/assets/audio` are those downloads re-encoded to 96 kbps MP3, trimmed to about 75 seconds, with album art stripped. Re-encoding is allowed by this licence. It keeps forty tracks at about 34 MB. Each encoded file is about one minute fifteen seconds. The source page for every file is the MP3 address on incompetech.com, stored as `sourceUrl` in the manifest. To rebuild or shrink again: `yarn seed:shrink` (from existing files) or delete `seed/assets/audio` and run `yarn seed:assets`.
 
 The fictional Kindred artists and track titles are ours. They are not the names of the underlying recordings. "Asase" is our title. The audio under it is still credited to Kevin MacLeod.
 
@@ -18,10 +18,10 @@ Twelve portraits, twelve concert covers, and thirty-six release images (records,
 
 ## Storage budget
 
-Counted on 22 Sep 2026 after encoding and the photo swap:
+Counted on 25 Sep 2026 after the KIND-89 shrink (75s @ 96 kbps, no embedded art):
 
-- Audio: 134.6 MB for the forty MP3 files.
-- Images: 5.4 MB for the sixty photographs.
-- Together: 140.0 MB, under the 200 MB catalog budget.
+- Audio: 34.4 MB for the forty MP3 files.
+- Images: ~5 MB for the sixty photographs.
+- Together: about 40 MB, well under the previous ~140 MB catalog and the Free file-storage allowance.
 
-Convex's free plan includes 1 GB of file storage and 0.5 GB of database storage. This seed uses a fraction of the file allowance. The waveform peaks live on the track rows (about 4 MB of numbers), inside the database allowance. A short listening demo sends a few megabytes out of Convex. The free plan includes 1 GB of that outbound traffic per month. The dashboard usage page is https://dashboard.convex.dev/t/dm-studios/kindred/outstanding-cassowary-795 if the number needs a check before a later re-seed.
+Convex's free plan includes 1 GB of file storage and 0.5 GB of database storage. This seed uses a small fraction of the file allowance. The waveform peaks live on the track rows (about 4 MB of numbers), inside the database allowance. A short listening demo still sends bytes out of Convex as **file data egress** (1 GB/month per team). Smaller clips mean each play costs less. Check usage with `npx convex deployment usage`. Ops guide: `docs/convex-usage.md`.

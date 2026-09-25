@@ -10,10 +10,10 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-57 Home feed Done. A fan sees updates from artists they follow, including a voice note, and a locked post asks them to support. Reactions on the player save for everyone watching that track. Unfollow is blocked while an artist is in the support route. Next is KIND-58, the live listener short check. KIND-45 waits until the phone catalog screens are in place.
+- **Current phase:** Build — KIND-89 shrink seed audio Done. Unique seed MP3s are ~34 MB (75s @ 96 kbps); Convex storage ~41 MB. Next is KIND-58, the live listener short check (after the monthly egress reset or when play works). KIND-45 waits until the phone catalog screens are in place.
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
-  - **Convex free-plan file egress exceeded (team `dm-studios`, Sep 2026).** Kindred audio streaming alone was ~1.02 GB this month vs 1 GB team cap. Ridgeway was tiny. Play/demos may fail until the monthly reset (1st UTC) or until we shrink seed audio / cache / move audio off Convex. Ops guide: `docs/convex-usage.md`. Do not upgrade solely for this.
+  - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Meter was over 1 GB before KIND-89. Shrink is applied on dev; September meter still resets 1 Oct UTC. Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
   - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
   - Offline retry queue: explain at KIND-68 time; if we cut it, edit the lock with Delasi first.
@@ -63,7 +63,7 @@
 
 ## Next action (one line)
 
-KIND-58 short check: live listener count on two phones. KIND-45 waits until the phone catalog screens are in place.
+KIND-58 short check: live listener count on two phones (after egress reset / play works). KIND-45 waits until the phone catalog screens are in place.
 
 ---
 

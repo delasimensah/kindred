@@ -18,6 +18,8 @@ const tmpDir = path.join(root, "seed/.tmp");
 
 const MIN_SECONDS = 170;
 const MAX_SECONDS = 250;
+const CLIP_SECONDS = 75;
+const AUDIO_BITRATE = "96k";
 const AUDIO_COUNT = 40;
 const PEAK_BUCKETS = 1000;
 
@@ -294,10 +296,17 @@ async function main() {
       "error",
       "-i",
       track.tempPath,
+      "-t",
+      String(CLIP_SECONDS),
+      "-map",
+      "0:a:0",
+      "-vn",
+      "-map_metadata",
+      "-1",
       "-codec:a",
       "libmp3lame",
       "-b:a",
-      "128k",
+      AUDIO_BITRATE,
       destination,
     ]);
     const seconds = durationSeconds(destination);

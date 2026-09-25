@@ -10,14 +10,14 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — KIND-59 live listener count on artist page is in PR (merge when ready). Phone-alert short check (KIND-60) and web-link short check (KIND-61) are **Backlog** until a Google + Apple setup day. **Next build:** KIND-45 (Artist Studio / admin sign-in on web).
+- **Current phase:** Build — phone listening core through KIND-59 **Done**. Separate short-check tickets retired (25 Sep 2026); hard bits prove inside the feature ticket. **Next:** KIND-45 (Artist Studio / admin sign-in on web).
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
-  - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this. Do not set up R2 for presence.
-  - **Phone alerts + web links (KIND-60, KIND-61):** Backlog. Need Google + Apple keys on Expo and (usually) a new preview cook before those short checks are testable on real phones. Click guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
-  - Password-reset short check (KIND-46): **Backlog** — wait until email sending is set up.
-  - Store purchase paperwork (Apple/Google): not done yet — handle when we reach the purchase short check (KIND-63).
-  - Offline retry queue: explain at KIND-68 time; if we cut it, edit the lock with Delasi first.
+  - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
+  - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
+  - Password email (KIND-46): **Backlog** until email sending is set up.
+  - Store purchase paperwork (Apple/Google): when we reach KIND-64.
+  - Offline retry queue: explain at KIND-69; if we cut it, edit the lock with Delasi first.
 
 ---
 
@@ -64,21 +64,19 @@
 
 ## Next action (one line)
 
-1. Merge KIND-59 PR if still open: https://github.com/delasimensah/kindred/pull/16  
-2. Then **KIND-45** — verified artist or admin can sign in to web Studio or admin. Do not start until you say so.
+**KIND-45** — verified artist or admin can sign in to web Studio or admin. Do not start until Delasi says so.
 
 ---
 
 ## Remaining First Version (how to test)
 
-- **Merge then web (test in browser):** KIND-45 Studio/admin sign-in, then later Studio upload / publish tickets in that epic line.
-- **Preview on real phone (JS / already-cooked native):** most catalog and player work already Done; use `update:preview` when you need the phone.
-- **Needs your Google + Apple setup day first (Backlog):** KIND-60 phone alerts, KIND-61 web links into the app, then KIND-62 release alert product.
-- **Needs store / purchase accounts later:** KIND-63+ money path.
-- **Later / other Backlog:** KIND-46 password email until email sending exists.
+- **Web (browser):** KIND-45 → Studio home/profile → upload/releases → updates → supporters → admin → public pages.
+- **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
+- **Backlog until email:** KIND-46.
+- **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 
-Phone vs simulator rule: `.cursor/rules/phone-tasks-must-be-testable.mdc`.  
-Phone-alert clicks: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
+Phone vs simulator: `.cursor/rules/phone-tasks-must-be-testable.mdc`.  
+Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
 
 ---
 
@@ -94,21 +92,6 @@ Phone-alert clicks: studio `project-template/docs/client-delivery/push-notificat
 - Pull request (KIND-52): https://github.com/delasimensah/kindred/pull/9
 - Pull request (KIND-51): https://github.com/delasimensah/kindred/pull/8
 - Pull request (KIND-53): https://github.com/delasimensah/kindred/pull/7
-- Pull request (KIND-50): https://github.com/delasimensah/kindred/pull/6
-- Pull request (KIND-48): https://github.com/delasimensah/kindred/pull/5
-- Pull request (KIND-49): https://github.com/delasimensah/kindred/pull/4
-- Pull request (KIND-44): https://github.com/delasimensah/kindred/pull/3
-- Practice pack (studio): `project-template/docs/client-delivery/practice/kindred/`
-- Linear team: Kindred (`KIND`)
-- Product requirements: `docs/product/product-requirements.md`
-- Linear tickets: `docs/product/linear-tickets.md`
-- Screen keepers (locked): `docs/design/reference-map.md`
-- Design system (locked): `docs/design/design-system.md` — soft gold `#FFD369` on charcoal
-- Fonts: `docs/design/fonts.md`
-- Design index: `docs/design/README.md`
-- HTML exports: `docs/design/exports/` (see `exports/README.md`)
-- Palette preview kept: `docs/design/palette-previews/kindred-palette-locked.png`
-- System design: `docs/product/system-design.md`
-- Convex design: `docs/product/convex-design.md`
-- Convex usage / free-plan egress: `docs/convex-usage.md`
-- Convex dashboard: https://dashboard.convex.dev/t/dm-studios/kindred
+- Product: `docs/product/`
+- Design exports: `docs/design/exports/`
+- Access: `ACCESS-LIST.md` (gitignored)

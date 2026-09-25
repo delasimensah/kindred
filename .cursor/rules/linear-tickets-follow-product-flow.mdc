@@ -13,32 +13,22 @@ When creating or ordering Linear issues:
 - Keep a journey in one line: schema → seed → a tab or list the fan can open → the detail screen that list opens.
 - Every phone slice must be reachable by tapping through the app when it is Done. No orphan screens.
 - If the numbered list and that order disagree, the product order wins.
+- **Default:** one feature ticket. Prove hard bits in that ticket’s acceptance. Do not create separate short-check / spike tickets unless Delasi asks.
 
-## Phone catalog after the tab shell
+## Phone catalog after the tab shell (Done)
 
 1. Discover (KIND-53)
 2. Artist profile and track detail (KIND-51)
 3. Library (KIND-52)
-4. Audio spike → player → mini-player craft (KIND-54 → KIND-55 → KIND-56)
+4. Audio → player → craft (KIND-54 → KIND-55 → KIND-56)
 5. Home feed (KIND-57)
-6. Presence short check → presence number (KIND-58 → KIND-59)
+6. Presence (KIND-58 → KIND-59)
 
-When that phone core is standing: **KIND-45** (web Studio sign-in) is a valid next build.  
-**KIND-60** and **KIND-61** stay **Backlog** until Google + Apple / link setup day. See `phone-tasks-must-be-testable.mdc`.
-
-Do not put KIND-51 before Discover.
+**Next build:** KIND-45 (web Studio sign-in) when Delasi says so.
 
 ## Do not
 
-- Jump phone → web → phone to finish an epic while phone core is unfinished
+- Jump phone → web → phone while phone core is unfinished
 - Start KIND-45 before catalog, seed, shell, and listening core unless this message says to
-- Start KIND-60 / KIND-61 while Backlog unless this message says setup day is on
+- Open a new “short check” ticket for something already covered by a feature ticket
 - Build a detail screen with no tab or list that opens it
-
-## Example
-
-Bad: onboarding (phone) → Studio sign-in (web) → catalog tables (phone).
-
-Bad: after KIND-59, force KIND-60 when phone-alert keys are not set.
-
-Good: … → KIND-59. Then KIND-45 web Studio while KIND-60/61 wait on setup day.

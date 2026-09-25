@@ -15,13 +15,15 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are Done or in the KIND-59 PR. **KIND-60** (phone alerts) and **KIND-61** (web links into the app) are **Backlog** until a Google + Apple setup day — see studio `project-template/docs/client-delivery/push-notifications-setup.md`. **Next build slice:** **KIND-45** (web Studio / admin sign-in). Do not start until Delasi says so.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **Next build slice:** **KIND-45** (web Studio / admin sign-in). Do not start until Delasi says so.
+
+**Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
 A phone slice is not Done if the fan cannot open it by tapping through the app. Do not ship a detail screen before the tab or list that opens it.
 
-**Words we use on purpose:** A **short check** is a small try before the full feature (old docs said “spike”). We learn works / blocked / cut later. The **retry queue** (old docs said “outbox”) is the phone’s saved list of taps that could not reach the server while offline, sent when you are back online. **Phone alert** means a lock-screen message when the app is closed (vendors say “push notification”).
+**Words we use on purpose:** The **retry queue** (old docs said “outbox”) is the phone’s saved list of taps that could not reach the server while offline, sent when you are back online. **Phone alert** means a lock-screen message when the app is closed (vendors say “push notification”).
 
-KIND-46 (password email short check) is on **Backlog** until email sending is ready. KIND-60 and KIND-61 are on **Backlog** until phone-alert / link setup day.
+KIND-46 (password email) is on **Backlog** until email sending is ready.
 
 ---
 
@@ -34,26 +36,24 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-42** shared design tokens is **Done**.
 - **KIND-43** mobile email/password auth is **Done**.
 - **KIND-44** onboarding genres and follows is **Done**.
-- **KIND-45** web Studio/admin sign-in is **Todo** — **next build** after KIND-59 is merged. Phone catalog core is in place.
+- **KIND-45** web Studio/admin sign-in is **Todo** — **next build**.
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
 - **KIND-53** Discover is **Done**.
 - **KIND-51** artist profile and track detail is **Done**.
 - **KIND-52** Library destinations, liked songs, and private playlists is **Done**.
-- **KIND-54** background audio short check is **Done**. Outcome: works. Lock-screen next and previous track are not in `expo-audio` 57.0.5.
-- **KIND-55** player is **Done**. Queue, shuffle, repeat, next and previous. A listen is recorded after about 30 seconds of that play. Lock-screen next and previous stay out of this SDK.
-- **KIND-56** player craft is **Done**. Reordering a queue row does not drag the sheet. A tap on a queued track plays it. A locked track stays in the list, and its menu does not open.
-- **KIND-57** Home feed is **Done**. Followed artists’ updates show on Home, including a voice-note card. A supporters-only post stays locked with Support to unlock. A reaction on the player saves and shows up for anyone watching that track. Unfollow refuses while that artist is in the support route.
-- **KIND-89** shrink seed audio for free-plan Convex egress is **Done**. Unique audio ~34 MB; apply with `yarn seed:shrink` then `yarn seed:apply-shrunk`. Guide: `docs/convex-usage.md`.
-- **KIND-90** serve track audio from R2 (egress escape hatch) is **Todo** (after KIND-89 if still needed, or before KIND-85 public streaming).
-- **KIND-58** live listener short check is **Done**.
-- **KIND-59** presence number on artist page is **In Review** / PR https://github.com/delasimensah/kindred/pull/16 (treat as Done when merged).
-- **KIND-60** phone-alert short check is **Backlog** (needs Google + Apple setup day). Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
-- **KIND-61** web-link short check is **Backlog** (needs setup day + Vercel verification files).
-- Remaining First Version / Launch slices **KIND-47** and **KIND-62–KIND-88** are **Todo** (KIND-46, KIND-60, KIND-61 Backlog).
+- **KIND-54** background audio short check is **Done** (historical). Outcome: works. Lock-screen next and previous track are not in `expo-audio` 57.0.5.
+- **KIND-55** player is **Done**.
+- **KIND-56** player craft is **Done**.
+- **KIND-57** Home feed is **Done**.
+- **KIND-89** shrink seed audio is **Done**.
+- **KIND-90** R2 audio escape hatch is **Todo** (only if Convex egress forces it).
+- **KIND-58** live listener short check is **Done** (historical).
+- **KIND-59** presence number on artist page is **Done**.
+- **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
+- Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
 - Do not move a slice to In Progress until you ask to start it.
-- Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → … → [KIND-59](https://linear.app/dm-studios/issue/KIND-59) presence on artist page → then web [KIND-45](https://linear.app/dm-studios/issue/KIND-45) while KIND-60/61 stay Backlog.
 - Next build slice: [KIND-45](https://linear.app/dm-studios/issue/KIND-45) (Verified artist or admin can sign in to web Studio or admin). Do not start until Delasi says so.
 
 ---
@@ -96,24 +96,24 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 16. [KIND-57](https://linear.app/dm-studios/issue/KIND-57/fan-can-follow-artists-see-home-feed-updates-and-react-to-tracks) **Fan can follow artists, see Home feed updates, and react to tracks** — Slice. Epic KIND-5. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/01-home.html
 17. [KIND-58](https://linear.app/dm-studios/issue/KIND-58/spike-presence-heartbeat-and-ttl-on-two-devices) **Spike: presence heartbeat and TTL on two devices** — Spike. Epic KIND-5. Apps: mobile, convex. Design: (no screen — spike/infra)
 18. [KIND-59](https://linear.app/dm-studios/issue/KIND-59/artist-page-shows-approximate-live-listener-count) **Artist page shows approximate live listener count** — Slice. Epic KIND-5. Apps: mobile, convex. Design: docs/design/exports/mobile/03-library/04-artist-profile.html
-19. [KIND-60](https://linear.app/dm-studios/issue/KIND-60/spike-push-notification-cold-start-on-physical-devices) **Spike: push notification cold start on physical devices** — Spike. Epic KIND-7. Apps: mobile. Design: (no screen — spike/infra)
-20. [KIND-61](https://linear.app/dm-studios/issue/KIND-61/spike-universal-links-open-the-right-screen-from-cold) **Spike: universal links open the right screen from cold** — Spike. Epic KIND-7. Apps: mobile, web. Design: (no screen — spike/infra)
+19. [KIND-60](https://linear.app/dm-studios/issue/KIND-60) **Canceled** — prove phone alerts in KIND-62. Epic KIND-7. Apps: mobile. Design: (no screen — spike/infra)
+20. [KIND-61](https://linear.app/dm-studios/issue/KIND-61) **Canceled** — prove links in KIND-62 / KIND-86. Epic KIND-7. Apps: mobile, web. Design: (no screen — spike/infra)
 21. [KIND-62](https://linear.app/dm-studios/issue/KIND-62/fan-gets-release-push-with-mute-and-quiet-hours) **Fan gets release push with mute and quiet hours** — Slice. Epic KIND-7. Apps: mobile, convex. Design: docs/design/exports/mobile/07-settings/01-notification-settings.html, docs/design/exports/mobile/06-money/04-thank-you-card.html
-22. [KIND-63](https://linear.app/dm-studios/issue/KIND-63/spike-revenuecat-webhook-and-sandbox-purchase-write-convex-entitlement) **Spike: RevenueCat webhook and sandbox purchase write Convex entitlement** — Spike. Epic KIND-6. Apps: mobile, convex. Design: (no screen — spike/infra)
+22. [KIND-63](https://linear.app/dm-studios/issue/KIND-63) **Canceled** — prove purchase path in KIND-64. Epic KIND-6. Apps: mobile, convex. Design: (no screen — spike/infra)
 23. [KIND-64](https://linear.app/dm-studios/issue/KIND-64/fan-can-buy-supporter-subscription-and-restore-after-reinstall) **Fan can buy Supporter subscription and restore after reinstall** — Slice. Epic KIND-6. Apps: mobile, convex. Design: docs/design/exports/mobile/06-money/01-paywall.html
 24. [KIND-65](https://linear.app/dm-studios/issue/KIND-65/supporter-can-route-1-5-artists-and-unlock-exclusives-only-for-them) **Supporter can route 1–5 artists and unlock exclusives only for them** — Slice. Epic KIND-6. Apps: mobile, convex. Design: docs/design/exports/mobile/06-money/02-route-support.html
 25. [KIND-66](https://linear.app/dm-studios/issue/KIND-66/supporter-can-see-impact-breakdown-and-founding-badges) **Supporter can see Impact breakdown and founding badges** — Slice. Epic KIND-6. Apps: mobile, convex. Design: docs/design/exports/mobile/06-money/03-impact.html
 26. [KIND-67](https://linear.app/dm-studios/issue/KIND-67/account-settings-show-subscription-status-restore-and-manage) **Account settings show subscription status, restore, and manage-subscription help** — Slice. Epic KIND-6. Apps: mobile. Design: docs/design/exports/mobile/07-settings/02-account-settings.html
-27. [KIND-68](https://linear.app/dm-studios/issue/KIND-68/spike-offline-download-airplane-play-and-outbox-replay) **Spike: offline download, airplane play, and outbox replay** — Spike. Epic KIND-8. Apps: mobile. Design: (no screen — spike/infra)
+27. [KIND-68](https://linear.app/dm-studios/issue/KIND-68) **Canceled** — prove offline in KIND-69. Epic KIND-8. Apps: mobile. Design: (no screen — spike/infra)
 28. [KIND-69](https://linear.app/dm-studios/issue/KIND-69/supporter-can-download-entitled-tracks-and-manage-downloads) **Supporter can download entitled tracks and manage downloads** — Slice. Epic KIND-8. Apps: mobile, convex. Design: docs/design/exports/mobile/03-library/09-downloads.html, docs/design/exports/mobile/08-shared-states/04-home-offline.html
-29. [KIND-70](https://linear.app/dm-studios/issue/KIND-70/spike-vector-embeddings-return-sensible-neighbours) **Spike: vector embeddings return sensible neighbours** — Spike. Epic KIND-9. Apps: convex. Design: (no screen — spike/infra)
+29. [KIND-70](https://linear.app/dm-studios/issue/KIND-70) **Canceled** — prove embeddings in KIND-71. Epic KIND-9. Apps: convex. Design: (no screen — spike/infra)
 30. [KIND-71](https://linear.app/dm-studios/issue/KIND-71/fan-can-search-exact-matches-first-then-semantic-results) **Fan can search exact matches first then semantic results** — Slice. Epic KIND-9. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/03-search.html
 31. [KIND-72](https://linear.app/dm-studios/issue/KIND-72/fan-can-generate-a-natural-language-mix-and-play-it) **Fan can generate a natural-language mix and play it** — Slice. Epic KIND-9. Apps: mobile, convex. Design: docs/design/exports/mobile/05-mix/01-make-a-mix.html, docs/design/exports/mobile/05-mix/02-mix-result.html
 32. [KIND-73](https://linear.app/dm-studios/issue/KIND-73/visualizer-toggle-and-ios-quality-sheet-stack-on-real-screens) **Visualizer toggle and iOS-quality sheet stack on real screens** — Slice. Epic KIND-4. Apps: mobile. Design: docs/design/exports/mobile/04-player/01-now-playing.html
-33. [KIND-74](https://linear.app/dm-studios/issue/KIND-74/spike-browser-peak-generation-for-artist-upload) **Spike: browser peak generation for artist upload** — Spike. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
-34. [KIND-75](https://linear.app/dm-studios/issue/KIND-75/spike-scheduled-publish-fires-on-time) **Spike: scheduled publish fires on time** — Spike. Epic KIND-10. Apps: convex. Design: (no screen — spike/infra)
-35. [KIND-76](https://linear.app/dm-studios/issue/KIND-76/spike-ai-upload-copilot-and-thank-you-fixtures) **Spike: AI upload copilot and thank-you fixtures** — Spike. Epic KIND-10. Apps: convex. Design: (no screen — spike/infra)
-36. [KIND-77](https://linear.app/dm-studios/issue/KIND-77/spike-web-voice-notes-on-safari) **Spike: web voice notes on Safari** — Spike. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
+33. [KIND-74](https://linear.app/dm-studios/issue/KIND-74) **Canceled** — prove peaks in KIND-79. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
+34. [KIND-75](https://linear.app/dm-studios/issue/KIND-75) **Canceled** — prove schedule in KIND-79. Epic KIND-10. Apps: convex. Design: (no screen — spike/infra)
+35. [KIND-76](https://linear.app/dm-studios/issue/KIND-76) **Canceled** — optional AI in KIND-79 / KIND-80. Epic KIND-10. Apps: convex. Design: (no screen — spike/infra)
+36. [KIND-77](https://linear.app/dm-studios/issue/KIND-77) **Canceled** — prove voice in KIND-81. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
 37. [KIND-78](https://linear.app/dm-studios/issue/KIND-78/artist-can-use-studio-home-and-edit-profile-on-web) **Artist can use Studio home and edit profile on web** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/02-home.html, docs/design/exports/web/01-studio/03-profile.html
 38. [KIND-79](https://linear.app/dm-studios/issue/KIND-79/artist-can-upload-and-schedule-releases-with-peaks-and-visibility) **Artist can upload and schedule releases with peaks and visibility** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/04-upload-release.html, docs/design/exports/web/01-studio/05-releases.html
 39. [KIND-81](https://linear.app/dm-studios/issue/KIND-81/artist-can-post-updates-textphotovoice-and-list-them) **Artist can post updates (text/photo/voice) and list them** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/06-update-composer.html, docs/design/exports/web/01-studio/07-updates.html
@@ -854,15 +854,15 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 ### Spike: push notification cold start on physical devices
 
-**Linear:** [KIND-60](https://linear.app/dm-studios/issue/KIND-60/spike-push-notification-cold-start-on-physical-devices)
+**Linear:** [KIND-60](https://linear.app/dm-studios/issue/KIND-60)
 
-**Status:** **Backlog** (25 Sep 2026) — parked until Google + Apple phone-alert setup day. Test only on **preview** installs on real phones. Click guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
+**Status:** **Canceled** (25 Sep 2026). Prove phone alerts on preview inside **KIND-62**. Setup guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
 
 **Epic:** KIND-7  
 **Project:** First Version  
 **Apps:** mobile
 
-**Goal:** One notification type cold-starts app on real iPhone and Android.
+**Goal (historical):** One notification type cold-starts app on real iPhone and Android.
 
 **Docs:**
 
@@ -882,15 +882,15 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 ### Spike: universal links open the right screen from cold
 
-**Linear:** [KIND-61](https://linear.app/dm-studios/issue/KIND-61/spike-universal-links-open-the-right-screen-from-cold)
+**Linear:** [KIND-61](https://linear.app/dm-studios/issue/KIND-61)
 
-**Status:** **Backlog** (25 Sep 2026) — parked until Delasi wants the web-link short check day (Vercel verification files + preview on real phones).
+**Status:** **Canceled** (25 Sep 2026). Prove links inside **KIND-62** / **KIND-86**.
 
 **Epic:** KIND-7  
 **Project:** First Version  
 **Apps:** mobile, web
 
-**Goal:** One universal link / App Link from Notes/Safari opens the right screen cold.
+**Goal (historical):** One universal link / App Link from Notes/Safari opens the right screen cold.
 
 **Docs:**
 

@@ -430,9 +430,11 @@ Also deferred, and worth naming because they are architecture-shaped rather than
 
 ---
 
-## 12. Spike list, with the pass or fail we expect
+## 12. Hard unknowns (prove inside the feature ticket)
 
-Each spike is timeboxed, runs before the ticket it gates, and ends in a written line in the lock or the ticket: works, blocked, or cut to Later. Source is section 20 of the studio practice pack lock (`00-locked-decisions.md`).
+**Amendment 25 Sep 2026:** Separate Linear “short check / spike” tickets for remaining work are **retired**. Default: one feature ticket; the first vertical slice proves the hard bit. If it fails, follow the cut rules below (same as the old spike list). Historical Done short checks (background audio, presence, and so on) stay Done.
+
+Each item below still has a pass / fail. Pass means the feature ticket’s acceptance includes that proof. Fail means cut or shrink V1 as written — edit the lock if scope changes.
 
 **RevenueCat webhook to Convex entitlement.** Gates Phase 6.
 Pass: a test webhook from the RevenueCat dashboard reaches the Convex HTTP action, a sandbox purchase on a real device writes an active entitlement row with the right profile, killing and reinstalling the app then hitting restore brings Supporter back, and a sandbox expiry flips the row to expired.

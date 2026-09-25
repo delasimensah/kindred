@@ -13,9 +13,13 @@ import { clashDisplay, satoshi } from "@/constants";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-  title: "Kindred",
+  title: "Kindred Artist Studio",
   description:
     "Patronage app for rising African artists — Artist Studio on web, fans on mobile.",
+  icons: {
+    icon: [{ url: "/icons/logo.png", type: "image/png" }],
+    apple: [{ url: "/icons/app-icon.png", type: "image/png" }],
+  },
 };
 
 interface RootLayoutProps {

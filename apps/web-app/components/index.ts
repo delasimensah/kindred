@@ -14,6 +14,12 @@ export { default as SignInForm } from "./auth/SignInForm/SignInForm";
 export { default as StudioGate } from "./auth/StudioGate/StudioGate";
 export { default as StudioWordmark } from "./auth/StudioWordmark/StudioWordmark";
 
+export { default as StudioAppShell } from "./navigation/StudioAppShell/StudioAppShell";
+export { default as StudioSidebar } from "./navigation/StudioSidebar/StudioSidebar";
+
 export { default as NotAllowedPage } from "./pages/NotAllowedPage/NotAllowedPage";
 export { default as SignInPage } from "./pages/SignInPage/SignInPage";
-export { default as StudioHomePlaceholder } from "./pages/StudioHomePlaceholder/StudioHomePlaceholder";
+export { default as StudioHomePage } from "./pages/StudioHomePage/StudioHomePage";
+export { default as StudioProfilePage } from "./pages/StudioProfilePage/StudioProfilePage";
+
+export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

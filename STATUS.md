@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-45** Artist Studio / admin web sign-in **Done**. Phone listening core through KIND-59 **Done**. **Next:** KIND-78 (Studio home and profile on web).
+- **Current phase:** Build — **KIND-78** Studio home and profile on web **Done**. Next: **KIND-79** upload/releases.
 - **Last updated:** 2026-09-25
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-78** — artist can use Studio home and edit profile on web.
+**KIND-79** — Studio upload and releases on web.
 
 ---
 
@@ -82,6 +82,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-78): https://github.com/delasimensah/kindred/pull/18
 - Pull request (KIND-45): https://github.com/delasimensah/kindred/pull/17
 - Pull request (KIND-59): https://github.com/delasimensah/kindred/pull/16
 - Pull request (KIND-58): https://github.com/delasimensah/kindred/pull/15

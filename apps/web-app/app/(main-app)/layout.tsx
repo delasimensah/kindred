@@ -2,13 +2,15 @@
 
 import React from "react";
 
-import { StudioGate } from "@/components";
+import { StudioAppShell, StudioGate } from "@/components";
 import { StudioSessionProvider } from "@/hooks";
 
 const MainAppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <StudioSessionProvider>
-      <StudioGate>{children}</StudioGate>
+      <StudioGate>
+        <StudioAppShell>{children}</StudioAppShell>
+      </StudioGate>
     </StudioSessionProvider>
   );
 };

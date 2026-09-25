@@ -43,6 +43,7 @@ import type * as reactions from "../reactions.js";
 import type * as seed from "../seed.js";
 import type * as seedAvatars from "../seedAvatars.js";
 import type * as seedCatalog from "../seedCatalog.js";
+import type * as studio from "../studio.js";
 import type * as tracks from "../tracks.js";
 
 import type {
@@ -87,6 +88,7 @@ declare const fullApi: ApiFromModules<{
   seed: typeof seed;
   seedAvatars: typeof seedAvatars;
   seedCatalog: typeof seedCatalog;
+  studio: typeof studio;
   tracks: typeof tracks;
 }>;
 

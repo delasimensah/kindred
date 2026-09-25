@@ -45,6 +45,8 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-55** player is **Done**. Queue, shuffle, repeat, next and previous. A listen is recorded after about 30 seconds of that play. Lock-screen next and previous stay out of this SDK.
 - **KIND-56** player craft is **Done**. Reordering a queue row does not drag the sheet. A tap on a queued track plays it. A locked track stays in the list, and its menu does not open.
 - **KIND-57** Home feed is **Done**. Followed artists’ updates show on Home, including a voice-note card. A supporters-only post stays locked with Support to unlock. A reaction on the player saves and shows up for anyone watching that track. Unfollow refuses while that artist is in the support route.
+- **KIND-89** shrink seed audio for free-plan Convex egress is **Todo** (ops; do when play is blocked by the egress cap or before heavy demos — does not jump ahead of KIND-58 unless play is broken). Guide: `docs/convex-usage.md`.
+- **KIND-90** serve track audio from R2 (egress escape hatch) is **Todo** (after KIND-89 if still needed, or before KIND-85 public streaming).
 - Remaining First Version / Launch slices **KIND-47** and **KIND-58–KIND-88** are **Todo** (KIND-46 Backlog). KIND-45 is Todo but not next.
 - Do not move a slice to In Progress until you ask to start it.
 - Phone catalog order after the shell: [KIND-53](https://linear.app/dm-studios/issue/KIND-53) Discover (Done) → [KIND-51](https://linear.app/dm-studios/issue/KIND-51) artist and track (Done) → [KIND-52](https://linear.app/dm-studios/issue/KIND-52) Library (Done) → [KIND-54](https://linear.app/dm-studios/issue/KIND-54) background audio (Done) → [KIND-55](https://linear.app/dm-studios/issue/KIND-55) player (Done) → [KIND-56](https://linear.app/dm-studios/issue/KIND-56) player craft (Done) → [KIND-57](https://linear.app/dm-studios/issue/KIND-57) Home feed (Done) → [KIND-58](https://linear.app/dm-studios/issue/KIND-58) live listener short check. KIND-45 stays Todo until those screens are in place.
@@ -119,6 +121,8 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 45. [KIND-86](https://linear.app/dm-studios/issue/KIND-86/public-browse-home-and-install-prompt-with-deep-link-handoff) **Public browse home and install prompt with deep-link handoff** — Slice. Epic KIND-12. Apps: web. Design: docs/design/exports/web/02-public/01-browse-home.html, docs/design/exports/web/02-public/06-install-prompt.html
 46. [KIND-88](https://linear.app/dm-studios/issue/KIND-88/shipped-screens-show-loading-empty-and-error-states) **Shipped screens show loading, empty, and error states** — Slice. Epic KIND-2. Apps: mobile, web. Design: docs/design/exports/mobile/08-shared-states/01-home-loading-skeleton.html, docs/design/exports/mobile/08-shared-states/02-playlists-empty.html
 47. [KIND-87](https://linear.app/dm-studios/issue/KIND-87/testflight-play-closed-testing-access-list-and-90-second-demo-script) **TestFlight, Play closed testing, ACCESS-LIST, and 90-second demo script** — Slice. Epic KIND-13. Apps: mobile, web. Design: (no screen — spike/infra)
+48. [KIND-89](https://linear.app/dm-studios/issue/KIND-89/shrink-seed-audio-so-free-plan-convex-egress-lasts) **Shrink seed audio so free-plan Convex egress lasts** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — ops; see `docs/convex-usage.md`)
+49. [KIND-90](https://linear.app/dm-studios/issue/KIND-90/serve-track-audio-from-object-storage-r2-when-convex-egress-forces-it) **Serve track audio from object storage (R2) when Convex egress forces it** — Slice. Epic KIND-2. Apps: convex, mobile. Design: (no screen — infra escape hatch)
 
 ---
 
@@ -405,6 +409,74 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 - Do not use names like test user or Artist 1.
 
 **Where code lives:** follow repo app/convex/shared layout for this slice.
+
+---
+
+### Shrink seed audio so free-plan Convex egress lasts
+
+**Linear:** [KIND-89](https://linear.app/dm-studios/issue/KIND-89/shrink-seed-audio-so-free-plan-convex-egress-lasts)
+
+**Epic:** KIND-2  
+**Project:** First Version  
+**Apps:** convex
+
+**Goal:** Keep Kindred demos on the Convex Free plan by making unique seed MP3s much smaller after team file egress exceeded 1 GB/month (Sep 2026).
+
+**Docs:**
+
+- Ops: `docs/convex-usage.md`
+- System design: `docs/product/system-design.md`
+- Convex design: `docs/product/convex-design.md`
+
+**Acceptance:**
+
+- Unique seed audio under `seed/assets/audio` is re-encoded to shorter clips (about 45–90 seconds) and/or lower bitrate so total unique audio is well under ~50 MB.
+- Peaks regenerated; wipe + re-seed documented; ACCESS-LIST seed command still works.
+- 500 track rows may still reuse the 40 files.
+- Rights/credit notes still match the files.
+
+**Do not:**
+
+- Upgrade Convex solely for this.
+- Delete the 500-row catalog to “save” egress.
+- Move to R2 in this ticket (KIND-90).
+
+**Where code lives:** `seed/assets/audio`, peak scripts, seed pipeline.
+
+---
+
+### Serve track audio from object storage (R2) when Convex egress forces it
+
+**Linear:** [KIND-90](https://linear.app/dm-studios/issue/KIND-90/serve-track-audio-from-object-storage-r2-when-convex-egress-forces-it)
+
+**Epic:** KIND-2  
+**Project:** First Version  
+**Apps:** convex, mobile  
+**Blocked by (slugs until Linear ids exist):** shrink-seed-audio (KIND-89) when that path is still enough
+
+**Goal:** Move track audio bytes off Convex file storage so demos and later public play do not burn the team Free 1 GB/month file egress cap. Same entitlement check; different URL.
+
+**Docs:**
+
+- Ops: `docs/convex-usage.md`
+- PRD: `docs/product/product-requirements.md`
+- System design: `docs/product/system-design.md`
+- Convex design: `docs/product/convex-design.md`
+
+**Acceptance:**
+
+- Audio blobs live in object storage you own (default: Cloudflare R2). Seed uploads there.
+- The same Convex playback helper still runs the access check and returns a short-lived URL.
+- Artwork/avatars may stay on Convex while small.
+- No audio URL in list queries.
+
+**Do not:**
+
+- Move the database or auth off Convex.
+- Change who can hear a track.
+- Prefetch the whole catalog.
+
+**Where code lives:** playback URL helper, seed upload, mobile player URI only if needed for signed URLs.
 
 ---
 

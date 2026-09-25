@@ -69,6 +69,7 @@ KIND-58 short check: live listener count on two phones (after egress reset / pla
 
 ## Pointers
 
+- Pull request (KIND-89): https://github.com/delasimensah/kindred/pull/14
 - Pull request (KIND-57): https://github.com/delasimensah/kindred/pull/13
 - Pull request (KIND-56): https://github.com/delasimensah/kindred/pull/12
 - Pull request (KIND-55): https://github.com/delasimensah/kindred/pull/11

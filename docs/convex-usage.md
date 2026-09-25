@@ -140,7 +140,7 @@ Month-to-date when the Free-plan email arrived:
 - **Database I/O — Kindred ~0.09 GB, Ridgeway ~0.01 GB, free cap 1 GB.** Fine.
 - **Action compute — tiny on both.** Fine.
 
-Storage on Kindred’s deployment (not the monthly egress meter): about **141 MB** in `_storage` (156 blobs). Seed design: **40 unique MP3s** (~135 MB) + images/voice, reused across **500 track rows**.
+Storage on Kindred’s deployment (not the monthly egress meter): was about **141 MB** before KIND-89. Seed design after shrink: **40 unique MP3s** (~**34 MB**, 75s @ 96 kbps) + images/voice, reused across **500 track rows**. Apply with `yarn seed:shrink` then `yarn seed:apply-shrunk`.
 
 **Verdict:** Kindred audio streaming from Convex file storage burned the team’s file egress. Ridgeway did not.
 

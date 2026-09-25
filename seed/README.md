@@ -16,7 +16,15 @@ The audio and images already live in `seed/assets`. If those folders are empty, 
 
 `yarn seed:assets`
 
-That downloads the Kevin MacLeod tracks, encodes them, writes `seed/manifest.json` and `seed/peaks.json`, and downloads the Unsplash photographs listed in `seed/image-sources.json`. Rights and file sizes are in `seed/RIGHTS.md`.
+That downloads the Kevin MacLeod tracks, encodes them to about 75 seconds at 96 kbps, writes `seed/manifest.json` and `seed/peaks.json`, and downloads the Unsplash photographs listed in `seed/image-sources.json`. Rights and file sizes are in `seed/RIGHTS.md`.
+
+If the MP3s already exist and you only need shorter clips (Free-plan egress):
+
+`yarn seed:shrink`
+
+Then push Convex and replace the blobs on the deployment:
+
+`yarn seed:apply-shrunk`
 
 ## Load the catalog
 

@@ -318,6 +318,82 @@ export const replaceSeedImages = internalMutation({
   },
 });
 
+/**
+ * Swap the forty seed MP3 blobs for shorter encodes and patch every track that
+ * points at them (duration + peaks). Deletes the previous storage objects.
+ */
+export const replaceSeedAudio = internalMutation({
+  args: {
+    files: v.array(
+      v.object({
+        sourceUrl: v.string(),
+        storageId: v.id("_storage"),
+        sizeBytes: v.number(),
+        credit: v.string(),
+        durationMs: v.number(),
+        peaks: v.array(v.number()),
+      })
+    ),
+  },
+  returns: v.object({
+    filesReplaced: v.number(),
+    tracksPatched: v.number(),
+    missing: v.number(),
+  }),
+  handler: async (ctx, args) => {
+    if (args.files.length === 0 || args.files.length > SEED_AUDIO_COUNT) {
+      raise(ERROR_CODES.INVALID, "Replace at most 40 seed audio files");
+    }
+    let filesReplaced = 0;
+    let tracksPatched = 0;
+    let missing = 0;
+    const tracks = await ctx.db.query("tracks").collect();
+    for (const asset of args.files) {
+      if (asset.peaks.length !== TRACK_PEAK_BUCKETS) {
+        raise(ERROR_CODES.INVALID, "Each audio file needs 1000 peak buckets");
+      }
+      if (asset.durationMs <= 0) {
+        raise(ERROR_CODES.INVALID, "Duration must be positive");
+      }
+      if (asset.peaks.some((peak) => peak < 0 || peak > 1)) {
+        raise(ERROR_CODES.INVALID, "Peaks must be between 0 and 1");
+      }
+      const existing = await ctx.db
+        .query("files")
+        .withIndex("by_sourceUrl", (q) => q.eq("sourceUrl", asset.sourceUrl))
+        .unique();
+      if (existing === null) {
+        missing += 1;
+        continue;
+      }
+      const previousStorageId = existing.storageId;
+      await ctx.db.patch(existing._id, {
+        storageId: asset.storageId,
+        sizeBytes: asset.sizeBytes,
+        credit: asset.credit,
+        contentType: "audio/mpeg",
+        kind: "trackAudio",
+      });
+      if (previousStorageId !== asset.storageId) {
+        await ctx.storage.delete(previousStorageId);
+      }
+      filesReplaced += 1;
+      for (const track of tracks) {
+        if (track.audioFileId !== existing._id) {
+          continue;
+        }
+        await ctx.db.patch(track._id, {
+          durationMs: asset.durationMs,
+          peaks: asset.peaks,
+          ...(asset.credit.length === 0 ? {} : { credit: asset.credit }),
+        });
+        tracksPatched += 1;
+      }
+    }
+    return { filesReplaced, tracksPatched, missing };
+  },
+});
+
 async function artistIdByHandle(
   ctx: MutationCtx,
   handle: string

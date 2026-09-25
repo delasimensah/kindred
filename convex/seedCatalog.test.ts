@@ -74,6 +74,87 @@ describe("seedCatalog", () => {
     expect(asase?.visibility).toBe("public");
   });
 
+  it("replaces seed audio blobs and patches track duration and peaks", async () => {
+    const t = makeBackend();
+    await t.mutation(internal.seedCatalog.upsertArtists, {});
+    const firstStorage = await t.run(async (ctx) => {
+      return await ctx.storage.store(
+        new Blob(["long-audio"], { type: "audio/mpeg" })
+      );
+    });
+    const audio = Array.from({ length: SEED_AUDIO_COUNT }, (_, index) => ({
+      sourceUrl: `https://incompetech.com/music/royalty-free/mp3-royaltyfree/seed-${index}.mp3`,
+      storageId: firstStorage,
+      contentType: "audio/mpeg",
+      sizeBytes: 5_000_000,
+      credit: "Seed audio by Kevin MacLeod — CC BY 4.0",
+      kind: "trackAudio" as const,
+    }));
+    const images = Array.from({ length: SEED_ARTWORK_COUNT }, (_, index) => ({
+      sourceUrl: `seed/assets/images/artwork-${index}.png`,
+      storageId: firstStorage,
+      contentType: "image/png",
+      sizeBytes: 4,
+      credit: "Original Kindred seed image",
+      kind: "artwork" as const,
+    }));
+    await t.mutation(internal.seedCatalog.registerFiles, {
+      files: [...audio, ...images],
+    });
+    await t.mutation(internal.seedCatalog.insertTrackChunk, {
+      start: 0,
+      audioSourceUrls: audio.map((file) => file.sourceUrl),
+      artworkSourceUrls: images.map((file) => file.sourceUrl),
+      peaks: Array.from({ length: SEED_TRACK_CHUNK }, () => peaks()),
+      durationMs: Array.from({ length: SEED_TRACK_CHUNK }, () => 180_000),
+    });
+    const shortPeaks = Array.from({ length: TRACK_PEAK_BUCKETS }, () => 0.5);
+    const nextStorage = await t.run(async (ctx) => {
+      return await ctx.storage.store(
+        new Blob(["short"], { type: "audio/mpeg" })
+      );
+    });
+    const replaced = await t.mutation(internal.seedCatalog.replaceSeedAudio, {
+      files: [
+        {
+          sourceUrl: audio[0].sourceUrl,
+          storageId: nextStorage,
+          sizeBytes: 400_000,
+          credit: audio[0].credit,
+          durationMs: 75_000,
+          peaks: shortPeaks,
+        },
+      ],
+    });
+    expect(replaced.filesReplaced).toBe(1);
+    expect(replaced.tracksPatched).toBeGreaterThan(0);
+    const asase = await t.run(async (ctx) => {
+      const artist = await ctx.db
+        .query("artists")
+        .withIndex("by_handle", (q) => q.eq("handle", "amaara"))
+        .unique();
+      if (artist === null) {
+        throw new Error("expected Amaara");
+      }
+      return await ctx.db
+        .query("tracks")
+        .withIndex("by_artist_title", (q) =>
+          q.eq("artistId", artist._id).eq("title", "Asase")
+        )
+        .unique();
+    });
+    expect(asase?.durationMs).toBe(75_000);
+    expect(asase?.peaks[0]).toBe(0.5);
+    const file = await t.run(async (ctx) => {
+      return await ctx.db
+        .query("files")
+        .withIndex("by_sourceUrl", (q) => q.eq("sourceUrl", audio[0].sourceUrl))
+        .unique();
+    });
+    expect(file?.sizeBytes).toBe(400_000);
+    expect(file?.storageId).toBe(nextStorage);
+  });
+
   it("marks Delasi as admin and links Amaara to her login", async () => {
     const t = makeBackend();
     await t.mutation(internal.seedCatalog.upsertArtists, {});

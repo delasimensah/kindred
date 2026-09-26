@@ -1,6 +1,4 @@
-import { screen } from "@testing-library/react";
-
-import { render } from "@/test-utils";
+import { notifications } from "@mantine/notifications";
 
 import {
   ErrorNotification,
@@ -8,53 +6,49 @@ import {
   SuccessNotification,
 } from "./Notification";
 
-describe("Notification Components", () => {
-  describe("ErrorNotification", () => {
-    it("renders correctly with message", () => {
-      const testMessage = "Something went wrong!";
-      render(<ErrorNotification message={testMessage} />);
+jest.mock("@mantine/notifications", () => ({
+  notifications: {
+    show: jest.fn(),
+  },
+}));
 
-      expect(screen.getByText("Error")).toBeTruthy();
-      expect(screen.getByText(testMessage)).toBeTruthy();
-    });
-
-    it("renders with custom title", () => {
-      render(
-        <ErrorNotification title="Custom Error" message="Error message" />
-      );
-      expect(screen.getByText("Custom Error")).toBeTruthy();
-    });
+describe("Notification helpers", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  describe("SuccessNotification", () => {
-    it("renders correctly with message", () => {
-      const testMessage = "Action completed successfully!";
-      render(<SuccessNotification message={testMessage} />);
-
-      expect(screen.getByText("Success")).toBeTruthy();
-      expect(screen.getByText(testMessage)).toBeTruthy();
-    });
-
-    it("renders with custom title", () => {
-      render(
-        <SuccessNotification title="Custom Success" message="Success message" />
-      );
-      expect(screen.getByText("Custom Success")).toBeTruthy();
-    });
+  it("shows an error toast", () => {
+    ErrorNotification({ message: "Something went wrong!" });
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "Error",
+        message: "Something went wrong!",
+        autoClose: false,
+      })
+    );
   });
 
-  describe("InfoNotification", () => {
-    it("renders correctly with message", () => {
-      const testMessage = "Informational message";
-      render(<InfoNotification message={testMessage} />);
-
-      expect(screen.getByText("Info")).toBeTruthy();
-      expect(screen.getByText(testMessage)).toBeTruthy();
+  it("shows a success toast", () => {
+    SuccessNotification({
+      title: "Custom Success",
+      message: "Action completed successfully!",
     });
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "Custom Success",
+        message: "Action completed successfully!",
+        autoClose: 3000,
+      })
+    );
+  });
 
-    it("renders with custom title", () => {
-      render(<InfoNotification title="Custom Info" message="Info message" />);
-      expect(screen.getByText("Custom Info")).toBeTruthy();
-    });
+  it("shows an info toast", () => {
+    InfoNotification({ message: "Informational message" });
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "Info",
+        message: "Informational message",
+      })
+    );
   });
 });

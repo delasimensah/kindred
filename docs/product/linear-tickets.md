@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. Next: **KIND-81** (Studio updates).
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. **KIND-81** (Studio updates) is **Done**. Next: **KIND-80** (supporters / thank-yous / earnings).
 
 **Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
@@ -40,6 +40,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-78** Studio home/profile is **Done**.
 - **KIND-79** Studio upload and releases (singles) is **Done**.
 - **KIND-91** Studio EP/album upload (ordered multi-track releases + mobile album page) is **Done**.
+- **KIND-81** Studio updates (text/photo/voice) is **Done**.
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
@@ -57,7 +58,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
 - Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: none. Next Todo: [KIND-81](https://linear.app/dm-studios/issue/KIND-81) (Artist can post updates).
+- In Progress: none. Next Todo: [KIND-80](https://linear.app/dm-studios/issue/KIND-80) (supporters / thank-yous / earnings).
 
 ---
 
@@ -1622,7 +1623,8 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Acceptance:**
 
 - Artist can post Everyone or Supporters-only update with text and optional photo.
-- Voice note attach works only if spike-voice passed; else photo/text only.
+- Artist can edit or delete their own updates from the Studio list.
+- Voice note works in Safari and Chrome via MediaRecorder (mp4/webm), or shows unavailable with text/photo still working.
 - Updates list shows audience chip and date.
 - Responsive.
 
@@ -1631,7 +1633,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 - Do not add comments.
 - Do not ship a desktop-only layout; must work at ~375px and 1280px+.
 
-**Where code lives:** follow repo app/convex/shared layout for this slice.
+**Where code lives:** `convex/posts.ts` (create, update, remove, listMine, getMine, register photo/voice); `apps/web-app` `/updates` + `/updates/compose`; shared `VOICE_PEAK_BUCKETS` (48).
 
 ---
 

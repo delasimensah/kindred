@@ -1,4 +1,4 @@
-import { TRACK_PEAK_BUCKETS } from "shared";
+import { TRACK_PEAK_BUCKETS, VOICE_PEAK_BUCKETS } from "shared";
 
 /** Max absolute amplitude in each slice, then scaled so the loudest slice is 1. */
 export function bucketPeaks(
@@ -32,14 +32,10 @@ export function bucketPeaks(
   return peaks.map((peak) => Math.round((peak / max) * 1000) / 1000);
 }
 
-/**
- * Decode an audio file in the browser and build the 1000-bucket peaks array
- * the scrubber expects (same shape as seed peaks).
- */
-export async function generatePeaksFromAudioFile(file: File): Promise<{
-  peaks: number[];
-  durationMs: number;
-}> {
+async function decodePeaks(
+  file: File,
+  bucketCount: number
+): Promise<{ peaks: number[]; durationMs: number }> {
   const arrayBuffer = await file.arrayBuffer();
   const AudioCtx =
     window.AudioContext ||
@@ -50,10 +46,29 @@ export async function generatePeaksFromAudioFile(file: File): Promise<{
     const buffer = await context.decodeAudioData(arrayBuffer.slice(0));
     const channel = buffer.getChannelData(0);
     return {
-      peaks: bucketPeaks(channel),
+      peaks: bucketPeaks(channel, bucketCount),
       durationMs: Math.max(1, Math.round(buffer.duration * 1000)),
     };
   } finally {
     await context.close();
   }
+}
+
+/**
+ * Decode an audio file in the browser and build the 1000-bucket peaks array
+ * the scrubber expects (same shape as seed peaks).
+ */
+export async function generatePeaksFromAudioFile(file: File): Promise<{
+  peaks: number[];
+  durationMs: number;
+}> {
+  return await decodePeaks(file, TRACK_PEAK_BUCKETS);
+}
+
+/** Decode a voice note and build the 48-bucket peaks array (same as seed). */
+export async function generateVoicePeaksFromAudioFile(file: File): Promise<{
+  peaks: number[];
+  durationMs: number;
+}> {
+  return await decodePeaks(file, VOICE_PEAK_BUCKETS);
 }

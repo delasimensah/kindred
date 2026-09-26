@@ -1,7 +1,8 @@
-import { Box } from "@mantine/core";
-import React from "react";
-
-import Text from "../../ui/Text/Text";
+import {
+  showErrorNotification,
+  showInfoNotification,
+  showSuccessNotification,
+} from "@/utils";
 
 export interface NotificationProps {
   title?: string;
@@ -10,49 +11,26 @@ export interface NotificationProps {
 }
 
 /**
- * ErrorNotification Component
- * Red background, does not auto-dismiss
+ * Studio call sites invoke these as functions (not JSX).
+ * They forward to Mantine toasts with Kindred contrast.
  */
-export const ErrorNotification: React.FC<NotificationProps> = ({
+export function ErrorNotification({
   title = "Error",
   message,
-}) => {
-  return (
-    <Box className="rounded-md bg-red-600 p-4">
-      <Text className="mb-1 font-bold text-text">{title}</Text>
-      <Text className="text-sm text-text">{message}</Text>
-    </Box>
-  );
-};
+}: NotificationProps): void {
+  showErrorNotification(message, title);
+}
 
-/**
- * SuccessNotification Component
- * Green background, auto-dismisses
- */
-export const SuccessNotification: React.FC<NotificationProps> = ({
+export function SuccessNotification({
   title = "Success",
   message,
-}) => {
-  return (
-    <Box className="rounded-md bg-green-600 p-4">
-      <Text className="mb-1 font-bold text-text">{title}</Text>
-      <Text className="text-sm text-text">{message}</Text>
-    </Box>
-  );
-};
+}: NotificationProps): void {
+  showSuccessNotification(message, title);
+}
 
-/**
- * InfoNotification Component
- * Blue background, auto-dismisses
- */
-export const InfoNotification: React.FC<NotificationProps> = ({
+export function InfoNotification({
   title = "Info",
   message,
-}) => {
-  return (
-    <Box className="rounded-md bg-blue-600 p-4">
-      <Text className="mb-1 font-bold text-text">{title}</Text>
-      <Text className="text-sm text-text">{message}</Text>
-    </Box>
-  );
-};
+}: NotificationProps): void {
+  showInfoNotification(message, title);
+}

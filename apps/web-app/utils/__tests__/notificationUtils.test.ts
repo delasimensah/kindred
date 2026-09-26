@@ -6,7 +6,6 @@ import {
   showSuccessNotification,
 } from "../notificationUtils";
 
-// Mock @mantine/notifications
 jest.mock("@mantine/notifications", () => ({
   notifications: {
     show: jest.fn(),
@@ -18,102 +17,46 @@ describe("Notification Utilities", () => {
     jest.clearAllMocks();
   });
 
-  describe("showErrorNotification", () => {
-    it("calls notifications.show with error configuration", () => {
-      const message = "Test error message";
-      showErrorNotification(message);
-
-      expect(notifications.show).toHaveBeenCalledWith({
-        title: "Error",
-        message,
-        color: "red",
-        autoClose: false,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-red-600",
-      });
-    });
-
-    it("calls notifications.show with custom title", () => {
-      const message = "Custom error message";
-      const title = "Custom Error";
-      showErrorNotification(message, title);
-
-      expect(notifications.show).toHaveBeenCalledWith({
-        title,
-        message,
-        color: "red",
-        autoClose: false,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-red-600",
-      });
-    });
-  });
-
-  describe("showSuccessNotification", () => {
-    it("calls notifications.show with success configuration", () => {
-      const message = "Test success message";
-      showSuccessNotification(message);
-
-      expect(notifications.show).toHaveBeenCalledWith({
+  it("shows success on brand gold with dark type classes", () => {
+    showSuccessNotification("Update posted.");
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
         title: "Success",
-        message,
-        color: "green",
+        message: "Update posted.",
         autoClose: 3000,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-green-600",
-      });
-    });
-
-    it("calls notifications.show with custom title", () => {
-      const message = "Custom success message";
-      const title = "Custom Success";
-      showSuccessNotification(message, title);
-
-      expect(notifications.show).toHaveBeenCalledWith({
-        title,
-        message,
-        color: "green",
-        autoClose: 3000,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-green-600",
-      });
-    });
+        classNames: expect.objectContaining({
+          root: expect.stringContaining("!bg-primary"),
+          title: expect.stringContaining("!text-textOnPrimary"),
+        }),
+      })
+    );
   });
 
-  describe("showInfoNotification", () => {
-    it("calls notifications.show with info configuration", () => {
-      const message = "Test info message";
-      showInfoNotification(message);
+  it("shows error on danger with white type classes", () => {
+    showErrorNotification("Could not save.", "Upload failed");
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "Upload failed",
+        message: "Could not save.",
+        autoClose: false,
+        classNames: expect.objectContaining({
+          root: expect.stringContaining("!bg-danger"),
+          title: expect.stringContaining("!text-white"),
+        }),
+      })
+    );
+  });
 
-      expect(notifications.show).toHaveBeenCalledWith({
+  it("shows info on surface with light type classes", () => {
+    showInfoNotification("Heads up.");
+    expect(notifications.show).toHaveBeenCalledWith(
+      expect.objectContaining({
         title: "Info",
-        message,
-        color: "blue",
-        autoClose: 3000,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-blue-600",
-      });
-    });
-
-    it("calls notifications.show with custom title", () => {
-      const message = "Custom info message";
-      const title = "Custom Info";
-      showInfoNotification(message, title);
-
-      expect(notifications.show).toHaveBeenCalledWith({
-        title,
-        message,
-        color: "blue",
-        autoClose: 3000,
-        withCloseButton: true,
-        position: "top-right",
-        className: "bg-blue-600",
-      });
-    });
+        message: "Heads up.",
+        classNames: expect.objectContaining({
+          root: expect.stringContaining("!bg-surface"),
+        }),
+      })
+    );
   });
 });

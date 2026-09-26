@@ -70,7 +70,7 @@ git checkout -b feature/TICKET-123
 # Make your changes
 yarn lint          # Check for ESLint issues
 yarn format:check  # Check Prettier formatting
-yarn type-check    # Check TypeScript types
+yarn type-check    # Check TypeScript types (Convex + apps)
 git add .
 git commit -m "TICKET-123 Added user authentication flow"
 git push origin feature/TICKET-123

@@ -9,11 +9,12 @@ import {
   IconHeart,
 } from "@tabler/icons-react";
 import { useQuery } from "convex/react";
+import Link from "next/link";
 import React from "react";
 
 import Heading from "../../ui/Heading/Heading";
-import Skeleton from "../../ui/Skeleton/Skeleton";
 import Text from "../../ui/Text/Text";
+import StudioHomePageSkeleton from "./StudioHomePageSkeleton";
 
 function greetingForNow(name: string): string {
   const hour = new Date().getHours();
@@ -41,16 +42,7 @@ const StudioHomePage: React.FC = () => {
   const home = useQuery(api.studio.getHome, {});
 
   if (home === undefined) {
-    return (
-      <div className="px-4 py-8 sm:px-8 sm:py-9 lg:px-10">
-        <Skeleton className="mb-8 h-10 w-64" />
-        <div className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-32 rounded-2xl" />
-          <Skeleton className="h-32 rounded-2xl" />
-          <Skeleton className="h-32 rounded-2xl" />
-        </div>
-      </div>
-    );
+    return <StudioHomePageSkeleton />;
   }
 
   if (home === null) {
@@ -82,10 +74,10 @@ const StudioHomePage: React.FC = () => {
           </Text>
         </div>
         <Button
-          component="span"
-          disabled
+          component={Link}
+          href="/upload"
           leftSection={<IconCloudUpload size={14} />}
-          className="h-auto rounded-xl bg-primary/40 px-5 py-3 text-sm font-semibold text-textOnPrimary"
+          className="h-auto rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95"
         >
           Upload release
         </Button>
@@ -121,12 +113,21 @@ const StudioHomePage: React.FC = () => {
           <Heading variant="subsection" className="mb-0 text-lg text-text">
             Recent releases
           </Heading>
-          <Text className="text-sm text-primary/70">View all soon</Text>
+          <Link
+            href="/releases"
+            className="text-sm text-primary hover:underline"
+          >
+            View all
+          </Link>
         </div>
         {home.recentReleases.length === 0 ? (
           <div className="rounded-2xl border border-white/5 bg-surface px-6 py-10 text-center">
             <Text className="text-sm text-text/50">
-              No releases yet. Upload arrives in the next Studio ticket.
+              No releases yet.{" "}
+              <Link href="/upload" className="text-primary hover:underline">
+                Upload your first track
+              </Link>
+              .
             </Text>
           </div>
         ) : (

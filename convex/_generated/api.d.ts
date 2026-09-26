@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as ai from "../ai.js";
 import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
@@ -44,6 +45,7 @@ import type * as seed from "../seed.js";
 import type * as seedAvatars from "../seedAvatars.js";
 import type * as seedCatalog from "../seedCatalog.js";
 import type * as studio from "../studio.js";
+import type * as studioTracks from "../studioTracks.js";
 import type * as tracks from "../tracks.js";
 
 import type {
@@ -53,6 +55,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  ai: typeof ai;
   artists: typeof artists;
   auth: typeof auth;
   crons: typeof crons;
@@ -89,6 +92,7 @@ declare const fullApi: ApiFromModules<{
   seedAvatars: typeof seedAvatars;
   seedCatalog: typeof seedCatalog;
   studio: typeof studio;
+  studioTracks: typeof studioTracks;
   tracks: typeof tracks;
 }>;
 

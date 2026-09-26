@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-78** Studio home and profile on web **Done**. Next: **KIND-79** upload/releases.
-- **Last updated:** 2026-09-25
+- **Current phase:** Build — **KIND-79** Studio upload and releases (singles) **Done**. Next: **KIND-91** EP/album uploads (blocked by KIND-79 until this merges). KIND-78 home/profile **Done**.
+- **Last updated:** 2026-09-26
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-79** — Studio upload and releases on web.
+**KIND-91** — Artist can upload and manage EPs and albums with ordered tracks (after KIND-79 merges).
 
 ---
 

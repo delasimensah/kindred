@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **In Progress:** **KIND-78** (Studio home and profile).
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. Next Studio build: **KIND-91** (EP/album uploads).
 
 **Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
@@ -37,7 +37,9 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-43** mobile email/password auth is **Done**.
 - **KIND-44** onboarding genres and follows is **Done**.
 - **KIND-45** web Studio/admin sign-in is **Done**.
-- **KIND-78** Studio home/profile is **In Progress**.
+- **KIND-78** Studio home/profile is **Done**.
+- **KIND-79** Studio upload and releases (singles) is **Done**.
+- **KIND-91** Studio EP/album upload (ordered multi-track releases + mobile album page) is **Todo**, blocked by KIND-79 until merge.
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
@@ -55,7 +57,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
 - Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: [KIND-78](https://linear.app/dm-studios/issue/KIND-78) (Artist can use Studio home and edit profile on web).
+- In Progress: none (open **KIND-91** after KIND-79 merges).
 
 ---
 
@@ -117,17 +119,18 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 36. [KIND-77](https://linear.app/dm-studios/issue/KIND-77) **Canceled** — prove voice in KIND-81. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
 37. [KIND-78](https://linear.app/dm-studios/issue/KIND-78/artist-can-use-studio-home-and-edit-profile-on-web) **Artist can use Studio home and edit profile on web** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/02-home.html, docs/design/exports/web/01-studio/03-profile.html
 38. [KIND-79](https://linear.app/dm-studios/issue/KIND-79/artist-can-upload-and-schedule-releases-with-peaks-and-visibility) **Artist can upload and schedule releases with peaks and visibility** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/04-upload-release.html, docs/design/exports/web/01-studio/05-releases.html
-39. [KIND-81](https://linear.app/dm-studios/issue/KIND-81/artist-can-post-updates-textphotovoice-and-list-them) **Artist can post updates (text/photo/voice) and list them** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/06-update-composer.html, docs/design/exports/web/01-studio/07-updates.html
-40. [KIND-80](https://linear.app/dm-studios/issue/KIND-80/artist-can-see-supporters-thank-fans-and-view-earnings) **Artist can see supporters, thank fans, and view earnings** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/08-supporters.html, docs/design/exports/web/01-studio/09-fans-to-thank.html
-41. [KIND-82](https://linear.app/dm-studios/issue/KIND-82/fan-can-request-to-become-an-artist-from-mobile-account-settings) **Fan can request to become an artist from mobile account settings** — Slice. Epic KIND-11. Apps: mobile, convex. Design: docs/design/exports/mobile/07-settings/04-request-to-become-an-artist.html, docs/design/exports/mobile/07-settings/02-account-settings.html
-42. [KIND-83](https://linear.app/dm-studios/issue/KIND-83/admin-can-approve-or-decline-artist-requests-and-verify-artists) **Admin can approve or decline artist requests and verify artists** — Slice. Epic KIND-11. Apps: web, convex. Design: docs/design/exports/web/03-admin/01-requests.html, docs/design/exports/web/03-admin/02-artists.html
-43. [KIND-84](https://linear.app/dm-studios/issue/KIND-84/admin-can-hide-or-remove-catalog-items-and-set-featured-slots) **Admin can hide or remove catalog items and set featured slots** — Slice. Epic KIND-11. Apps: web, convex. Design: docs/design/exports/web/03-admin/03-catalog.html, docs/design/exports/web/03-admin/04-featured.html
-44. [KIND-85](https://linear.app/dm-studios/issue/KIND-85/public-artisttrackpostmix-pages-play-public-audio-and-lock-exclusives) **Public artist/track/post/mix pages play public audio and lock exclusives** — Slice. Epic KIND-12. Apps: web, convex. Design: docs/design/exports/web/02-public/02-artist-page.html, docs/design/exports/web/02-public/03-track-page.html
-45. [KIND-86](https://linear.app/dm-studios/issue/KIND-86/public-browse-home-and-install-prompt-with-deep-link-handoff) **Public browse home and install prompt with deep-link handoff** — Slice. Epic KIND-12. Apps: web. Design: docs/design/exports/web/02-public/01-browse-home.html, docs/design/exports/web/02-public/06-install-prompt.html
-46. [KIND-88](https://linear.app/dm-studios/issue/KIND-88/shipped-screens-show-loading-empty-and-error-states) **Shipped screens show loading, empty, and error states** — Slice. Epic KIND-2. Apps: mobile, web. Design: docs/design/exports/mobile/08-shared-states/01-home-loading-skeleton.html, docs/design/exports/mobile/08-shared-states/02-playlists-empty.html
-47. [KIND-87](https://linear.app/dm-studios/issue/KIND-87/testflight-play-closed-testing-access-list-and-90-second-demo-script) **TestFlight, Play closed testing, ACCESS-LIST, and 90-second demo script** — Slice. Epic KIND-13. Apps: mobile, web. Design: (no screen — spike/infra)
-48. [KIND-89](https://linear.app/dm-studios/issue/KIND-89/shrink-seed-audio-so-free-plan-convex-egress-lasts) **Shrink seed audio so free-plan Convex egress lasts** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — ops; see `docs/convex-usage.md`)
-49. [KIND-90](https://linear.app/dm-studios/issue/KIND-90/serve-track-audio-from-object-storage-r2-when-convex-egress-forces-it) **Serve track audio from object storage (R2) when Convex egress forces it** — Slice. Epic KIND-2. Apps: convex, mobile. Design: (no screen — infra escape hatch)
+39. [KIND-91](https://linear.app/dm-studios/issue/KIND-91/artist-can-upload-and-manage-eps-and-albums-with-ordered-tracks) **Artist can upload and manage EPs and albums with ordered tracks** — Slice. Epic KIND-10. Apps: web, convex, mobile. Design: (new Studio EP/album upload + Releases treatment + mobile album detail — export before build). Blocked by KIND-79.
+40. [KIND-81](https://linear.app/dm-studios/issue/KIND-81/artist-can-post-updates-textphotovoice-and-list-them) **Artist can post updates (text/photo/voice) and list them** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/06-update-composer.html, docs/design/exports/web/01-studio/07-updates.html
+41. [KIND-80](https://linear.app/dm-studios/issue/KIND-80/artist-can-see-supporters-thank-fans-and-view-earnings) **Artist can see supporters, thank fans, and view earnings** — Slice. Epic KIND-10. Apps: web, convex. Design: docs/design/exports/web/01-studio/08-supporters.html, docs/design/exports/web/01-studio/09-fans-to-thank.html
+42. [KIND-82](https://linear.app/dm-studios/issue/KIND-82/fan-can-request-to-become-an-artist-from-mobile-account-settings) **Fan can request to become an artist from mobile account settings** — Slice. Epic KIND-11. Apps: mobile, convex. Design: docs/design/exports/mobile/07-settings/04-request-to-become-an-artist.html, docs/design/exports/mobile/07-settings/02-account-settings.html
+43. [KIND-83](https://linear.app/dm-studios/issue/KIND-83/admin-can-approve-or-decline-artist-requests-and-verify-artists) **Admin can approve or decline artist requests and verify artists** — Slice. Epic KIND-11. Apps: web, convex. Design: docs/design/exports/web/03-admin/01-requests.html, docs/design/exports/web/03-admin/02-artists.html
+44. [KIND-84](https://linear.app/dm-studios/issue/KIND-84/admin-can-hide-or-remove-catalog-items-and-set-featured-slots) **Admin can hide or remove catalog items and set featured slots** — Slice. Epic KIND-11. Apps: web, convex. Design: docs/design/exports/web/03-admin/03-catalog.html, docs/design/exports/web/03-admin/04-featured.html
+45. [KIND-85](https://linear.app/dm-studios/issue/KIND-85/public-artisttrackpostmix-pages-play-public-audio-and-lock-exclusives) **Public artist/track/post/mix pages play public audio and lock exclusives** — Slice. Epic KIND-12. Apps: web, convex. Design: docs/design/exports/web/02-public/02-artist-page.html, docs/design/exports/web/02-public/03-track-page.html
+46. [KIND-86](https://linear.app/dm-studios/issue/KIND-86/public-browse-home-and-install-prompt-with-deep-link-handoff) **Public browse home and install prompt with deep-link handoff** — Slice. Epic KIND-12. Apps: web. Design: docs/design/exports/web/02-public/01-browse-home.html, docs/design/exports/web/02-public/06-install-prompt.html
+47. [KIND-88](https://linear.app/dm-studios/issue/KIND-88/shipped-screens-show-loading-empty-and-error-states) **Shipped screens show loading, empty, and error states** — Slice. Epic KIND-2. Apps: mobile, web. Design: docs/design/exports/mobile/08-shared-states/01-home-loading-skeleton.html, docs/design/exports/mobile/08-shared-states/02-playlists-empty.html
+48. [KIND-87](https://linear.app/dm-studios/issue/KIND-87/testflight-play-closed-testing-access-list-and-90-second-demo-script) **TestFlight, Play closed testing, ACCESS-LIST, and 90-second demo script** — Slice. Epic KIND-13. Apps: mobile, web. Design: (no screen — spike/infra)
+49. [KIND-89](https://linear.app/dm-studios/issue/KIND-89/shrink-seed-audio-so-free-plan-convex-egress-lasts) **Shrink seed audio so free-plan Convex egress lasts** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — ops; see `docs/convex-usage.md`)
+50. [KIND-90](https://linear.app/dm-studios/issue/KIND-90/serve-track-audio-from-object-storage-r2-when-convex-egress-forces-it) **Serve track audio from object storage (R2) when Convex egress forces it** — Slice. Epic KIND-2. Apps: convex, mobile. Design: (no screen — infra escape hatch)
 
 ---
 
@@ -1475,9 +1478,10 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Epic:** KIND-10  
 **Project:** First Version  
 **Apps:** web, convex  
-**Blocked by (slugs until Linear ids exist):** spike-peaks-web, studio-home-profile
+**Blocked by:** KIND-78  
+**Blocks:** KIND-91 (EP/album uploads)
 
-**Goal:** Upload audio+artwork, peaks, publish/schedule, list with states. Responsive.
+**Goal:** Upload a **single** (one track + cover), peaks, publish/schedule, list with states. Responsive. Multi-track EPs and albums are KIND-91.
 
 **Docs:**
 
@@ -1502,9 +1506,95 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 - Do not generate songs with AI.
 - Do not AI cover art.
+- Do not ship EP/album multi-track upload here (KIND-91).
 - Do not ship a desktop-only layout; must work at ~375px and 1280px+.
 
 **Where code lives:** follow repo app/convex/shared layout for this slice.
+
+---
+
+### Artist can upload and manage EPs and albums with ordered tracks
+
+**Linear:** [KIND-91](https://linear.app/dm-studios/issue/KIND-91/artist-can-upload-and-manage-eps-and-albums-with-ordered-tracks)
+
+**Epic:** KIND-10  
+**Project:** First Version  
+**Apps:** web, convex, mobile  
+**Blocked by:** KIND-79  
+**Related:** KIND-51, KIND-85
+
+**Goal:** Verified artist creates an EP or album (named release with ordered tracks), uploads shared cover + per-track audio, publishes or schedules as one unit, edits from Studio, and fans open that release on mobile from the artist page. Responsive Studio at ~375px and 1280px+.
+
+**What this is:**
+
+- A **single** stays KIND-79: one track, one cover.
+- An **EP** or **album** is a release: one title, one cover, one visibility, one publish/schedule time, and two or more tracks in fixed order.
+- Default labels: EP = 2–6 tracks; album = 7 or more. Artist picks the label; enforce minimum track counts on save.
+- Tracks keep their own audio, duration, and peaks. They share the release cover unless a later ticket adds per-track art (out here).
+
+**Docs:**
+
+- PRD: `docs/product/product-requirements.md`
+- System design: `docs/product/system-design.md`
+- Convex design: `docs/product/convex-design.md` (extend catalog; add release/album model)
+- Seed rights: `seed/RIGHTS.md`
+- Convex Free egress: `docs/convex-usage.md`
+
+**Design:**
+
+- Reuse: `docs/design/exports/web/01-studio/04-upload-release.html`, `docs/design/exports/web/01-studio/05-releases.html`, KIND-51 mobile artist/track patterns.
+- Missing before UI build: Studio EP/album upload export; Releases type badge / track list; mobile album/EP detail export.
+- Pipeline: UX Pilot → HTML under `docs/design/exports/` → implement with repo components. Do not paste UX Pilot markup.
+- If design slips: stop before screen build; do not invent layout from singles upload alone.
+
+**Data model (Convex):**
+
+- Add a `releases` table (or `albums` — pick one name and use it everywhere): artistId, title, type (`ep` | `album`), artworkFileId (required), visibility, state (`draft` | `scheduled` | `published`), publishAt / publishedAt, description, genre, tags, hidden, createdAt.
+- Ordered membership: `releaseId` + `position` on tracks. Singles keep `releaseId` unset.
+- Schedule safety net publishes the release and all member tracks together.
+- Update `docs/product/convex-design.md` when the schema ships.
+
+**Studio web:**
+
+- Upload entry: Single (KIND-79) vs EP / Album.
+- Compose: title, type, genre, tags, description, visibility, shared cover (required), ordered track list with per-track audio + title + peaks.
+- Reorder; add/remove tracks while draft only. After publish: metadata, cover, schedule change; removing published tracks from a release is out (hide track instead).
+- Draft / publish now / schedule same rules as singles.
+- Releases list: type chip, state, date; edit; change/cancel schedule; publish now; hide/unhide. Schedule change keeps member tracks aligned.
+
+**Mobile (no orphan screen):**
+
+- Artist profile Releases section (published EPs/albums) → album detail (cover, title, type, ordered tracks, play/queue, supporters locks).
+- Popular tracks can still list member tracks. Reachable from Discover/Home/Library artist stacks.
+
+**Seed / demo content:**
+
+- What: one seed EP for Amaara (4 tracks); one seed album for another hero artist (7+ tracks).
+- Where: reuse existing seeded audio/artwork; group published tracks into releases. Do not download a new audio library.
+- Rights: `seed/RIGHTS.md`.
+- How: extend `seedCatalog` / seed plan; same `yarn seed:catalog` path.
+- Out: new paid packs; AI album art; shipping without seed EP/album visible on mobile after seed.
+
+**Egress:** estimate unique audio × demo listens before heavy testing. Prefer reusing seed clips; do not prefetch whole albums from Convex storage.
+
+**Acceptance:**
+
+- Artist creates EP (2–6) and album (7+) with shared cover; peaks per track; draft / publish now / schedule as one unit.
+- Releases list type + state; edit, schedule change/cancel, publish now, hide work for releases.
+- Fan opens published EP/album from artist page on mobile, sees ordered tracks, plays unlocked tracks.
+- Seed shows at least one EP and one album after catalog seed.
+- Responsive Studio 375px and 1280px+.
+- `yarn lint`, `yarn format:check`, `yarn type-check` (incl. Convex), `yarn test:ci` pass.
+
+**Do not:**
+
+- Do not replace single-track upload (KIND-79 stays).
+- Do not generate songs or album art with AI.
+- Do not ship Studio album UI without the mobile album detail path.
+- Do not require a new object-storage vendor here (Convex storage unless KIND-90 already forced R2).
+- Do not build collaborative albums, Spotify discography import, or per-track different publish times inside one release.
+
+**Where code lives:** `convex/` schema + studio release mutations + seed; `apps/web-app` Studio upload + releases; `apps/mobile-app` artist profile section + album detail routes; update `docs/product/convex-design.md` and this file when Done.
 
 ---
 

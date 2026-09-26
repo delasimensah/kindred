@@ -37,7 +37,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
 
   return (
     <Box
-      className={cn("animate-pulse bg-surface", radiusClass, className)}
+      className={cn("animate-pulse bg-white/10", radiusClass, className)}
       style={dynamicStyle}
     />
   );

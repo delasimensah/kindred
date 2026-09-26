@@ -57,17 +57,17 @@ const NAV_ITEMS: {
   { id: "home", href: "/", label: "Home", Icon: IconHome, ready: true },
   {
     id: "releases",
-    href: null,
+    href: "/releases",
     label: "Releases",
     Icon: IconDisc,
-    ready: false,
+    ready: true,
   },
   {
     id: "upload",
-    href: null,
+    href: "/upload",
     label: "Upload",
     Icon: IconCloudUpload,
-    ready: false,
+    ready: true,
   },
   {
     id: "updates",

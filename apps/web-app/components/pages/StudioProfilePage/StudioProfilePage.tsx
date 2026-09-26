@@ -17,11 +17,11 @@ import ImageCropModal, {
   type ImageCropKind,
 } from "../../media/ImageCropModal/ImageCropModal";
 import Heading from "../../ui/Heading/Heading";
-import Skeleton from "../../ui/Skeleton/Skeleton";
 import Text from "../../ui/Text/Text";
 import ProfileAvatarField from "./ProfileAvatarField";
 import ProfileCoverField from "./ProfileCoverField";
 import ProfileStatusCard from "./ProfileStatusCard";
+import StudioProfilePageSkeleton from "./StudioProfilePageSkeleton";
 
 const BIO_MAX = 300;
 
@@ -60,13 +60,7 @@ const StudioProfilePage: React.FC = () => {
   }, [cropDraft?.imageSrc]);
 
   if (profile === undefined) {
-    return (
-      <div className="px-4 py-8 sm:px-8 lg:px-10">
-        <Skeleton className="mb-8 h-10 w-56" />
-        <Skeleton className="mb-6 h-44 rounded-2xl" />
-        <Skeleton className="h-64 rounded-2xl" />
-      </div>
-    );
+    return <StudioProfilePageSkeleton />;
   }
 
   if (profile === null) {

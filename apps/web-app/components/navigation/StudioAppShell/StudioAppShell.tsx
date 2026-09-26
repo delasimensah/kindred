@@ -27,6 +27,12 @@ function navFromPath(pathname: string): StudioNavId {
   if (pathname.startsWith("/profile")) {
     return "profile";
   }
+  if (pathname.startsWith("/upload")) {
+    return "upload";
+  }
+  if (pathname.startsWith("/releases")) {
+    return "releases";
+  }
   return "home";
 }
 

@@ -38,8 +38,8 @@ describe("StudioSidebar", () => {
 
     expect(screen.getByRole("link", { name: /home/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /profile/i })).toBeInTheDocument();
-    expect(screen.getByText("Releases")).toBeInTheDocument();
-    expect(screen.getByText("Upload")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /releases/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /upload/i })).toBeInTheDocument();
   });
 
   it("signs out from the footer", async () => {

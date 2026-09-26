@@ -21,5 +21,7 @@ export { default as NotAllowedPage } from "./pages/NotAllowedPage/NotAllowedPage
 export { default as SignInPage } from "./pages/SignInPage/SignInPage";
 export { default as StudioHomePage } from "./pages/StudioHomePage/StudioHomePage";
 export { default as StudioProfilePage } from "./pages/StudioProfilePage/StudioProfilePage";
+export { default as StudioUploadPage } from "./pages/StudioUploadPage/StudioUploadPage";
+export { default as StudioReleasesPage } from "./pages/StudioReleasesPage/StudioReleasesPage";
 
 export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

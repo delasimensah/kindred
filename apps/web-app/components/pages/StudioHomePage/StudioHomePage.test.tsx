@@ -45,6 +45,10 @@ describe("StudioHomePage", () => {
     expect(screen.getByText("12")).toBeInTheDocument();
     expect(screen.getByText("Osu Nights")).toBeInTheDocument();
     expect(screen.getByText("Published")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /thank a fan/i })).toHaveAttribute(
+      "href",
+      "/thank-yous"
+    );
   });
 
   it("explains when no artist is linked", () => {

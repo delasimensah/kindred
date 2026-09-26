@@ -25,4 +25,11 @@ crons.interval(
   {}
 );
 
+crons.monthly(
+  "demo earnings for previous month",
+  { day: 1, hourUTC: 6, minuteUTC: 0 },
+  internal.earnings.computePreviousMonth,
+  {}
+);
+
 export default crons;

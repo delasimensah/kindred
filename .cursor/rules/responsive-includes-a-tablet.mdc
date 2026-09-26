@@ -1,0 +1,25 @@
+---
+description: Screen layout must be checked on a tablet, not only phone and desktop
+alwaysApply: true
+---
+
+# Responsive includes a tablet
+
+When shipping or editing a screen layout, check a phone, a tablet, and a desktop. A tablet is the size between a phone and a laptop, such as an iPad.
+
+## Widths
+
+- Phone: about 375px wide
+- Tablet: about 768px wide, then about 1024px wide
+- Desktop: about 1280px wide
+
+## Do
+
+- Look at each of those widths before calling the layout done.
+- At a tablet width, include the side panel if this app shows one there. The content column is narrower than the window.
+- Fix clipping, overlap, and columns that only fit when the window is a laptop.
+
+## Do not
+
+- Treat "responsive" as two checks: 375 and 1280.
+- Assume a layout that works on a phone and a laptop also works on a tablet.

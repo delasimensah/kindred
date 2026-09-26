@@ -47,4 +47,4 @@ Running the command again does not wipe the database and does not delete someone
 
 ## What this seed does not store
 
-Efua can sign in. A paid supporter record is not written, because that table is not in the database yet. Posts, earnings, featured slots, and search embeddings are also later data. The seed still gives Efua a like on Asase, and Akosua a playlist named Sunday in Osu, because those tables already exist.
+Posts for non-hero artists, search embeddings, and real RevenueCat purchases are later data. Efua gets an active entitlement and support routes from `seedSupportEconomy`, and demo earnings months are written by `earnings:seedPastMonths`. The seed still gives Efua a like on Asase, and Akosua a playlist named Sunday in Osu.

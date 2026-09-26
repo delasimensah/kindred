@@ -1,5 +1,6 @@
 import { createAccount } from "@convex-dev/auth/server";
 import { v } from "convex/values";
+import { isFoundingSupporter } from "shared";
 
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
@@ -823,8 +824,8 @@ export const attachProfiles = internalMutation({
 });
 
 /**
- * Efua Boateng is the supporter login. This does not write a paid
- * entitlement. That table is not in the database yet.
+ * Efua Boateng is the supporter login. Support economy seed
+ * (seedSupportEconomy) writes her entitlement and routes.
  */
 export const ensureAccounts = internalAction({
   args: { password: v.string() },
@@ -998,5 +999,250 @@ export const attachSeedReleases = internalMutation({
     }
 
     return { ep, album };
+  },
+});
+
+async function ensureEntitlement(
+  ctx: MutationCtx,
+  profileId: Id<"profiles">,
+  priceTier: "4.99" | "9.99"
+) {
+  const existing = await ctx.db
+    .query("entitlements")
+    .withIndex("by_profileId", (q) => q.eq("profileId", profileId))
+    .unique();
+  const now = Date.now();
+  const patch = {
+    status: "active" as const,
+    productId: `kindred_supporter_${priceTier}`,
+    priceTier,
+    store: "app_store" as const,
+    rcAppUserId: String(profileId),
+    currentPeriodEnd: now + 30 * DAY_MS,
+    willRenew: true,
+    lastVerifiedAt: now,
+    updatedAt: now,
+  };
+  if (existing !== null) {
+    await ctx.db.patch(existing._id, patch);
+    return;
+  }
+  await ctx.db.insert("entitlements", {
+    profileId,
+    ...patch,
+  });
+}
+
+async function ensureRoute(
+  ctx: MutationCtx,
+  args: {
+    profileId: Id<"profiles">;
+    artistId: Id<"artists">;
+    startedAt: number;
+    founding: boolean;
+  }
+) {
+  const existing = await ctx.db
+    .query("supportRoutes")
+    .withIndex("by_profile_artist", (q) =>
+      q.eq("profileId", args.profileId).eq("artistId", args.artistId)
+    )
+    .unique();
+  if (existing !== null) {
+    await ctx.db.patch(existing._id, {
+      active: true,
+      endedAt: undefined,
+      startedAt: args.startedAt,
+      founding: args.founding,
+      ...(existing.thanked === undefined ? { thanked: false } : {}),
+    });
+    return;
+  }
+  await ctx.db.insert("supportRoutes", {
+    profileId: args.profileId,
+    artistId: args.artistId,
+    active: true,
+    startedAt: args.startedAt,
+    founding: args.founding,
+    thanked: false,
+  });
+}
+
+async function ensureListen(
+  ctx: MutationCtx,
+  args: {
+    profileId: Id<"profiles">;
+    artistId: Id<"artists">;
+    trackId: Id<"tracks">;
+    msPlayed: number;
+    clientEventId: string;
+  }
+) {
+  const existing = await ctx.db
+    .query("listenEvents")
+    .withIndex("by_profile_clientEventId", (q) =>
+      q.eq("profileId", args.profileId).eq("clientEventId", args.clientEventId)
+    )
+    .unique();
+  if (existing !== null) {
+    return;
+  }
+  await ctx.db.insert("listenEvents", {
+    profileId: args.profileId,
+    trackId: args.trackId,
+    artistId: args.artistId,
+    startedAt: Date.now() - DAY_MS,
+    msPlayed: args.msPlayed,
+    completed: true,
+    source: "artist",
+    clientEventId: args.clientEventId,
+  });
+}
+
+/**
+ * What: active entitlements, support routes, listen minutes, and demo earnings.
+ * Where: seed-only fictional accounts (Efua + audience logins).
+ * Rights: original fiction.
+ * How: run after ensureAccounts; then earnings.seedPastMonths.
+ * Out: real RevenueCat purchases; rewriting past months after routes change.
+ */
+export const seedSupportEconomy = internalMutation({
+  args: {},
+  returns: v.object({
+    entitlements: v.number(),
+    routes: v.number(),
+    listens: v.number(),
+  }),
+  handler: async (ctx) => {
+    const amaara = await artistIdByHandle(ctx, "amaara");
+    const kweku = await artistIdByHandle(ctx, "kweku-darko");
+    const sela = await artistIdByHandle(ctx, "sela-okoro");
+    const asaseId = await trackByTitle(ctx, "amaara", "Asase");
+
+    let entitlements = 0;
+    let routes = 0;
+    let listens = 0;
+    const now = Date.now();
+    const joinedBefore = new Map<Id<"artists">, number>();
+    const foundingFor = (artistId: Id<"artists">) => {
+      const before = joinedBefore.get(artistId) ?? 0;
+      joinedBefore.set(artistId, before + 1);
+      return isFoundingSupporter(before);
+    };
+
+    const profiles: { profileId: Id<"profiles">; email: string }[] = [];
+    for (const account of seedAccounts()) {
+      if (
+        account.role !== "supporter" &&
+        account.role !== "audience" &&
+        account.role !== "fan"
+      ) {
+        continue;
+      }
+      const user = await ctx.db
+        .query("users")
+        .withIndex("email", (q) => q.eq("email", account.email))
+        .unique();
+      if (user === null) {
+        continue;
+      }
+      const profile = await ctx.db
+        .query("profiles")
+        .withIndex("by_authUserId", (q) => q.eq("authUserId", user._id))
+        .unique();
+      if (profile === null) {
+        continue;
+      }
+      profiles.push({ profileId: profile._id, email: account.email });
+    }
+
+    // Efua + audience profiles become active supporters (skip free fan Akosua).
+    const efua = profiles.filter(
+      (row) => row.email === "efua.boateng@kindred.example"
+    );
+    const others = profiles.filter(
+      (row) =>
+        row.email !== "efua.boateng@kindred.example" &&
+        row.email !== "akosua.frimpong@kindred.example"
+    );
+    const supporters = [...efua, ...others].slice(0, 25);
+
+    for (const [index, row] of supporters.entries()) {
+      const isEfua = row.email === "efua.boateng@kindred.example";
+      const priceTier = index % 5 === 0 ? "9.99" : "4.99";
+      await ensureEntitlement(ctx, row.profileId, priceTier);
+      entitlements += 1;
+
+      // Index 0 is the earliest route. Later indexes start later.
+      const daysAgo = 30 + (supporters.length - 1 - index) * 7;
+      const startedAt = now - daysAgo * DAY_MS;
+
+      await ensureRoute(ctx, {
+        profileId: row.profileId,
+        artistId: amaara,
+        startedAt,
+        founding: foundingFor(amaara),
+      });
+      routes += 1;
+
+      if (isEfua || index % 3 === 0) {
+        await ensureRoute(ctx, {
+          profileId: row.profileId,
+          artistId: kweku,
+          startedAt: startedAt + DAY_MS,
+          founding: foundingFor(kweku),
+        });
+        routes += 1;
+      }
+      if (isEfua || index % 4 === 0) {
+        await ensureRoute(ctx, {
+          profileId: row.profileId,
+          artistId: sela,
+          startedAt: startedAt + 2 * DAY_MS,
+          founding: foundingFor(sela),
+        });
+        routes += 1;
+      }
+
+      if (asaseId !== null) {
+        await ensureListen(ctx, {
+          profileId: row.profileId,
+          artistId: amaara,
+          trackId: asaseId,
+          msPlayed: 60_000 + index * 45_000,
+          clientEventId: `seed-listen-${row.profileId}-asase`,
+        });
+        listens += 1;
+      }
+    }
+
+    for (const artistId of [amaara, kweku, sela]) {
+      let supporterCount = 0;
+      let cursor: string | null = null;
+      let done = false;
+      while (!done) {
+        const page = await ctx.db
+          .query("supportRoutes")
+          .withIndex("by_artist_active", (q) =>
+            q.eq("artistId", artistId).eq("active", true)
+          )
+          .paginate({ numItems: 50, cursor });
+        supporterCount += page.page.length;
+        done = page.isDone;
+        cursor = page.continueCursor;
+      }
+      const stats = await ctx.db
+        .query("artistStats")
+        .withIndex("by_artistId", (q) => q.eq("artistId", artistId))
+        .unique();
+      if (stats !== null) {
+        await ctx.db.patch(stats._id, {
+          supporterCount,
+          updatedAt: Date.now(),
+        });
+      }
+    }
+
+    return { entitlements, routes, listens };
   },
 });

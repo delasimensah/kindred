@@ -52,7 +52,7 @@ An artist sees their own supporters and nobody else's. A supporter's routing cho
 Supporter status must be right in three awkward moments: right after purchase (the webhook may lag), after a reinstall (restore purchases), and after cancellation (exclusives must re-lock). One rule closes all three: the phone reports nothing, the server reads RevenueCat, the server writes the row, and every exclusive query re-reads that row. See section 6 of the Convex companion.
 
 **High — reliability of anything money-adjacent.**
-A saved route set must survive reinstall. A founding badge, once earned, is never recalculated. A demo-earnings month, once written, is never rewritten when the supporter changes routes. Published tracks never silently un-publish.
+A saved route set must survive reinstall. A founding badge is the first 10 people to route to that artist. Once earned, it is never recalculated, never revoked, and the slot does not reopen if someone leaves. Those supporters are first in the thank-you list. A thank-you is once, then they leave the list and the next supporter moves up. A demo-earnings month, once written, is never rewritten when the supporter changes routes. Published tracks never silently un-publish.
 
 **High — latency for play and scrub.**
 Pressing play should start audio immediately, and dragging the waveform should move the audio in lockstep. Two design consequences: the waveform draws from a **precomputed peaks array** stored on the track document (never decoded on the phone), and the audio URL is fetched once per track, not re-resolved on every scrub frame.

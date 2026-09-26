@@ -197,6 +197,10 @@ async function main() {
   console.log(
     `Accounts created ${accounts.created}, already there ${accounts.existing}, profiles ${accounts.profiles}.`
   );
+  const releases = convexRun("seedCatalog:attachSeedReleases", {});
+  console.log(
+    `Seed releases: EP ${releases.ep ? "ready" : "skipped"}, album ${releases.album ? "ready" : "skipped"}.`
+  );
   console.log(
     "Demo logins: akosua.frimpong@kindred.example, efua.boateng@kindred.example, amaara.mensah@kindred.example, delasi.mensah@kindred.example."
   );

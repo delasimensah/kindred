@@ -33,7 +33,12 @@ const ExpandablePhoto: React.FC<ExpandablePhotoProps> = ({ uri, label }) => {
         <Image
           source={{ uri }}
           contentFit="cover"
-          style={{ width: "100%", height: 200, borderRadius: 12 }}
+          style={{
+            width: "100%",
+            height: 200,
+            borderRadius: 12,
+            backgroundColor: COLORS.surface,
+          }}
         />
       </Pressable>
       <Modal
@@ -67,7 +72,11 @@ const ExpandablePhoto: React.FC<ExpandablePhotoProps> = ({ uri, label }) => {
               accessibilityLabel={label}
               source={{ uri }}
               contentFit="contain"
-              style={{ width, height: height - insets.top - 64 }}
+              style={{
+                width,
+                height: height - insets.top - 64,
+                backgroundColor: COLORS.black,
+              }}
             />
           </VStack>
         </Pressable>

@@ -1,8 +1,18 @@
 import { ArtistProfileRoute } from "@/components";
-import { homeArtistTracksHref } from "@/utils";
+import {
+  homeArtistAlbumHref,
+  homeArtistAlbumsHref,
+  homeArtistTracksHref,
+} from "@/utils";
 
 const HomeArtistRoute = () => {
-  return <ArtistProfileRoute tracksHref={homeArtistTracksHref} />;
+  return (
+    <ArtistProfileRoute
+      tracksHref={homeArtistTracksHref}
+      albumsHref={homeArtistAlbumsHref}
+      albumHref={homeArtistAlbumHref}
+    />
+  );
 };
 
 export default HomeArtistRoute;

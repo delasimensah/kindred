@@ -90,6 +90,10 @@ export default defineSchema({
     genre: v.string(),
     hidden: v.boolean(),
     credit: v.optional(v.string()),
+    /** Set when this track belongs to an EP or album. Singles leave it unset. */
+    releaseId: v.optional(v.id("releases")),
+    /** 0-based order inside the release. */
+    position: v.optional(v.number()),
     createdAt: v.number(),
   })
     .index("by_artist_title", ["artistId", "title"])
@@ -97,10 +101,33 @@ export default defineSchema({
     .index("by_state_publishAt", ["state", "publishAt"])
     .index("by_genre_publishedAt", ["genre", "publishedAt"])
     .index("by_visibility_publishedAt", ["visibility", "publishedAt"])
+    .index("by_release_position", ["releaseId", "position"])
     .searchIndex("by_title", {
       searchField: "title",
       filterFields: ["state", "hidden", "visibility"],
     }),
+
+  releases: defineTable({
+    artistId: v.id("artists"),
+    title: v.string(),
+    type: v.union(v.literal("ep"), v.literal("album")),
+    artworkFileId: v.id("files"),
+    visibility: v.union(v.literal("public"), v.literal("supporters")),
+    state: v.union(
+      v.literal("draft"),
+      v.literal("scheduled"),
+      v.literal("published")
+    ),
+    publishAt: v.optional(v.number()),
+    publishedAt: v.optional(v.number()),
+    description: v.optional(v.string()),
+    genre: v.string(),
+    tags: v.array(v.string()),
+    hidden: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_artist_state_publishedAt", ["artistId", "state", "publishedAt"])
+    .index("by_state_publishAt", ["state", "publishAt"]),
 
   listenEvents: defineTable({
     profileId: v.id("profiles"),

@@ -1,13 +1,11 @@
 "use client";
 
-import type { Id } from "@convex/_generated/dataModel";
 import { Button } from "@mantine/core";
 import React from "react";
 
 type ReleaseState = "draft" | "scheduled" | "published";
 
 interface ReleaseRowActionsProps {
-  trackId: Id<"tracks">;
   state: ReleaseState;
   hidden: boolean;
   onEdit: () => void;

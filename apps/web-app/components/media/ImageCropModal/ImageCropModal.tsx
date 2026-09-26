@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Modal, Slider } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import React, { useCallback, useState } from "react";
 import Cropper, { type Area } from "react-easy-crop";
 
@@ -48,6 +49,8 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({
   onCancel,
   onConfirm,
 }) => {
+  const isNarrow = useMediaQuery("(max-width: 40em)");
+  const fullScreen = isNarrow === true;
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
@@ -87,17 +90,21 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({
       opened={opened}
       onClose={onCancel}
       title={TITLE[kind]}
-      centered
+      centered={!fullScreen}
+      fullScreen={fullScreen}
       size="lg"
       classNames={{
-        content: "bg-surface text-text",
-        header: "bg-surface",
-        title: "font-display text-lg text-text",
+        content: "bg-surface text-text flex flex-col",
+        header: "bg-surface shrink-0 px-4 sm:px-6",
+        title: "font-display text-base text-text sm:text-lg",
         close: "text-text/60 hover:bg-white/5 hover:text-text",
+        body: fullScreen
+          ? "flex-1 overflow-y-auto px-4 pb-6 sm:px-6"
+          : "px-4 pb-4 sm:px-6",
       }}
     >
       <Text className="mb-4 text-sm text-text/55">{HINT[kind]}</Text>
-      <div className="relative mb-5 h-72 overflow-hidden rounded-xl bg-page sm:h-80">
+      <div className="relative mb-5 h-64 overflow-hidden rounded-xl bg-page sm:h-80">
         {imageSrc ? (
           <Cropper
             image={imageSrc}
@@ -126,12 +133,12 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({
           color="yellow"
         />
       </div>
-      <div className="flex justify-end gap-3">
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Button
           variant="default"
           onClick={onCancel}
           disabled={isApplying}
-          className="rounded-xl border-white/10 bg-transparent text-text/70"
+          className="w-full rounded-xl border-white/10 bg-transparent text-text/70 sm:w-auto"
         >
           Cancel
         </Button>
@@ -139,7 +146,7 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({
           loading={isApplying}
           disabled={!croppedAreaPixels}
           onClick={() => void handleApply()}
-          className="rounded-xl bg-primary text-textOnPrimary hover:brightness-95"
+          className="w-full rounded-xl bg-primary text-textOnPrimary hover:brightness-95 sm:w-auto"
         >
           Use this crop
         </Button>

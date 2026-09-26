@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import React from "react";
 import { Alert, Pressable } from "react-native";
 
 import { COLORS } from "@/constants";
 
+import CoverImage from "../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import TrackMenu from "../TrackMenu/TrackMenu";
@@ -65,21 +65,16 @@ const PopularTrackRow: React.FC<PopularTrackRowProps> = ({
             spacing="none"
             align="center"
             justify="center"
-            className="h-12 w-12 overflow-hidden rounded-md bg-surface"
+            className="h-12 w-12 overflow-hidden rounded-md"
           >
-            {artworkUrl ? (
-              <Image
-                accessibilityLabel=""
-                source={{ uri: artworkUrl }}
-                contentFit="cover"
-                style={{
-                  position: "absolute",
-                  width: 48,
-                  height: 48,
-                  opacity: locked ? 0.45 : 1,
-                }}
-              />
-            ) : null}
+            <CoverImage
+              uri={artworkUrl}
+              width={48}
+              height={48}
+              radius={6}
+              opacity={locked ? 0.45 : 1}
+              style={{ position: "absolute" }}
+            />
             {playing ? <Equalizer /> : null}
             {locked ? (
               <Ionicons name="lock-closed" size={14} color={COLORS.primary} />

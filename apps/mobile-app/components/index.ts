@@ -1,6 +1,7 @@
 export { HStack, VStack } from "./ui/Stack/Stack";
 export { default as ScrollableStack } from "./ui/ScrollableStack/ScrollableStack";
 export { default as SkeletonCard } from "./ui/SkeletonCard/SkeletonCard";
+export { default as CoverImage } from "./ui/CoverImage/CoverImage";
 export { default as Text } from "./ui/Text/Text";
 export { default as PersonAvatar } from "./ui/PersonAvatar/PersonAvatar";
 export { default as AccountAvatarButton } from "./ui/AccountAvatarButton/AccountAvatarButton";
@@ -32,6 +33,8 @@ export { default as CreatePlaylistScreen } from "./screens/main/CreatePlaylistSc
 export { default as AddPlaylistTracksScreen } from "./screens/main/AddPlaylistTracksScreen/AddPlaylistTracksScreen";
 export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
 export { default as ArtistProfileRoute } from "./screens/main/ArtistProfileRoute/ArtistProfileRoute";
+export { default as ArtistAlbumsRoute } from "./screens/main/ArtistAlbumsRoute/ArtistAlbumsRoute";
+export { default as AlbumDetailRoute } from "./screens/main/AlbumDetailRoute/AlbumDetailRoute";
 export { default as PopularTracksScreen } from "./screens/main/PopularTracksScreen/PopularTracksScreen";
 export { default as PopularTracksRoute } from "./screens/main/PopularTracksRoute/PopularTracksRoute";
 

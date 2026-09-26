@@ -89,7 +89,11 @@ const PlayerArtworkFlight: React.FC<PlayerArtworkFlightProps> = ({
           accessibilityLabel="Moving album artwork"
           source={{ uri: artworkUrl }}
           contentFit="cover"
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: COLORS.surface,
+          }}
         />
       ) : null}
     </Animated.View>

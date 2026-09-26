@@ -115,12 +115,19 @@ Indexes: `by_profile_createdAt`, `by_status_createdAt`.
 ### Catalog
 
 **`tracks`**
-Fields: `artistId`, `title`, `audioFileId`, `artworkFileId` (optional), `visibility` (`public` | `supporters`), `state` (`draft` | `scheduled` | `published`), `publishAt` (optional), `publishedAt` (optional), `durationMs`, `peaks` (array of 1000 numbers between 0 and 1), `embedding` (optional array of 1536 numbers), `embeddingText` (optional, what we embedded, so a re-embed is reproducible), `tags` (array of strings), `description` (optional), `genre`, `hidden` (boolean, admin), `credit` (optional attribution string for CC-BY seed audio), `createdAt`.
-Indexes: `by_artist_state_publishedAt`, `by_state_publishAt` (the safety net for missed scheduled publishes), `by_genre_publishedAt`, `by_visibility_publishedAt`.
+Fields: `artistId`, `title`, `audioFileId`, `artworkFileId` (optional), `visibility` (`public` | `supporters`), `state` (`draft` | `scheduled` | `published`), `publishAt` (optional), `publishedAt` (optional), `durationMs`, `peaks` (array of 1000 numbers between 0 and 1), `embedding` (optional array of 1536 numbers), `embeddingText` (optional, what we embedded, so a re-embed is reproducible), `tags` (array of strings), `description` (optional), `genre`, `hidden` (boolean, admin), `credit` (optional attribution string for CC-BY seed audio), `releaseId` (optional, set when the track belongs to an EP or album), `position` (optional integer, 0-based order inside that release), `createdAt`.
+Indexes: `by_artist_state_publishedAt`, `by_state_publishAt` (the safety net for missed scheduled publishes), `by_genre_publishedAt`, `by_visibility_publishedAt`, `by_release_position`.
 Search index `by_title` on `title`, filtering on `state`, `hidden`, and `visibility`.
 Vector index `by_embedding` on `embedding`, 1536 dimensions, filtering on `visibility`, `hidden`, and `state`.
 
 Note on `peaks`: fixed at 1000 buckets no matter how long the track is, each a number from 0 to 1 rounded to three decimals. That is roughly 8 KB, comfortably inside a document, and more detail than any phone screen can draw.
+
+Singles leave `releaseId` unset. A track in an EP or album stays a normal playable row (popular lists and queues unchanged) and also appears in order on the album page.
+
+**`releases`** — an EP or album: one title, one cover, one visibility, one publish clock, and two or more member tracks.
+Fields: `artistId`, `title`, `type` (`ep` | `album`), `artworkFileId`, `visibility` (`public` | `supporters`), `state` (`draft` | `scheduled` | `published`), `publishAt` (optional), `publishedAt` (optional), `description` (optional), `genre`, `tags`, `hidden`, `createdAt`.
+Indexes: `by_artist_state_publishedAt`, `by_state_publishAt` (same schedule safety net shape as tracks).
+Default labels: EP = 2–6 tracks; album = 7 or more. Publishing or scheduling a release flips the release row and every member track together.
 
 **`updatePosts`**
 Fields: `artistId`, `body`, `photoFileId` (optional), `voiceFileId` (optional), `voiceDurationMs` (optional), `audience` (`everyone` | `supporters`), `hidden`, `createdAt`.

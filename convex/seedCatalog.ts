@@ -863,3 +863,140 @@ export const ensureAccounts = internalAction({
     return { created, existing, profiles };
   },
 });
+
+/**
+ * Groups existing published seed tracks into one EP (Amaara) and one album
+ * (Kweku) so mobile can show Albums without new audio files.
+ */
+export const attachSeedReleases = internalMutation({
+  args: {},
+  returns: v.object({ ep: v.boolean(), album: v.boolean() }),
+  handler: async (ctx) => {
+    let ep = false;
+    let album = false;
+
+    const amaara = await ctx.db
+      .query("artists")
+      .withIndex("by_handle", (q) => q.eq("handle", "amaara"))
+      .unique();
+    if (amaara !== null) {
+      const existing = await ctx.db
+        .query("releases")
+        .withIndex("by_artist_state_publishedAt", (q) =>
+          q.eq("artistId", amaara._id).eq("state", "published")
+        )
+        .first();
+      if (existing === null) {
+        const published = await ctx.db
+          .query("tracks")
+          .withIndex("by_artist_state_publishedAt", (q) =>
+            q.eq("artistId", amaara._id).eq("state", "published")
+          )
+          .order("desc")
+          .collect();
+        const candidates = published.filter(
+          (track) =>
+            !track.hidden &&
+            track.releaseId === undefined &&
+            track.title !== "Asase"
+        );
+        const members = candidates.slice(0, 4);
+        if (members.length === 4) {
+          const artworkFileId =
+            members[0]?.artworkFileId ?? amaara.avatarFileId;
+          if (artworkFileId !== undefined) {
+            const releaseId = await ctx.db.insert("releases", {
+              artistId: amaara._id,
+              title: "Lagoon Sessions",
+              type: "ep",
+              artworkFileId,
+              visibility: "public",
+              state: "published",
+              publishedAt: members[0]?.publishedAt ?? Date.now(),
+              genre: "Afro-soul and R&B",
+              tags: ["ep", "seed"],
+              description: "Four tracks from Amaara's Accra sessions.",
+              hidden: false,
+              createdAt: Date.now(),
+            });
+            for (let index = 0; index < members.length; index += 1) {
+              const track = members[index];
+              if (track === undefined) {
+                continue;
+              }
+              await ctx.db.patch(track._id, {
+                releaseId,
+                position: index,
+                artworkFileId,
+              });
+            }
+            ep = true;
+          }
+        }
+      } else {
+        ep = true;
+      }
+    }
+
+    const kweku = await ctx.db
+      .query("artists")
+      .withIndex("by_handle", (q) => q.eq("handle", "kweku-darko"))
+      .unique();
+    if (kweku !== null) {
+      const existing = await ctx.db
+        .query("releases")
+        .withIndex("by_artist_state_publishedAt", (q) =>
+          q.eq("artistId", kweku._id).eq("state", "published")
+        )
+        .first();
+      if (existing === null) {
+        const published = await ctx.db
+          .query("tracks")
+          .withIndex("by_artist_state_publishedAt", (q) =>
+            q.eq("artistId", kweku._id).eq("state", "published")
+          )
+          .order("desc")
+          .collect();
+        const candidates = published.filter(
+          (track) => !track.hidden && track.releaseId === undefined
+        );
+        const members = candidates.slice(0, 7);
+        if (members.length === 7) {
+          const artworkFileId = members[0]?.artworkFileId ?? kweku.avatarFileId;
+          if (artworkFileId !== undefined) {
+            const releaseId = await ctx.db.insert("releases", {
+              artistId: kweku._id,
+              title: "Kumasi Nights",
+              type: "album",
+              artworkFileId,
+              visibility: "public",
+              state: "published",
+              publishedAt: members[0]?.publishedAt ?? Date.now(),
+              genre: "Highlife",
+              tags: ["album", "seed"],
+              description: "Seven tracks from Kweku's Kumasi set.",
+              hidden: false,
+              createdAt: Date.now(),
+            });
+            for (let index = 0; index < members.length; index += 1) {
+              const track = members[index];
+              if (track === undefined) {
+                continue;
+              }
+              await ctx.db.patch(track._id, {
+                releaseId,
+                position: index,
+                artworkFileId,
+              });
+            }
+            album = true;
+          }
+        }
+      } else {
+        album = true;
+      }
+    }
+
+    return { ep, album };
+  },
+});

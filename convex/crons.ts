@@ -18,4 +18,11 @@ crons.interval(
   {}
 );
 
+crons.interval(
+  "scheduled release publish safety net",
+  { hours: 1 },
+  internal.studioReleases.publishDueScheduled,
+  {}
+);
+
 export default crons;

@@ -45,12 +45,24 @@ const screenProps = {
   isLoading: false,
   now,
   hasMoreTracks: true,
+  hasMoreAlbums: true,
+  albums: [
+    {
+      releaseId: "release_1",
+      title: "Lagoon Sessions",
+      type: "ep" as const,
+      artworkUrl: null,
+      trackCount: 4,
+    },
+  ],
   playingTrackId: null,
   isPlaying: false,
   onToggleFollow: jest.fn(),
   onPlay: jest.fn(),
   onToggleLike: jest.fn(),
   onViewAllTracks: jest.fn(),
+  onViewAllAlbums: jest.fn(),
+  onOpenAlbum: jest.fn(),
   onSupport: jest.fn(),
 };
 
@@ -58,15 +70,18 @@ describe("ArtistProfileScreen", () => {
   it("plays a public track, leaves a locked one, and offers view all", () => {
     const onPlay = jest.fn();
     const onViewAllTracks = jest.fn();
+    const onViewAllAlbums = jest.fn();
     render(
       <ArtistProfileScreen
         {...screenProps}
         onPlay={onPlay}
         onViewAllTracks={onViewAllTracks}
+        onViewAllAlbums={onViewAllAlbums}
       />
     );
 
     expect(screen.getByText("Popular tracks")).toBeTruthy();
+    expect(screen.getByText("Albums")).toBeTruthy();
     expect(screen.getByText("Updates")).toBeTruthy();
     expect(screen.getByText("Asase is finished.")).toBeTruthy();
     expect(screen.getByLabelText("2 listening now")).toBeTruthy();
@@ -77,6 +92,8 @@ describe("ArtistProfileScreen", () => {
     expect(screen.getByLabelText("More options for Night Mix")).toBeDisabled();
     fireEvent.press(screen.getByLabelText("View all popular tracks"));
     expect(onViewAllTracks).toHaveBeenCalledTimes(1);
+    fireEvent.press(screen.getByLabelText("View all albums"));
+    expect(onViewAllAlbums).toHaveBeenCalledTimes(1);
   });
 
   it("shows a skeleton while the artist is loading", () => {

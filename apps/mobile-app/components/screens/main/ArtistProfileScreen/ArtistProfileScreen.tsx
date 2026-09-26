@@ -5,6 +5,9 @@ import { COLORS } from "@/constants";
 import { useAppInsets } from "@/hooks";
 import { formatAge, formatDuration } from "@/utils";
 
+import ArtistAlbumsSection, {
+  type ArtistAlbumSummary,
+} from "../../../catalog/ArtistAlbumsSection/ArtistAlbumsSection";
 import ArtistProfileActions from "../../../catalog/ArtistProfileActions/ArtistProfileActions";
 import ArtistProfileHero from "../../../catalog/ArtistProfileHero/ArtistProfileHero";
 import ArtistUpdateCard from "../../../catalog/ArtistUpdateCard/ArtistUpdateCard";
@@ -13,6 +16,8 @@ import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmp
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import ArtistProfileScreenSkeleton from "./ArtistProfileScreenSkeleton";
+
+export type { ArtistAlbumSummary };
 
 export interface ArtistProfileTrack {
   trackId: string;
@@ -52,6 +57,8 @@ interface ArtistProfileScreenProps {
   isLoading: boolean;
   now: number;
   hasMoreTracks: boolean;
+  albums?: ArtistAlbumSummary[];
+  hasMoreAlbums?: boolean;
   playingTrackId: string | null;
   isPlaying: boolean;
   playingVoiceUrl?: string | null;
@@ -65,6 +72,8 @@ interface ArtistProfileScreenProps {
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
   onViewAllTracks: () => void;
+  onViewAllAlbums?: () => void;
+  onOpenAlbum?: (releaseId: string) => void;
   onSupport: () => void;
   onToggleVoice?: (url: string) => void;
   onSeekVoice?: (url: string, ratio: number) => void;
@@ -77,6 +86,8 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   isLoading,
   now,
   hasMoreTracks,
+  albums = [],
+  hasMoreAlbums = false,
   playingTrackId,
   isPlaying,
   playingVoiceUrl = null,
@@ -90,6 +101,8 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onAddToQueue,
   onToggleLike,
   onViewAllTracks,
+  onViewAllAlbums,
+  onOpenAlbum,
   onSupport,
   onToggleVoice,
   onSeekVoice,
@@ -193,6 +206,12 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
             ))
           )}
         </VStack>
+        <ArtistAlbumsSection
+          albums={albums}
+          hasMore={hasMoreAlbums}
+          onOpenAlbum={(releaseId) => onOpenAlbum?.(releaseId)}
+          onViewAll={() => onViewAllAlbums?.()}
+        />
         <VStack spacing="sm">
           <Text className="font-app-semibold text-lg text-text">Updates</Text>
           {updates.length === 0 ? (

@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. Next Studio build: **KIND-91** (EP/album uploads).
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. Next: **KIND-81** (Studio updates).
 
 **Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
@@ -39,7 +39,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-45** web Studio/admin sign-in is **Done**.
 - **KIND-78** Studio home/profile is **Done**.
 - **KIND-79** Studio upload and releases (singles) is **Done**.
-- **KIND-91** Studio EP/album upload (ordered multi-track releases + mobile album page) is **Todo**, blocked by KIND-79 until merge.
+- **KIND-91** Studio EP/album upload (ordered multi-track releases + mobile album page) is **Done**.
 - **KIND-49** catalog schema is **Done**.
 - **KIND-48** catalog seed is **Done**.
 - **KIND-50** mobile tab shell is **Done**.
@@ -57,7 +57,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
 - Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: none (open **KIND-91** after KIND-79 merges).
+- In Progress: none. Next Todo: [KIND-81](https://linear.app/dm-studios/issue/KIND-81) (Artist can post updates).
 
 ---
 
@@ -1540,12 +1540,11 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 - Seed rights: `seed/RIGHTS.md`
 - Convex Free egress: `docs/convex-usage.md`
 
-**Design:**
+**Design (locked 26 Sep 2026):**
 
-- Reuse: `docs/design/exports/web/01-studio/04-upload-release.html`, `docs/design/exports/web/01-studio/05-releases.html`, KIND-51 mobile artist/track patterns.
-- Missing before UI build: Studio EP/album upload export; Releases type badge / track list; mobile album/EP detail export.
-- Pipeline: UX Pilot → HTML under `docs/design/exports/` → implement with repo components. Do not paste UX Pilot markup.
-- If design slips: stop before screen build; do not invent layout from singles upload alone.
+- No new UX Pilot exports. Build from shipped components.
+- Studio: Single vs Album choice cards on Upload; album = shared cover + ordered tracks; Releases list type chip.
+- Mobile: Albums section on artist profile (horizontal covers, View all when more than 6) → full albums grid → album detail (LibraryCollectionHeader + PopularTrackRow patterns) on each tab stack.
 
 **Data model (Convex):**
 
@@ -1558,7 +1557,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 - Upload entry: Single (KIND-79) vs EP / Album.
 - Compose: title, type, genre, tags, description, visibility, shared cover (required), ordered track list with per-track audio + title + peaks.
-- Reorder; add/remove tracks while draft only. After publish: metadata, cover, schedule change; removing published tracks from a release is out (hide track instead).
+- Reorder, add, and remove tracks from Studio edit (EP 2–6, album 7+). Titles and release details edit anytime.
 - Draft / publish now / schedule same rules as singles.
 - Releases list: type chip, state, date; edit; change/cancel schedule; publish now; hide/unhide. Schedule change keeps member tracks aligned.
 

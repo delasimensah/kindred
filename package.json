@@ -23,7 +23,8 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
-    "type-check": "turbo run type-check",
+    "type-check": "yarn type-check:backend && turbo run type-check",
+    "type-check:backend": "tsc --noEmit -p convex/tsconfig.json",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
     "test": "yarn test:backend && turbo run test",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@edge-runtime/vm": "^5.0.0",
+    "@types/node": "^22",
     "convex-test": "^0.0.56",
     "ffmpeg-static": "^5.3.0",
     "patch-package": "^8.0.1",

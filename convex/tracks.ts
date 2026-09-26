@@ -31,15 +31,18 @@ export const listPublishedForArtist = authedQuery({
     const artist = await ctx.db.get(args.artistId);
     const isOwner = artist?.profileId === profile._id;
     const cap = args.limit;
-    const indexed = ctx.db
+    // Collect published first, then drop hidden. Do not take(limit+1) before
+    // filtering: a Studio-hidden track in the newest rows would make hasMore
+    // false even when many more visible published tracks exist (mobile View all).
+    // Drafts and scheduled never enter this index eq on state=published.
+    const published = await ctx.db
       .query("tracks")
       .withIndex("by_artist_state_publishedAt", (q) =>
         q.eq("artistId", args.artistId).eq("state", "published")
       )
-      .order("desc");
-    const scanned =
-      cap === undefined ? await indexed.collect() : await indexed.take(cap + 1);
-    const visible = scanned.filter((track) => !track.hidden);
+      .order("desc")
+      .collect();
+    const visible = published.filter((track) => !track.hidden);
     const hasMore = cap !== undefined && visible.length > cap;
     const page = cap === undefined ? visible : visible.slice(0, cap);
     const likedIds = await likedTrackIdSet(ctx, profile._id);

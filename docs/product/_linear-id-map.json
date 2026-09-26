@@ -151,6 +151,10 @@
     "slug": "KIND-79",
     "title": "Artist can upload and schedule releases with peaks and visibility"
   },
+  "studio-ep-album-uploads": {
+    "slug": "KIND-91",
+    "title": "Artist can upload and manage EPs and albums with ordered tracks"
+  },
   "studio-updates": {
     "slug": "KIND-81",
     "title": "Artist can post updates (text/photo/voice) and list them"

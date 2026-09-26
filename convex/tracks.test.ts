@@ -155,6 +155,101 @@ describe("tracks", () => {
     expect(JSON.stringify(page)).not.toMatch(/audio\/mpeg/);
   });
 
+  it("still offers View all when a hidden Studio track sits among the newest", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "efua.boateng@kindredmail.com",
+        name: "Efua Boateng",
+      });
+    });
+    await asUser(t, userId).mutation(api.profiles.ensureProfile, {});
+    const artistId = await t.run(async (ctx) => {
+      const artistId = await ctx.db.insert("artists", {
+        name: "Amaara Mensah",
+        handle: "amaara-hidden-page",
+        bio: "Afro-soul and R&B · Accra",
+        verified: true,
+        hidden: false,
+        createdAt: Date.now(),
+      });
+      const audioStorageId = await ctx.storage.store(
+        new Blob(["audio"], { type: "audio/mpeg" })
+      );
+      const audioFileId = await ctx.db.insert("files", {
+        storageId: audioStorageId,
+        kind: "trackAudio",
+        artistId,
+        contentType: "audio/mpeg",
+        sizeBytes: 5,
+        createdAt: Date.now(),
+      });
+      const now = Date.now();
+      const rows: Array<{
+        title: string;
+        publishedAt: number;
+        hidden: boolean;
+      }> = [
+        { title: "Newest", publishedAt: now, hidden: false },
+        { title: "Hidden Studio", publishedAt: now - 1, hidden: true },
+        { title: "Third", publishedAt: now - 2, hidden: false },
+        { title: "Fourth", publishedAt: now - 3, hidden: false },
+        { title: "Fifth", publishedAt: now - 4, hidden: false },
+        { title: "Sixth", publishedAt: now - 5, hidden: false },
+        { title: "Seventh", publishedAt: now - 6, hidden: false },
+      ];
+      for (const row of rows) {
+        await ctx.db.insert("tracks", {
+          artistId,
+          title: row.title,
+          audioFileId,
+          visibility: "public",
+          state: "published",
+          publishedAt: row.publishedAt,
+          durationMs: 180000,
+          peaks: makePeaks(),
+          tags: [],
+          genre: "Afro-soul and R&B",
+          hidden: row.hidden,
+          createdAt: now,
+        });
+      }
+      await ctx.db.insert("tracks", {
+        artistId,
+        title: "Draft Upload",
+        audioFileId,
+        visibility: "public",
+        state: "draft",
+        durationMs: 120000,
+        peaks: makePeaks(),
+        tags: [],
+        genre: "Afro-soul and R&B",
+        hidden: false,
+        createdAt: now,
+      });
+      return artistId;
+    });
+
+    const page = await asUser(t, userId).query(
+      api.tracks.listPublishedForArtist,
+      { artistId, limit: 5 }
+    );
+    expect(page.tracks.map((track) => track.title)).toEqual([
+      "Newest",
+      "Third",
+      "Fourth",
+      "Fifth",
+      "Sixth",
+    ]);
+    expect(page.hasMore).toBe(true);
+    expect(page.tracks.some((track) => track.title === "Hidden Studio")).toBe(
+      false
+    );
+    expect(page.tracks.some((track) => track.title === "Draft Upload")).toBe(
+      false
+    );
+  });
+
   it("opens a public track and locks a supporters-only track without the note", async () => {
     const t = makeBackend();
     const userId = await t.run(async (ctx) => {

@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import React from "react";
 import { Pressable, ScrollView } from "react-native";
 
@@ -9,6 +8,7 @@ import { formatDuration } from "@/utils";
 
 import PopularTrackRowSkeleton from "../../../catalog/PopularTrackRow/PopularTrackRowSkeleton";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
+import CoverImage from "../../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import type { LibraryTrack } from "../LibraryTracksScreen/LibraryTracksScreen";
@@ -55,24 +55,12 @@ const AddPlaylistTracksScreen: React.FC<AddPlaylistTracksScreenProps> = ({
               onPress={() => onAdd(track.trackId)}
             >
               <HStack spacing="md" align="center" paddingY="sm">
-                {track.artworkUrl ? (
-                  <Image
-                    accessibilityLabel=""
-                    source={{ uri: track.artworkUrl }}
-                    contentFit="cover"
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 6,
-                      backgroundColor: COLORS.surface,
-                    }}
-                  />
-                ) : (
-                  <VStack
-                    spacing="none"
-                    className="h-12 w-12 rounded-md bg-surface"
-                  />
-                )}
+                <CoverImage
+                  uri={track.artworkUrl}
+                  width={48}
+                  height={48}
+                  radius={6}
+                />
                 <VStack spacing="none" className="min-w-0 flex-1">
                   <Text
                     className="font-app-medium text-sm text-text"

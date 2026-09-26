@@ -1,6 +1,6 @@
-import { Image } from "expo-image";
+import React from "react";
 
-import { VStack } from "../../ui/Stack/Stack";
+import CoverImage from "../../ui/CoverImage/CoverImage";
 
 interface QueueArtworkProps {
   url: string | null;
@@ -13,28 +13,14 @@ const QueueArtwork: React.FC<QueueArtworkProps> = ({
   size,
   dimmed = false,
 }) => {
-  if (!url) {
-    return (
-      <VStack
-        spacing="none"
-        accessibilityLabel="Track artwork"
-        className="rounded-lg bg-page"
-        style={{ width: size, height: size }}
-      />
-    );
-  }
-
   return (
-    <Image
+    <CoverImage
+      uri={url}
+      width={size}
+      height={size}
+      radius={8}
+      opacity={dimmed ? 0.7 : 1}
       accessibilityLabel="Track artwork"
-      source={{ uri: url }}
-      contentFit="cover"
-      style={{
-        width: size,
-        height: size,
-        borderRadius: 8,
-        opacity: dimmed ? 0.7 : 1,
-      }}
     />
   );
 };

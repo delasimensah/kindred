@@ -11,6 +11,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useMediaQuery } from "@mantine/hooks";
 import { useMutation } from "convex/react";
 import React, { useRef, useState } from "react";
 import { GENRES } from "shared";
@@ -152,20 +153,20 @@ const ReleaseEditForm: React.FC<ReleaseEditFormProps> = ({
       >
         <div>
           <Text className="mb-2 text-sm text-text/70">Cover art</Text>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             {previewUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={previewUrl}
                 alt=""
-                className="h-24 w-24 rounded-xl object-cover"
+                className="h-20 w-20 shrink-0 rounded-xl object-cover sm:h-24 sm:w-24"
               />
             ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-page text-xs text-text/35">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-page text-xs text-text/35 sm:h-24 sm:w-24">
                 No art
               </div>
             )}
-            <div>
+            <div className="min-w-0">
               <Button
                 type="button"
                 variant="default"
@@ -247,17 +248,17 @@ const ReleaseEditForm: React.FC<ReleaseEditFormProps> = ({
           classNames={studioFieldClassNames}
           {...form.getInputProps("description")}
         />
-        <div className="flex justify-end gap-3 pt-2">
+        <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
           <Button
             variant="default"
             onClick={onClose}
-            className="rounded-xl border-white/10 bg-transparent"
+            className="w-full rounded-xl border-white/10 bg-transparent sm:w-auto"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            className="rounded-xl bg-primary text-textOnPrimary"
+            className="w-full rounded-xl bg-primary text-textOnPrimary sm:w-auto"
           >
             Save
           </Button>
@@ -273,17 +274,24 @@ const ReleaseEditModal: React.FC<ReleaseEditModalProps> = ({
   onClose,
   onSave,
 }) => {
+  const isNarrow = useMediaQuery("(max-width: 40em)");
+  const fullScreen = isNarrow === true;
+
   return (
     <Modal
       opened={opened}
       onClose={onClose}
       title="Edit release"
-      centered
+      centered={!fullScreen}
+      fullScreen={fullScreen}
       classNames={{
-        content: "bg-surface text-text",
-        header: "bg-surface",
-        title: "font-display text-lg text-text",
+        content: "bg-surface text-text flex flex-col",
+        header: "bg-surface shrink-0 px-4 sm:px-6",
+        title: "font-display text-base text-text sm:text-lg",
         close: "text-text/60 hover:bg-white/5 hover:text-text",
+        body: fullScreen
+          ? "flex-1 overflow-y-auto px-4 pb-6 sm:px-6"
+          : "overflow-y-auto px-4 pb-4 sm:px-6",
       }}
     >
       {editing === undefined || editing === null ? (

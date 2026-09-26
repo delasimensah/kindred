@@ -41,10 +41,12 @@ import type * as posts from "../posts.js";
 import type * as presence from "../presence.js";
 import type * as profiles from "../profiles.js";
 import type * as reactions from "../reactions.js";
+import type * as releases from "../releases.js";
 import type * as seed from "../seed.js";
 import type * as seedAvatars from "../seedAvatars.js";
 import type * as seedCatalog from "../seedCatalog.js";
 import type * as studio from "../studio.js";
+import type * as studioReleases from "../studioReleases.js";
 import type * as studioTracks from "../studioTracks.js";
 import type * as tracks from "../tracks.js";
 
@@ -88,10 +90,12 @@ declare const fullApi: ApiFromModules<{
   presence: typeof presence;
   profiles: typeof profiles;
   reactions: typeof reactions;
+  releases: typeof releases;
   seed: typeof seed;
   seedAvatars: typeof seedAvatars;
   seedCatalog: typeof seedCatalog;
   studio: typeof studio;
+  studioReleases: typeof studioReleases;
   studioTracks: typeof studioTracks;
   tracks: typeof tracks;
 }>;

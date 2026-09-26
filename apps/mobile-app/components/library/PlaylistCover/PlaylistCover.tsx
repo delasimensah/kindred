@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import React from "react";
 
 import { COLORS } from "@/constants";
 
+import CoverImage from "../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 
 const GAP = 2;
@@ -60,11 +60,11 @@ const PlaylistCover: React.FC<PlaylistCoverProps> = ({
 
   if (art.length === 1) {
     return (
-      <Image
-        accessibilityLabel=""
-        source={{ uri: art[0] }}
-        contentFit="cover"
-        style={frame}
+      <CoverImage
+        uri={art[0]}
+        width={coverWidth}
+        height={coverHeight}
+        radius={radius}
       />
     );
   }
@@ -121,14 +121,7 @@ const CoverTile: React.FC<{ uri: string; width: number; height: number }> = ({
   width,
   height,
 }) => {
-  return (
-    <Image
-      accessibilityLabel=""
-      source={{ uri }}
-      contentFit="cover"
-      style={{ width, height, backgroundColor: COLORS.surface }}
-    />
-  );
+  return <CoverImage uri={uri} width={width} height={height} />;
 };
 
 export default PlaylistCover;

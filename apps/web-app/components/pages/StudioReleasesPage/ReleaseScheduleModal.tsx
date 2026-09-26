@@ -117,18 +117,18 @@ const ReleaseScheduleModal: React.FC<ReleaseScheduleModalProps> = ({
             {...form.getInputProps("scheduleTime")}
           />
         </div>
-        <div className="flex justify-end gap-3 pt-2">
+        <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
           <Button
             variant="default"
             onClick={onClose}
-            className="rounded-xl border-white/10 bg-transparent"
+            className="w-full rounded-xl border-white/10 bg-transparent sm:w-auto"
           >
             Cancel
           </Button>
           <Button
             type="submit"
             loading={isSubmitting}
-            className="rounded-xl bg-primary text-textOnPrimary"
+            className="w-full rounded-xl bg-primary text-textOnPrimary sm:w-auto"
           >
             Save schedule
           </Button>

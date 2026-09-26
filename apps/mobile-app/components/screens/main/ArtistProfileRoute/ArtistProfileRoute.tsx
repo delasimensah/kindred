@@ -8,6 +8,7 @@ import { Alert } from "react-native";
 
 import { usePreviewPlayer, useVoiceNote } from "@/hooks";
 import {
+  ALBUM_PREVIEW,
   bindQueueActions,
   catalogQueue,
   changeFollow,
@@ -20,6 +21,8 @@ import ArtistProfileScreen from "../ArtistProfileScreen/ArtistProfileScreen";
 
 interface ArtistProfileRouteProps {
   tracksHref: (artistId: string) => Href;
+  albumsHref: (artistId: string) => Href;
+  albumHref: (releaseId: string) => Href;
 }
 
 /**
@@ -28,6 +31,8 @@ interface ArtistProfileRouteProps {
  */
 const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
   tracksHref,
+  albumsHref,
+  albumHref,
 }) => {
   const router = useRouter();
   const player = usePreviewPlayer();
@@ -47,6 +52,15 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
           limit: POPULAR_TRACK_PREVIEW,
         }
   );
+  const albumsListed = useQuery(
+    api.releases.listPublishedForArtist,
+    artistId === undefined
+      ? "skip"
+      : {
+          artistId: artistId as Id<"artists">,
+          limit: ALBUM_PREVIEW,
+        }
+  );
   const updates = useQuery(api.posts.listForArtist, artistArgs);
   const addFollow = useMutation(api.follows.add);
   const removeFollow = useMutation(api.follows.remove);
@@ -55,7 +69,10 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
 
   const isLoading =
     artistId !== undefined &&
-    (artist === undefined || listed === undefined || updates === undefined);
+    (artist === undefined ||
+      listed === undefined ||
+      albumsListed === undefined ||
+      updates === undefined);
 
   const queue =
     artist === undefined || artist === null
@@ -79,6 +96,8 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
         isLoading={isLoading}
         now={now}
         hasMoreTracks={listed?.hasMore ?? false}
+        albums={albumsListed?.albums ?? []}
+        hasMoreAlbums={albumsListed?.hasMore ?? false}
         playingTrackId={player.track.trackId}
         isPlaying={player.isPlaying}
         playingVoiceUrl={voice.playingUrl}
@@ -119,6 +138,15 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
             return;
           }
           router.push(tracksHref(artistId));
+        }}
+        onViewAllAlbums={() => {
+          if (artistId === undefined) {
+            return;
+          }
+          router.push(albumsHref(artistId));
+        }}
+        onOpenAlbum={(releaseId) => {
+          router.push(albumHref(releaseId));
         }}
         onSupport={() => {
           Alert.alert(

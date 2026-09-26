@@ -11,6 +11,7 @@ interface UploadMediaColumnProps {
   artworkPreview: string | null;
   audioError: string | null;
   artworkError: string | null;
+  hideAudio?: boolean;
   onPickAudio: (file: File) => void;
   onPickArtwork: (file: File) => void;
 }
@@ -21,6 +22,7 @@ const UploadMediaColumn: React.FC<UploadMediaColumnProps> = ({
   artworkPreview,
   audioError,
   artworkError,
+  hideAudio = false,
   onPickAudio,
   onPickArtwork,
 }) => {
@@ -37,50 +39,54 @@ const UploadMediaColumn: React.FC<UploadMediaColumnProps> = ({
 
   return (
     <div className="space-y-6 lg:col-span-2">
-      <div>
-        <button
-          type="button"
-          onClick={() => audioInputRef.current?.click()}
-          className={`flex h-56 w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-surface px-6 text-center transition ${audioBorder}`}
-        >
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <IconCloudUpload size={20} className="text-primary" />
-          </div>
-          <Text className="mb-1 text-sm font-medium text-text">
-            {audioName ?? "Drop audio file here"}
-          </Text>
-          <Text className="mb-4 text-xs text-text/40">
-            WAV or MP3, up to 250MB
-          </Text>
-          <span className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-textOnPrimary">
-            Browse files
-          </span>
-          <input
-            ref={audioInputRef}
-            type="file"
-            accept="audio/*,.mp3,.wav"
-            className="hidden"
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file) {
-                onPickAudio(file);
-              }
-              event.target.value = "";
-            }}
-          />
-        </button>
-        {audioError !== null ? (
-          <Text className="mt-1.5 text-sm text-danger">{audioError}</Text>
-        ) : null}
-      </div>
+      {hideAudio ? null : (
+        <div>
+          <button
+            type="button"
+            onClick={() => audioInputRef.current?.click()}
+            className={`flex h-44 w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-surface px-4 text-center transition sm:h-56 sm:px-6 ${audioBorder}`}
+          >
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+              <IconCloudUpload size={20} className="text-primary" />
+            </div>
+            <Text className="mb-1 text-sm font-medium text-text">
+              {audioName ?? "Drop audio file here"}
+            </Text>
+            <Text className="mb-4 text-xs text-text/40">
+              WAV or MP3, up to 250MB
+            </Text>
+            <span className="rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-textOnPrimary">
+              Browse files
+            </span>
+            <input
+              ref={audioInputRef}
+              type="file"
+              accept="audio/*,.mp3,.wav"
+              className="hidden"
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) {
+                  onPickAudio(file);
+                }
+                event.target.value = "";
+              }}
+            />
+          </button>
+          {audioError !== null ? (
+            <Text className="mt-1.5 text-sm text-danger">{audioError}</Text>
+          ) : null}
+        </div>
+      )}
 
-      {peaksProgress !== null ? (
+      {!hideAudio && peaksProgress !== null ? (
         <div className="rounded-2xl border border-white/5 bg-surface p-5">
           <div className="mb-3 flex items-center justify-between gap-3">
             <Text className="text-sm text-text/80">
               {peaksProgress < 100 ? "Generating peaks…" : "Peaks ready"}
             </Text>
-            <Text className="truncate text-xs text-text/40">{audioName}</Text>
+            <Text className="min-w-0 truncate text-xs text-text/40">
+              {audioName}
+            </Text>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-page">
             <div
@@ -95,7 +101,7 @@ const UploadMediaColumn: React.FC<UploadMediaColumnProps> = ({
         <button
           type="button"
           onClick={() => artworkInputRef.current?.click()}
-          className={`flex h-56 w-full flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-surface text-center transition ${artworkBorder}`}
+          className={`flex h-44 w-full flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed bg-surface px-4 text-center transition sm:h-56 sm:px-0 ${artworkBorder}`}
         >
           {artworkPreview ? (
             // eslint-disable-next-line @next/next/no-img-element

@@ -1,8 +1,18 @@
 import { ArtistProfileRoute } from "@/components";
-import { libraryArtistTracksHref } from "@/utils";
+import {
+  libraryArtistAlbumHref,
+  libraryArtistAlbumsHref,
+  libraryArtistTracksHref,
+} from "@/utils";
 
 const LibraryArtistRoute = () => {
-  return <ArtistProfileRoute tracksHref={libraryArtistTracksHref} />;
+  return (
+    <ArtistProfileRoute
+      tracksHref={libraryArtistTracksHref}
+      albumsHref={libraryArtistAlbumsHref}
+      albumHref={libraryArtistAlbumHref}
+    />
+  );
 };
 
 export default LibraryArtistRoute;

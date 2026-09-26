@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import React from "react";
 import { Pressable } from "react-native";
 
 import { COLORS } from "@/constants";
 import { formatDuration } from "@/utils";
 
+import CoverImage from "../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import FeedAuthorRow from "../FeedAuthorRow/FeedAuthorRow";
@@ -61,19 +61,7 @@ const FeedReleaseCard: React.FC<FeedReleaseCardProps> = ({
           align="center"
           className="rounded-xl bg-page p-2.5"
         >
-          <HStack
-            spacing="none"
-            className="h-12 w-12 overflow-hidden rounded-md bg-surface"
-          >
-            {artworkUrl ? (
-              <Image
-                accessibilityLabel=""
-                source={{ uri: artworkUrl }}
-                contentFit="cover"
-                style={{ width: 48, height: 48 }}
-              />
-            ) : null}
-          </HStack>
+          <CoverImage uri={artworkUrl} width={48} height={48} radius={6} />
           <VStack spacing="none" className="min-w-0 flex-1">
             <Text className="text-sm font-medium text-text" numberOfLines={1}>
               {title}

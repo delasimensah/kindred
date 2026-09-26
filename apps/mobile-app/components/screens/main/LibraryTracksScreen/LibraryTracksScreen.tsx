@@ -1,12 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, ScrollView, useWindowDimensions } from "react-native";
+import { Pressable, ScrollView, useWindowDimensions, View } from "react-native";
 
 import { COLORS } from "@/constants";
 import { useAppInsets } from "@/hooks";
 import { formatDuration } from "@/utils";
 
 import PopularTrackRow from "../../../catalog/PopularTrackRow/PopularTrackRow";
+import PopularTrackRowSkeleton from "../../../catalog/PopularTrackRow/PopularTrackRowSkeleton";
 import LibraryCollectionHeader, {
   COLLECTION_HERO_HEIGHT,
   type LibraryCollection,
@@ -67,13 +68,35 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
 
   if (isLoading) {
     return (
-      <VStack spacing="md" className="flex-1 bg-page">
+      <VStack spacing="none" className="flex-1 bg-page">
         {collection ? (
-          <SkeletonCard
-            width={width}
-            height={COLLECTION_HERO_HEIGHT}
-            radius={0}
-          />
+          <View
+            style={{
+              width,
+              height: COLLECTION_HERO_HEIGHT,
+              backgroundColor: COLORS.surface,
+            }}
+          >
+            <HStack
+              align="end"
+              justify="between"
+              className="absolute bottom-5 left-0 right-0 px-6"
+            >
+              <VStack spacing="xs" className="min-w-0 flex-1 pr-4">
+                <SkeletonCard
+                  width={Math.min(220, width - 120)}
+                  height={28}
+                  radius={6}
+                />
+                <SkeletonCard
+                  width={Math.min(148, width - 120)}
+                  height={12}
+                  radius={4}
+                />
+              </VStack>
+              <SkeletonCard width={56} height={56} radius={28} />
+            </HStack>
+          </View>
         ) : headerAction ? (
           <VStack padding="lg">
             <SkeletonCard
@@ -83,13 +106,9 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
             />
           </VStack>
         ) : null}
-        <VStack spacing="none" paddingX="lg">
-          {TITLE_SCALES.map((titleScale, index) => (
-            <PopulatedTrackSkeleton
-              key={index}
-              titleScale={titleScale}
-              width={width}
-            />
+        <VStack spacing="none" paddingX="lg" paddingY="md">
+          {TITLE_SCALES.map((titleScale) => (
+            <PopularTrackRowSkeleton key={titleScale} titleScale={titleScale} />
           ))}
         </VStack>
       </VStack>
@@ -172,24 +191,6 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
 };
 
 const TITLE_SCALES = [0.72, 0.46, 0.6, 0.38, 0.66, 0.52];
-
-const PopulatedTrackSkeleton: React.FC<{
-  titleScale: number;
-  width: number;
-}> = ({ titleScale, width }) => {
-  const textWidth = Math.max(80, width - 48 - 48 - 44 - 16);
-
-  return (
-    <HStack spacing="sm" align="center" paddingY="sm">
-      <SkeletonCard width={48} height={48} radius={6} />
-      <VStack spacing="xs" className="min-w-0 flex-1">
-        <SkeletonCard width={textWidth * titleScale} height={12} radius={4} />
-        <SkeletonCard width={textWidth * 0.4} height={10} radius={4} />
-      </VStack>
-      <SkeletonCard width={20} height={6} radius={3} />
-    </HStack>
-  );
-};
 
 const HStackButton: React.FC<{ label: string }> = ({ label }) => {
   return (

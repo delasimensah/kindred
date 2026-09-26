@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import React, { useState } from "react";
 import { LayoutChangeEvent, Pressable, View } from "react-native";
 
 import { COLORS } from "@/constants";
 
+import CoverImage from "../../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 
@@ -66,31 +66,14 @@ const MiniPlayerChrome: React.FC<MiniPlayerChromeProps> = ({
           style={{ flex: 1, minWidth: 0 }}
         >
           <HStack spacing="sm" align="center">
-            {track.artworkUrl ? (
-              <Image
-                accessibilityLabel="Track artwork"
-                source={{ uri: track.artworkUrl }}
-                contentFit="cover"
-                style={{
-                  width: artworkSize,
-                  height: artworkSize,
-                  borderRadius: 12,
-                  flexShrink: 0,
-                  backgroundColor: COLORS.surface,
-                }}
-              />
-            ) : (
-              <View
-                accessibilityLabel="Track artwork"
-                className="bg-surface"
-                style={{
-                  width: artworkSize,
-                  height: artworkSize,
-                  borderRadius: 12,
-                  flexShrink: 0,
-                }}
-              />
-            )}
+            <CoverImage
+              uri={track.artworkUrl}
+              width={artworkSize}
+              height={artworkSize}
+              radius={12}
+              accessibilityLabel="Track artwork"
+              style={{ flexShrink: 0 }}
+            />
             <VStack spacing="none" className="min-w-0 flex-1">
               <Text
                 className="font-app-medium text-sm text-text"

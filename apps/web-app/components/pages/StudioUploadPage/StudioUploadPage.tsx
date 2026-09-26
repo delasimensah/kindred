@@ -16,10 +16,15 @@ import {
   SuccessNotification,
 } from "../../feedback/Notification/Notification";
 import ImageCropModal from "../../media/ImageCropModal/ImageCropModal";
+import StudioChoiceCards from "../../ui/StudioChoiceCards/StudioChoiceCards";
+import UploadAlbumTracksColumn, {
+  type AlbumTrackDraft,
+} from "./UploadAlbumTracksColumn";
 import UploadDetailsColumn, {
   combineScheduleDateTime,
   type UploadFormValues,
 } from "./UploadDetailsColumn";
+import UploadFormatPicker, { type UploadFormat } from "./UploadFormatPicker";
 import { validateUploadForm } from "./uploadFormValidation";
 import UploadMediaColumn from "./UploadMediaColumn";
 import UploadPageHeader from "./UploadPageHeader";
@@ -30,6 +35,19 @@ function defaultScheduleTime(): string {
   return "18:00";
 }
 
+function newAlbumTrack(): AlbumTrackDraft {
+  return {
+    key: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: "",
+    audioName: null,
+    audioFileId: null,
+    peaks: null,
+    durationMs: null,
+    peaksProgress: null,
+    audioError: null,
+  };
+}
+
 const StudioUploadPage: React.FC = () => {
   const router = useRouter();
   const generateUploadUrl = useMutation(api.studioTracks.generateUploadUrl);
@@ -38,7 +56,17 @@ const StudioUploadPage: React.FC = () => {
   const createDraft = useMutation(api.studioTracks.createDraft);
   const publishNow = useMutation(api.studioTracks.publishNow);
   const schedule = useMutation(api.studioTracks.schedule);
+  const createAlbumDraft = useMutation(api.studioReleases.createDraft);
+  const publishAlbumNow = useMutation(api.studioReleases.publishNow);
+  const scheduleAlbum = useMutation(api.studioReleases.schedule);
   const suggestReleaseCopy = useAction(api.ai.suggestReleaseCopy);
+
+  const [format, setFormat] = useState<UploadFormat>("single");
+  const [albumType, setAlbumType] = useState<"ep" | "album">("ep");
+  const [albumTracks, setAlbumTracks] = useState<AlbumTrackDraft[]>(() => [
+    newAlbumTrack(),
+    newAlbumTrack(),
+  ]);
 
   const [audioName, setAudioName] = useState<string | null>(null);
   const [audioFileId, setAudioFileId] = useState<Id<"files"> | null>(null);
@@ -74,6 +102,12 @@ const StudioUploadPage: React.FC = () => {
     peaksProgress === 100;
   const peaksInProgress = peaksProgress !== null && peaksProgress < 100;
 
+  const patchAlbumTrack = (key: string, patch: Partial<AlbumTrackDraft>) => {
+    setAlbumTracks((rows) =>
+      rows.map((row) => (row.key === key ? { ...row, ...patch } : row))
+    );
+  };
+
   const onAudioPick = async (file: File) => {
     if (file.size > MAX_AUDIO_BYTES) {
       ErrorNotification({
@@ -107,6 +141,50 @@ const StudioUploadPage: React.FC = () => {
       ErrorNotification({
         title: "Could not process audio",
         message:
+          error instanceof Error
+            ? error.message
+            : "Try a WAV or MP3 in Chrome or Safari.",
+      });
+    }
+  };
+
+  const onAlbumAudioPick = async (key: string, file: File) => {
+    if (file.size > MAX_AUDIO_BYTES) {
+      patchAlbumTrack(key, {
+        audioError: "Audio must be 250MB or smaller.",
+      });
+      return;
+    }
+    patchAlbumTrack(key, {
+      audioName: file.name,
+      peaksProgress: 8,
+      audioFileId: null,
+      peaks: null,
+      durationMs: null,
+      audioError: null,
+    });
+    try {
+      patchAlbumTrack(key, { peaksProgress: 25 });
+      const generated = await generatePeaksFromAudioFile(file);
+      patchAlbumTrack(key, {
+        peaksProgress: 70,
+        peaks: generated.peaks,
+        durationMs: generated.durationMs,
+      });
+      const fileId = await uploadStudioFile({
+        file,
+        generateUrl: () => generateUploadUrl({}),
+        register: (payload) => registerAudio(payload),
+      });
+      patchAlbumTrack(key, {
+        audioFileId: fileId,
+        peaksProgress: 100,
+      });
+    } catch (error) {
+      patchAlbumTrack(key, {
+        peaksProgress: null,
+        audioName: null,
+        audioError:
           error instanceof Error
             ? error.message
             : "Try a WAV or MP3 in Chrome or Safari.",
@@ -173,7 +251,7 @@ const StudioUploadPage: React.FC = () => {
     }
   };
 
-  const saveRelease = async (values: UploadFormValues, asDraft: boolean) => {
+  const saveSingle = async (values: UploadFormValues, asDraft: boolean) => {
     if (
       audioFileId === null ||
       artworkFileId === null ||
@@ -232,14 +310,100 @@ const StudioUploadPage: React.FC = () => {
     }
   };
 
+  const saveAlbum = async (values: UploadFormValues, asDraft: boolean) => {
+    if (artworkFileId === null) {
+      return;
+    }
+    const readyTracks = albumTracks.filter(
+      (track) =>
+        track.audioFileId !== null &&
+        track.peaks !== null &&
+        track.durationMs !== null &&
+        track.peaksProgress === 100 &&
+        track.title.trim().length > 0
+    );
+    if (readyTracks.length !== albumTracks.length) {
+      ErrorNotification({
+        title: "Check the tracks",
+        message: "Every track needs a title and finished audio.",
+      });
+      return;
+    }
+    const publishAt =
+      values.publishMode === "schedule"
+        ? combineScheduleDateTime(values.scheduleDate, values.scheduleTime)
+        : null;
+    setIsSubmitting(true);
+    try {
+      const releaseId = await createAlbumDraft({
+        title: values.title,
+        type: albumType,
+        artworkFileId,
+        visibility: values.visibility,
+        tags: values.tags,
+        description: values.description || undefined,
+        genre: values.genre,
+        tracks: readyTracks.map((track) => ({
+          title: track.title,
+          audioFileId: track.audioFileId as Id<"files">,
+          durationMs: track.durationMs as number,
+          peaks: track.peaks as number[],
+        })),
+      });
+      if (!asDraft) {
+        if (values.publishMode === "now") {
+          await publishAlbumNow({ releaseId });
+        } else if (publishAt) {
+          await scheduleAlbum({
+            releaseId,
+            publishAt: publishAt.getTime(),
+          });
+        }
+      }
+      SuccessNotification({
+        title: asDraft
+          ? "Draft saved"
+          : values.publishMode === "now"
+            ? "Published"
+            : "Scheduled",
+        message: asDraft
+          ? "You can finish publishing from Releases."
+          : "Your album is on the Releases list.",
+      });
+      router.push("/releases");
+    } catch (error) {
+      ErrorNotification({
+        title: "Could not save album",
+        message:
+          error instanceof Error ? error.message : "Try again in a moment.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const onAttemptSubmit = (asDraft: boolean) => {
     form.clearErrors();
     setAudioError(null);
     setArtworkError(null);
+    if (format === "album") {
+      const min = albumType === "ep" ? 2 : 7;
+      const max = albumType === "ep" ? 6 : 40;
+      if (albumTracks.length < min || albumTracks.length > max) {
+        ErrorNotification({
+          title: "Track count",
+          message:
+            albumType === "ep"
+              ? "An EP needs 2 to 6 tracks."
+              : "An album needs at least 7 tracks.",
+        });
+        return;
+      }
+    }
     const result = validateUploadForm(form.values, {
       asDraft,
-      audioReady,
-      peaksInProgress,
+      audioReady: format === "single" ? audioReady : true,
+      peaksInProgress: format === "single" ? peaksInProgress : false,
       artworkReady: artworkFileId !== null,
     });
     if (!result.ok) {
@@ -252,7 +416,11 @@ const StudioUploadPage: React.FC = () => {
       });
       return;
     }
-    void saveRelease(form.values, asDraft);
+    if (format === "single") {
+      void saveSingle(form.values, asDraft);
+    } else {
+      void saveAlbum(form.values, asDraft);
+    }
   };
 
   return (
@@ -280,13 +448,39 @@ const StudioUploadPage: React.FC = () => {
         onPublish={() => onAttemptSubmit(false)}
       />
 
+      <UploadFormatPicker value={format} onChange={setFormat} />
+
+      {format === "album" ? (
+        <div className="mb-6">
+          <p className="mb-3 text-sm font-medium text-text">Release type</p>
+          <StudioChoiceCards
+            name="album-type"
+            value={albumType}
+            onChange={setAlbumType}
+            options={[
+              {
+                value: "ep",
+                label: "EP",
+                description: "2 to 6 tracks.",
+              },
+              {
+                value: "album",
+                label: "Album",
+                description: "7 or more tracks.",
+              },
+            ]}
+          />
+        </div>
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-5">
         <UploadMediaColumn
-          audioName={audioName}
-          peaksProgress={peaksProgress}
+          audioName={format === "single" ? audioName : null}
+          peaksProgress={format === "single" ? peaksProgress : null}
           artworkPreview={artworkPreview}
-          audioError={audioError}
+          audioError={format === "single" ? audioError : null}
           artworkError={artworkError}
+          hideAudio={format === "album"}
           onPickAudio={(file) => void onAudioPick(file)}
           onPickArtwork={(file) => {
             if (cropSrc) {
@@ -302,6 +496,41 @@ const StudioUploadPage: React.FC = () => {
           onSuggest={() => void onSuggest()}
         />
       </div>
+
+      {format === "album" ? (
+        <div className="mt-6">
+          <UploadAlbumTracksColumn
+            tracks={albumTracks}
+            onChangeTitle={(key, title) => patchAlbumTrack(key, { title })}
+            onPickAudio={(key, file) => void onAlbumAudioPick(key, file)}
+            onMove={(key, direction) => {
+              setAlbumTracks((rows) => {
+                const index = rows.findIndex((row) => row.key === key);
+                if (index < 0) {
+                  return rows;
+                }
+                const next = index + direction;
+                if (next < 0 || next >= rows.length) {
+                  return rows;
+                }
+                const copy = [...rows];
+                const [item] = copy.splice(index, 1);
+                if (item === undefined) {
+                  return rows;
+                }
+                copy.splice(next, 0, item);
+                return copy;
+              });
+            }}
+            onRemove={(key) => {
+              setAlbumTracks((rows) =>
+                rows.length <= 2 ? rows : rows.filter((row) => row.key !== key)
+              );
+            }}
+            onAdd={() => setAlbumTracks((rows) => [...rows, newAlbumTrack()])}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

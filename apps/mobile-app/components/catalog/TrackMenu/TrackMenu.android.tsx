@@ -4,7 +4,6 @@ import {
   BottomSheetView,
 } from "@expo/ui/community/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import { useRef, useState } from "react";
 import { Pressable } from "react-native";
 
@@ -13,6 +12,7 @@ import { STAND_IN_TRACK_ID } from "@/hooks";
 import { showLikedToast } from "@/utils";
 
 import AddToPlaylistSheet from "../../bottom-sheets/AddToPlaylistSheet/AddToPlaylistSheet";
+import CoverImage from "../../ui/CoverImage/CoverImage";
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 
@@ -145,19 +145,7 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
       >
         <BottomSheetView>
           <HStack spacing="md" align="center" className="px-6 pb-4 pt-2">
-            {artworkUrl ? (
-              <Image
-                accessibilityLabel=""
-                source={{ uri: artworkUrl }}
-                contentFit="cover"
-                style={{ width: 48, height: 48, borderRadius: 8 }}
-              />
-            ) : (
-              <VStack
-                spacing="none"
-                className="h-12 w-12 rounded-lg bg-surface"
-              />
-            )}
+            <CoverImage uri={artworkUrl} width={48} height={48} radius={8} />
             <Text
               className="min-w-0 flex-1 font-app-semibold text-base text-text"
               numberOfLines={1}

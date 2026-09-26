@@ -126,7 +126,7 @@ function DiscoverSkeleton() {
         spacing="none"
         justify="between"
         className="overflow-hidden rounded-3xl bg-surface p-5"
-        style={{ height: 360 }}
+        style={{ height: 420 }}
       >
         <SkeletonCard width={72} height={22} radius={11} />
         <VStack spacing="sm">

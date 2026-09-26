@@ -229,6 +229,9 @@ export const listMine = authedQuery({
       rows.push(...batch);
     }
     const filtered = rows.filter((track) => {
+      if (track.releaseId !== undefined) {
+        return false;
+      }
       if (filter === "all") {
         return true;
       }

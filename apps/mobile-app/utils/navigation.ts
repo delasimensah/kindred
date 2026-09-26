@@ -8,6 +8,9 @@ export const ACCOUNT_HREF = "/(main-app)/account" as Href;
 /** How many popular tracks the artist page loads before View all. */
 export const POPULAR_TRACK_PREVIEW = 5;
 
+/** How many albums the artist page shows before View all. */
+export const ALBUM_PREVIEW = 6;
+
 export function routeParam(
   value: string | string[] | undefined
 ): string | undefined {
@@ -28,6 +31,22 @@ export function artistTracksHref(artistId: string): Href {
     pathname: "/(main-app)/(tabs)/discover/tracks/[artistId]",
     params: { artistId },
   };
+}
+
+/** Full albums list for one artist, still on the Discover stack. */
+export function artistAlbumsHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/discover/albums/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+/** Album detail on the Discover stack. */
+export function artistAlbumHref(releaseId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/discover/album/[releaseId]",
+    params: { releaseId },
+  } as unknown as Href;
 }
 
 export function libraryPlaylistsHref(): Href {
@@ -87,6 +106,20 @@ export function homeArtistTracksHref(artistId: string): Href {
   };
 }
 
+export function homeArtistAlbumsHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/(home)/albums/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+export function homeArtistAlbumHref(releaseId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/(home)/album/[releaseId]",
+    params: { releaseId },
+  } as unknown as Href;
+}
+
 export function libraryArtistHref(artistId: string): Href {
   return {
     pathname: "/(main-app)/(tabs)/library/artist/[artistId]",
@@ -99,6 +132,20 @@ export function libraryArtistTracksHref(artistId: string): Href {
     pathname: "/(main-app)/(tabs)/library/tracks/[artistId]",
     params: { artistId },
   };
+}
+
+export function libraryArtistAlbumsHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/albums/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+export function libraryArtistAlbumHref(releaseId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/library/album/[releaseId]",
+    params: { releaseId },
+  } as unknown as Href;
 }
 
 /**

@@ -83,8 +83,8 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
 }) => {
   return (
     <div className="space-y-6 lg:col-span-3">
-      <div className="space-y-6 rounded-2xl border border-white/5 bg-surface p-7">
-        <div className="flex items-center justify-between gap-3">
+      <div className="space-y-6 rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <Text className="text-sm font-semibold uppercase tracking-wider text-text/80">
             Details
           </Text>
@@ -94,7 +94,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
             loading={isSuggesting}
             leftSection={<IconSparkles size={14} className="text-primary" />}
             onClick={onSuggest}
-            className="h-auto rounded-lg border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20"
+            className="h-auto shrink-0 rounded-lg border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20"
           >
             Suggest
           </Button>
@@ -129,7 +129,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
         />
       </div>
 
-      <div className="rounded-2xl border border-white/5 bg-surface p-7">
+      <div className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
         <Text className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
           Visibility
         </Text>
@@ -152,7 +152,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
         />
       </div>
 
-      <div className="rounded-2xl border border-white/5 bg-surface p-7">
+      <div className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
         <Text className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
           Publishing
         </Text>

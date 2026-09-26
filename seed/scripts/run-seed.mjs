@@ -201,6 +201,24 @@ async function main() {
   console.log(
     `Seed releases: EP ${releases.ep ? "ready" : "skipped"}, album ${releases.album ? "ready" : "skipped"}.`
   );
+  const support = convexRun("seedCatalog:seedSupportEconomy", {});
+  console.log(
+    `Support economy: entitlements ${support.entitlements}, routes ${support.routes}, listens ${support.listens}.`
+  );
+  const now = new Date();
+  const periods = [];
+  for (let offset = 0; offset < 4; offset += 1) {
+    const date = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - offset, 1)
+    );
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    periods.push(`${year}-${month}`);
+  }
+  const earnings = convexRun("earnings:seedPastMonths", { periods });
+  console.log(
+    `Demo earnings: written ${earnings.written}, skipped ${earnings.skipped} for ${periods.join(", ")}.`
+  );
   console.log(
     "Demo logins: akosua.frimpong@kindred.example, efua.boateng@kindred.example, amaara.mensah@kindred.example, delasi.mensah@kindred.example."
   );

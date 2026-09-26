@@ -113,6 +113,22 @@ export const getHome = authedQuery({
       recentReleases.push(await releaseCard(ctx, track));
     }
 
+    const thankYouRows = await ctx.db
+      .query("thankYous")
+      .withIndex("by_artist_sentAt", (q) => q.eq("artistId", artist._id))
+      .order("desc")
+      .take(500);
+    const recentThankYous = [];
+    for (const row of thankYouRows.slice(0, 3)) {
+      const fan = await ctx.db.get(row.profileId);
+      recentThankYous.push({
+        id: String(row._id),
+        fanName: fan?.displayName ?? "Fan",
+        body: row.body,
+        sentAt: row.sentAt,
+      });
+    }
+
     return {
       artistId: artist._id,
       artistName: artist.name,
@@ -121,9 +137,9 @@ export const getHome = authedQuery({
       supporterCount: stats?.supporterCount ?? 0,
       scheduledCount: visibleScheduled.length,
       nextScheduledAt: visibleScheduled[0]?.publishAt ?? null,
-      thankYouCount: 0,
+      thankYouCount: thankYouRows.length,
       recentReleases,
-      recentThankYous: [],
+      recentThankYous,
     };
   },
 });

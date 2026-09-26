@@ -13,6 +13,7 @@ import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
 import type * as discovery from "../discovery.js";
+import type * as earnings from "../earnings.js";
 import type * as feed from "../feed.js";
 import type * as follows from "../follows.js";
 import type * as http from "../http.js";
@@ -48,6 +49,7 @@ import type * as seedCatalog from "../seedCatalog.js";
 import type * as studio from "../studio.js";
 import type * as studioReleases from "../studioReleases.js";
 import type * as studioTracks from "../studioTracks.js";
+import type * as thankYous from "../thankYous.js";
 import type * as tracks from "../tracks.js";
 
 import type {
@@ -62,6 +64,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   crons: typeof crons;
   discovery: typeof discovery;
+  earnings: typeof earnings;
   feed: typeof feed;
   follows: typeof follows;
   http: typeof http;
@@ -97,6 +100,7 @@ declare const fullApi: ApiFromModules<{
   studio: typeof studio;
   studioReleases: typeof studioReleases;
   studioTracks: typeof studioTracks;
+  thankYous: typeof thankYous;
   tracks: typeof tracks;
 }>;
 

@@ -84,12 +84,14 @@ const StudioHomePage: React.FC = () => {
       </div>
 
       <div className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <MetricCard
-          label="Supporters"
-          value={String(home.supporterCount)}
-          hint="Live count from your artist stats"
-          Icon={IconHeart}
-        />
+        <Link href="/supporters" className="block no-underline">
+          <MetricCard
+            label="Supporters"
+            value={String(home.supporterCount)}
+            hint="Live count from your artist stats"
+            Icon={IconHeart}
+          />
+        </Link>
         <MetricCard
           label="Scheduled"
           value={String(home.scheduledCount)}
@@ -100,12 +102,14 @@ const StudioHomePage: React.FC = () => {
           }
           Icon={IconCalendar}
         />
-        <MetricCard
-          label="Thank-yous sent"
-          value={String(home.thankYouCount)}
-          hint="Thank-yous arrive in a later Studio ticket"
-          Icon={IconHandClick}
-        />
+        <Link href="/thank-yous" className="block no-underline">
+          <MetricCard
+            label="Thank-yous sent"
+            value={String(home.thankYouCount)}
+            hint="Recent sends to fans routing to you"
+            Icon={IconHandClick}
+          />
+        </Link>
       </div>
 
       <section className="mb-10">
@@ -177,13 +181,35 @@ const StudioHomePage: React.FC = () => {
           <Heading variant="subsection" className="mb-0 text-lg text-text">
             Recent thank-yous
           </Heading>
-          <Text className="text-sm text-text/40">Coming soon</Text>
+          <Link
+            href="/thank-yous"
+            className="text-sm text-primary hover:underline"
+          >
+            Fans to thank
+          </Link>
         </div>
-        <div className="rounded-2xl border border-white/5 bg-surface px-6 py-10 text-center">
-          <Text className="text-sm text-text/50">
-            No thank-yous yet. Sending thank-yous lands in a later ticket.
-          </Text>
-        </div>
+        {home.recentThankYous.length === 0 ? (
+          <div className="rounded-2xl border border-white/5 bg-surface px-6 py-10 text-center">
+            <Text className="text-sm text-text/50">
+              No thank-yous yet.{" "}
+              <Link href="/thank-yous" className="text-primary hover:underline">
+                Thank a fan
+              </Link>
+              .
+            </Text>
+          </div>
+        ) : (
+          <ul className="divide-y divide-white/5 rounded-2xl border border-white/5 bg-surface">
+            {home.recentThankYous.map((row) => (
+              <li key={row.id} className="px-5 py-4">
+                <p className="text-sm font-semibold text-text">{row.fanName}</p>
+                <p className="mt-1 line-clamp-2 text-sm text-text/60">
+                  {row.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   );

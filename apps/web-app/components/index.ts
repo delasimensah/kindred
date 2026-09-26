@@ -26,5 +26,8 @@ export { default as StudioUploadPage } from "./pages/StudioUploadPage/StudioUplo
 export { default as StudioReleasesPage } from "./pages/StudioReleasesPage/StudioReleasesPage";
 export { default as StudioUpdatesPage } from "./pages/StudioUpdatesPage/StudioUpdatesPage";
 export { default as StudioUpdateComposerPage } from "./pages/StudioUpdateComposerPage/StudioUpdateComposerPage";
+export { default as StudioSupportersPage } from "./pages/StudioSupportersPage/StudioSupportersPage";
+export { default as StudioThankYousPage } from "./pages/StudioThankYousPage/StudioThankYousPage";
+export { default as StudioEarningsPage } from "./pages/StudioEarningsPage/StudioEarningsPage";
 
 export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

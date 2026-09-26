@@ -313,7 +313,7 @@ Names are suggestions. Anything not marked `internal` is callable from a client 
 - `entitlements.applyFromSource` — internal mutation. The **only** writer of `entitlements`. Both the webhook and the sync path funnel through it.
 - `entitlements.expireSweep` — internal mutation, run daily by cron. Flips `active` rows whose `currentPeriodEnd` has passed.
 - `routes.listMine` — query.
-- `routes.setRouteSet` — mutation. Takes the complete intended set of one to five artist ids plus an optional `clientEventId` and client timestamp. Validates entitlement is active, every artist is followed, the count is between one and five, and no duplicates. Deactivates routes not in the set, creates the new ones, and sets `founding` on each new route by reading `artistStats.supporterCount < 100` at that moment. Patches supporter counts and enqueues artist milestone pushes. Whole set in one transaction — never a partial route change.
+- `routes.setRouteSet` — mutation. Takes the complete intended set of one to five artist ids plus an optional `clientEventId` and client timestamp. Validates entitlement is active, every artist is followed, the count is between one and five, and no duplicates. Deactivates routes not in the set, creates the new ones, and sets `founding` on each new route when fewer than 10 routes to that artist have ever started. Patches supporter counts and enqueues artist milestone pushes. Whole set in one transaction — never a partial route change.
 - `routes.getImpact` — query. Per routed artist: since when, founding status, demo earnings to date, and the caller's own listening totals for that artist.
 
 ### Player helpers
@@ -376,13 +376,14 @@ Nothing else replays. Downloads, playlists, and library changes made offline are
 
 ### Studio: supporters, thank-yous, earnings
 
-- `artists.listSupporters` — paginated query (artist, own artist id only). Who routes to them, since when, founding status.
-- `ai.rankFansToThank` — action (artist). The **ranking is deterministic** from support routes and listen events: longest-routed first, then most listening minutes in the last 30 days, then founding status as a tiebreak. The LLM writes only the one-line draft message. Returns a shortlist of candidates each with a draft; nothing is sent.
-- `thankYous.send` — mutation (artist). Takes the final edited body. Writes the row and enqueues the push.
-- `thankYous.listMine` — query (fan side). The thank-you card.
+- `artists.supporterSummary` — query (artist, own only). Total from `artistStats.supporterCount`. Founding count is a bounded read of at most 10.
+- `artists.listSupporters` — paginated query (artist, own artist id only). One page of who routes to them, earliest first, with since-when and founding status.
+- `ai.rankFansToThank` — action (artist). The **ranking is deterministic**: founding supporters first (the first 10 routes to that artist), then longest-routed, then most listening minutes in the last 30 days only when two people started on the same instant. Anyone already thanked is left off the index, so the next supporter moves up without scanning the whole list. The LLM writes only the one-line draft message. Returns a shortlist of candidates each with a draft; nothing is sent.
+- `thankYous.send` — mutation (artist). Takes the final edited body. Writes the row and marks that route thanked. A second send to the same supporter is refused. They do not return to the list.
+- `thankYous.listMine` — query (fan side). The thank-you card. At most 50.
 - `thankYous.markRead` — mutation.
-- `earnings.listForArtist` — query (artist, own only). Monthly demo earnings rows.
-- `earnings.computeMonth` — internal mutation, monthly cron. Section 9.
+- `earnings.listForArtist` — query (artist, own only). Reads stored monthly totals (`earningMonths`), at most 24 months. Does not sum every supporter row.
+- `earnings.computeMonth` — internal mutation, monthly cron. Writes one page of active entitlements, then schedules the next page. Section 9.
 
 ### Admin
 

@@ -244,10 +244,72 @@ export default defineSchema({
     startedAt: v.number(),
     endedAt: v.optional(v.number()),
     founding: v.boolean(),
+    /** True after a thank-you. They leave the list and stay off it. */
+    thanked: v.optional(v.boolean()),
   })
     .index("by_profile_active", ["profileId", "active"])
     .index("by_artist_active", ["artistId", "active"])
-    .index("by_profile_artist", ["profileId", "artistId"]),
+    .index("by_profile_artist", ["profileId", "artistId"])
+    .index("by_artist_active_startedAt", ["artistId", "active", "startedAt"])
+    .index("by_artist_active_founding", ["artistId", "active", "founding"])
+    .index("by_artist_thank_queue", [
+      "artistId",
+      "active",
+      "thanked",
+      "founding",
+      "startedAt",
+    ]),
+
+  entitlements: defineTable({
+    profileId: v.id("profiles"),
+    status: v.union(v.literal("active"), v.literal("expired")),
+    productId: v.string(),
+    priceTier: v.union(v.literal("4.99"), v.literal("9.99")),
+    store: v.union(v.literal("app_store"), v.literal("play_store")),
+    rcAppUserId: v.string(),
+    currentPeriodEnd: v.number(),
+    willRenew: v.boolean(),
+    lastVerifiedAt: v.number(),
+    lastEventId: v.optional(v.string()),
+    updatedAt: v.number(),
+  })
+    .index("by_profileId", ["profileId"])
+    .index("by_rcAppUserId", ["rcAppUserId"])
+    .index("by_status_currentPeriodEnd", ["status", "currentPeriodEnd"]),
+
+  demoEarnings: defineTable({
+    period: v.string(),
+    artistId: v.id("artists"),
+    profileId: v.id("profiles"),
+    amountCents: v.number(),
+    currency: v.literal("USD"),
+    tierCents: v.number(),
+    routedCount: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_artist_period", ["artistId", "period"])
+    .index("by_profile_period", ["profileId", "period"])
+    .index("by_period", ["period"]),
+
+  /** One total per artist per month, so the earnings page does not sum every supporter row. */
+  earningMonths: defineTable({
+    artistId: v.id("artists"),
+    period: v.string(),
+    amountCents: v.number(),
+    storeFeeCents: v.number(),
+    supporterCount: v.number(),
+  }).index("by_artist_period", ["artistId", "period"]),
+
+  thankYous: defineTable({
+    artistId: v.id("artists"),
+    profileId: v.id("profiles"),
+    body: v.string(),
+    sentAt: v.number(),
+    readAt: v.optional(v.number()),
+    pushSentAt: v.optional(v.number()),
+  })
+    .index("by_profile_sentAt", ["profileId", "sentAt"])
+    .index("by_artist_sentAt", ["artistId", "sentAt"]),
 
   featuredSlots: defineTable({
     position: v.number(),

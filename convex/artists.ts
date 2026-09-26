@@ -1,6 +1,11 @@
+import {
+  paginationOptsValidator,
+  paginationResultValidator,
+} from "convex/server";
 import { v } from "convex/values";
+import { FOUNDING_SUPPORTER_LIMIT } from "shared";
 
-import { requireProfile } from "./lib/auth";
+import { requireProfile, requireVerifiedArtist } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { getFollow } from "./lib/follows";
 import { authedQuery } from "./lib/functions";
@@ -104,6 +109,77 @@ export const get = authedQuery({
       coverUrl: await fileUrl(ctx, artist.coverFileId),
       isFollowed: follow !== null,
       liveListenerCount: live.length,
+    };
+  },
+});
+
+const supporterRowValidator = v.object({
+  profileId: v.id("profiles"),
+  displayName: v.string(),
+  startedAt: v.number(),
+  founding: v.boolean(),
+});
+
+/**
+ * Counts for the supporters header. The total is the stored artist stat.
+ * Founding is at most the first 10, read with a bounded index query.
+ */
+export const supporterSummary = authedQuery({
+  args: {},
+  returns: v.object({
+    total: v.number(),
+    foundingCount: v.number(),
+  }),
+  handler: async (ctx) => {
+    const { artist } = await requireVerifiedArtist(ctx);
+    const stats = await ctx.db
+      .query("artistStats")
+      .withIndex("by_artistId", (q) => q.eq("artistId", artist._id))
+      .unique();
+    const founding = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_artist_active_founding", (q) =>
+        q.eq("artistId", artist._id).eq("active", true).eq("founding", true)
+      )
+      .take(FOUNDING_SUPPORTER_LIMIT);
+    return {
+      total: stats?.supporterCount ?? 0,
+      foundingCount: founding.length,
+    };
+  },
+});
+
+/** One page of supporters, earliest route first. */
+export const listSupporters = authedQuery({
+  args: { paginationOpts: paginationOptsValidator },
+  returns: paginationResultValidator(supporterRowValidator),
+  handler: async (ctx, args) => {
+    const { artist } = await requireVerifiedArtist(ctx);
+    const result = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_artist_active_startedAt", (q) =>
+        q.eq("artistId", artist._id).eq("active", true)
+      )
+      .order("asc")
+      .paginate(args.paginationOpts);
+
+    const page = [];
+    for (const route of result.page) {
+      const fan = await ctx.db.get(route.profileId);
+      if (fan === null) {
+        continue;
+      }
+      page.push({
+        profileId: fan._id,
+        displayName: fan.displayName,
+        startedAt: route.startedAt,
+        founding: route.founding,
+      });
+    }
+
+    return {
+      ...result,
+      page,
     };
   },
 });

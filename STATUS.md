@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-91** EP/album uploads **Done**. Next: **KIND-81** Studio updates (text/photo/voice). KIND-79 singles upload **Done**. KIND-78 home/profile **Done**.
+- **Current phase:** Build — **KIND-81** Studio updates (text/photo/voice) **Done**. Next: **KIND-80** supporters / thank-yous / earnings (needs routing from money tickets for live numbers). KIND-91 EP/album uploads **Done**. KIND-79 singles upload **Done**. KIND-78 home/profile **Done**.
 - **Last updated:** 2026-09-26
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-81** — Artist can post updates (text/photo/voice) and list them.
+**KIND-80** — Artist can see supporters, thank fans, and view earnings.
 
 ---
 

@@ -291,7 +291,8 @@ Names are suggestions. Anything not marked `internal` is callable from a client 
 - `artists.listTracks` — paginated query. Returns published, non-hidden tracks. Supporters-only tracks appear with an `access` object so the user interface can render a locked shell, and with **no audio URL** for anyone not allowed.
 - `tracks.get` — query. Same access shape.
 - `tracks.getPlaybackSource` — query. The only place an audio URL comes from. See section 7.
-- `posts.listForArtist` — paginated query. Supporters-only posts return the shell fields only (author, date, "supporters only") unless the caller passes the access check; the body and media file ids are stripped server-side, not hidden client-side.
+- `posts.listForArtist` — query. Supporters-only posts return the shell fields only (author, date, "supporters only") unless the caller passes the access check; the body and media file ids are stripped server-side, not hidden client-side.
+- `posts.listMine` — query (verified artist). Own updates with full body and media URLs for the Studio list.
 
 ### Feed and discovery
 
@@ -368,8 +369,10 @@ Nothing else replays. Downloads, playlists, and library changes made offline are
 - `tracks.publishScheduled` — internal mutation, the scheduler's target. Checks the state is still `scheduled` before acting.
 - `tracks.embed` — internal action. Builds the embedding text from title, artist name, genre, tags, and description; calls the embedding API; patches `embedding` and `embeddingText`.
 - `ai.suggestReleaseCopy` — action (artist). Returns a structured draft: suggested tags, a description, and a short release note. Stores nothing on the track. The artist edits and confirms; only `tracks.update` writes.
-- `posts.create` — mutation (artist). Text plus optional photo or voice note file id, with the audience. Enqueues pushes.
-- `posts.update` / `posts.delete` — mutation (artist, own posts).
+- `posts.create` — mutation (artist). Text plus optional photo or voice note file id, with the audience. Voice peaks are 48 buckets from the browser. Follower pushes land with KIND-62.
+- `posts.update` / `posts.remove` — mutations (artist, own posts). Can replace or clear photo/voice.
+- `posts.getMine` — query (verified artist). One own post for the Studio editor.
+- `posts.generateUploadUrl` / `posts.registerPhoto` / `posts.registerVoice` — mutations (verified artist) for update media.
 
 ### Studio: supporters, thank-yous, earnings
 

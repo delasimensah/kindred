@@ -9,6 +9,7 @@ export {
   InfoNotification,
   SuccessNotification,
 } from "./feedback/Notification/Notification";
+export { default as ConfirmDeleteModal } from "./feedback/ConfirmDeleteModal/ConfirmDeleteModal";
 
 export { default as SignInForm } from "./auth/SignInForm/SignInForm";
 export { default as StudioGate } from "./auth/StudioGate/StudioGate";
@@ -23,5 +24,7 @@ export { default as StudioHomePage } from "./pages/StudioHomePage/StudioHomePage
 export { default as StudioProfilePage } from "./pages/StudioProfilePage/StudioProfilePage";
 export { default as StudioUploadPage } from "./pages/StudioUploadPage/StudioUploadPage";
 export { default as StudioReleasesPage } from "./pages/StudioReleasesPage/StudioReleasesPage";
+export { default as StudioUpdatesPage } from "./pages/StudioUpdatesPage/StudioUpdatesPage";
+export { default as StudioUpdateComposerPage } from "./pages/StudioUpdateComposerPage/StudioUpdateComposerPage";
 
 export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

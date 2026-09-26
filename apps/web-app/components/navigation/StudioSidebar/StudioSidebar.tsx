@@ -71,10 +71,10 @@ const NAV_ITEMS: {
   },
   {
     id: "updates",
-    href: null,
+    href: "/updates",
     label: "Updates",
     Icon: IconSpeakerphone,
-    ready: false,
+    ready: true,
   },
   {
     id: "supporters",

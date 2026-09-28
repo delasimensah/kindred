@@ -53,7 +53,7 @@ describe("PublicPostPage", () => {
     expect(screen.queryByText("Asase is finished.")).toBeNull();
     expect(screen.queryByRole("button", { name: /voice note/i })).toBeNull();
     expect(
-      screen.getByRole("link", { name: /^get the app$/i })
-    ).toHaveAttribute("href", "/get-the-app");
+      screen.getByRole("button", { name: /^get the app$/i })
+    ).toBeInTheDocument();
   });
 });

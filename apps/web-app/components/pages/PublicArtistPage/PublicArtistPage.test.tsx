@@ -58,8 +58,8 @@ describe("PublicArtistPage", () => {
     await user.click(screen.getByRole("button", { name: /^play asase$/i }));
     expect(onPlayTrack).toHaveBeenCalledWith(artist.tracks, "track_public");
     expect(
-      screen.getByRole("link", { name: /get the app to hear night mix/i })
-    ).toHaveAttribute("href", "/get-the-app");
+      screen.getByRole("button", { name: /get the app to hear night mix/i })
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: /play night mix/i })
     ).toBeNull();

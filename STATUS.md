@@ -10,13 +10,13 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-85** public artist, track, post, and mix pages is **Done**. Next is **KIND-86** browse home and the install prompt.
+- **Current phase:** Build — **KIND-86** public browse home and install prompt is **Done**. **KIND-88** is **Done** (loading and empty were already shipped; failed-load retry shipped with KIND-86). Next is **KIND-87**.
 - **Last updated:** 2026-09-28
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
   - Password email (KIND-46): **Backlog** until email sending is set up.
-  - Store purchase paperwork (Apple/Google): when we reach KIND-64.
+  - Store purchase paperwork (Apple/Google): when we reach KIND-64. Kindred is not in the App Store or Play Store, so the public install badges do not open a store. Open app uses the `kindred://` scheme. An https link stays on the web until Apple and Google verification files and a new phone build exist.
   - Offline retry queue: explain at KIND-69; if we cut it, edit the lock with Delasi first.
 
 ---
@@ -64,14 +64,14 @@
 
 ## Next action (one line)
 
-**KIND-86** — Public browse home and install prompt. Store badges and opening the installed app live on this ticket.
+**KIND-87** — TestFlight, Play closed testing, ACCESS-LIST, and the 90-second demo script.
 
 ---
 
 ## Remaining First Version (how to test)
 
 - **Phone:** KIND-82 fan artist request **Done**.
-- **Web (browser):** KIND-85 public artist, track, post, and mix pages **Done**. Next is KIND-86 browse home and the install prompt.
+- **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
 - **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
 - **Backlog until email:** KIND-46.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
@@ -83,6 +83,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-86): https://github.com/delasimensah/kindred/pull/27
 - Pull request (KIND-85): https://github.com/delasimensah/kindred/pull/26
 - Pull request (KIND-84): https://github.com/delasimensah/kindred/pull/25
 - Pull request (KIND-83): https://github.com/delasimensah/kindred/pull/24

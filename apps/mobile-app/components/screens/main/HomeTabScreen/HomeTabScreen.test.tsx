@@ -70,6 +70,34 @@ describe("HomeTabScreen", () => {
     expect(screen.getAllByTestId("skeleton-card").length).toBeGreaterThan(12);
   });
 
+  it("shows a retry when the feed fails to load", () => {
+    const onRetry = jest.fn();
+    render(
+      <HomeTabScreen
+        displayName="Efua Boateng"
+        items={[]}
+        isLoading={false}
+        failed
+        onRetry={onRetry}
+        now={now}
+        playingTrackId={null}
+        playingVoiceUrl={null}
+        voiceActiveUrl={null}
+        voiceProgress={0}
+        onOpenAccount={jest.fn()}
+        onOpenArtist={jest.fn()}
+        onPlayTrack={jest.fn()}
+        onToggleVoice={jest.fn()}
+        onSeekVoice={jest.fn()}
+        onSupport={jest.fn()}
+      />
+    );
+    expect(screen.getByText("Couldn't load updates")).toBeTruthy();
+    expect(screen.queryByText("No updates yet")).toBeNull();
+    fireEvent.press(screen.getByText("Try again"));
+    expect(onRetry).toHaveBeenCalledTimes(1);
+  });
+
   it("plays a seeded voice note and offers support on a locked post", () => {
     const onToggleVoice = jest.fn();
     const onSupport = jest.fn();

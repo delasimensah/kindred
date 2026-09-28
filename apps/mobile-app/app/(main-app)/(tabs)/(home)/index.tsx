@@ -1,5 +1,4 @@
 import { api } from "@convex/_generated/api";
-import { useQuery } from "convex/react";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert } from "react-native";
@@ -13,14 +12,22 @@ import {
   STAND_IN_TRACK_ID,
   useFanSession,
   usePreviewPlayer,
+  useRetryKey,
+  useScreenQuery,
   useVoiceNote,
 } from "@/hooks";
 import { ACCOUNT_HREF, homeArtistHref } from "@/utils";
 
 const HomeRoute = () => {
+  const { retryKey, onRetry } = useRetryKey();
+  return <HomeFeed key={retryKey} onRetry={onRetry} />;
+};
+
+function HomeFeed({ onRetry }: { onRetry: () => void }) {
   const router = useRouter();
   const { displayName } = useFanSession();
-  const feed = useQuery(api.feed.listForMe, {});
+  const state = useScreenQuery(api.feed.listForMe, {});
+  const feed = state.status === "success" ? state.data : undefined;
   const player = usePreviewPlayer();
   const voice = useVoiceNote();
   const [now] = useState(() => Date.now());
@@ -97,7 +104,9 @@ const HomeRoute = () => {
     <HomeTabScreen
       displayName={displayName}
       items={items}
-      isLoading={feed === undefined}
+      isLoading={state.status === "pending"}
+      failed={state.status === "error"}
+      onRetry={onRetry}
       now={now}
       playingTrackId={player.isPlaying ? loadedTrackId : null}
       playingVoiceUrl={voice.playingUrl}
@@ -139,6 +148,6 @@ const HomeRoute = () => {
       }}
     />
   );
-};
+}
 
 export default HomeRoute;

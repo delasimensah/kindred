@@ -16,4 +16,5 @@ export {
 export { useTabScrollTopPad } from "./layout/useTabScrollTopPad";
 export { useVoiceNote } from "./layout/useVoiceNote";
 export { useRetryKey } from "./query/useRetryKey";
+export { useScreenQuery } from "./query/useScreenQuery";
 export { useApplyAvailableUpdate } from "./updates/useApplyAvailableUpdate";

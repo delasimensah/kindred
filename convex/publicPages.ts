@@ -348,6 +348,206 @@ export const mix = query({
   },
 });
 
+const RISING_CAP = 8;
+const RELEASE_ROW_CAP = 4;
+
+const browseArtistValidator = v.object({
+  name: v.string(),
+  handle: v.string(),
+  bio: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
+  coverUrl: v.union(v.string(), v.null()),
+});
+
+const browseReleaseValidator = v.object({
+  title: v.string(),
+  subtitle: v.string(),
+  artworkUrl: v.union(v.string(), v.null()),
+  href: v.string(),
+});
+
+async function firstPublicTrack(ctx: QueryCtx, artistId: Id<"artists">) {
+  const published = await ctx.db
+    .query("tracks")
+    .withIndex("by_artist_state_publishedAt", (q) =>
+      q.eq("artistId", artistId).eq("state", "published")
+    )
+    .order("desc")
+    .take(20);
+  return (
+    published.find((track) => !track.hidden && track.visibility === "public") ??
+    null
+  );
+}
+
+export const browse = query({
+  args: {},
+  returns: v.object({
+    featured: v.union(
+      v.object({
+        ...browseArtistValidator.fields,
+        playTrack: v.union(
+          v.object({
+            trackId: v.id("tracks"),
+            title: v.string(),
+            artworkUrl: v.union(v.string(), v.null()),
+            durationMs: v.number(),
+          }),
+          v.null()
+        ),
+      }),
+      v.null()
+    ),
+    rising: v.array(browseArtistValidator),
+    releases: v.array(browseReleaseValidator),
+  }),
+  handler: async (ctx) => {
+    const now = Date.now();
+    const slots = await ctx.db
+      .query("featuredSlots")
+      .withIndex("by_position")
+      .collect();
+    const activeSlots = slots
+      .filter(
+        (slot) =>
+          slot.targetType === "artist" &&
+          slot.artistId !== undefined &&
+          slot.activeFrom <= now &&
+          (slot.activeTo === undefined || slot.activeTo > now)
+      )
+      .sort((left, right) => left.position - right.position);
+
+    let featuredArtist: Doc<"artists"> | null = null;
+    for (const slot of activeSlots) {
+      const artistId = slot.artistId;
+      if (artistId === undefined || featuredArtist !== null) {
+        continue;
+      }
+      const artist = await listedArtist(ctx, artistId);
+      if (artist === null) {
+        continue;
+      }
+      featuredArtist = artist;
+    }
+
+    const stats = await ctx.db
+      .query("artistStats")
+      .withIndex("by_risingScore")
+      .order("desc")
+      .take(40);
+    const risingArtists: Doc<"artists">[] = [];
+    for (const row of stats) {
+      if (
+        featuredArtist?._id === row.artistId ||
+        risingArtists.length >= RISING_CAP
+      ) {
+        continue;
+      }
+      const artist = await listedArtist(ctx, row.artistId);
+      if (artist === null) {
+        continue;
+      }
+      risingArtists.push(artist);
+    }
+
+    const featuredPlay =
+      featuredArtist === null
+        ? null
+        : await firstPublicTrack(ctx, featuredArtist._id);
+    const featured =
+      featuredArtist === null
+        ? null
+        : {
+            name: featuredArtist.name,
+            handle: featuredArtist.handle,
+            bio: featuredArtist.bio,
+            avatarUrl: await fileUrl(ctx, featuredArtist.avatarFileId),
+            coverUrl: await fileUrl(ctx, featuredArtist.coverFileId),
+            playTrack:
+              featuredPlay === null
+                ? null
+                : {
+                    trackId: featuredPlay._id,
+                    title: featuredPlay.title,
+                    artworkUrl: await fileUrl(ctx, featuredPlay.artworkFileId),
+                    durationMs: featuredPlay.durationMs,
+                  },
+          };
+
+    const rising = [];
+    for (const artist of risingArtists) {
+      rising.push({
+        name: artist.name,
+        handle: artist.handle,
+        bio: artist.bio,
+        avatarUrl: await fileUrl(ctx, artist.avatarFileId),
+        coverUrl: await fileUrl(ctx, artist.coverFileId),
+      });
+    }
+
+    const releaseArtists = [
+      ...(featuredArtist === null ? [] : [featuredArtist]),
+      ...risingArtists,
+    ];
+    const releaseRows: Array<{
+      title: string;
+      subtitle: string;
+      artworkUrl: string | null;
+      href: string;
+      publishedAt: number;
+    }> = [];
+    for (const artist of releaseArtists) {
+      const published = await ctx.db
+        .query("releases")
+        .withIndex("by_artist_state_publishedAt", (q) =>
+          q.eq("artistId", artist._id).eq("state", "published")
+        )
+        .order("desc")
+        .take(5);
+      const release = published.find(
+        (row) => !row.hidden && row.visibility === "public"
+      );
+      if (release === undefined) {
+        continue;
+      }
+      releaseRows.push({
+        title: release.title,
+        subtitle: artist.name,
+        artworkUrl: await fileUrl(ctx, release.artworkFileId),
+        href: `/artist/${artist.handle}`,
+        publishedAt: release.publishedAt ?? release.createdAt,
+      });
+    }
+    releaseRows.sort((left, right) => right.publishedAt - left.publishedAt);
+    const releases = releaseRows.slice(0, RELEASE_ROW_CAP).map((row) => ({
+      title: row.title,
+      subtitle: row.subtitle,
+      artworkUrl: row.artworkUrl,
+      href: row.href,
+    }));
+    const mixRow = await ctx.db
+      .query("mixes")
+      .withIndex("by_slug", (q) => q.eq("slug", "late-night"))
+      .unique();
+    if (mixRow !== null) {
+      const firstTrackId = mixRow.trackIds[0];
+      const firstTrack =
+        firstTrackId === undefined ? null : await ctx.db.get(firstTrackId);
+      releases.push({
+        title: mixRow.name,
+        subtitle: "Mix",
+        artworkUrl:
+          firstTrack === null
+            ? null
+            : await fileUrl(ctx, firstTrack.artworkFileId),
+        href: `/mix/${mixRow.slug}`,
+      });
+    }
+
+    return { featured, rising, releases };
+  },
+});
+
 const sourceValidator = v.union(
   v.object({
     audioUrl: v.string(),

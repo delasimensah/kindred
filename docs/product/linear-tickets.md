@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. **KIND-81** (Studio updates) is **Done**. **KIND-80** (supporters / thank-yous / earnings) is **Done**. **KIND-82** (fan requests to become an artist) is **Done**. **KIND-83** (admin approves or declines artist requests) is **Done**. **KIND-84** (admin hides or removes catalog items and sets featured slots) is **Done**. **KIND-85** (public artist, track, post, and mix pages) is **Done**.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. **KIND-81** (Studio updates) is **Done**. **KIND-80** (supporters / thank-yous / earnings) is **Done**. **KIND-82** (fan requests to become an artist) is **Done**. **KIND-83** (admin approves or declines artist requests) is **Done**. **KIND-84** (admin hides or removes catalog items and sets featured slots) is **Done**. **KIND-85** (public artist, track, post, and mix pages) is **Done**. **KIND-86** (public browse home and install prompt) is **Done**. **KIND-88** (loading, empty, and error states) is **Done**: loading and empty were already shipped, and the failed-load retry shipped with KIND-86.
 
 **Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
@@ -62,7 +62,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
 - Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: none. Next build is [KIND-86](https://linear.app/dm-studios/issue/KIND-86) (browse home and install prompt).
+- In Progress: none. Next build is [KIND-87](https://linear.app/dm-studios/issue/KIND-87) (TestFlight, Play closed testing, and the demo script).
 
 ---
 
@@ -1886,6 +1886,8 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Blocked by (slugs until Linear ids exist):** follow-feed-react, library-playlists
 
 **Goal:** Skeletons match layout; empty has next action; error has retry. Wire on already-shipped screens.
+
+**Status:** Loading skeletons and empty states were already on the shipped screens. The home feed and public pages show Try again when a load fails, on `feature/KIND-86`. No separate build remains.
 
 **Docs:**
 

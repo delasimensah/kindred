@@ -1,16 +1,12 @@
 "use client";
 
-import {
-  IconDeviceMobile,
-  IconLock,
-  IconPlayerPause,
-  IconPlayerPlay,
-} from "@tabler/icons-react";
+import { IconLock, IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
 import { formatVoiceDuration } from "@/utils";
 
+import GetTheAppButton from "./GetTheAppButton";
 import type { PublicTrackItem } from "./publicCatalog";
 
 interface PublicTrackRowProps {
@@ -103,14 +99,11 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
         </p>
       </div>
       {track.locked ? (
-        <Link
-          href="/get-the-app"
-          aria-label={`Get the app to hear ${track.title}`}
+        <GetTheAppButton
+          label={`Get the app to hear ${track.title}`}
+          iconSize={12}
           className="flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary hover:brightness-95 sm:gap-2 sm:px-4"
-        >
-          <IconDeviceMobile size={12} aria-hidden />
-          Get the app
-        </Link>
+        />
       ) : (
         <span className="w-10 shrink-0 text-right text-xs text-text/40">
           {formatVoiceDuration(track.durationMs)}

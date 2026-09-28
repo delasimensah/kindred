@@ -24,6 +24,12 @@ interface StudioAppShellProps {
 }
 
 function navFromPath(pathname: string): StudioNavId {
+  if (pathname.startsWith("/admin/requests")) {
+    return "requests";
+  }
+  if (pathname.startsWith("/admin/artists")) {
+    return "artists";
+  }
   if (pathname.startsWith("/profile")) {
     return "profile";
   }
@@ -55,6 +61,10 @@ const StudioAppShell: React.FC<StudioAppShellProps> = ({ children }) => {
   const pathname = usePathname();
   const session = useStudioSession();
   const myProfile = useQuery(api.studio.getMyProfile, {});
+  const pendingCount = useQuery(
+    api.admin.pendingCount,
+    session.isAdmin ? {} : "skip"
+  );
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
   const [desktopExpanded, setDesktopExpanded] = useLocalStorage({
@@ -110,7 +120,7 @@ const StudioAppShell: React.FC<StudioAppShellProps> = ({ children }) => {
             className="h-7 w-7 rounded-lg"
           />
           <span className="font-display text-base text-text">
-            Artist Studio
+            {pathname.startsWith("/admin") ? "Admin" : "Artist Studio"}
           </span>
         </Group>
       </AppShell.Header>
@@ -136,6 +146,9 @@ const StudioAppShell: React.FC<StudioAppShellProps> = ({ children }) => {
         <StudioSidebar
           displayName={myProfile?.name ?? session.displayName}
           isAdmin={session.isAdmin}
+          showStudioNav={session.artistId !== null}
+          showAdminNav={session.isAdmin}
+          pendingCount={pendingCount ?? 0}
           avatarUrl={myProfile?.avatarUrl ?? null}
           expanded={sidebarExpanded}
           onToggleExpanded={() => setDesktopExpanded((value) => !value)}

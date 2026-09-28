@@ -41,6 +41,32 @@ describe("StudioSidebar", () => {
     expect(screen.getByRole("link", { name: /releases/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /upload/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /updates/i })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /requests/i })).toBeNull();
+  });
+
+  it("shows the admin queue when this person is an admin", () => {
+    render(
+      <StudioSidebar
+        displayName="Delasi"
+        isAdmin
+        showStudioNav={false}
+        showAdminNav
+        pendingCount={2}
+        avatarUrl={null}
+        expanded
+        onToggleExpanded={jest.fn()}
+        onSignOut={jest.fn()}
+        activeNav="requests"
+      />
+    );
+
+    expect(screen.getByRole("link", { name: /requests/i })).toHaveAttribute(
+      "href",
+      "/admin/requests"
+    );
+    expect(screen.getByRole("link", { name: /artists/i })).toBeInTheDocument();
+    expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /upload/i })).toBeNull();
   });
 
   it("signs out from the footer", async () => {

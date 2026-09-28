@@ -10,11 +10,15 @@ import Text from "../../ui/Text/Text";
 interface NotAllowedPageProps {
   onSignOut: () => void;
   isSigningOut?: boolean;
+  title?: string;
+  body?: string;
 }
 
 const NotAllowedPage: React.FC<NotAllowedPageProps> = ({
   onSignOut,
   isSigningOut = false,
+  title = "This account cannot use Artist Studio",
+  body = "Artist Studio and admin are for verified artists and admins only. Fan accounts stay on the Kindred mobile app. If you requested studio access, wait for approval, then sign in again here.",
 }) => {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-page px-4 py-10 sm:px-6">
@@ -28,13 +32,9 @@ const NotAllowedPage: React.FC<NotAllowedPageProps> = ({
           variant="section"
           className="mb-3 text-xl font-semibold text-text sm:text-2xl"
         >
-          This account cannot use Artist Studio
+          {title}
         </Heading>
-        <Text className="text-sm leading-relaxed text-text/60">
-          Artist Studio and admin are for verified artists and admins only. Fan
-          accounts stay on the Kindred mobile app. If you requested studio
-          access, wait for approval, then sign in again here.
-        </Text>
+        <Text className="text-sm leading-relaxed text-text/60">{body}</Text>
         <Button
           onClick={onSignOut}
           loading={isSigningOut}

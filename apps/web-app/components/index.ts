@@ -12,6 +12,7 @@ export {
 export { default as ConfirmDeleteModal } from "./feedback/ConfirmDeleteModal/ConfirmDeleteModal";
 
 export { default as SignInForm } from "./auth/SignInForm/SignInForm";
+export { default as AdminGate } from "./auth/AdminGate/AdminGate";
 export { default as StudioGate } from "./auth/StudioGate/StudioGate";
 export { default as StudioWordmark } from "./auth/StudioWordmark/StudioWordmark";
 
@@ -29,5 +30,7 @@ export { default as StudioUpdateComposerPage } from "./pages/StudioUpdateCompose
 export { default as StudioSupportersPage } from "./pages/StudioSupportersPage/StudioSupportersPage";
 export { default as StudioThankYousPage } from "./pages/StudioThankYousPage/StudioThankYousPage";
 export { default as StudioEarningsPage } from "./pages/StudioEarningsPage/StudioEarningsPage";
+export { default as AdminRequestsPage } from "./pages/AdminRequestsPage/AdminRequestsPage";
+export { default as AdminArtistsPage } from "./pages/AdminArtistsPage/AdminArtistsPage";
 
 export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

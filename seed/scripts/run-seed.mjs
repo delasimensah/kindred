@@ -202,6 +202,10 @@ async function main() {
     `Seed releases: EP ${releases.ep ? "ready" : "skipped"}, album ${releases.album ? "ready" : "skipped"}.`
   );
   const support = convexRun("seedCatalog:seedSupportEconomy", {});
+  const mix = convexRun("seedCatalog:ensurePublicMix", {});
+  console.log(
+    `Public mix: ${mix.created ? "created" : "already there"} ${mix.slug ?? ""}.`
+  );
   console.log(
     `Support economy: entitlements ${support.entitlements}, routes ${support.routes}, listens ${support.listens}.`
   );

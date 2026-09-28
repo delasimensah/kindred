@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-84** catalog hide/remove and featured slots is **Done**. Next is **KIND-85** public pages.
+- **Current phase:** Build — **KIND-85** public artist, track, post, and mix pages is **Done**. Next is **KIND-86** browse home and the install prompt.
 - **Last updated:** 2026-09-28
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,14 +64,14 @@
 
 ## Next action (one line)
 
-**KIND-85** — Public artist, track, post, and mix pages play public audio and lock exclusives.
+**KIND-86** — Public browse home and install prompt. Store badges and opening the installed app live on this ticket.
 
 ---
 
 ## Remaining First Version (how to test)
 
 - **Phone:** KIND-82 fan artist request **Done**.
-- **Web (browser):** KIND-84 hide or remove catalog items and set featured slots **Done**. Next is KIND-85 public pages.
+- **Web (browser):** KIND-85 public artist, track, post, and mix pages **Done**. Next is KIND-86 browse home and the install prompt.
 - **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
 - **Backlog until email:** KIND-46.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
@@ -83,6 +83,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-85): https://github.com/delasimensah/kindred/pull/26
 - Pull request (KIND-84): https://github.com/delasimensah/kindred/pull/25
 - Pull request (KIND-83): https://github.com/delasimensah/kindred/pull/24
 - Pull request (KIND-82): https://github.com/delasimensah/kindred/pull/23

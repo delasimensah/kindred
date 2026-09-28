@@ -45,6 +45,7 @@ import type * as player from "../player.js";
 import type * as posts from "../posts.js";
 import type * as presence from "../presence.js";
 import type * as profiles from "../profiles.js";
+import type * as publicPages from "../publicPages.js";
 import type * as reactions from "../reactions.js";
 import type * as releases from "../releases.js";
 import type * as seed from "../seed.js";
@@ -100,6 +101,7 @@ declare const fullApi: ApiFromModules<{
   posts: typeof posts;
   presence: typeof presence;
   profiles: typeof profiles;
+  publicPages: typeof publicPages;
   reactions: typeof reactions;
   releases: typeof releases;
   seed: typeof seed;

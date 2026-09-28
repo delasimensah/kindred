@@ -1246,3 +1246,83 @@ export const seedSupportEconomy = internalMutation({
     return { entitlements, routes, listens };
   },
 });
+
+const PUBLIC_MIX_SLUG = "late-night";
+
+/**
+ * What: one shareable mix of catalog tracks, including one exclusive so the public page can show a lock.
+ * Where: tracks already in the seed catalog. The name and why line are ours.
+ * Rights: same CC0 / CC-BY seed audio. The words are original.
+ * How: `npx convex run seedCatalog:ensurePublicMix` after accounts exist. `yarn seed:catalog` calls it too.
+ * Out: making a mix from a sentence. That is KIND-72.
+ */
+export const ensurePublicMix = internalMutation({
+  args: {},
+  returns: v.object({
+    created: v.boolean(),
+    slug: v.union(v.string(), v.null()),
+  }),
+  handler: async (ctx) => {
+    const existing = await ctx.db
+      .query("mixes")
+      .withIndex("by_slug", (q) => q.eq("slug", PUBLIC_MIX_SLUG))
+      .unique();
+    if (existing !== null) {
+      return { created: false, slug: existing.slug };
+    }
+    const user = await ctx.db
+      .query("users")
+      .withIndex("email", (q) =>
+        q.eq("email", "akosua.frimpong@kindred.example")
+      )
+      .unique();
+    if (user === null) {
+      return { created: false, slug: null };
+    }
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_authUserId", (q) => q.eq("authUserId", user._id))
+      .unique();
+    if (profile === null) {
+      return { created: false, slug: null };
+    }
+    const amaara = await ctx.db
+      .query("artists")
+      .withIndex("by_handle", (q) => q.eq("handle", "amaara"))
+      .unique();
+    if (amaara === null) {
+      return { created: false, slug: null };
+    }
+    const amaaraId = amaara._id;
+    const published = await ctx.db
+      .query("tracks")
+      .withIndex("by_artist_state_publishedAt", (q) =>
+        q.eq("artistId", amaaraId).eq("state", "published")
+      )
+      .order("desc")
+      .take(40);
+    const visible = published.filter((track) => !track.hidden);
+    const playable = visible
+      .filter((track) => track.visibility === "public")
+      .slice(0, 6);
+    const exclusive = visible.find(
+      (track) => track.visibility === "supporters"
+    );
+    if (playable.length === 0) {
+      return { created: false, slug: null };
+    }
+    const trackIds = exclusive
+      ? [...playable.slice(0, 2), exclusive, ...playable.slice(2)]
+      : playable;
+    await ctx.db.insert("mixes", {
+      profileId: profile._id,
+      prompt: "late night highlife",
+      name: "Late Night Highlife",
+      why: "A slow wind-down from songs already in the catalog.",
+      trackIds: trackIds.map((track) => track._id),
+      slug: PUBLIC_MIX_SLUG,
+      createdAt: Date.now(),
+    });
+    return { created: true, slug: PUBLIC_MIX_SLUG };
+  },
+});

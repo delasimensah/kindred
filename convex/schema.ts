@@ -348,4 +348,20 @@ export default defineSchema({
   })
     .index("by_position", ["position"])
     .index("by_activeFrom", ["activeFrom"]),
+
+  /**
+   * A saved mix. KIND-72 writes these from a prompt. The public page reads
+   * them by slug and still locks any supporters-only track.
+   */
+  mixes: defineTable({
+    profileId: v.id("profiles"),
+    prompt: v.string(),
+    name: v.string(),
+    why: v.string(),
+    trackIds: v.array(v.id("tracks")),
+    slug: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_profile_createdAt", ["profileId", "createdAt"])
+    .index("by_slug", ["slug"]),
 });

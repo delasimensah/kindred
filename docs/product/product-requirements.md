@@ -60,7 +60,7 @@ Acceptance-ready, from the 20 locked journeys. Each one is done when the stated 
 17. **Impact and founding badge.** A supporter sees their impact stats, and a founding badge on an artist when they were one of the first 10 people to route to that artist. The badge stays if the artist grows or if other supporters leave. Founding supporters are first in that artist's thank-you list.
 18. **Admin.** An admin reviews **pending artist requests**, approves (verify) or declines, can also verify an account directly, hides or removes a catalog item so it stops appearing, and places a featured discovery slot.
 19. **Public web and install.** A public artist, track, post, or mix URL renders on the web with a simple player for public audio, a locked shell plus Get the app for exclusives, an install prompt, and deep links into the app when it is installed. No fan account on web.
-20. **Request to become an artist.** A signed-in fan submits a request (display name/handle + optional note) from **mobile** account settings, sees pending status, and after admin approval signs into Artist Studio on web and can upload.
+20. **Request to become an artist.** A signed-in fan submits a request (display name, bio, and why) from **mobile** account settings, sees status none / pending / approved / declined, and after admin approval signs into Artist Studio on web and can upload. The public handle is derived from the display name.
 
 **Out of scope for V1**
 
@@ -150,7 +150,7 @@ Main nouns and how they relate. This drives the Convex schema and `packages/shar
 - **Notification settings.** Per-Profile delivery rules: per-artist mute and quiet hours, default 22:00 to 07:00 local, enforced server-side before sending. Relations: belongs to a Profile, with per-Artist mute rows.
 - **File.** A stored blob in Convex file storage: track audio, artwork, avatars, cover images, update photos, voice notes. Relations: referenced by Tracks, Update posts, Artists, and Profiles. Moving audio bytes to object storage later changes the URL, not these relations.
 - **Admin catalog control.** The thin admin surface's state: pending artist requests, artist verification, hidden flags on catalog items, and featured discovery slots with their position and target Artist or Track. Relations: set by an admin Profile; read by discovery queries.
-- **Artist request.** A fan’s request to become an artist. Holds display name/handle, optional note, status (pending / approved / declined), timestamps. At most one pending per Profile; re-request allowed after decline; not after approve. Relations: belongs to one Profile; admin approve creates/links the Artist.
+- **Artist request.** A fan’s request to become an artist. Holds display name, bio, why, a handle derived from the display name, and status (pending / approved / declined), plus timestamps. At most one pending per Profile; re-request allowed after decline; not after approve. Relations: belongs to one Profile; admin approve creates/links the Artist.
 
 Client-side only, not server entities: the **outbox** queue of pending mutations and the local metadata store backing downloads. Both live on the device; the server sees only the idempotent mutations they replay.
 

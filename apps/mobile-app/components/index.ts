@@ -16,6 +16,10 @@ export { default as SignUpScreen } from "./screens/auth/SignUpScreen/SignUpScree
 export { default as OnboardingGenresScreen } from "./screens/onboarding/OnboardingGenresScreen/OnboardingGenresScreen";
 export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
+export {
+  default as ArtistRequestScreen,
+  ArtistRequestSkeleton,
+} from "./screens/main/ArtistRequestScreen/ArtistRequestScreen";
 export { default as HomeTabScreen } from "./screens/main/HomeTabScreen/HomeTabScreen";
 export type {
   HomeFeedPost,

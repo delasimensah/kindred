@@ -109,7 +109,7 @@ Indexes: `by_artistId`, `by_risingScore`.
 `followerCount` and `supporterCount` are patched inside the follow and route mutations so they are always exact. The 7-day fields and `risingScore` are recomputed nightly by cron.
 
 **`artistRequests`** — the fan's request to become an artist.
-Fields: `profileId`, `displayName`, `handle`, `note` (optional), `status` (`pending` | `approved` | `declined`), `decidedByProfileId` (optional), `decidedAt` (optional), `declineReason` (optional), `createdAt`.
+Fields: `profileId`, `displayName`, `handle` (derived from the display name at submit, unique among artists and pending requests), `bio`, `note` (why they want to join), `status` (`pending` | `approved` | `declined`), `decidedByProfileId` (optional), `decidedAt` (optional), `declineReason` (optional), `createdAt`.
 Indexes: `by_profile_createdAt`, `by_status_createdAt`.
 
 ### Catalog
@@ -282,8 +282,8 @@ Names are suggestions. Anything not marked `internal` is callable from a client 
 - `profiles.ensureProfile` — mutation, called once after first sign-in.
 - `profiles.updateProfile` — mutation. Display name, avatar, timezone.
 - `profiles.setGenres` — mutation. Onboarding, minimum two from the fixed list.
-- `artistRequests.submit` — mutation. Refuses if a pending request exists or the profile is already an artist.
-- `artistRequests.getMine` — query. Drives the pending / approved / declined status on **mobile** account settings.
+- `artistRequests.submit` — mutation. Display name, bio, and why. Refuses if a pending request exists, the latest request is approved, or the profile is already an artist. Derives a unique handle from the display name.
+- `artistRequests.getMine` — query. Drives the none / pending / approved / declined status on **mobile** account settings.
 
 ### Catalog reads
 

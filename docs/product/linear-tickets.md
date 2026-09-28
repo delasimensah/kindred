@@ -60,9 +60,9 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **KIND-58** live listener short check is **Done** (historical).
 - **KIND-59** presence number on artist page is **Done**.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
-- Remaining First Version / Launch feature slices stay **Todo** (KIND-46 Backlog).
+- Remaining First Version feature slices stay **Todo** until you ask to start them. KIND-46 is in the build order above.
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: none. Next build is [KIND-87](https://linear.app/dm-studios/issue/KIND-87) (TestFlight, Play closed testing, and the demo script).
+- In Progress: none. Next build is [KIND-71](https://linear.app/dm-studios/issue/KIND-71) (search). After that: [KIND-64](https://linear.app/dm-studios/issue/KIND-64) through [KIND-67](https://linear.app/dm-studios/issue/KIND-67) (subscriptions), [KIND-46](https://linear.app/dm-studios/issue/KIND-46) (password reset), [KIND-62](https://linear.app/dm-studios/issue/KIND-62) (notifications), [KIND-69](https://linear.app/dm-studios/issue/KIND-69) (downloads), [KIND-72](https://linear.app/dm-studios/issue/KIND-72) (AI mix), [KIND-73](https://linear.app/dm-studios/issue/KIND-73) (player visualizer). [KIND-87](https://linear.app/dm-studios/issue/KIND-87) (TestFlight) only if we still want it.
 
 ---
 

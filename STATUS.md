@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-86** public browse home and install prompt is **Done**. **KIND-88** is **Done** (loading and empty were already shipped; failed-load retry shipped with KIND-86). Next is **KIND-87**.
+- **Current phase:** Build — **KIND-86** and **KIND-88** are **Done**. Next is **KIND-71** search. The rest of First Version follows the order in Next action.
 - **Last updated:** 2026-09-28
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-87** — TestFlight, Play closed testing, ACCESS-LIST, and the 90-second demo script.
+**KIND-71** — Search. Then subscriptions (KIND-64 through KIND-67), password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,8 +72,8 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
-- **Backlog until email:** KIND-46.
+- **Build order from here:** KIND-71 search, KIND-64 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it.
+- **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 
 Phone vs simulator: `.cursor/rules/phone-tasks-must-be-testable.mdc`.  

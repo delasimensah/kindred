@@ -390,9 +390,12 @@ Nothing else replays. Downloads, playlists, and library changes made offline are
 - `admin.listArtistRequests` — query. Pending first.
 - `admin.decideArtistRequest` — mutation. Approve (creates or links the artist, verifies, sets `profiles.artistId`, creates `artistStats`, enqueues an approval push) or decline with a reason.
 - `admin.setArtistVerified` — mutation.
-- `admin.setHidden` — mutation. Works on a track, post, or artist.
-- `admin.listCatalog` — paginated query.
-- `admin.setFeaturedSlots` — mutation. Replaces the whole ordered list in one transaction.
+- `admin.setHidden` — mutation. Hide or unhide a track, post, artist, or release. Hiding a release also hides its tracks.
+- `admin.removeTrack` — mutation. Deletes one track, reindexes the tracks left on its album or EP, and drops it from playlists, likes, and featured slots.
+- `adminCatalog.listArtists`, `searchArtists`, `searchTracks`, `listHiddenTracks`, `listScheduledTracks` — one page at a time. Search uses the name and title search indexes.
+- `adminCatalog.getArtist`, `listReleases`, `listSingles`, `listScheduledForArtist` — one artist’s published albums and EPs, singles that are not on an album or EP, and a short scheduled preview.
+- `admin.listFeatured` — query. The current featured artist slots.
+- `admin.setFeaturedSlots` — mutation. Replaces the ordered list in one transaction. At most 6 artists. A new slot is live immediately.
 
 ### Push
 

@@ -291,3 +291,232 @@ export const setVerified = authedMutation({
     return null;
   },
 });
+
+/** Discover shows six featured artists. More than that is a CMS. */
+const FEATURED_SLOT_CAP = 6;
+
+const featuredSlotValidator = v.object({
+  artistId: v.id("artists"),
+  name: v.string(),
+  handle: v.string(),
+  bio: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
+  position: v.number(),
+  live: v.boolean(),
+});
+
+const featuredArtistValidator = v.object({
+  artistId: v.id("artists"),
+  name: v.string(),
+  handle: v.string(),
+  bio: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
+});
+
+const hiddenTargetValidator = v.union(
+  v.object({ kind: v.literal("track"), id: v.id("tracks") }),
+  v.object({ kind: v.literal("post"), id: v.id("updatePosts") }),
+  v.object({ kind: v.literal("artist"), id: v.id("artists") }),
+  v.object({ kind: v.literal("release"), id: v.id("releases") })
+);
+
+export const setHidden = authedMutation({
+  args: {
+    target: hiddenTargetValidator,
+    hidden: v.boolean(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    if (args.target.kind === "track") {
+      const track = await ctx.db.get(args.target.id);
+      if (track === null) {
+        raise(ERROR_CODES.INVALID, "Track not found");
+      }
+      await ctx.db.patch(track._id, { hidden: args.hidden });
+      return null;
+    }
+    if (args.target.kind === "post") {
+      const post = await ctx.db.get(args.target.id);
+      if (post === null) {
+        raise(ERROR_CODES.INVALID, "Update not found");
+      }
+      await ctx.db.patch(post._id, { hidden: args.hidden });
+      return null;
+    }
+    if (args.target.kind === "artist") {
+      const artist = await ctx.db.get(args.target.id);
+      if (artist === null) {
+        raise(ERROR_CODES.INVALID, "Artist not found");
+      }
+      await ctx.db.patch(artist._id, { hidden: args.hidden });
+      return null;
+    }
+    const release = await ctx.db.get(args.target.id);
+    if (release === null) {
+      raise(ERROR_CODES.INVALID, "Release not found");
+    }
+    await ctx.db.patch(release._id, { hidden: args.hidden });
+    const members = await ctx.db
+      .query("tracks")
+      .withIndex("by_release_position", (q) => q.eq("releaseId", release._id))
+      .collect();
+    for (const track of members) {
+      await ctx.db.patch(track._id, { hidden: args.hidden });
+    }
+    return null;
+  },
+});
+
+export const removeTrack = authedMutation({
+  args: { trackId: v.id("tracks") },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx);
+    const track = await ctx.db.get(args.trackId);
+    if (track === null) {
+      raise(ERROR_CODES.INVALID, "Track not found");
+    }
+    const releaseId = track.releaseId;
+    await ctx.db.delete(track._id);
+
+    if (releaseId !== undefined) {
+      const members = await ctx.db
+        .query("tracks")
+        .withIndex("by_release_position", (q) => q.eq("releaseId", releaseId))
+        .collect();
+      members.sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
+      for (const [index, member] of members.entries()) {
+        if (member.position !== index) {
+          await ctx.db.patch(member._id, { position: index });
+        }
+      }
+    }
+
+    const slots = await ctx.db.query("featuredSlots").collect();
+    for (const slot of slots) {
+      if (slot.trackId === args.trackId) {
+        await ctx.db.delete(slot._id);
+      }
+    }
+    const libraryItems = await ctx.db.query("libraryItems").collect();
+    for (const item of libraryItems) {
+      if (item.trackId === args.trackId) {
+        await ctx.db.delete(item._id);
+      }
+    }
+    const playlistEntries = await ctx.db.query("playlistEntries").collect();
+    for (const entry of playlistEntries) {
+      if (entry.trackId === args.trackId) {
+        await ctx.db.delete(entry._id);
+      }
+    }
+    return null;
+  },
+});
+
+export const listFeatured = authedQuery({
+  args: {},
+  returns: v.object({
+    slots: v.array(featuredSlotValidator),
+    artists: v.array(featuredArtistValidator),
+  }),
+  handler: async (ctx) => {
+    await requireAdmin(ctx);
+    const now = Date.now();
+    const slots = await ctx.db.query("featuredSlots").collect();
+    const active = slots
+      .filter(
+        (slot) =>
+          slot.targetType === "artist" &&
+          slot.artistId !== undefined &&
+          (slot.activeTo === undefined || slot.activeTo > now)
+      )
+      .sort((a, b) => a.position - b.position);
+
+    const rows = [];
+    for (const slot of active) {
+      const artistId = slot.artistId;
+      if (artistId === undefined) {
+        continue;
+      }
+      const artist = await ctx.db.get(artistId);
+      if (artist === null) {
+        continue;
+      }
+      const live =
+        !artist.hidden &&
+        slot.activeFrom <= now &&
+        (slot.activeTo === undefined || slot.activeTo > now);
+      rows.push({
+        artistId: artist._id,
+        name: artist.name,
+        handle: artist.handle,
+        bio: artist.bio,
+        avatarUrl: await fileUrl(ctx, artist.avatarFileId),
+        position: rows.length,
+        live,
+      });
+    }
+
+    const artists = await ctx.db.query("artists").collect();
+    artists.sort((a, b) => a.name.localeCompare(b.name));
+    const candidates = [];
+    for (const artist of artists) {
+      if (artist.hidden) {
+        continue;
+      }
+      candidates.push({
+        artistId: artist._id,
+        name: artist.name,
+        handle: artist.handle,
+        bio: artist.bio,
+        avatarUrl: await fileUrl(ctx, artist.avatarFileId),
+      });
+    }
+    return { slots: rows, artists: candidates };
+  },
+});
+
+export const setFeaturedSlots = authedMutation({
+  args: {
+    artistIds: v.array(v.id("artists")),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const { profile } = await requireAdmin(ctx);
+    if (args.artistIds.length > FEATURED_SLOT_CAP) {
+      raise(ERROR_CODES.INVALID, "Featured discovery holds six artists");
+    }
+    const seen = new Set<string>();
+    for (const artistId of args.artistIds) {
+      if (seen.has(artistId)) {
+        raise(ERROR_CODES.INVALID, "That artist is already featured");
+      }
+      seen.add(artistId);
+      const artist = await ctx.db.get(artistId);
+      if (artist === null) {
+        raise(ERROR_CODES.INVALID, "Artist not found");
+      }
+      if (artist.hidden) {
+        raise(ERROR_CODES.INVALID, "A hidden artist cannot be featured");
+      }
+    }
+
+    const existing = await ctx.db.query("featuredSlots").collect();
+    for (const slot of existing) {
+      await ctx.db.delete(slot._id);
+    }
+    const now = Date.now();
+    for (const [position, artistId] of args.artistIds.entries()) {
+      await ctx.db.insert("featuredSlots", {
+        position,
+        targetType: "artist",
+        artistId,
+        activeFrom: now,
+        createdByProfileId: profile._id,
+      });
+    }
+    return null;
+  },
+});

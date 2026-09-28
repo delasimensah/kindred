@@ -30,6 +30,12 @@ function navFromPath(pathname: string): StudioNavId {
   if (pathname.startsWith("/admin/artists")) {
     return "artists";
   }
+  if (pathname.startsWith("/admin/catalog")) {
+    return "catalog";
+  }
+  if (pathname.startsWith("/admin/featured")) {
+    return "featured";
+  }
   if (pathname.startsWith("/profile")) {
     return "profile";
   }

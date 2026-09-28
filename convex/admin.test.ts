@@ -192,3 +192,178 @@ describe("admin artist requests", () => {
     }
   });
 });
+
+async function insertArtist(
+  t: ReturnType<typeof makeBackend>,
+  handle: string,
+  name: string
+) {
+  return await t.run(async (ctx) => {
+    return await ctx.db.insert("artists", {
+      name,
+      handle,
+      bio: "Highlife from Accra.",
+      verified: true,
+      hidden: false,
+      createdAt: Date.now(),
+    });
+  });
+}
+
+async function insertPublishedTrack(
+  t: ReturnType<typeof makeBackend>,
+  artistId: Id<"artists">,
+  title: string
+) {
+  return await t.run(async (ctx) => {
+    const storageId = await ctx.storage.store(
+      new Blob(["audio"], { type: "audio/mpeg" })
+    );
+    const audioFileId = await ctx.db.insert("files", {
+      storageId,
+      kind: "trackAudio",
+      artistId,
+      contentType: "audio/mpeg",
+      sizeBytes: 5,
+      createdAt: Date.now(),
+    });
+    return await ctx.db.insert("tracks", {
+      artistId,
+      title,
+      audioFileId,
+      visibility: "public",
+      state: "published",
+      publishedAt: Date.now(),
+      durationMs: 180000,
+      peaks: [0],
+      tags: [],
+      genre: "Highlife",
+      hidden: false,
+      createdAt: Date.now(),
+    });
+  });
+}
+
+describe("admin catalog and featured slots", () => {
+  it("refuses catalog and featured changes when the caller is not an admin", async () => {
+    const t = makeBackend();
+    const fanId = await insertUser(t, "fan@kindredmail.com", "Fan");
+    await asUser(t, fanId).mutation(api.profiles.ensureProfile, {});
+    const artistId = await insertArtist(t, "amaara", "Amaara Mensah");
+    const trackId = await insertPublishedTrack(
+      t,
+      artistId,
+      "Kokrobite Sessions"
+    );
+
+    try {
+      await asUser(t, fanId).mutation(api.admin.setHidden, {
+        target: { kind: "track", id: trackId },
+        hidden: true,
+      });
+      throw new Error("expected hide to refuse");
+    } catch (error) {
+      expect(errorCode(error)).toBe("NOT_PERMITTED");
+    }
+    try {
+      await asUser(t, fanId).mutation(api.admin.setFeaturedSlots, {
+        artistIds: [artistId],
+      });
+      throw new Error("expected featured to refuse");
+    } catch (error) {
+      expect(errorCode(error)).toBe("NOT_PERMITTED");
+    }
+  });
+
+  it("hides a track and a post so fans no longer see them, then removes the track", async () => {
+    const t = makeBackend();
+    const fanId = await insertUser(t, "fan@kindredmail.com", "Fan");
+    await asUser(t, fanId).mutation(api.profiles.ensureProfile, {});
+    const artistId = await insertArtist(t, "amaara", "Amaara Mensah");
+    const trackId = await insertPublishedTrack(
+      t,
+      artistId,
+      "Kokrobite Sessions"
+    );
+    const postId = await t.run(async (ctx) => {
+      return await ctx.db.insert("updatePosts", {
+        artistId,
+        body: "Studio note",
+        audience: "everyone",
+        hidden: false,
+        createdAt: Date.now(),
+      });
+    });
+    const adminId = await insertUser(t, "admin@kindred.example", "Admin");
+    await makeAdmin(t, adminId);
+
+    await asUser(t, adminId).mutation(api.admin.setHidden, {
+      target: { kind: "track", id: trackId },
+      hidden: true,
+    });
+    const listed = await asUser(t, fanId).query(
+      api.tracks.listPublishedForArtist,
+      { artistId }
+    );
+    expect(listed.tracks).toHaveLength(0);
+    const detail = await asUser(t, fanId).query(api.tracks.get, { trackId });
+    expect(detail).toBeNull();
+
+    await asUser(t, adminId).mutation(api.admin.setHidden, {
+      target: { kind: "post", id: postId },
+      hidden: true,
+    });
+    const posts = await asUser(t, fanId).query(api.posts.listForArtist, {
+      artistId,
+    });
+    expect(posts).toHaveLength(0);
+
+    await asUser(t, adminId).mutation(api.admin.removeTrack, { trackId });
+    const gone = await t.run(async (ctx) => ctx.db.get(trackId));
+    expect(gone).toBeNull();
+  });
+
+  it("places featured artists in order and drops a hidden artist from Discover", async () => {
+    const t = makeBackend();
+    const fanId = await insertUser(t, "fan@kindredmail.com", "Fan");
+    await asUser(t, fanId).mutation(api.profiles.ensureProfile, {});
+    await asUser(t, fanId).mutation(api.profiles.setGenres, {
+      genres: ["Highlife"],
+    });
+    const amaara = await insertArtist(t, "amaara", "Amaara Mensah");
+    const yaw = await insertArtist(t, "yaw-darko", "Yaw Darko");
+    const adminId = await insertUser(t, "admin@kindred.example", "Admin");
+    await makeAdmin(t, adminId);
+
+    await asUser(t, adminId).mutation(api.admin.setFeaturedSlots, {
+      artistIds: [yaw, amaara],
+    });
+    const discover = await asUser(t, fanId).query(
+      api.discovery.listForDiscover,
+      {}
+    );
+    expect(discover.featured.map((row) => row.handle)).toEqual([
+      "yaw-darko",
+      "amaara",
+    ]);
+
+    await asUser(t, adminId).mutation(api.admin.setHidden, {
+      target: { kind: "artist", id: yaw },
+      hidden: true,
+    });
+    const after = await asUser(t, fanId).query(
+      api.discovery.listForDiscover,
+      {}
+    );
+    expect(after.featured.map((row) => row.handle)).toEqual(["amaara"]);
+
+    try {
+      await asUser(t, adminId).mutation(api.admin.setFeaturedSlots, {
+        artistIds: [yaw],
+      });
+      throw new Error("expected a hidden artist to be refused");
+    } catch (error) {
+      expect(errorCode(error)).toBe("INVALID");
+    }
+  });
+});

@@ -38,7 +38,7 @@ describe("PublicTrackPage", () => {
       screen.getByText(/supporters in the kindred app/i)
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /get the app to hear night mix/i })
-    ).toHaveAttribute("href", "/get-the-app");
+      screen.getByRole("button", { name: /get the app to hear night mix/i })
+    ).toBeInTheDocument();
   });
 });

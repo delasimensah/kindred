@@ -207,4 +207,62 @@ describe("publicPages", () => {
     expect(mixPage?.tracks.map((row) => row.locked)).toEqual([false, true]);
     expect(JSON.stringify(mixPage)).not.toMatch(/audioUrl/);
   });
+
+  it("lists featured and rising for a signed-out browse home", async () => {
+    const t = makeBackend();
+    const ids = await t.run(async (ctx) => {
+      const now = Date.now();
+      const featuredId = await ctx.db.insert("artists", {
+        name: "Amaara Mensah",
+        handle: "amaara-browse",
+        bio: "Afro-soul and R&B · Accra",
+        verified: true,
+        hidden: false,
+        createdAt: now,
+      });
+      const risingId = await ctx.db.insert("artists", {
+        name: "Sela Okoro",
+        handle: "sela-browse",
+        bio: "Amapiano · Lagos",
+        verified: true,
+        hidden: false,
+        createdAt: now,
+      });
+      await ctx.db.insert("featuredSlots", {
+        position: 0,
+        targetType: "artist",
+        artistId: featuredId,
+        activeFrom: now - 1000,
+      });
+      await ctx.db.insert("artistStats", {
+        artistId: risingId,
+        followerCount: 1,
+        supporterCount: 0,
+        followers7d: 1,
+        distinctListeners7d: 0,
+        plays7d: 0,
+        risingScore: 10,
+        updatedAt: now,
+      });
+      await ctx.db.insert("artistStats", {
+        artistId: featuredId,
+        followerCount: 2,
+        supporterCount: 0,
+        followers7d: 1,
+        distinctListeners7d: 0,
+        plays7d: 0,
+        risingScore: 99,
+        updatedAt: now,
+      });
+      return { featuredId, risingId };
+    });
+
+    const browse = await t.query(api.publicPages.browse, {});
+    expect(browse.featured?.handle).toBe("amaara-browse");
+    expect(browse.rising.map((artist) => artist.handle)).toEqual([
+      "sela-browse",
+    ]);
+    expect(JSON.stringify(browse)).not.toMatch(/audioUrl/);
+    expect(ids.featuredId).toBeTruthy();
+  });
 });

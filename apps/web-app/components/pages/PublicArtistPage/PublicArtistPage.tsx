@@ -1,11 +1,12 @@
 "use client";
 
-import { IconDeviceMobile, IconPlayerPlay } from "@tabler/icons-react";
+import { IconPlayerPlay } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
 import { formatRelativeTime } from "@/utils";
 
+import GetTheAppButton from "../../public/GetTheAppButton";
 import type {
   PublicPostPreview,
   PublicReleaseItem,
@@ -110,13 +111,10 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
                 <IconPlayerPlay size={16} className="ml-0.5" />
               </button>
             ) : null}
-            <Link
-              href="/get-the-app"
+            <GetTheAppButton
+              iconSize={14}
               className="flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-6"
-            >
-              <IconDeviceMobile size={14} aria-hidden />
-              Get the app
-            </Link>
+            />
           </div>
         </div>
       </section>
@@ -177,14 +175,11 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
                         {release.locked ? "Exclusive" : releaseKind(release)}
                       </p>
                       {release.locked || first === undefined ? (
-                        <Link
-                          href="/get-the-app"
-                          aria-label={`Get the app to hear ${release.title}`}
+                        <GetTheAppButton
+                          label={`Get the app to hear ${release.title}`}
+                          iconSize={12}
                           className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary"
-                        >
-                          <IconDeviceMobile size={12} aria-hidden />
-                          Get the app
-                        </Link>
+                        />
                       ) : null}
                     </div>
                   </li>

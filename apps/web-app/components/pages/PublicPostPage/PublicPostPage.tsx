@@ -11,6 +11,7 @@ import React from "react";
 
 import { formatRelativeTime, formatVoiceDuration } from "@/utils";
 
+import GetTheAppButton from "../../public/GetTheAppButton";
 import { Artwork } from "../../public/PublicTrackRow";
 import Heading from "../../ui/Heading/Heading";
 import Text from "../../ui/Text/Text";
@@ -82,12 +83,7 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
             <p className="max-w-[260px] text-sm text-text/60">
               This post is exclusive to supporters. Get the app to unlock it.
             </p>
-            <Link
-              href="/get-the-app"
-              className="rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-textOnPrimary"
-            >
-              Get the app
-            </Link>
+            <GetTheAppButton className="rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-textOnPrimary" />
           </div>
         </article>
       ) : (

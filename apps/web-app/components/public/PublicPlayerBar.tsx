@@ -1,17 +1,16 @@
 "use client";
 
 import {
-  IconDeviceMobile,
   IconPlayerPause,
   IconPlayerPlay,
   IconPlayerSkipBack,
   IconPlayerSkipForward,
 } from "@tabler/icons-react";
-import Link from "next/link";
 import React from "react";
 
 import { formatVoiceDuration } from "@/utils";
 
+import GetTheAppButton from "./GetTheAppButton";
 import { Artwork } from "./PublicTrackRow";
 
 interface PublicPlayerBarProps {
@@ -103,13 +102,10 @@ const PublicPlayerBar: React.FC<PublicPlayerBarProps> = ({
           </div>
         </div>
         <div className="flex justify-end md:w-64 md:shrink-0">
-          <Link
-            href="/get-the-app"
+          <GetTheAppButton
+            iconSize={14}
             className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-semibold text-textOnPrimary hover:brightness-95"
-          >
-            <IconDeviceMobile size={14} aria-hidden />
-            Get the app
-          </Link>
+          />
         </div>
       </div>
     </div>

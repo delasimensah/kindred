@@ -4,21 +4,15 @@ import { render, setupUser } from "@/test-utils";
 
 import PublicGetAppPage from "./PublicGetAppPage";
 
-const mockBack = jest.fn();
-
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({ back: mockBack }),
-}));
-
 describe("PublicGetAppPage", () => {
   afterEach(() => {
     cleanup();
-    mockBack.mockReset();
   });
 
-  it("shows the install card and returns to the previous page", async () => {
+  it("shows the install card and closes in place", async () => {
     const user = setupUser();
-    render(<PublicGetAppPage />);
+    const onClose = jest.fn();
+    render(<PublicGetAppPage onClose={onClose} />);
 
     expect(
       screen.getByRole("heading", { name: /listen with the full kindred app/i })
@@ -30,6 +24,6 @@ describe("PublicGetAppPage", () => {
     await user.click(
       screen.getByRole("button", { name: /^continue in browser$/i })
     );
-    expect(mockBack).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,11 +1,20 @@
 "use client";
 
-import React from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import PublicGetAppPage from "@/components/pages/PublicGetAppPage/PublicGetAppPage";
+import { useGetAppPrompt } from "@/components/public/getAppPromptStore";
 
 const PublicGetAppRoute = () => {
-  return <PublicGetAppPage />;
+  const openPrompt = useGetAppPrompt((state) => state.openPrompt);
+  const router = useRouter();
+
+  useEffect(() => {
+    openPrompt();
+    router.replace("/browse");
+  }, [openPrompt, router]);
+
+  return null;
 };
 
 export default PublicGetAppRoute;

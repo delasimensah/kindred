@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  IconDeviceMobile,
   IconLock,
   IconPlayerPause,
   IconPlayerPlay,
@@ -12,6 +11,7 @@ import React from "react";
 
 import { formatVoiceDuration } from "@/utils";
 
+import GetTheAppButton from "../../public/GetTheAppButton";
 import {
   displayPositions,
   type PublicTrackItem,
@@ -78,14 +78,11 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
                 Available for supporters in the Kindred app.
               </Text>
             </div>
-            <Link
-              href="/get-the-app"
-              aria-label={`Get the app to hear ${track.title}`}
+            <GetTheAppButton
+              label={`Get the app to hear ${track.title}`}
+              iconSize={14}
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-textOnPrimary"
-            >
-              <IconDeviceMobile size={14} aria-hidden />
-              Get the app
-            </Link>
+            />
           </div>
         </section>
       ) : (

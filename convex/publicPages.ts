@@ -53,14 +53,7 @@ function isOnPublicCatalog(track: Doc<"tracks">) {
   return track.state === "published" && !track.hidden;
 }
 
-async function kindLabel(
-  ctx: QueryCtx,
-  track: Doc<"tracks">,
-  locked: boolean
-): Promise<string> {
-  if (locked) {
-    return "Exclusive";
-  }
+async function kindLabel(ctx: QueryCtx, track: Doc<"tracks">): Promise<string> {
   if (track.releaseId === undefined) {
     return "Single";
   }
@@ -86,7 +79,7 @@ async function toPublicTrack(
     artworkUrl: await fileUrl(ctx, track.artworkFileId),
     durationMs: track.durationMs,
     locked,
-    kindLabel: await kindLabel(ctx, track, locked),
+    kindLabel: await kindLabel(ctx, track),
   };
 }
 

@@ -1,6 +1,11 @@
 "use client";
 
-import { IconLock, IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
+import {
+  IconDeviceMobile,
+  IconLock,
+  IconPlayerPause,
+  IconPlayerPlay,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -14,6 +19,23 @@ interface PublicTrackRowProps {
   active: boolean;
   playing: boolean;
   onPlay: (trackId: string) => void;
+  /** Artist list names the release. Mix names the artist. More-from names the release only. */
+  detail?: "catalog" | "mix" | "more";
+}
+
+function detailLine(
+  track: PublicTrackItem,
+  detail: "catalog" | "mix" | "more"
+) {
+  if (detail === "more") {
+    return track.locked ? "Exclusive" : track.kindLabel;
+  }
+  if (detail === "mix") {
+    return track.locked ? `${track.artistName} · Exclusive` : track.artistName;
+  }
+  return track.locked
+    ? `${track.artistName} · ${track.kindLabel} · Exclusive`
+    : `${track.artistName} · ${track.kindLabel}`;
 }
 
 const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
@@ -22,11 +44,13 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
   active,
   playing,
   onPlay,
+  detail = "catalog",
 }) => {
   const href = `/track/${track.trackId}`;
+  const showPause = active && playing;
   return (
     <div
-      className={`flex items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 ${
+      className={`group flex items-center gap-3 px-4 py-3 transition hover:bg-white/[0.03] sm:gap-4 sm:px-6 sm:py-4 ${
         track.locked || active ? "bg-primary/5" : ""
       }`}
     >
@@ -38,17 +62,25 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
         <button
           type="button"
           aria-label={
-            active && playing ? `Pause ${track.title}` : `Play ${track.title}`
+            showPause ? `Pause ${track.title}` : `Play ${track.title}`
           }
           onClick={() => onPlay(track.trackId)}
-          className="flex h-5 w-5 items-center justify-center text-primary"
+          className="flex h-5 w-5 items-center justify-center"
         >
-          {active && playing ? (
-            <IconPlayerPause size={12} />
-          ) : active ? (
-            <IconPlayerPlay size={12} />
+          <span
+            className={
+              showPause ? "hidden" : "text-sm text-text/35 group-hover:hidden"
+            }
+          >
+            {position}
+          </span>
+          {showPause ? (
+            <IconPlayerPause size={12} className="text-primary" />
           ) : (
-            <span className="text-sm text-text/35">{position}</span>
+            <IconPlayerPlay
+              size={12}
+              className="hidden text-primary group-hover:block"
+            />
           )}
         </button>
       )}
@@ -67,16 +99,16 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
           {track.title}
         </Link>
         <p className="truncate text-xs text-text/45">
-          {track.artistName}
-          {track.locked ? " · Exclusive" : ` · ${track.kindLabel}`}
+          {detailLine(track, detail)}
         </p>
       </div>
       {track.locked ? (
         <Link
           href="/get-the-app"
           aria-label={`Get the app to hear ${track.title}`}
-          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary hover:brightness-95 sm:px-4"
+          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary hover:brightness-95 sm:gap-2 sm:px-4"
         >
+          <IconDeviceMobile size={12} aria-hidden />
           Get the app
         </Link>
       ) : (

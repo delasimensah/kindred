@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  IconDeviceMobile,
   IconPlayerPause,
   IconPlayerPlay,
   IconPlayerSkipBack,
@@ -42,8 +43,8 @@ const PublicPlayerBar: React.FC<PublicPlayerBarProps> = ({
 }) => {
   const position = Math.min(Math.max(positionMs, 0), durationMs || 0);
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-surface px-4 py-3 sm:px-6">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 md:h-14 md:flex-row md:items-center md:gap-5">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-surface px-4 py-3 sm:px-6 md:h-20 md:py-0">
+      <div className="mx-auto flex h-full max-w-6xl flex-col justify-center gap-3 md:flex-row md:items-center md:gap-5">
         <div className="flex min-w-0 items-center gap-3 md:w-64 md:shrink-0">
           <Artwork url={artworkUrl} />
           <div className="min-w-0">
@@ -101,11 +102,12 @@ const PublicPlayerBar: React.FC<PublicPlayerBarProps> = ({
             </span>
           </div>
         </div>
-        <div className="hidden justify-end md:flex md:w-64 md:shrink-0">
+        <div className="flex justify-end md:w-64 md:shrink-0">
           <Link
             href="/get-the-app"
-            className="rounded-lg bg-primary px-4 py-2.5 text-xs font-semibold text-textOnPrimary hover:brightness-95"
+            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-semibold text-textOnPrimary hover:brightness-95"
           >
+            <IconDeviceMobile size={14} aria-hidden />
             Get the app
           </Link>
         </div>

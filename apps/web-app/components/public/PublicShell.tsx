@@ -1,5 +1,6 @@
 "use client";
 
+import { IconDeviceMobile } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -28,8 +29,9 @@ const PublicShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
         <Link
           href="/get-the-app"
-          className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-5"
+          className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-5"
         >
+          <IconDeviceMobile size={14} aria-hidden />
           Get the app
         </Link>
       </header>

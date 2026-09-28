@@ -36,6 +36,8 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
   const positions = displayPositions(mix.tracks);
   const totalMs = mix.tracks.reduce((sum, track) => sum + track.durationMs, 0);
   const minutes = Math.round(totalMs / 60000);
+  const trackCount =
+    mix.tracks.length === 1 ? "1 track" : `${mix.tracks.length} tracks`;
   const lengthLabel = minutes < 1 ? "under 1 min" : `${minutes} min`;
   return (
     <main className="mx-auto max-w-[900px] px-4 py-10 sm:px-8 lg:px-10 lg:py-14">
@@ -82,7 +84,7 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
             Tracklist
           </Heading>
           <span className="text-sm text-text/40">
-            {mix.tracks.length} tracks · {lengthLabel}
+            {trackCount} · {lengthLabel}
           </span>
         </div>
         <div className="divide-y divide-white/5 overflow-hidden rounded-2xl border border-white/5 bg-surface">
@@ -93,6 +95,7 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
               position={positions[index] ?? 0}
               active={activeTrackId === track.trackId}
               playing={playing}
+              detail="mix"
               onPlay={(trackId) => onPlayTrack(mix.tracks, trackId)}
             />
           ))}

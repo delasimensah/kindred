@@ -54,7 +54,7 @@ describe("PublicArtistPage", () => {
     );
 
     expect(screen.queryByRole("button", { name: /follow/i })).toBeNull();
-    expect(screen.getByText("12 followers")).toBeInTheDocument();
+    expect(screen.getByText(/12 followers/)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /^play asase$/i }));
     expect(onPlayTrack).toHaveBeenCalledWith(artist.tracks, "track_public");
     expect(

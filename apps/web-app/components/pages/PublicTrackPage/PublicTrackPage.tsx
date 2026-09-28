@@ -1,6 +1,12 @@
 "use client";
 
-import { IconLock, IconPlayerPlay } from "@tabler/icons-react";
+import {
+  IconDeviceMobile,
+  IconLock,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconShare,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -36,7 +42,6 @@ function releasedLabel(publishedAt: number) {
 
 const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
   track,
-  description,
   publishedAt,
   artistAvatarUrl,
   more,
@@ -45,6 +50,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
   onPlayTrack,
 }) => {
   const positions = displayPositions(more);
+  const thisPlaying = activeTrackId === track.trackId && playing;
   return (
     <main className="mx-auto max-w-[1000px] px-4 py-10 sm:px-8 lg:px-10 lg:py-14">
       {track.locked ? (
@@ -61,7 +67,8 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
               </div>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="mb-2 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+              <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+                <IconLock size={10} aria-hidden />
                 Exclusive
               </p>
               <Heading variant="section" className="mb-1 text-xl">
@@ -74,8 +81,9 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
             <Link
               href="/get-the-app"
               aria-label={`Get the app to hear ${track.title}`}
-              className="inline-flex shrink-0 items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-textOnPrimary"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-textOnPrimary"
             >
+              <IconDeviceMobile size={14} aria-hidden />
               Get the app
             </Link>
           </div>
@@ -103,20 +111,39 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
               <Artwork url={artistAvatarUrl} className="h-7 w-7 rounded-full" />
               {track.artistName}
             </Link>
-            <button
-              type="button"
-              aria-label={`Play ${track.title}`}
-              onClick={() => onPlayTrack([track, ...more], track.trackId)}
-              className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary hover:brightness-95"
-            >
-              <IconPlayerPlay size={12} /> Play
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                aria-label={
+                  thisPlaying ? `Pause ${track.title}` : `Play ${track.title}`
+                }
+                onClick={() => onPlayTrack([track, ...more], track.trackId)}
+                className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary hover:brightness-95"
+              >
+                {thisPlaying ? (
+                  <IconPlayerPause size={12} />
+                ) : (
+                  <IconPlayerPlay size={12} />
+                )}
+                {thisPlaying ? "Pause" : "Play"}
+              </button>
+              <button
+                type="button"
+                aria-label="Share"
+                onClick={() => {
+                  void navigator.clipboard.writeText(window.location.href);
+                }}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-text/60 hover:text-text"
+              >
+                <IconShare size={16} />
+              </button>
+            </div>
           </div>
         </div>
       )}
       {track.locked ? null : (
         <section className="mb-10 rounded-2xl border border-white/5 bg-surface p-5 sm:p-7">
-          <div className="grid grid-cols-1 gap-6 text-sm sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 text-sm sm:grid-cols-3">
             {publishedAt !== null ? (
               <div>
                 <p className="mb-1.5 text-xs uppercase tracking-wider text-text/40">
@@ -134,11 +161,6 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
               </p>
             </div>
           </div>
-          {description !== null && description.length > 0 ? (
-            <Text className="mt-6 text-sm leading-relaxed text-text/70">
-              {description}
-            </Text>
-          ) : null}
         </section>
       )}
       {more.length > 0 ? (
@@ -162,6 +184,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
                 position={positions[index] ?? 0}
                 active={activeTrackId === row.trackId}
                 playing={playing}
+                detail="more"
                 onPlay={(trackId) => onPlayTrack([track, ...more], trackId)}
               />
             ))}

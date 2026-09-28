@@ -1,6 +1,6 @@
 "use client";
 
-import { IconPlayerPlay } from "@tabler/icons-react";
+import { IconDeviceMobile, IconPlayerPlay } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -41,6 +41,14 @@ function followerLine(count: number) {
   return `${count.toLocaleString()} ${noun}`;
 }
 
+function heroMeta(artist: PublicArtist) {
+  const followers = followerLine(artist.followerCount);
+  if (artist.bio.length === 0 || artist.bio.length > 90) {
+    return { line: followers, paragraph: artist.bio };
+  }
+  return { line: `${artist.bio} · ${followers}`, paragraph: "" };
+}
+
 function releaseKind(release: PublicReleaseItem) {
   const kind = release.type === "ep" ? "EP" : "Album";
   if (release.publishedAt === null) {
@@ -57,6 +65,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
 }) => {
   const firstPlayable = playableTracks(artist.tracks)[0];
   const positions = displayPositions(artist.tracks);
+  const meta = heroMeta(artist);
   return (
     <div>
       <section className="relative h-64 w-full overflow-hidden sm:h-72 lg:h-[340px]">
@@ -86,9 +95,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
             >
               {artist.name}
             </Heading>
-            <Text className="mt-1 text-sm text-text/60">
-              {followerLine(artist.followerCount)}
-            </Text>
+            <Text className="mt-1 text-sm text-text/60">{meta.line}</Text>
           </div>
           <div className="flex items-center gap-3 pb-1">
             {firstPlayable !== undefined ? (
@@ -105,22 +112,23 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
             ) : null}
             <Link
               href="/get-the-app"
-              className="flex items-center rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-6"
+              className="flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-6"
             >
+              <IconDeviceMobile size={14} aria-hidden />
               Get the app
             </Link>
           </div>
         </div>
       </section>
       <main className="mx-auto max-w-[1100px] px-4 py-8 sm:px-8 lg:px-10 lg:py-9">
-        {artist.bio.length > 0 ? (
+        {meta.paragraph.length > 0 ? (
           <Text className="mb-10 max-w-2xl text-sm leading-relaxed text-text/70">
-            {artist.bio}
+            {meta.paragraph}
           </Text>
         ) : null}
         <section className="mb-12">
           <Heading variant="section" className="mb-5 text-lg font-semibold">
-            Tracks
+            Popular tracks
           </Heading>
           {artist.tracks.length === 0 ? (
             <Text className="text-sm text-text/50">
@@ -161,35 +169,23 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
                       dimmed={release.locked}
                       className="h-40 w-full rounded-none"
                     />
-                    <div className="flex items-center justify-between gap-3 p-4">
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-text">
-                          {release.title}
-                        </p>
-                        <p className="mt-1 text-xs text-text/45">
-                          {release.locked ? "Exclusive" : releaseKind(release)}
-                        </p>
-                      </div>
+                    <div className="p-4">
+                      <p className="truncate text-sm font-semibold text-text">
+                        {release.title}
+                      </p>
+                      <p className="mt-1 text-xs text-text/45">
+                        {release.locked ? "Exclusive" : releaseKind(release)}
+                      </p>
                       {release.locked || first === undefined ? (
                         <Link
                           href="/get-the-app"
                           aria-label={`Get the app to hear ${release.title}`}
-                          className="shrink-0 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary"
+                          className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-textOnPrimary"
                         >
+                          <IconDeviceMobile size={12} aria-hidden />
                           Get the app
                         </Link>
-                      ) : (
-                        <button
-                          type="button"
-                          aria-label={`Play ${release.title}`}
-                          onClick={() =>
-                            onPlayTrack(release.tracks, first.trackId)
-                          }
-                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-text text-page"
-                        >
-                          <IconPlayerPlay size={14} className="ml-0.5" />
-                        </button>
-                      )}
+                      ) : null}
                     </div>
                   </li>
                 );

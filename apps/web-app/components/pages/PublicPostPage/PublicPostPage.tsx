@@ -1,6 +1,11 @@
 "use client";
 
-import { IconLock, IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
+import {
+  IconLock,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconShare,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -21,6 +26,12 @@ export interface PublicPost {
   photoUrl: string | null;
   hasVoice: boolean;
   voiceDurationMs: number | null;
+}
+
+const VOICE_BARS = [2, 4, 3, 5, 2, 6, 3, 4, 2, 5, 3, 4, 2, 3];
+
+function copyPageLink() {
+  void navigator.clipboard.writeText(window.location.href);
 }
 
 interface PublicPostPageProps {
@@ -53,7 +64,8 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
       {post.locked ? (
         <article className="overflow-hidden rounded-2xl border border-primary/20 bg-surface">
           <div className="p-6 sm:p-7">
-            <p className="mb-4 inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+            <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+              <IconLock size={10} aria-hidden />
               Exclusive
             </p>
             <Heading variant="section" className="mb-2 text-xl">
@@ -63,7 +75,7 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
               Available for supporters in the Kindred app.
             </Text>
           </div>
-          <div className="flex flex-col items-center gap-4 bg-page/60 px-6 py-12 text-center">
+          <div className="mt-6 flex h-64 flex-col items-center justify-center gap-4 bg-page/60 px-6 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/10">
               <IconLock size={18} className="text-text/70" aria-hidden />
             </div>
@@ -93,15 +105,26 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
                 onClick={onPlayVoice}
                 className="mt-5 flex w-full items-center gap-4 rounded-xl border border-white/10 bg-page px-5 py-4 text-left"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-textOnPrimary">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary">
                   {voicePlaying ? (
                     <IconPlayerPause size={12} />
                   ) : (
                     <IconPlayerPlay size={12} className="ml-0.5" />
                   )}
                 </span>
-                <span className="text-sm text-text">Voice note</span>
-                <span className="ml-auto text-xs text-text/40">
+                <span
+                  className="flex h-6 flex-1 items-center gap-0.5"
+                  aria-hidden
+                >
+                  {VOICE_BARS.map((height, index) => (
+                    <span
+                      key={index}
+                      className="w-1 rounded-full bg-text/25"
+                      style={{ height: `${height * 4}px` }}
+                    />
+                  ))}
+                </span>
+                <span className="shrink-0 text-xs text-text/40">
                   {formatVoiceDuration(post.voiceDurationMs)}
                 </span>
               </button>
@@ -115,6 +138,16 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
               className="h-64 w-full object-cover sm:h-80"
             />
           ) : null}
+          <div className="flex items-center border-t border-white/5 px-6 py-5 sm:px-7">
+            <button
+              type="button"
+              onClick={copyPageLink}
+              className="ml-auto flex items-center gap-2 text-sm text-text/60 hover:text-text"
+            >
+              <IconShare size={16} />
+              Share
+            </button>
+          </div>
         </article>
       )}
     </main>

@@ -146,7 +146,7 @@ All private to the owning profile. No sharing in V1, except that a mix has a pub
 **Messaging and delivery.** `thankYous`, `pushTokens`, `notificationSettings`, `artistMutes`, `pendingPushes`.
 `pendingPushes` exists so a notification that lands inside someone's quiet hours is held and delivered afterwards rather than silently dropped.
 
-**Admin.** `featuredSlots`, plus the `hidden` flags on tracks, posts, and artists, plus the `artistRequests` queue.
+**Admin.** `featuredSlots`, plus the `hidden` flags on tracks, posts, artists, and releases, plus the `artistRequests` queue.
 
 **Not tables — they live on the phone.** The outbox, the local download metadata, and the playback queue. See section 11 of the Convex companion.
 

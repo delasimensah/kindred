@@ -65,6 +65,14 @@ describe("StudioSidebar", () => {
       "/admin/requests"
     );
     expect(screen.getByRole("link", { name: /artists/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /catalog/i })).toHaveAttribute(
+      "href",
+      "/admin/catalog"
+    );
+    expect(screen.getByRole("link", { name: /featured/i })).toHaveAttribute(
+      "href",
+      "/admin/featured"
+    );
     expect(screen.getByText("2")).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /upload/i })).toBeNull();
   });

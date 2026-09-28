@@ -14,8 +14,10 @@ import {
   IconInbox,
   IconLogout,
   IconSpeakerphone,
+  IconStar,
   IconUser,
   IconUsers,
+  IconVinyl,
   IconX,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -36,7 +38,9 @@ export type StudioNavId =
   | "earnings"
   | "profile"
   | "requests"
-  | "artists";
+  | "artists"
+  | "catalog"
+  | "featured";
 
 interface StudioSidebarProps {
   displayName: string;
@@ -264,6 +268,22 @@ const StudioSidebar: React.FC<StudioSidebarProps> = ({
               Icon={IconUsers}
               expanded={expanded}
               active={activeNav === "artists"}
+              onNavigate={onNavigate}
+            />
+            <AdminLink
+              href="/admin/catalog"
+              label="Catalog"
+              Icon={IconVinyl}
+              expanded={expanded}
+              active={activeNav === "catalog"}
+              onNavigate={onNavigate}
+            />
+            <AdminLink
+              href="/admin/featured"
+              label="Featured"
+              Icon={IconStar}
+              expanded={expanded}
+              active={activeNav === "featured"}
               onNavigate={onNavigate}
             />
           </>

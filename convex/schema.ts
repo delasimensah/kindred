@@ -30,6 +30,7 @@ export default defineSchema({
   })
     .index("by_handle", ["handle"])
     .index("by_profileId", ["profileId"])
+    .index("by_artistName", ["name"])
     .index("by_hidden_createdAt", ["hidden", "createdAt"])
     .searchIndex("by_name", {
       searchField: "name",
@@ -121,6 +122,7 @@ export default defineSchema({
   })
     .index("by_artist_title", ["artistId", "title"])
     .index("by_artist_state_publishedAt", ["artistId", "state", "publishedAt"])
+    .index("by_hidden_createdAt", ["hidden", "createdAt"])
     .index("by_state_publishAt", ["state", "publishAt"])
     .index("by_genre_publishedAt", ["genre", "publishedAt"])
     .index("by_visibility_publishedAt", ["visibility", "publishedAt"])

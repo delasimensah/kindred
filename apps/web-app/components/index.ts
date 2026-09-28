@@ -16,6 +16,7 @@ export { default as AdminGate } from "./auth/AdminGate/AdminGate";
 export { default as StudioGate } from "./auth/StudioGate/StudioGate";
 export { default as StudioWordmark } from "./auth/StudioWordmark/StudioWordmark";
 
+export { default as Breadcrumb } from "./navigation/Breadcrumb/Breadcrumb";
 export { default as StudioAppShell } from "./navigation/StudioAppShell/StudioAppShell";
 export { default as StudioSidebar } from "./navigation/StudioSidebar/StudioSidebar";
 
@@ -32,5 +33,7 @@ export { default as StudioThankYousPage } from "./pages/StudioThankYousPage/Stud
 export { default as StudioEarningsPage } from "./pages/StudioEarningsPage/StudioEarningsPage";
 export { default as AdminRequestsPage } from "./pages/AdminRequestsPage/AdminRequestsPage";
 export { default as AdminArtistsPage } from "./pages/AdminArtistsPage/AdminArtistsPage";
+export { default as AdminCatalogPage } from "./pages/AdminCatalogPage/AdminCatalogPage";
+export { default as AdminFeaturedPage } from "./pages/AdminFeaturedPage/AdminFeaturedPage";
 
 export { default as ImageCropModal } from "./media/ImageCropModal/ImageCropModal";

@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-80** supporters / thank-yous / earnings **Done**. KIND-81 Studio updates **Done**. KIND-91 EP/album uploads **Done**. KIND-79 singles upload **Done**. KIND-78 home/profile **Done**.
-- **Last updated:** 2026-09-26
+- **Current phase:** Build — **KIND-82** fan artist request **Done**. KIND-80 supporters / thank-yous / earnings **Done**.
+- **Last updated:** 2026-09-28
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
@@ -64,13 +64,14 @@
 
 ## Next action (one line)
 
-**KIND-82** — Fan can request to become an artist from mobile account settings.
+**KIND-83** — Admin can approve or decline artist requests and verify artists.
 
 ---
 
 ## Remaining First Version (how to test)
 
-- **Web (browser):** KIND-80 supporters / thank-yous / earnings **Done**. Next web: admin (KIND-83) after the phone request flow (KIND-82). Then public pages.
+- **Phone:** KIND-82 fan artist request **Done**.
+- **Web (browser):** KIND-80 supporters / thank-yous / earnings **Done**. Next: admin (KIND-83) approve or decline artist requests. Then public pages.
 - **Phone preview:** money (KIND-64+), alerts (KIND-62), offline (KIND-69), search/mix, polish — prove hard bits **inside** those tickets on preview, not on separate short-check tickets.
 - **Backlog until email:** KIND-46.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.

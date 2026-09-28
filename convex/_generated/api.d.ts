@@ -9,6 +9,7 @@
  */
 
 import type * as ai from "../ai.js";
+import type * as artistRequests from "../artistRequests.js";
 import type * as artists from "../artists.js";
 import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
@@ -19,6 +20,7 @@ import type * as follows from "../follows.js";
 import type * as http from "../http.js";
 import type * as lib_access from "../lib/access.js";
 import type * as lib_accountPassword from "../lib/accountPassword.js";
+import type * as lib_artistRequestHandle from "../lib/artistRequestHandle.js";
 import type * as lib_artistStats from "../lib/artistStats.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as lib_errors from "../lib/errors.js";
@@ -60,6 +62,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
+  artistRequests: typeof artistRequests;
   artists: typeof artists;
   auth: typeof auth;
   crons: typeof crons;
@@ -70,6 +73,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   "lib/access": typeof lib_access;
   "lib/accountPassword": typeof lib_accountPassword;
+  "lib/artistRequestHandle": typeof lib_artistRequestHandle;
   "lib/artistStats": typeof lib_artistStats;
   "lib/auth": typeof lib_auth;
   "lib/errors": typeof lib_errors;

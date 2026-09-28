@@ -18,6 +18,11 @@ export {
   TIER_CENTS,
   type PriceTier,
 } from "./earnings";
+export {
+  ARTIST_REQUEST_BIO_MAX,
+  ARTIST_REQUEST_NAME_MAX,
+  ARTIST_REQUEST_WHY_MAX,
+} from "./artistRequest";
 export { COLORS, TEXT_SECONDARY_OPACITY } from "./colors";
 export {
   GENRE_ACCENTS,

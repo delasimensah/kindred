@@ -27,11 +27,7 @@ const MainAppLayout = () => {
           name="account"
           options={{
             presentation: "modal",
-            headerShown: true,
-            title: "Account",
-            headerShadowVisible: false,
-            headerTintColor: COLORS.text,
-            headerStyle: { backgroundColor: COLORS.page },
+            headerShown: false,
             contentStyle: { backgroundColor: COLORS.page },
           }}
         />

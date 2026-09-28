@@ -36,6 +36,29 @@ export default defineSchema({
       filterFields: ["hidden", "verified"],
     }),
 
+  /**
+   * A fan's ask to become an artist. Handle is derived from the display name.
+   * Bio and note (why) come from the phone form. At most one pending row.
+   */
+  artistRequests: defineTable({
+    profileId: v.id("profiles"),
+    displayName: v.string(),
+    handle: v.string(),
+    bio: v.string(),
+    note: v.string(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("declined")
+    ),
+    decidedByProfileId: v.optional(v.id("profiles")),
+    decidedAt: v.optional(v.number()),
+    declineReason: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_profile_createdAt", ["profileId", "createdAt"])
+    .index("by_status_createdAt", ["status", "createdAt"]),
+
   files: defineTable({
     storageId: v.id("_storage"),
     kind: v.union(

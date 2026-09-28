@@ -11,9 +11,11 @@ import {
   IconHandClick,
   IconHeart,
   IconHome,
+  IconInbox,
   IconLogout,
   IconSpeakerphone,
   IconUser,
+  IconUsers,
   IconX,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -32,13 +34,18 @@ export type StudioNavId =
   | "supporters"
   | "thankYous"
   | "earnings"
-  | "profile";
+  | "profile"
+  | "requests"
+  | "artists";
 
 interface StudioSidebarProps {
   displayName: string;
   isAdmin: boolean;
   avatarUrl: string | null;
   expanded: boolean;
+  showStudioNav?: boolean;
+  showAdminNav?: boolean;
+  pendingCount?: number;
   onToggleExpanded: () => void;
   onSignOut: () => void;
   isSigningOut?: boolean;
@@ -106,11 +113,70 @@ const NAV_ITEMS: {
   },
 ];
 
+function AdminLink({
+  href,
+  label,
+  Icon,
+  expanded,
+  active,
+  badge = 0,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  Icon: Icon;
+  expanded: boolean;
+  active: boolean;
+  badge?: number;
+  onNavigate?: () => void;
+}) {
+  const className = cn(
+    "flex items-center rounded-lg text-sm font-medium no-underline transition",
+    expanded
+      ? "justify-between gap-3 px-3.5 py-2.5"
+      : "justify-center px-2 py-2.5",
+    active
+      ? "bg-primary/10 text-primary"
+      : "text-text/60 hover:bg-white/5 hover:text-text"
+  );
+  const link = (
+    <Anchor
+      component={Link}
+      href={href}
+      underline="never"
+      onClick={onNavigate}
+      className={className}
+      aria-current={active ? "page" : undefined}
+    >
+      <span className={cn("flex items-center", expanded ? "gap-3" : "")}>
+        <Icon size={18} stroke={1.75} className="shrink-0" aria-hidden />
+        {expanded ? <span>{label}</span> : null}
+      </span>
+      {expanded && badge > 0 ? (
+        <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-bold text-textOnPrimary">
+          {badge}
+        </span>
+      ) : null}
+    </Anchor>
+  );
+  if (!expanded) {
+    return (
+      <Tooltip label={label} position="right">
+        {link}
+      </Tooltip>
+    );
+  }
+  return link;
+}
+
 const StudioSidebar: React.FC<StudioSidebarProps> = ({
   displayName,
   isAdmin,
   avatarUrl,
   expanded,
+  showStudioNav = true,
+  showAdminNav = false,
+  pendingCount = 0,
   onToggleExpanded,
   onSignOut,
   isSigningOut = false,
@@ -181,7 +247,28 @@ const StudioSidebar: React.FC<StudioSidebarProps> = ({
         component="nav"
         className={cn("flex-1 space-y-1", expanded ? "px-4" : "px-2")}
       >
-        {NAV_ITEMS.map((item) => {
+        {showAdminNav ? (
+          <>
+            <AdminLink
+              href="/admin/requests"
+              label="Requests"
+              Icon={IconInbox}
+              expanded={expanded}
+              active={activeNav === "requests"}
+              badge={pendingCount}
+              onNavigate={onNavigate}
+            />
+            <AdminLink
+              href="/admin/artists"
+              label="Artists"
+              Icon={IconUsers}
+              expanded={expanded}
+              active={activeNav === "artists"}
+              onNavigate={onNavigate}
+            />
+          </>
+        ) : null}
+        {(showStudioNav ? NAV_ITEMS : []).map((item) => {
           const isActive = item.id === activeNav;
           const icon = (
             <item.Icon

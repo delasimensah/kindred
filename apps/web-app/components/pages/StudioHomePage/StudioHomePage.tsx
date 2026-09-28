@@ -10,8 +10,12 @@ import {
 } from "@tabler/icons-react";
 import { useQuery } from "convex/react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
+import { useStudioSession } from "@/hooks";
+
+import LoadingScreen from "../../shared/LoadingScreen/LoadingScreen";
 import Heading from "../../ui/Heading/Heading";
 import Text from "../../ui/Text/Text";
 import StudioHomePageSkeleton from "./StudioHomePageSkeleton";
@@ -40,6 +44,19 @@ function formatReleaseDate(ms: number | null): string {
 
 const StudioHomePage: React.FC = () => {
   const home = useQuery(api.studio.getHome, {});
+  const session = useStudioSession();
+  const router = useRouter();
+  const opensAdminHome = session.isAdmin && session.artistId === null;
+
+  useEffect(() => {
+    if (opensAdminHome) {
+      router.replace("/admin/requests");
+    }
+  }, [opensAdminHome, router]);
+
+  if (opensAdminHome) {
+    return <LoadingScreen />;
+  }
 
   if (home === undefined) {
     return <StudioHomePageSkeleton />;

@@ -4,15 +4,33 @@ import { render } from "@/test-utils";
 
 import StudioHomePage from "./StudioHomePage";
 
+const { useStudioSession } = jest.requireMock("@/hooks") as {
+  useStudioSession: jest.Mock;
+};
+
 const mockUseQuery = jest.fn();
+const mockReplace = jest.fn();
 
 jest.mock("convex/react", () => ({
   useQuery: (...args: unknown[]) => mockUseQuery(...args),
 }));
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: mockReplace }),
+}));
+
+jest.mock("@/hooks", () => ({
+  useStudioSession: jest.fn(() => ({ isAdmin: false, artistId: "artists_1" })),
+}));
+
 describe("StudioHomePage", () => {
   beforeEach(() => {
     mockUseQuery.mockReset();
+    mockReplace.mockReset();
+    useStudioSession.mockReturnValue({
+      isAdmin: false,
+      artistId: "artists_1",
+    });
   });
 
   it("shows metrics and recent releases for an artist", () => {
@@ -52,10 +70,22 @@ describe("StudioHomePage", () => {
   });
 
   it("explains when no artist is linked", () => {
+    useStudioSession.mockReturnValue({ isAdmin: false, artistId: null });
     mockUseQuery.mockReturnValue(null);
     render(<StudioHomePage />);
     expect(
       screen.getByRole("heading", { name: /no artist profile linked/i })
     ).toBeInTheDocument();
+    expect(mockReplace).not.toHaveBeenCalled();
+  });
+
+  it("sends an admin with no artist to the request queue", () => {
+    useStudioSession.mockReturnValue({ isAdmin: true, artistId: null });
+    mockUseQuery.mockReturnValue(null);
+    render(<StudioHomePage />);
+    expect(mockReplace).toHaveBeenCalledWith("/admin/requests");
+    expect(
+      screen.queryByRole("heading", { name: /no artist profile linked/i })
+    ).toBeNull();
   });
 });

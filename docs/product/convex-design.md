@@ -352,7 +352,7 @@ Nothing else replays. Downloads, playlists, and library changes made offline are
 ### Search and mix
 
 - `search.exact` — query. Runs the `tracks.by_title` and `artists.by_name` search indexes, artists first then tracks, filtered to published and not hidden, then access-filtered.
-- `search.semantic` — action. Embeds the caller's text, runs the vector index, loads the candidate documents through an internal query, drops anything the caller cannot access, and returns the remainder below the exact results.
+- `search.semantic` — action. Embeds the caller's text, runs the vector index, loads the candidate documents through an internal query, drops anything the caller cannot access, and returns the remainder below the exact results. Not built in this version (29 Sep 2026). Exact search is what ships.
 - `mix.generate` — action. Section 8.
 - `mix.get` — query by id or slug. A mix page is public; individual tracks inside it still go through the access check when played.
 - `mix.listMine` — query.

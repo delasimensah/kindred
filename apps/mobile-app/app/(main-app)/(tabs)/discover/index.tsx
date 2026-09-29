@@ -5,7 +5,12 @@ import { useRouter } from "expo-router";
 
 import { DiscoverScreen } from "@/components";
 import { useFanSession } from "@/hooks";
-import { ACCOUNT_HREF, artistHref, changeFollow } from "@/utils";
+import {
+  ACCOUNT_HREF,
+  artistHref,
+  changeFollow,
+  risingArtistsHref,
+} from "@/utils";
 
 const DiscoverRoute = () => {
   const router = useRouter();
@@ -43,6 +48,9 @@ const DiscoverRoute = () => {
       }}
       onOpenArtist={(artistId) => {
         router.push(artistHref(artistId));
+      }}
+      onViewAllRising={() => {
+        router.push(risingArtistsHref());
       }}
       onOpenAccount={() => {
         router.push(ACCOUNT_HREF);

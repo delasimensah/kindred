@@ -54,7 +54,7 @@ Acceptance-ready, from the 20 locked journeys. Each one is done when the stated 
 11. **Download and go offline.** A supporter downloads entitled audio, manages downloads, plays local files in airplane mode with a degraded banner, and queued actions (follows, reactions, play history, route changes) replay to the server on reconnect without duplicating.
 12. **Presence and reactions.** An artist's screen shows an approximate live count of current listeners that decays within about a minute of listeners stopping, and a fixed small emoji reaction on a track appears for other viewers live. No synced listening.
 13. **Natural-language mix.** A fan describes what they want and gets a named, playable mix built only from tracks they can access, preferring routed, then followed, then general, with a one-line why. No chat UI. The mix is empty only if the user has zero playable tracks.
-14. **Search.** A fan searches and sees exact artist and track matches first, then semantic results below.
+14. **Search.** A fan searches by artist or track name and sees exact matches. Meaning-based results (a Related list that finds tracks by meaning, not by the words in the name) are not in this version. Decided 29 Sep 2026.
 15. **Artist upload end to end.** An artist uploads audio and artwork on web, a peak array is produced during upload, the copilot suggests tags, a description, and a short release note, the artist edits and confirms, then schedules or publishes, and followers get a push. AI never publishes on its own.
 16. **Supporters, earnings, thank-you.** An artist sees their supporter list and demo earnings clearly labelled as not real payouts, opens fans-to-thank for a ranked shortlist with a drafted one-liner, edits it, sends it, and that fan receives a thank-you push and card.
 17. **Impact and founding badge.** A supporter sees their impact stats, and a founding badge on an artist when they were one of the first 10 people to route to that artist. The badge stays if the artist grows or if other supporters leave. Founding supporters are first in that artist's thank-you list.
@@ -78,6 +78,7 @@ Social:
 
 Listening:
 
+- Meaning-based search. Exact name search ships. A Related list that matches by meaning is not in this version (29 Sep 2026).
 - Synced listening parties
 - Marketed gapless or crossfade
 - Lyrics
@@ -244,7 +245,7 @@ Each spike produces a short written outcome — works, blocked, or cut to Later 
   - RevenueCat may slip to Later only through the monthly cut rule. If it slips, exclusives run on seed demo data and the case study says payments are next.
 - **Cut rule.** On the first of each month after Phase 1 build starts, compare shipped work to the V1 list in the lock. If less than half of what remains looks reachable by year-end at the current pace, cut to the minimum-done tier that month. Not in the final weeks.
 - **Drop order, first to go:**
-  1. Semantic search, keeping exact search.
+  1. Meaning-based search, keeping exact search. This cut was taken 29 Sep 2026.
   2. The second and third AI features, keeping the mix.
   3. The second realtime feature, keeping either presence or reactions.
   4. Voice notes in updates, falling back to photo and text, if the Safari spike fails.
@@ -265,7 +266,7 @@ So design and tickets have a list. Screen names are functional, not final copy.
 - Onboarding: pick genres, then follow artists with a minimum of two before continuing.
 - Home feed: updates from followed artists, with locked shells and a call to action on supporters-only posts.
 - Discovery: rising artists and featured slots, with follow as the primary action rather than play.
-- Search: one input, exact artist and track matches first, semantic results below.
+- Search: one input, exact artist and track name matches. Meaning-based results are not in this version (29 Sep 2026).
 - Artist profile: tracks, updates, presence count, follow, support call to action, founding badge where earned.
 - Track or post detail, including the locked state for content the viewer cannot open.
 - Now-playing: artwork, Skia waveform scrubber, shader visualizer toggle, queue (view / reorder / remove), shuffle, repeat, play next / add-to-queue actions from track menus, reactions.

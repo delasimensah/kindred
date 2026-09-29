@@ -371,6 +371,7 @@ _Gate: the offline spike. If it shows the outbox is too large for the calendar, 
 **Phase 8 — Search, mix, and craft technique three and four.**
 Exact search first, then embeddings and semantic search, then the natural-language mix. In parallel, the shader visualizer with its low-power default and the iOS-quality sheet stack.
 _Gate: the vector spike (embed 20 seed tracks, confirm sensible neighbours) before semantic search and mix._
+_29 Sep 2026: meaning-based search is not in this version. Exact name search is the search that ships. The mix is still later._
 
 **Phase 9 — Artist Studio on web.**
 Studio home, profile editor, upload with browser peak generation, the copilot, releases list, scheduled publish, update composer with photo and voice note, supporters list, fans-to-thank, and demo earnings.

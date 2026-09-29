@@ -62,7 +62,7 @@ const RisingArtistCard: React.FC<RisingArtistCardProps> = ({
           className={
             artist.isFollowed
               ? "font-app-semibold text-[11px] text-textOnPrimary"
-              : "font-app-semibold text-[11px] text-text"
+              : "font-app-semibold text-[11px] text-primary"
           }
         >
           {artist.isFollowed ? "Following" : "Follow"}

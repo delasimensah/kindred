@@ -33,6 +33,7 @@ describe("DiscoverScreen", () => {
         isLoading={false}
         onToggleFollow={onToggleFollow}
         onOpenArtist={jest.fn()}
+        onViewAllRising={jest.fn()}
         onOpenAccount={jest.fn()}
       />
     );
@@ -56,6 +57,7 @@ describe("DiscoverScreen", () => {
         isLoading={false}
         onToggleFollow={jest.fn()}
         onOpenArtist={onOpenArtist}
+        onViewAllRising={jest.fn()}
         onOpenAccount={jest.fn()}
       />
     );
@@ -74,11 +76,63 @@ describe("DiscoverScreen", () => {
         isLoading={false}
         onToggleFollow={jest.fn()}
         onOpenArtist={jest.fn()}
+        onViewAllRising={jest.fn()}
         onOpenAccount={onOpenAccount}
       />
     );
 
     fireEvent.press(screen.getByLabelText("Account"));
     expect(onOpenAccount).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps eight rising artists in the row and opens the rest from View all", () => {
+    const onOpenArtist = jest.fn();
+    const onToggleFollow = jest.fn();
+    const onViewAllRising = jest.fn();
+    const risingArtists = Array.from({ length: 9 }, (_, index) => ({
+      ...rising,
+      artistId: `artist_${index}`,
+      name: `Name${index} Person`,
+    }));
+    render(
+      <DiscoverScreen
+        displayName="Efua"
+        featured={[]}
+        rising={risingArtists}
+        isLoading={false}
+        onToggleFollow={onToggleFollow}
+        onOpenArtist={onOpenArtist}
+        onViewAllRising={onViewAllRising}
+        onOpenAccount={jest.fn()}
+      />
+    );
+
+    expect(screen.getByText("Name0")).toBeTruthy();
+    expect(screen.getByText("Name7")).toBeTruthy();
+    expect(screen.queryByLabelText("Open Name8 Person")).toBeNull();
+    fireEvent.press(screen.getByLabelText("Follow Name0 Person"));
+    fireEvent.press(screen.getByLabelText("Open Name0 Person"));
+    fireEvent.press(screen.getByLabelText("View all rising artists"));
+    expect(onToggleFollow).toHaveBeenCalledWith("artist_0");
+    expect(onOpenArtist).toHaveBeenCalledWith("artist_0");
+    expect(onViewAllRising).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows rising cards with a follow pill while discover loads", () => {
+    render(
+      <DiscoverScreen
+        displayName="Efua"
+        featured={[]}
+        rising={[]}
+        isLoading
+        onToggleFollow={jest.fn()}
+        onOpenArtist={jest.fn()}
+        onViewAllRising={jest.fn()}
+        onOpenAccount={jest.fn()}
+      />
+    );
+
+    expect(screen.getByTestId("discover-skeleton")).toBeTruthy();
+    expect(screen.getAllByTestId("skeleton-card").length).toBe(18);
   });
 });

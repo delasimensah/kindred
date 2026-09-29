@@ -15,7 +15,7 @@ Screen HTML lives in `docs/design/exports/`. Each issue body links the exports f
 
 Implement one issue at a time. Branch `feature/KIND-n`. Canceled issues KIND-14–KIND-41 stay canceled — do not revive them.
 
-Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. **KIND-81** (Studio updates) is **Done**. **KIND-80** (supporters / thank-yous / earnings) is **Done**. **KIND-82** (fan requests to become an artist) is **Done**. **KIND-83** (admin approves or declines artist requests) is **Done**. **KIND-84** (admin hides or removes catalog items and sets featured slots) is **Done**. **KIND-85** (public artist, track, post, and mix pages) is **Done**. **KIND-86** (public browse home and install prompt) is **Done**. **KIND-88** (loading, empty, and error states) is **Done**: loading and empty were already shipped, and the failed-load retry shipped with KIND-86.
+Build order follows the product, not the epic list: mobile catalog and listening first, then Artist Studio web, then public pages. Do not jump phone → web → phone while the phone core is unfinished. **KIND-50** through **KIND-59** (catalog, player, home, presence) are **Done**. **KIND-45** (web Studio / admin sign-in) is **Done**. **KIND-78** (Studio home and profile) is **Done**. **KIND-79** (upload and releases) is **Done**. **KIND-91** (EP/album uploads) is **Done**. **KIND-81** (Studio updates) is **Done**. **KIND-80** (supporters / thank-yous / earnings) is **Done**. **KIND-82** (fan requests to become an artist) is **Done**. **KIND-83** (admin approves or declines artist requests) is **Done**. **KIND-84** (admin hides or removes catalog items and sets featured slots) is **Done**. **KIND-85** (public artist, track, post, and mix pages) is **Done**. **KIND-86** (public browse home and install prompt) is **Done**. **KIND-88** (loading, empty, and error states) is **Done**: loading and empty were already shipped, and the failed-load retry shipped with KIND-86. **KIND-71** (exact name search) is **Done**. Meaning-based search is not in this version (29 Sep 2026).
 
 **Short-check tickets (25 Sep 2026):** Separate “short check / spike” Linear issues for remaining work are **Canceled**. Default: one feature ticket; prove the hard bit in that ticket’s acceptance. Fail still follows the lock (cut or shrink V1). Done historical short checks (KIND-54, KIND-58, and earlier) stay Done.
 
@@ -62,7 +62,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 - **Canceled short checks (25 Sep 2026):** KIND-60, KIND-61, KIND-63, KIND-68, KIND-70, KIND-74, KIND-75, KIND-76, KIND-77 — prove inside KIND-62, 64, 69, 71, 79, 81, 86 as noted on those issues.
 - Remaining First Version feature slices stay **Todo** until you ask to start them. KIND-46 is in the build order above.
 - Do not move a slice to In Progress until you ask to start it.
-- In Progress: none. Next build is [KIND-71](https://linear.app/dm-studios/issue/KIND-71) (search). After that: [KIND-64](https://linear.app/dm-studios/issue/KIND-64) through [KIND-67](https://linear.app/dm-studios/issue/KIND-67) (subscriptions), [KIND-46](https://linear.app/dm-studios/issue/KIND-46) (password reset), [KIND-62](https://linear.app/dm-studios/issue/KIND-62) (notifications), [KIND-69](https://linear.app/dm-studios/issue/KIND-69) (downloads), [KIND-72](https://linear.app/dm-studios/issue/KIND-72) (AI mix), [KIND-73](https://linear.app/dm-studios/issue/KIND-73) (player visualizer). [KIND-87](https://linear.app/dm-studios/issue/KIND-87) (TestFlight) only if we still want it.
+- Nothing is In Progress. Next: [KIND-64](https://linear.app/dm-studios/issue/KIND-64) through [KIND-67](https://linear.app/dm-studios/issue/KIND-67) (subscriptions), [KIND-46](https://linear.app/dm-studios/issue/KIND-46) (password reset), [KIND-62](https://linear.app/dm-studios/issue/KIND-62) (notifications), [KIND-69](https://linear.app/dm-studios/issue/KIND-69) (downloads), [KIND-72](https://linear.app/dm-studios/issue/KIND-72) (AI mix), [KIND-73](https://linear.app/dm-studios/issue/KIND-73) (player visualizer). [KIND-87](https://linear.app/dm-studios/issue/KIND-87) (TestFlight) only if we still want it. [KIND-71](https://linear.app/dm-studios/issue/KIND-71) exact name search is **Done**. Meaning-based search is not in this version (29 Sep 2026).
 
 ---
 
@@ -115,7 +115,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 27. [KIND-68](https://linear.app/dm-studios/issue/KIND-68) **Canceled** — prove offline in KIND-69. Epic KIND-8. Apps: mobile. Design: (no screen — spike/infra)
 28. [KIND-69](https://linear.app/dm-studios/issue/KIND-69/supporter-can-download-entitled-tracks-and-manage-downloads) **Supporter can download entitled tracks and manage downloads** — Slice. Epic KIND-8. Apps: mobile, convex. Design: docs/design/exports/mobile/03-library/09-downloads.html, docs/design/exports/mobile/08-shared-states/04-home-offline.html
 29. [KIND-70](https://linear.app/dm-studios/issue/KIND-70) **Canceled** — prove embeddings in KIND-71. Epic KIND-9. Apps: convex. Design: (no screen — spike/infra)
-30. [KIND-71](https://linear.app/dm-studios/issue/KIND-71/fan-can-search-exact-matches-first-then-semantic-results) **Fan can search exact matches first then semantic results** — Slice. Epic KIND-9. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/03-search.html
+30. [KIND-71](https://linear.app/dm-studios/issue/KIND-71/fan-can-search-exact-matches-first-then-semantic-results) **Done** — exact name search. Meaning-based search is not in this version (29 Sep 2026). Epic KIND-9. Apps: mobile, convex. Design: docs/design/exports/mobile/02-tabs/03-search.html
 31. [KIND-72](https://linear.app/dm-studios/issue/KIND-72/fan-can-generate-a-natural-language-mix-and-play-it) **Fan can generate a natural-language mix and play it** — Slice. Epic KIND-9. Apps: mobile, convex. Design: docs/design/exports/mobile/05-mix/01-make-a-mix.html, docs/design/exports/mobile/05-mix/02-mix-result.html
 32. [KIND-73](https://linear.app/dm-studios/issue/KIND-73/visualizer-toggle-and-ios-quality-sheet-stack-on-real-screens) **Visualizer toggle and iOS-quality sheet stack on real screens** — Slice. Epic KIND-4. Apps: mobile. Design: docs/design/exports/mobile/04-player/01-now-playing.html
 33. [KIND-74](https://linear.app/dm-studios/issue/KIND-74) **Canceled** — prove peaks in KIND-79. Epic KIND-10. Apps: web. Design: (no screen — spike/infra)
@@ -1231,7 +1231,7 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Apps:** mobile, convex  
 **Blocked by (slugs until Linear ids exist):** seed, mobile-shell-glass
 
-**Goal:** One search field; exact artist/track first; semantic below.
+**Goal:** One search field for exact artist and track names. Meaning-based results are not in this version (29 Sep 2026).
 
 **Docs:**
 
@@ -1245,13 +1245,13 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 
 **Acceptance:**
 
-- Exact name matches appear first.
-- Semantic section appears below when spike passed.
+- Exact name matches appear for artists and tracks.
 - Locked results show as locked.
+- Meaning-based results (the Related section in the search design) are not in this version. Decided 29 Sep 2026. Do not treat that section as leftover work on this ticket.
 
 **Do not:**
 
-- Do not hide exact matches under semantic.
+- Do not add meaning-based search in this version.
 - Do not skip checking official Expo/library docs before coding; cite sources in the PR.
 
 **Where code lives:** follow repo app/convex/shared layout for this slice.

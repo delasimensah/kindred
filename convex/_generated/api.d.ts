@@ -48,6 +48,7 @@ import type * as profiles from "../profiles.js";
 import type * as publicPages from "../publicPages.js";
 import type * as reactions from "../reactions.js";
 import type * as releases from "../releases.js";
+import type * as search from "../search.js";
 import type * as seed from "../seed.js";
 import type * as seedAvatars from "../seedAvatars.js";
 import type * as seedCatalog from "../seedCatalog.js";
@@ -104,6 +105,7 @@ declare const fullApi: ApiFromModules<{
   publicPages: typeof publicPages;
   reactions: typeof reactions;
   releases: typeof releases;
+  search: typeof search;
   seed: typeof seed;
   seedAvatars: typeof seedAvatars;
   seedCatalog: typeof seedCatalog;

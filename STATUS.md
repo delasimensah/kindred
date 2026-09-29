@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-86** and **KIND-88** are **Done**. Next is **KIND-71** search. The rest of First Version follows the order in Next action.
-- **Last updated:** 2026-09-28
+- **Current phase:** Build — **KIND-86**, **KIND-88**, and **KIND-71** are **Done**. KIND-71 is exact name search only. Meaning-based search is not in this version (29 Sep 2026). The rest of First Version follows the order in Next action.
+- **Last updated:** 2026-09-29
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-71** — Search. Then subscriptions (KIND-64 through KIND-67), password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
+**KIND-64** — Supporter subscription and restore. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026). After subscriptions: KIND-65 through KIND-67, password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,7 +72,7 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Build order from here:** KIND-71 search, KIND-64 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it.
+- **Build order from here:** KIND-64 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 

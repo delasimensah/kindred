@@ -28,6 +28,7 @@ export type {
 export { default as TabRootScreen } from "./screens/main/TabRootScreen/TabRootScreen";
 export { default as SearchTabScreen } from "./screens/main/SearchTabScreen/SearchTabScreen";
 export { default as DiscoverScreen } from "./screens/main/DiscoverScreen/DiscoverScreen";
+export { default as RisingArtistsScreen } from "./screens/main/RisingArtistsScreen/RisingArtistsScreen";
 export { default as LibraryScreen } from "./screens/main/LibraryScreen/LibraryScreen";
 export { default as LibraryTracksScreen } from "./screens/main/LibraryTracksScreen/LibraryTracksScreen";
 export { default as LibraryArtistsScreen } from "./screens/main/LibraryArtistsScreen/LibraryArtistsScreen";

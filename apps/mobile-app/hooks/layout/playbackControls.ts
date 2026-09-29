@@ -220,12 +220,10 @@ export function usePlaybackControls({
         return;
       }
       const active = currentTrack(queueRef.current);
-      if (
-        context === undefined &&
-        active?.trackId === track.trackId &&
-        loadedIdRef.current === track.trackId
-      ) {
+      const sameTrack = active?.trackId === track.trackId;
+      if (sameTrack && (isPlaying || loadedIdRef.current === track.trackId)) {
         if (isPlaying) {
+          requestRef.current += 1;
           audio.pause();
           setIsPlaying(false);
         } else {
@@ -264,6 +262,7 @@ export function usePlaybackControls({
       loadedIdRef,
       queueRef,
       recordedRef,
+      requestRef,
       setIsPlaying,
       setQueue,
       setQueueEpoch,
@@ -311,9 +310,10 @@ export function usePlaybackControls({
   );
 
   const pause = useCallback(() => {
+    requestRef.current += 1;
     audio.pause();
     setIsPlaying(false);
-  }, [audio, setIsPlaying]);
+  }, [audio, requestRef, setIsPlaying]);
 
   const previous = useCallback(() => {
     const before = queueRef.current;

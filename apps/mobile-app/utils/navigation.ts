@@ -14,10 +14,18 @@ export const POPULAR_TRACK_PREVIEW = 5;
 /** How many albums the artist page shows before View all. */
 export const ALBUM_PREVIEW = 6;
 
+/** How many rising artists Discover shows before View all. */
+export const RISING_PREVIEW = 8;
+
 export function routeParam(
   value: string | string[] | undefined
 ): string | undefined {
   return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+/** Full rising-artist list, still on the Discover stack. */
+export function risingArtistsHref(): Href {
+  return "/(main-app)/(tabs)/discover/rising";
 }
 
 /** Artist profile on the Discover stack. Home and Library keep their own. */
@@ -147,6 +155,35 @@ export function libraryArtistAlbumsHref(artistId: string): Href {
 export function libraryArtistAlbumHref(releaseId: string): Href {
   return {
     pathname: "/(main-app)/(tabs)/library/album/[releaseId]",
+    params: { releaseId },
+  } as unknown as Href;
+}
+
+/** Artist profile on the Search stack, so back returns to the results. */
+export function searchArtistHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/search/artist/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+export function searchArtistTracksHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/search/tracks/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+export function searchArtistAlbumsHref(artistId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/search/albums/[artistId]",
+    params: { artistId },
+  } as unknown as Href;
+}
+
+export function searchArtistAlbumHref(releaseId: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/search/album/[releaseId]",
     params: { releaseId },
   } as unknown as Href;
 }

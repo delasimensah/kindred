@@ -15,6 +15,17 @@ export {
 } from "./layout/usePreviewPlayer";
 export { useTabScrollTopPad } from "./layout/useTabScrollTopPad";
 export { useVoiceNote } from "./layout/useVoiceNote";
+export { useDebouncedSearchTerm } from "./query/useDebouncedSearchTerm";
+export {
+  recentArtist,
+  recentTrack,
+  useRecentSearches,
+} from "./query/useRecentSearches";
+export type {
+  RecentArtist,
+  RecentSearchItem,
+  RecentTrack,
+} from "./query/useRecentSearches";
 export { useRetryKey } from "./query/useRetryKey";
 export { useScreenQuery } from "./query/useScreenQuery";
 export { useApplyAvailableUpdate } from "./updates/useApplyAvailableUpdate";

@@ -88,6 +88,56 @@ describe("usePreviewPlayer", () => {
     expect(result.current.isPlaying).toBe(false);
   });
 
+  it("pauses a search result instead of starting it again", async () => {
+    const { result } = renderHook(() => usePreviewPlayer(), { wrapper });
+    const queue = [next];
+
+    act(() => result.current.play(next, queue));
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(mockAudio.play).toHaveBeenCalledTimes(1);
+
+    act(() => result.current.play(next, queue));
+    expect(mockAudio.pause).toHaveBeenCalledTimes(1);
+    expect(mockAudio.play).toHaveBeenCalledTimes(1);
+    expect(result.current.isPlaying).toBe(false);
+  });
+
+  it("does not start playback after pause if the audio was still loading", async () => {
+    let resolveUrl: (row: {
+      audioUrl: string;
+      title: string;
+      artistName: string;
+      artworkUrl: string;
+    }) => void = () => undefined;
+    mockQuery.mockReturnValue(
+      new Promise((resolve) => {
+        resolveUrl = resolve;
+      })
+    );
+    const { result } = renderHook(() => usePreviewPlayer(), { wrapper });
+
+    act(() => result.current.play(next, [next]));
+    expect(result.current.isPlaying).toBe(true);
+
+    act(() => result.current.pause());
+    expect(result.current.isPlaying).toBe(false);
+
+    await act(async () => {
+      resolveUrl({
+        audioUrl: "https://cdn.example/asase.mp3",
+        title: "Asase",
+        artistName: "Amaara Mensah",
+        artworkUrl: "https://cdn.example/art.jpg",
+      });
+      await Promise.resolve();
+    });
+
+    expect(mockAudio.play).not.toHaveBeenCalled();
+    expect(result.current.isPlaying).toBe(false);
+  });
+
   it("plays the next track in the queue and stops after the last one", async () => {
     const coast = {
       trackId: "track_coast",

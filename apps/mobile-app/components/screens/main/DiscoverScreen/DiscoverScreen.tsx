@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, useWindowDimensions, View } from "react-native";
+import { Pressable, ScrollView, useWindowDimensions, View } from "react-native";
 
 import { COLORS } from "@/constants";
 import { useTabScrollTopPad } from "@/hooks";
+import { RISING_PREVIEW } from "@/utils";
 
 import AccountAvatarButton from "../../../ui/AccountAvatarButton/AccountAvatarButton";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
@@ -23,6 +24,7 @@ interface DiscoverScreenProps {
   isLoading: boolean;
   onToggleFollow: (artistId: string) => void;
   onOpenArtist: (artistId: string) => void;
+  onViewAllRising: () => void;
   onOpenAccount: () => void;
 }
 
@@ -39,6 +41,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
   isLoading,
   onToggleFollow,
   onOpenArtist,
+  onViewAllRising,
   onOpenAccount,
 }) => {
   const { height } = useWindowDimensions();
@@ -86,9 +89,22 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
 
         {rising.length > 0 ? (
           <VStack spacing="sm">
-            <Text className="font-app-semibold text-lg text-text">
-              Rising artists
-            </Text>
+            <HStack spacing="sm" align="center" justify="between">
+              <Text className="font-app-semibold text-lg text-text">
+                Rising artists
+              </Text>
+              {rising.length > RISING_PREVIEW ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="View all rising artists"
+                  onPress={onViewAllRising}
+                >
+                  <Text className="font-app-semibold text-sm text-primary">
+                    View all
+                  </Text>
+                </Pressable>
+              ) : null}
+            </HStack>
             <View style={{ marginHorizontal: -PAGE_PADDING }}>
               <ScrollView
                 horizontal
@@ -96,10 +112,11 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                   paddingHorizontal: PAGE_PADDING,
+                  paddingBottom: 4,
                   gap: 16,
                 }}
               >
-                {rising.map((artist) => (
+                {rising.slice(0, RISING_PREVIEW).map((artist) => (
                   <RisingArtistCard
                     key={artist.artistId}
                     artist={artist}
@@ -121,7 +138,7 @@ function DiscoverSkeleton() {
   const cardWidth = Math.max(0, width - PAGE_PADDING * 2);
 
   return (
-    <VStack spacing="lg">
+    <VStack spacing="lg" testID="discover-skeleton">
       <VStack
         spacing="none"
         justify="between"
@@ -136,17 +153,21 @@ function DiscoverSkeleton() {
         </VStack>
       </VStack>
       <VStack spacing="sm">
-        <SkeletonCard width={132} height={18} radius={6} />
+        <HStack spacing="sm" align="center" justify="between">
+          <SkeletonCard width={132} height={18} radius={6} />
+          <SkeletonCard width={56} height={14} radius={4} />
+        </HStack>
         <HStack spacing="md">
-          {[0, 1, 2, 3].map((index) => (
+          {[0.7, 0.5, 0.62, 0.4].map((scale) => (
             <VStack
-              key={index}
+              key={scale}
               spacing="sm"
               align="center"
               className="w-[92px]"
             >
-              <SkeletonCard width={72} height={72} radius={36} />
-              <SkeletonCard width={56} height={10} radius={4} />
+              <SkeletonCard width={80} height={80} radius={40} />
+              <SkeletonCard width={72 * scale} height={10} radius={4} />
+              <SkeletonCard width={72} height={28} radius={14} />
             </VStack>
           ))}
         </HStack>

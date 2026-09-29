@@ -16,7 +16,7 @@
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
   - Password email (KIND-46): **Backlog** until email sending is set up.
-  - Store purchase paperwork (Apple/Google): when we reach KIND-64. Kindred is not in the App Store or Play Store, so the public install badges do not open a store. Open app uses the `kindred://` scheme. An https link stays on the web until Apple and Google verification files and a new phone build exist.
+  - Store purchase tests (KIND-64): the **preview app** shows the paywall screen on a real phone. The practice purchase (buy, restore, expiry) is on the **development app** with RevenueCat’s Test Store. Kindred is a demo, not a store app, unless it later earns a real release (29 Sep 2026). Leave the Apple Paid Apps Agreement and the EU trader form untouched. Guide: studio `project-template/docs/client-delivery/revenuecat-test-purchases.md`.
   - Offline retry queue: explain at KIND-69; if we cut it, edit the lock with Delasi first.
 
 ---

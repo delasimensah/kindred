@@ -6,7 +6,7 @@ import { Platform } from "react-native";
 import { SessionHomeScreen } from "@/components";
 import { COLORS, FONTS } from "@/constants";
 import { useFanSession } from "@/hooks";
-import { ACCOUNT_REQUEST_HREF } from "@/utils";
+import { ACCOUNT_REQUEST_HREF, PAYWALL_HREF } from "@/utils";
 
 /**
  * Account presents as a modal over the tabs. On iOS, close is a toolbar button
@@ -18,6 +18,11 @@ const AccountRoute = () => {
   const router = useRouter();
   const { displayName, handleSignOut, isSigningOut } = useFanSession();
   const mine = useQuery(api.artistRequests.getMine, {});
+  const entitlement = useQuery(api.entitlements.getMine, {});
+  const supporterLabel =
+    entitlement?.status === "active"
+      ? `Supporter · $${entitlement.priceTier}/mo`
+      : null;
 
   return (
     <>
@@ -50,8 +55,12 @@ const AccountRoute = () => {
         displayName={displayName}
         isSigningOut={isSigningOut}
         artistStatus={mine === undefined ? "loading" : mine.status}
+        supporterLabel={supporterLabel}
         onRequestArtist={() => {
           router.push(ACCOUNT_REQUEST_HREF);
+        }}
+        onOpenPaywall={() => {
+          router.push(PAYWALL_HREF);
         }}
         onSignOut={() => {
           void handleSignOut();

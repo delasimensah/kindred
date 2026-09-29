@@ -8,6 +8,23 @@ export const ACCOUNT_HREF = "/(main-app)/account" as Href;
 /** Become-an-artist form, pushed inside the account modal. */
 export const ACCOUNT_REQUEST_HREF = "/(main-app)/account/request" as Href;
 
+/** Supporter paywall, a sheet over the signed-in app. */
+export const PAYWALL_HREF = "/(main-app)/paywall" as Href;
+
+/** Locked track gate. Support and See plans on that screen open the paywall. */
+export function lockedTrackHref(track: {
+  title: string;
+  artistName: string;
+  artworkUrl: string | null;
+}): Href {
+  const query = new URLSearchParams({
+    title: track.title,
+    artistName: track.artistName,
+    artworkUrl: track.artworkUrl ?? "",
+  });
+  return `/(main-app)/locked-track?${query.toString()}` as Href;
+}
+
 /** How many popular tracks the artist page loads before View all. */
 export const POPULAR_TRACK_PREVIEW = 5;
 

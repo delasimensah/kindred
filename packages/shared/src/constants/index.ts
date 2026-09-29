@@ -43,7 +43,13 @@ export {
   PRESENCE_FRESH_MS,
   PRESENCE_HEARTBEAT_MS,
 } from "./presence";
-export { FOUNDING_SUPPORTER_LIMIT, isFoundingSupporter } from "./support";
+export {
+  FOUNDING_SUPPORTER_LIMIT,
+  isFoundingSupporter,
+  SUPPORTER_ENTITLEMENT,
+  SUPPORTER_PRODUCT_499,
+  SUPPORTER_PRODUCT_999,
+} from "./support";
 export { RADII } from "./radii";
 export {
   FONT_FAMILIES,

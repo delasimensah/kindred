@@ -36,7 +36,7 @@ What matters for architecture, pulled forward in one line each:
 - Four roles: fan (free), supporter (paying), artist (verified uploader), studio admin.
 - Mobile (Expo) is the only fan and supporter account surface. Web (Next.js) is three things only: Artist Studio, public share pages with a simple public player, and thin admin. No fan sign up, fan sign in, follow, or exclusive streaming on web.
 - Purchases are mobile-only. Uploads are web-only. Both rules are hard.
-- Money is one monthly subscription routed to one to five followed artists, equal split, and that routing is the single gate for exclusive access.
+- Money is one monthly subscription routed to one to five followed artists, equal split, and that routing is the single gate for exclusive access. A person who already pays does not buy again to add an artist. That tap opens routing and adds the artist to the current set.
 - Everything paid is enforced on the server. A hidden button is not access control.
 
 ---
@@ -156,7 +156,7 @@ Every public Convex function starts by asking who is calling. Then:
 
 - **Signed out.** Public tracks, Everyone posts, artist pages, mix pages. No writes at all.
 - **Fan (free).** Everything above, plus follow and unfollow, reactions, listen events, library, private playlists, search, mix generation over public tracks, presence heartbeats, avatar upload, and submitting one artist request at a time. Cannot read a supporters-only track's audio URL or a supporters-only post's body.
-- **Supporter.** Everything a fan can do. Plus: supporters-only tracks and post bodies **from artists in their active route set only**, download URLs for audio they can play, impact stats, and founding badges. Their route set is capped at five, every routed artist must already be followed, and it cannot be empty while the entitlement is active.
+- **Supporter.** Everything a fan can do. Plus: supporters-only tracks and post bodies **from artists in their active route set only**, download URLs for audio they can play, impact stats, and founding badges. Their route set is capped at five, every routed artist must already be followed, and it cannot be empty while the entitlement is active. The first save after support started from one artist’s lock must include that artist. A later change from Account may remove them.
 - **Artist.** Everything a fan or supporter can do for their own listening. Plus, scoped to their own artist row only: create and edit their profile, upload tracks, schedule and publish, write update posts, read their own supporter list, read their own demo earnings, and send thank-yous. An artist reading another artist's supporter list is the privacy bug to write a test for.
 - **Admin.** The pending artist request queue (approve or decline), verify or unverify an artist directly, set hidden flags on catalog items, and place featured discovery slots. Nothing else. There is no admin read of a private playlist, an email, or a listening history in V1.
 

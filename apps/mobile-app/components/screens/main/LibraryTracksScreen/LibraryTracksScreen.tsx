@@ -44,6 +44,7 @@ interface LibraryTracksScreenProps {
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
   onRemove?: (trackId: string) => void;
+  onOpenLocked?: (trackId: string) => void;
   headerAction?: { label: string; onPress: () => void };
   collection?: LibraryCollection;
 }
@@ -59,6 +60,7 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
   onAddToQueue,
   onToggleLike,
   onRemove,
+  onOpenLocked,
   headerAction,
   collection,
 }) => {
@@ -163,6 +165,11 @@ const LibraryTracksScreen: React.FC<LibraryTracksScreenProps> = ({
               }
               artworkUrl={track.artworkUrl}
               locked={track.locked}
+              onOpenLocked={
+                onOpenLocked === undefined
+                  ? undefined
+                  : () => onOpenLocked(track.trackId)
+              }
               liked={track.liked}
               isPlaying={isPlaying && playingTrackId === track.trackId}
               onPlay={() => onPlay(track.trackId)}

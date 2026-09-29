@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "convex/react";
 import type { Href } from "expo-router";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Alert } from "react-native";
 
 import { usePreviewPlayer, useVoiceNote } from "@/hooks";
 import {
@@ -13,6 +12,8 @@ import {
   catalogQueue,
   changeFollow,
   coverHeaderScreenOptions,
+  lockedTrackHref,
+  PAYWALL_HREF,
   POPULAR_TRACK_PREVIEW,
   routeParam,
 } from "@/utils";
@@ -149,9 +150,19 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
           router.push(albumHref(releaseId));
         }}
         onSupport={() => {
-          Alert.alert(
-            "Support",
-            "Paying to support an artist is not available on this screen."
+          router.push(PAYWALL_HREF);
+        }}
+        onOpenLocked={(trackId) => {
+          const track = listed?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined || artist === undefined || artist === null) {
+            return;
+          }
+          router.push(
+            lockedTrackHref({
+              title: track.title,
+              artistName: artist.name,
+              artworkUrl: track.artworkUrl,
+            })
           );
         }}
         onToggleVoice={(url) => {

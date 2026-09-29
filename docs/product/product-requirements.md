@@ -48,9 +48,23 @@ Acceptance-ready, from the 20 locked journeys. Each one is done when the stated 
 5. **Toggle the visualizer.** A fan turns the shader visualizer on or off on now-playing. It defaults off when the OS reports low-power mode (iOS Low Power Mode; Android equivalent chosen in system design if available).
 6. **Follow, get pushed, land in the right place.** A fan follows an artist, receives a push when that artist releases or posts, and tapping it from a cold start opens that exact screen.
 7. **Artist publishes from the studio.** A verified artist publishes a release immediately or schedules it, and posts an update marked Everyone or Supporters only, from the Artist Studio on web.
-8. **Buy a subscription.** A fan buys $4.99 or $9.99 monthly through the RevenueCat paywall, Convex shows Supporter from the server-side source of truth, and reinstalling and restoring purchases brings Supporter status back.
-9. **Route the subscription.** A supporter routes to one to five artists they already follow, equal split. If they follow fewer than five, all followed artists are pre-selected up to five. If they follow more than five, they must pick before exclusives unlock. They can change the set later; empty routing is not allowed while subscribed.
-10. **Exclusives, routed only.** A supporters-only track or post opens for a supporter routed to that artist. For everyone else it shows a locked shell with a call to action, and the server refuses the body or media. Paying does not unlock exclusives from artists the supporter is not routed to.
+8. **Buy a subscription.** A fan buys $4.99 or $9.99 monthly through the RevenueCat paywall, Convex shows Supporter from the server-side source of truth, and reinstalling and restoring purchases brings Supporter status back. Opening the paywall from one artist’s locked track, locked post, Support button, or See plans remembers that artist for the routing step. Opening it from Account does not.
+9. **Route the subscription.** A supporter routes to one to five artists they already follow, equal split. They can change the set later from Account. Empty routing is not allowed while subscribed. Unfollow of a routed artist is blocked until that artist is removed here.
+
+When this purchase or this lock started from a specific artist, that artist is why they paid, so the first save must include them. If they do not follow that artist yet, the next step is to follow them. They cannot be routed until they are followed. On that first save they start selected and cannot be deselected. If the person follows five or fewer, including that artist, every followed artist starts selected. If they follow more than five, only that artist starts selected and they add others up to five. If keeping that artist would make six, that artist stays and they remove someone else before saving. A later save from Account may remove them, and that artist’s exclusives lock again.
+
+When support did not start from an artist, a saved route of one to five artists they still follow is kept and they are not asked to pick again. With no saved route, five or fewer follows means everyone starts selected. More than five follows means nothing starts selected until they pick.
+
+One subscription covers every artist in the route. Adding another artist never starts a second purchase, from a locked track, a locked post, Support, See plans, or Account.
+
+- Already paying, and this artist is already in the route: the exclusive opens. No paywall. No routing screen.
+- Already paying, and this artist is not in the route: routing opens and the paywall does not. The artists they already route stay selected, and this artist is added. They cannot turn this artist off on this save. If that would make six, this artist stays and they remove someone else before saving. If they do not follow this artist yet, follow comes first. Leaving without saving keeps the old route, and this artist's exclusives stay locked. Saving splits the same subscription across the new set.
+- Already paying, opened from Account: routing opens on the saved set. Nobody is forced on or off. They can remove someone, including an artist who started an earlier purchase. That artist's exclusives lock again. The set must stay between one and five.
+- The subscription has ended: Support opens the paywall again. Routing waits until they are a supporter again. Restore brings the subscription and the saved route back together.
+- Cancelled, but the paid time has not ended: still treated as paying. Support on a new artist opens routing, not the paywall.
+- A locked row in the queue does not start this. The web page does not sell or route. It says get the app.
+
+10. **Exclusives, routed only.** A supporters-only track or post opens for a supporter routed to that artist. For everyone else it shows a locked shell with a call to action, and the server refuses the body or media. Paying does not unlock exclusives from artists the supporter is not routed to. A locked row in the queue is skipped. It does not start support.
 11. **Download and go offline.** A supporter downloads entitled audio, manages downloads, plays local files in airplane mode with a degraded banner, and queued actions (follows, reactions, play history, route changes) replay to the server on reconnect without duplicating.
 12. **Presence and reactions.** An artist's screen shows an approximate live count of current listeners that decays within about a minute of listeners stopping, and a fixed small emoji reaction on a track appears for other viewers live. No synced listening.
 13. **Natural-language mix.** A fan describes what they want and gets a named, playable mix built only from tracks they can access, preferring routed, then followed, then general, with a one-line why. No chat UI. The mix is empty only if the user has zero playable tracks.
@@ -276,7 +290,7 @@ So design and tickets have a list. Screen names are functional, not final copy.
 - Playlist detail, private to the account, with unplayable locked entries shown honestly.
 - Downloads manager: what is downloaded, size, and remove.
 - Paywall: $4.99 and $9.99 with identical entitlements, and restore purchases.
-- Route support: pick or change one to five followed artists, equal split, with the follow requirement and the five cap enforced in the UI and on the server. Unfollow of a routed artist is blocked until that artist is removed from the route set.
+- Route support: pick or change one to five followed artists, equal split, with the follow requirement and the five cap enforced in the UI and on the server. The artist whose lock started this support pass is included on the first save, as in journey 9. Unfollow of a routed artist is blocked until that artist is removed from the route set.
 - Impact: what this supporter's subscription went to, per routed artist, demo numbers, labelled, plus founding badges.
 - Thank-you card: the message from an artist, opened from a push.
 - Notification settings: per-artist mute and quiet hours.

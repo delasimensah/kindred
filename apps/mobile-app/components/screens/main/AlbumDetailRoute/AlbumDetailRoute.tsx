@@ -1,7 +1,7 @@
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 
 import { usePreviewPlayer } from "@/hooks";
@@ -9,12 +9,14 @@ import {
   bindQueueActions,
   catalogQueue,
   coverHeaderScreenOptions,
+  lockedTrackHref,
   routeParam,
 } from "@/utils";
 
 import AlbumDetailScreen from "../AlbumDetailScreen/AlbumDetailScreen";
 
 const AlbumDetailRoute: React.FC = () => {
+  const router = useRouter();
   const player = usePreviewPlayer();
   const releaseId = routeParam(
     useLocalSearchParams<{ releaseId: string }>().releaseId
@@ -71,6 +73,19 @@ const AlbumDetailRoute: React.FC = () => {
             ? undefined
             : () => actions.play(firstPlayable.trackId)
         }
+        onOpenLocked={(trackId) => {
+          const track = album?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined || album === undefined || album === null) {
+            return;
+          }
+          router.push(
+            lockedTrackHref({
+              title: track.title,
+              artistName: album.artistName,
+              artworkUrl: track.artworkUrl,
+            })
+          );
+        }}
       />
     </>
   );

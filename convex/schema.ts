@@ -290,7 +290,11 @@ export default defineSchema({
     status: v.union(v.literal("active"), v.literal("expired")),
     productId: v.string(),
     priceTier: v.union(v.literal("4.99"), v.literal("9.99")),
-    store: v.union(v.literal("app_store"), v.literal("play_store")),
+    store: v.union(
+      v.literal("app_store"),
+      v.literal("play_store"),
+      v.literal("test_store")
+    ),
     rcAppUserId: v.string(),
     currentPeriodEnd: v.number(),
     willRenew: v.boolean(),
@@ -301,6 +305,13 @@ export default defineSchema({
     .index("by_profileId", ["profileId"])
     .index("by_rcAppUserId", ["rcAppUserId"])
     .index("by_status_currentPeriodEnd", ["status", "currentPeriodEnd"]),
+
+  /** One row per RevenueCat event id so a retry does not apply twice. */
+  rcWebhookEvents: defineTable({
+    eventId: v.string(),
+    eventType: v.string(),
+    appliedAt: v.number(),
+  }).index("by_eventId", ["eventId"]),
 
   demoEarnings: defineTable({
     period: v.string(),

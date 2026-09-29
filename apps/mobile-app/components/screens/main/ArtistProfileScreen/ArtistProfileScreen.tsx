@@ -75,6 +75,7 @@ interface ArtistProfileScreenProps {
   onViewAllAlbums?: () => void;
   onOpenAlbum?: (releaseId: string) => void;
   onSupport: () => void;
+  onOpenLocked?: (trackId: string) => void;
   onToggleVoice?: (url: string) => void;
   onSeekVoice?: (url: string, ratio: number) => void;
 }
@@ -104,6 +105,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onViewAllAlbums,
   onOpenAlbum,
   onSupport,
+  onOpenLocked,
   onToggleVoice,
   onSeekVoice,
 }) => {
@@ -188,6 +190,11 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
                 }
                 artworkUrl={track.artworkUrl}
                 locked={track.locked}
+                onOpenLocked={
+                  onOpenLocked === undefined
+                    ? undefined
+                    : () => onOpenLocked(track.trackId)
+                }
                 liked={track.liked}
                 isPlaying={isPlaying && playingTrackId === track.trackId}
                 onPlay={() => onPlay(track.trackId)}

@@ -1,15 +1,21 @@
 import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 
 import { usePreviewPlayer } from "@/hooks";
-import { bindQueueActions, catalogQueue, routeParam } from "@/utils";
+import {
+  bindQueueActions,
+  catalogQueue,
+  lockedTrackHref,
+  routeParam,
+} from "@/utils";
 
 import PopularTracksScreen from "../PopularTracksScreen/PopularTracksScreen";
 
 const PopularTracksRoute: React.FC = () => {
+  const router = useRouter();
   const player = usePreviewPlayer();
   const artistId = routeParam(
     useLocalSearchParams<{ artistId: string }>().artistId
@@ -48,6 +54,19 @@ const PopularTracksRoute: React.FC = () => {
             return;
           }
           void setLiked({ trackId: track.trackId, liked: !track.liked });
+        }}
+        onOpenLocked={(trackId) => {
+          const track = listed?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined || artist === undefined || artist === null) {
+            return;
+          }
+          router.push(
+            lockedTrackHref({
+              title: track.title,
+              artistName: artist.name,
+              artworkUrl: track.artworkUrl,
+            })
+          );
         }}
       />
     </>

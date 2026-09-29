@@ -28,6 +28,7 @@ interface PopularTracksScreenProps {
   onPlayNext?: (trackId: string) => void;
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
+  onOpenLocked?: (trackId: string) => void;
 }
 
 const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
@@ -39,6 +40,7 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
   onPlayNext,
   onAddToQueue,
   onToggleLike,
+  onOpenLocked,
 }) => {
   const insets = useAppInsets();
 
@@ -73,6 +75,11 @@ const PopularTracksScreen: React.FC<PopularTracksScreenProps> = ({
               }
               artworkUrl={track.artworkUrl}
               locked={track.locked}
+              onOpenLocked={
+                onOpenLocked === undefined
+                  ? undefined
+                  : () => onOpenLocked(track.trackId)
+              }
               liked={track.liked}
               isPlaying={isPlaying && playingTrackId === track.trackId}
               onPlay={() => onPlay(track.trackId)}

@@ -44,3 +44,39 @@ export function artistShareCents(
   const pool = Math.floor(tierCents * ARTIST_POOL_RATIO);
   return Math.floor(pool / routedCount);
 }
+
+/** One artist's slice of the full subscription for a month already on record. */
+export function recordedShareCents(
+  tierCents: number,
+  routedCount: number
+): number {
+  if (routedCount <= 0 || tierCents <= 0) {
+    return 0;
+  }
+  return Math.floor(tierCents / routedCount);
+}
+
+/** Whole-subscription share shown on Impact. One artist is 100. Three artists are 33. */
+export function equalSharePercent(count: number): number {
+  if (count <= 0) {
+    return 0;
+  }
+  return Math.floor(100 / count);
+}
+
+/**
+ * Split a subscription into equal cents that still add up to the price.
+ * The earliest artists get any leftover cent.
+ */
+export function equalSplitCents(totalCents: number, count: number): number[] {
+  if (count <= 0 || totalCents <= 0) {
+    return [];
+  }
+  const base = Math.floor(totalCents / count);
+  let remainder = totalCents - base * count;
+  return Array.from({ length: count }, () => {
+    const extra = remainder > 0 ? 1 : 0;
+    remainder -= extra;
+    return base + extra;
+  });
+}

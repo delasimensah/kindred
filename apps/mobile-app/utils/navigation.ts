@@ -11,6 +11,9 @@ export const ACCOUNT_REQUEST_HREF = "/(main-app)/account/request" as Href;
 /** Route or buy support, pushed inside the account modal. */
 export const ACCOUNT_SUPPORT_HREF = "/(main-app)/account/support" as Href;
 
+/** This month's subscription split, pushed inside the account modal. */
+export const ACCOUNT_IMPACT_HREF = "/(main-app)/account/impact" as Href;
+
 /** Supporter paywall, a sheet over the signed-in app. */
 export const PAYWALL_HREF = "/(main-app)/paywall" as Href;
 

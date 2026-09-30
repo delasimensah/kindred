@@ -7,6 +7,7 @@ import { SessionHomeScreen } from "@/components";
 import { COLORS, FONTS } from "@/constants";
 import { useFanSession } from "@/hooks";
 import {
+  ACCOUNT_IMPACT_HREF,
   ACCOUNT_REQUEST_HREF,
   ACCOUNT_SUPPORT_HREF,
   PAYWALL_HREF,
@@ -73,6 +74,13 @@ const AccountRoute = () => {
           }
           router.push(PAYWALL_HREF);
         }}
+        onOpenImpact={
+          entitlement?.status === "active"
+            ? () => {
+                router.push(ACCOUNT_IMPACT_HREF);
+              }
+            : undefined
+        }
         onSignOut={() => {
           void handleSignOut();
         }}

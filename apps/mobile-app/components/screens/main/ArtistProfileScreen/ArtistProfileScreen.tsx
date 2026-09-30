@@ -75,6 +75,7 @@ interface ArtistProfileScreenProps {
   onViewAllAlbums?: () => void;
   onOpenAlbum?: (releaseId: string) => void;
   isSupporting?: boolean;
+  isFounding?: boolean;
   onSupport: () => void;
   onOpenLocked?: (trackId: string) => void;
   onToggleVoice?: (url: string) => void;
@@ -106,6 +107,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onViewAllAlbums,
   onOpenAlbum,
   isSupporting = false,
+  isFounding = false,
   onSupport,
   onOpenLocked,
   onToggleVoice,
@@ -149,6 +151,14 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
         liveListenerCount={artist.liveListenerCount}
       />
       <VStack spacing="lg" paddingX="lg" paddingY="lg">
+        {isFounding ? (
+          <Text
+            accessibilityLabel="Founding supporter"
+            className="self-start rounded-full bg-primary px-2 py-0.5 font-app-bold text-[9px] uppercase tracking-wide text-textOnPrimary"
+          >
+            Founding
+          </Text>
+        ) : null}
         <ArtistProfileActions
           name={artist.name}
           isFollowed={artist.isFollowed}

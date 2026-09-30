@@ -10,6 +10,9 @@ export { TRACK_PEAK_BUCKETS, VOICE_PEAK_BUCKETS } from "./catalog";
 export {
   ARTIST_POOL_RATIO,
   artistShareCents,
+  equalSharePercent,
+  equalSplitCents,
+  recordedShareCents,
   formatUsdFromCents,
   periodKey,
   previousPeriodKey,

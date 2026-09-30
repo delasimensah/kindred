@@ -170,7 +170,11 @@ describe("routes", () => {
     });
     await t.mutation(internal.entitlements.expireDue, {});
     const cleared = await authed.query(api.routes.summary, {});
-    expect(cleared).toEqual({ entitled: false, routedArtistIds: [] });
+    expect(cleared).toEqual({
+      entitled: false,
+      routedArtistIds: [],
+      foundingArtistIds: [],
+    });
     const paused = await t.run(async (ctx) => {
       return await ctx.db.query("supportRoutes").collect();
     });
@@ -230,5 +234,118 @@ describe("routes", () => {
       trackId: exclusiveId,
     });
     expect(audio?.audioUrl).toEqual(expect.any(String));
+  });
+
+  it("splits this month's price across the active route and keeps founding", async () => {
+    const { t, userId, artistA, artistB } = await fanWithArtists(makeBackend());
+    const authed = asUser(t, userId);
+    await authed.mutation(api.routes.setRouteSet, {
+      artistIds: [artistA, artistB],
+    });
+    const shown = await authed.query(api.routes.impact, {});
+    expect(shown.entitled).toBe(true);
+    expect(shown.totalCents).toBe(499);
+    expect(
+      [...shown.artists.map((artist) => artist.amountCents)].sort(
+        (left, right) => left - right
+      )
+    ).toEqual([249, 250]);
+    expect(shown.artists.every((artist) => artist.sharePercent === 50)).toBe(
+      true
+    );
+    expect(shown.artists.every((artist) => artist.founding)).toBe(true);
+    expect(shown.sinceCents).toBe(499);
+
+    await t.run(async (ctx) => {
+      const profile = await ctx.db.query("profiles").first();
+      if (profile === null) {
+        throw new Error("profile missing");
+      }
+      const earlier = await ctx.db.insert("artists", {
+        name: "Téwá Nkrumah",
+        handle: "tewa-impact",
+        bio: "Gospel",
+        verified: true,
+        hidden: false,
+        createdAt: Date.now(),
+      });
+      await ctx.db.insert("demoEarnings", {
+        period: "2026-01",
+        artistId: artistA,
+        profileId: profile._id,
+        amountCents: 349,
+        currency: "USD",
+        tierCents: 499,
+        routedCount: 1,
+        createdAt: Date.now(),
+      });
+      await ctx.db.insert("demoEarnings", {
+        period: "2026-01",
+        artistId: earlier,
+        profileId: profile._id,
+        amountCents: 349,
+        currency: "USD",
+        tierCents: 499,
+        routedCount: 1,
+        createdAt: Date.now(),
+      });
+      await ctx.db.insert("supportRoutes", {
+        profileId: profile._id,
+        artistId: earlier,
+        active: false,
+        startedAt: Date.now() - 86_400_000,
+        endedAt: Date.now(),
+        paused: false,
+        founding: true,
+      });
+    });
+    const history = await authed.query(api.routes.impact, {});
+    const amaara = history.artists.find(
+      (artist) => artist.artistId === artistA
+    );
+    const earlier = history.artists.find(
+      (artist) => artist.name === "Téwá Nkrumah"
+    );
+    expect(amaara?.sinceCents).toBe(499 + (amaara?.amountCents ?? 0));
+    expect(earlier?.inRoute).toBe(false);
+    expect(earlier?.amountCents).toBe(0);
+    expect(earlier?.sinceCents).toBe(499);
+    expect(earlier?.founding).toBe(true);
+    expect(history.sinceCents).toBe(499 + 499 + 499);
+
+    await t.run(async (ctx) => {
+      const profile = await ctx.db.query("profiles").first();
+      if (profile === null) {
+        throw new Error("profile missing");
+      }
+      const route = await ctx.db
+        .query("supportRoutes")
+        .withIndex("by_profile_artist", (q) =>
+          q.eq("profileId", profile._id).eq("artistId", artistA)
+        )
+        .unique();
+      if (route === null) {
+        throw new Error("route missing");
+      }
+      await ctx.db.patch(route._id, { founding: false });
+    });
+    const after = await authed.query(api.routes.impact, {});
+    expect(after.artists.some((artist) => !artist.founding)).toBe(true);
+
+    await t.run(async (ctx) => {
+      const row = await ctx.db.query("entitlements").unique();
+      if (row === null) {
+        throw new Error("entitlement missing");
+      }
+      await ctx.db.patch(row._id, { currentPeriodEnd: Date.now() - 1_000 });
+    });
+    await t.mutation(internal.entitlements.expireDue, {});
+    const hidden = await authed.query(api.routes.impact, {});
+    expect(hidden).toEqual({
+      entitled: false,
+      totalCents: 0,
+      sinceCents: 0,
+      artists: [],
+    });
   });
 });

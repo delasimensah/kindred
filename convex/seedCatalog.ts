@@ -1,6 +1,11 @@
 import { createAccount } from "@convex-dev/auth/server";
 import { v } from "convex/values";
-import { isFoundingSupporter } from "shared";
+import {
+  artistShareCents,
+  isFoundingSupporter,
+  STORE_FEE_RATIO,
+  TIER_CENTS,
+} from "shared";
 
 import { internal } from "./_generated/api";
 import type { Id } from "./_generated/dataModel";
@@ -10,7 +15,7 @@ import {
   internalMutation,
   internalQuery,
 } from "./_generated/server";
-import { requirePassword } from "./lib/accountPassword";
+import { requirePassword, setAccountPassword } from "./lib/accountPassword";
 import {
   buildTrackPlan,
   SEED_ARTWORK_COUNT,
@@ -866,6 +871,24 @@ export const ensureAccounts = internalAction({
 });
 
 /**
+ * Sets the shared password on every seeded account that already exists.
+ * The catalog seed leaves an existing password alone.
+ */
+export const resetSeedPasswords = internalAction({
+  args: { password: v.string() },
+  returns: v.object({ updated: v.number() }),
+  handler: async (ctx, args): Promise<{ updated: number }> => {
+    requirePassword(args.password);
+    let updated = 0;
+    for (const account of seedAccounts()) {
+      await setAccountPassword(ctx, account.email, args.password);
+      updated += 1;
+    }
+    return { updated };
+  },
+});
+
+/**
  * Groups existing published seed tracks into one EP (Amaara) and one album
  * (Kweku) so mobile can show Albums without new audio files.
  */
@@ -1244,6 +1267,121 @@ export const seedSupportEconomy = internalMutation({
     }
 
     return { entitlements, routes, listens };
+  },
+});
+
+function periodMonthsAgo(months: number): string {
+  const date = new Date(
+    Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth() - months, 1)
+  );
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  return `${date.getUTCFullYear()}-${month}`;
+}
+
+/**
+ * What: two older months for Efua, including Téwá, whom she no longer routes to.
+ * Where: the same fictional supporter and artists as the catalog seed.
+ * Rights: original fiction.
+ * How: `yarn seed:catalog` after the recent months are written.
+ * Out: rewriting a month that is already stored.
+ */
+export const seedEarlierSupport = internalMutation({
+  args: {},
+  returns: v.object({ written: v.number(), skipped: v.number() }),
+  handler: async (ctx) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("email", (q) => q.eq("email", "efua.boateng@kindred.example"))
+      .unique();
+    if (user === null) {
+      return { written: 0, skipped: 0 };
+    }
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_authUserId", (q) => q.eq("authUserId", user._id))
+      .unique();
+    if (profile === null) {
+      return { written: 0, skipped: 0 };
+    }
+    const handles = ["amaara", "kweku-darko", "sela-okoro", "tewa-nkrumah"];
+    const artistIds = [];
+    for (const handle of handles) {
+      artistIds.push(await artistIdByHandle(ctx, handle));
+    }
+    const tewa = artistIds[3];
+    if (tewa === undefined) {
+      return { written: 0, skipped: 0 };
+    }
+    const existingRoute = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_profile_artist", (q) =>
+        q.eq("profileId", profile._id).eq("artistId", tewa)
+      )
+      .unique();
+    if (existingRoute === null) {
+      await ctx.db.insert("supportRoutes", {
+        profileId: profile._id,
+        artistId: tewa,
+        active: false,
+        startedAt: Date.now() - 160 * 86_400_000,
+        endedAt: Date.now() - 100 * 86_400_000,
+        paused: false,
+        founding: true,
+      });
+    }
+    const tierCents = TIER_CENTS["9.99"];
+    const amountCents = artistShareCents(tierCents, artistIds.length);
+    let written = 0;
+    let skipped = 0;
+    for (const monthsAgo of [4, 5]) {
+      const period = periodMonthsAgo(monthsAgo);
+      const existing = await ctx.db
+        .query("demoEarnings")
+        .withIndex("by_profile_period", (q) =>
+          q.eq("profileId", profile._id).eq("period", period)
+        )
+        .collect();
+      for (const artistId of artistIds) {
+        if (existing.some((row) => row.artistId === artistId)) {
+          skipped += 1;
+          continue;
+        }
+        await ctx.db.insert("demoEarnings", {
+          period,
+          artistId,
+          profileId: profile._id,
+          amountCents,
+          currency: "USD",
+          tierCents,
+          routedCount: artistIds.length,
+          createdAt: Date.now(),
+        });
+        const month = await ctx.db
+          .query("earningMonths")
+          .withIndex("by_artist_period", (q) =>
+            q.eq("artistId", artistId).eq("period", period)
+          )
+          .unique();
+        const storeFeeCents = Math.floor(tierCents * STORE_FEE_RATIO);
+        if (month === null) {
+          await ctx.db.insert("earningMonths", {
+            artistId,
+            period,
+            amountCents,
+            storeFeeCents,
+            supporterCount: 1,
+          });
+        } else {
+          await ctx.db.patch(month._id, {
+            amountCents: month.amountCents + amountCents,
+            storeFeeCents: month.storeFeeCents + storeFeeCents,
+            supporterCount: month.supporterCount + 1,
+          });
+        }
+        written += 1;
+      }
+    }
+    return { written, skipped };
   },
 });
 

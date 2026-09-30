@@ -219,9 +219,21 @@ async function main() {
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     periods.push(`${year}-${month}`);
   }
-  const earnings = convexRun("earnings:seedPastMonths", { periods });
+  let written = 0;
+  let skipped = 0;
+  for (const period of periods) {
+    const earnings = convexRun("earnings:seedPastMonths", {
+      periods: [period],
+    });
+    written += earnings.written;
+    skipped += earnings.skipped;
+  }
   console.log(
-    `Demo earnings: written ${earnings.written}, skipped ${earnings.skipped} for ${periods.join(", ")}.`
+    `Demo earnings: written ${written}, skipped ${skipped} for ${periods.join(", ")}.`
+  );
+  const earlier = convexRun("seedCatalog:seedEarlierSupport", {});
+  console.log(
+    `Earlier support for Efua: written ${earlier.written}, skipped ${earlier.skipped}.`
   );
   console.log(
     "Demo logins: akosua.frimpong@kindred.example, efua.boateng@kindred.example, amaara.mensah@kindred.example, delasi.mensah@kindred.example."

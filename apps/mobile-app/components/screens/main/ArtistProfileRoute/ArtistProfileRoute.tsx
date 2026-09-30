@@ -51,6 +51,11 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
     summary !== undefined &&
     summary.entitled &&
     summary.routedArtistIds.some((id) => id === artistId);
+  const isFounding =
+    artistId !== undefined &&
+    summary !== undefined &&
+    summary.entitled &&
+    summary.foundingArtistIds.some((id) => id === artistId);
   const listed = useQuery(
     api.tracks.listPublishedForArtist,
     artistId === undefined
@@ -157,6 +162,7 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
           router.push(albumHref(releaseId));
         }}
         isSupporting={isSupporting}
+        isFounding={isFounding}
         onSupport={() => {
           if (artistId === undefined) {
             return;

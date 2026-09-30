@@ -1,5 +1,13 @@
+import {
+  equalSharePercent,
+  equalSplitCents,
+  periodKey,
+  recordedShareCents,
+  TIER_CENTS,
+} from "shared";
 import { v } from "convex/values";
 
+import type { Id } from "./_generated/dataModel";
 import { bumpSupporterCount } from "./lib/artistStats";
 import { requireProfile } from "./lib/auth";
 import { ERROR_CODES, raise } from "./lib/errors";
@@ -26,14 +34,141 @@ export const summary = authedQuery({
   returns: v.object({
     entitled: v.boolean(),
     routedArtistIds: v.array(v.id("artists")),
+    foundingArtistIds: v.array(v.id("artists")),
   }),
   handler: async (ctx) => {
     const { profile } = await requireProfile(ctx);
     const access = await loadSupporterAccess(ctx, profile._id);
+    const routes = access.entitled
+      ? await ctx.db
+          .query("supportRoutes")
+          .withIndex("by_profile_active", (q) =>
+            q.eq("profileId", profile._id).eq("active", true)
+          )
+          .collect()
+      : [];
     return {
       entitled: access.entitled,
       routedArtistIds: access.entitled ? [...access.routedArtistIds] : [],
+      foundingArtistIds: routes
+        .filter((route) => route.founding)
+        .map((route) => route.artistId),
     };
+  },
+});
+
+const impactArtist = v.object({
+  artistId: v.id("artists"),
+  name: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
+  founding: v.boolean(),
+  inRoute: v.boolean(),
+  sharePercent: v.number(),
+  amountCents: v.number(),
+  sinceCents: v.number(),
+});
+
+/** This month's subscription, plus what each artist has received since support started. */
+export const impact = authedQuery({
+  args: {},
+  returns: v.object({
+    entitled: v.boolean(),
+    totalCents: v.number(),
+    sinceCents: v.number(),
+    artists: v.array(impactArtist),
+  }),
+  handler: async (ctx) => {
+    const { profile } = await requireProfile(ctx);
+    const access = await loadSupporterAccess(ctx, profile._id);
+    if (!access.entitled) {
+      return { entitled: false, totalCents: 0, sinceCents: 0, artists: [] };
+    }
+    const entitlement = await ctx.db
+      .query("entitlements")
+      .withIndex("by_profileId", (q) => q.eq("profileId", profile._id))
+      .unique();
+    const totalCents =
+      entitlement === null ? 0 : TIER_CENTS[entitlement.priceTier];
+    const currentPeriod = periodKey();
+    const earnings = await ctx.db
+      .query("demoEarnings")
+      .withIndex("by_profile_period", (q) => q.eq("profileId", profile._id))
+      .collect();
+    const pastByArtist = new Map<Id<"artists">, number>();
+    for (const row of earnings) {
+      if (row.period === currentPeriod) {
+        continue;
+      }
+      const slice = recordedShareCents(row.tierCents, row.routedCount);
+      pastByArtist.set(
+        row.artistId,
+        (pastByArtist.get(row.artistId) ?? 0) + slice
+      );
+    }
+    const activeRoutes = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_profile_active", (q) =>
+        q.eq("profileId", profile._id).eq("active", true)
+      )
+      .collect();
+    const inactiveRoutes = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_profile_active", (q) =>
+        q.eq("profileId", profile._id).eq("active", false)
+      )
+      .collect();
+    const routeByArtist = new Map(
+      [...inactiveRoutes, ...activeRoutes].map((route) => [
+        route.artistId,
+        route,
+      ])
+    );
+    activeRoutes.sort((a, b) => a.startedAt - b.startedAt);
+    const activeArtists = [];
+    for (const route of activeRoutes) {
+      const artist = await ctx.db.get(route.artistId);
+      if (artist === null || artist.hidden) {
+        continue;
+      }
+      activeArtists.push(artist);
+    }
+    const amounts = equalSplitCents(totalCents, activeArtists.length);
+    const sharePercent = equalSharePercent(activeArtists.length);
+    const monthByArtist = new Map(
+      activeArtists.map((artist, index) => [artist._id, amounts[index] ?? 0])
+    );
+    const artistIds = [
+      ...activeArtists.map((artist) => artist._id),
+      ...[...pastByArtist.keys()].filter(
+        (artistId) => !monthByArtist.has(artistId)
+      ),
+    ];
+    const artists = [];
+    for (const artistId of artistIds) {
+      const loaded = await ctx.db.get(artistId);
+      if (loaded === null || loaded.hidden) {
+        continue;
+      }
+      const inRoute = monthByArtist.has(artistId);
+      const amountCents = monthByArtist.get(artistId) ?? 0;
+      const sinceCents = (pastByArtist.get(artistId) ?? 0) + amountCents;
+      const route = routeByArtist.get(artistId);
+      artists.push({
+        artistId: loaded._id,
+        name: loaded.name,
+        avatarUrl: await fileUrl(ctx, loaded.avatarFileId),
+        founding: route?.founding === true,
+        inRoute,
+        sharePercent: inRoute ? sharePercent : 0,
+        amountCents,
+        sinceCents,
+      });
+    }
+    const sinceCents = artists.reduce(
+      (sum, artist) => sum + artist.sinceCents,
+      0
+    );
+    return { entitled: true, totalCents, sinceCents, artists };
   },
 });
 

@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import { decideTrackAccess } from "./lib/access";
 import { requireProfile } from "./lib/auth";
 import { authedQuery } from "./lib/functions";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 
 const MAX_IDS = 100;
 
@@ -17,6 +18,7 @@ export const resolveQueueAccess = authedQuery({
   ),
   handler: async (ctx, args) => {
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const rows = [];
     for (const trackId of args.trackIds.slice(0, MAX_IDS)) {
       const track = await ctx.db.get(trackId);
@@ -32,7 +34,11 @@ export const resolveQueueAccess = authedQuery({
         playable:
           artist !== null &&
           !artist.hidden &&
-          decideTrackAccess(track, isOwner).allowed,
+          decideTrackAccess(
+            track,
+            isOwner,
+            gateForArtist(supporter, track.artistId)
+          ).allowed,
       });
     }
     return rows;

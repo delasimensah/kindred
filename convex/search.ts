@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 
 import { decideTrackAccess, isLocked } from "./lib/access";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 import { requireProfile } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { authedQuery } from "./lib/functions";
@@ -67,6 +68,7 @@ export const exact = authedQuery({
       return { artists: [], tracks: [] };
     }
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const artistMatches = await ctx.db
       .query("artists")
       .withSearchIndex("by_name", (q) =>
@@ -116,7 +118,11 @@ export const exact = authedQuery({
         artworkUrl: await fileUrl(ctx, track.artworkFileId),
         durationMs: track.durationMs,
         locked: isLocked(
-          decideTrackAccess(track, artist.profileId === profile._id)
+          decideTrackAccess(
+            track,
+            artist.profileId === profile._id,
+            gateForArtist(supporter, track.artistId)
+          )
         ),
         liked: likedIds.has(track._id),
       });

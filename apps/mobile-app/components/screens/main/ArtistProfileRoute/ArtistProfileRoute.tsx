@@ -5,7 +5,7 @@ import type { Href } from "expo-router";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 
-import { usePreviewPlayer, useVoiceNote } from "@/hooks";
+import { useOpenSupport, usePreviewPlayer, useVoiceNote } from "@/hooks";
 import {
   ALBUM_PREVIEW,
   bindQueueActions,
@@ -13,9 +13,9 @@ import {
   changeFollow,
   coverHeaderScreenOptions,
   lockedTrackHref,
-  PAYWALL_HREF,
   POPULAR_TRACK_PREVIEW,
   routeParam,
+  routeSupportHref,
 } from "@/utils";
 
 import ArtistProfileScreen from "../ArtistProfileScreen/ArtistProfileScreen";
@@ -36,6 +36,7 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
   albumHref,
 }) => {
   const router = useRouter();
+  const openSupport = useOpenSupport();
   const player = usePreviewPlayer();
   const voice = useVoiceNote();
   const artistId = routeParam(
@@ -44,6 +45,12 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
   const artistArgs =
     artistId === undefined ? "skip" : { artistId: artistId as Id<"artists"> };
   const artist = useQuery(api.artists.get, artistArgs);
+  const summary = useQuery(api.routes.summary, {});
+  const isSupporting =
+    artistId !== undefined &&
+    summary !== undefined &&
+    summary.entitled &&
+    summary.routedArtistIds.some((id) => id === artistId);
   const listed = useQuery(
     api.tracks.listPublishedForArtist,
     artistId === undefined
@@ -149,18 +156,32 @@ const ArtistProfileRoute: React.FC<ArtistProfileRouteProps> = ({
         onOpenAlbum={(releaseId) => {
           router.push(albumHref(releaseId));
         }}
+        isSupporting={isSupporting}
         onSupport={() => {
-          router.push(PAYWALL_HREF);
+          if (artistId === undefined) {
+            return;
+          }
+          if (isSupporting) {
+            router.push(routeSupportHref());
+            return;
+          }
+          openSupport(artistId);
         }}
         onOpenLocked={(trackId) => {
           const track = listed?.tracks.find((row) => row.trackId === trackId);
-          if (track === undefined || artist === undefined || artist === null) {
+          if (
+            track === undefined ||
+            artist === undefined ||
+            artist === null ||
+            artistId === undefined
+          ) {
             return;
           }
           router.push(
             lockedTrackHref({
               title: track.title,
               artistName: artist.name,
+              artistId,
               artworkUrl: track.artworkUrl,
             })
           );

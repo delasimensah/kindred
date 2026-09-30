@@ -268,6 +268,8 @@ export default defineSchema({
     active: v.boolean(),
     startedAt: v.number(),
     endedAt: v.optional(v.number()),
+    /** Set when a lapsed subscription pauses the route. Paying again turns it back on. */
+    paused: v.optional(v.boolean()),
     founding: v.boolean(),
     /** True after a thank-you. They leave the list and stay off it. */
     thanked: v.optional(v.boolean()),

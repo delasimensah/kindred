@@ -101,6 +101,22 @@ describe("entitlements", () => {
       store: "test_store",
       currentPeriodEnd: Date.now() - 1_000,
       willRenew: false,
+      eventId: "evt_old",
+    });
+    const stillPaying = await t.run(async (ctx) => {
+      return await ctx.db.query("entitlements").unique();
+    });
+    expect(stillPaying?.status).toBe("active");
+    expect(stillPaying?.currentPeriodEnd).toBe(later);
+
+    await t.mutation(internal.entitlements.applyFromSource, {
+      profileId,
+      status: "expired",
+      productId: "supporter_monthly_999",
+      priceTier: "9.99",
+      store: "test_store",
+      currentPeriodEnd: later,
+      willRenew: false,
       eventId: "evt_end",
     });
     const expired = await t.run(async (ctx) => {

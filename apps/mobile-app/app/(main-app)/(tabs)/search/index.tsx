@@ -128,6 +128,7 @@ const SearchRoute = () => {
           lockedTrackHref({
             title: track.title,
             artistName: track.artistName,
+            artistId: track.artistId,
             artworkUrl: track.artworkUrl,
           })
         );

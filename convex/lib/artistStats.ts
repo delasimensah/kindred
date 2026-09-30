@@ -11,6 +11,22 @@ export async function getArtistStats(
     .unique();
 }
 
+export async function bumpSupporterCount(
+  ctx: MutationCtx,
+  artistId: Id<"artists">,
+  delta: 1 | -1
+): Promise<void> {
+  const stats = await getArtistStats(ctx, artistId);
+  if (stats === null) {
+    return;
+  }
+  const next = Math.max(0, stats.supporterCount + delta);
+  await ctx.db.patch(stats._id, {
+    supporterCount: next,
+    updatedAt: Date.now(),
+  });
+}
+
 export async function bumpFollowerCount(
   ctx: MutationCtx,
   artistId: Id<"artists">,

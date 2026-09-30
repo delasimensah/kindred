@@ -5,6 +5,7 @@ import { requireProfile } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { authedQuery } from "./lib/functions";
 import { likedTrackIdSet } from "./lib/library";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 
 const publishedTrackValidator = v.object({
   trackId: v.id("tracks"),
@@ -30,6 +31,8 @@ export const listPublishedForArtist = authedQuery({
     const { profile } = await requireProfile(ctx);
     const artist = await ctx.db.get(args.artistId);
     const isOwner = artist?.profileId === profile._id;
+    const access = await loadSupporterAccess(ctx, profile._id);
+    const gate = gateForArtist(access, args.artistId);
     const cap = args.limit;
     // Collect published first, then drop hidden. Do not take(limit+1) before
     // filtering: a Studio-hidden track in the newest rows would make hasMore
@@ -55,7 +58,7 @@ export const listPublishedForArtist = authedQuery({
         visibility: track.visibility,
         genre: track.genre,
         artworkUrl: await fileUrl(ctx, track.artworkFileId),
-        locked: isLocked(decideTrackAccess(track, isOwner)),
+        locked: isLocked(decideTrackAccess(track, isOwner, gate)),
         liked: likedIds.has(track._id),
       });
     }
@@ -100,7 +103,12 @@ export const playbackUrl = authedQuery({
     if (artist === null || artist.hidden) {
       return null;
     }
-    const access = decideTrackAccess(track, artist.profileId === profile._id);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
+    const access = decideTrackAccess(
+      track,
+      artist.profileId === profile._id,
+      gateForArtist(supporter, track.artistId)
+    );
     if (!access.allowed) {
       return null;
     }
@@ -134,7 +142,12 @@ export const get = authedQuery({
       return null;
     }
     const isOwner = artist.profileId === profile._id;
-    const access = decideTrackAccess(track, isOwner);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
+    const access = decideTrackAccess(
+      track,
+      isOwner,
+      gateForArtist(supporter, track.artistId)
+    );
     if (!access.allowed && !isLocked(access)) {
       return null;
     }

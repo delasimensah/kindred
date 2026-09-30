@@ -10,8 +10,8 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-64** is **Done**. A fan can buy Supporter on Kindred(Dev) and restore it. Routing the subscription is next. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
-- **Last updated:** 2026-09-29
+- **Current phase:** Build — **KIND-65** is **Done**. A supporter routes one subscription to 1–5 artists and exclusives open only for those artists. Impact (KIND-66) is next. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Last updated:** 2026-09-30
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-65** — Route the subscription to 1–5 artists and unlock exclusives only for them. Someone who already pays does not buy again to add an artist. After that: KIND-66 and KIND-67, password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
+**KIND-66** — Show the Impact breakdown and founding badges. After that: KIND-67 account subscription settings, password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,7 +72,7 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Build order from here:** KIND-65 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Build order from here:** KIND-66 impact, KIND-67 account subscription settings, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 
@@ -83,6 +83,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-65): https://github.com/delasimensah/kindred/pull/30
 - Pull request (KIND-64): https://github.com/delasimensah/kindred/pull/29
 - Pull request (KIND-71): https://github.com/delasimensah/kindred/pull/28
 - Pull request (KIND-86): https://github.com/delasimensah/kindred/pull/27

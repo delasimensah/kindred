@@ -16,14 +16,20 @@ interface PostAccessInput {
   audience: "everyone" | "supporters";
 }
 
+export type SupportGate = {
+  entitled: boolean;
+  routed: boolean;
+};
+
 /**
- * Public published rows are open. A supporters-only row is open only for the
- * owning artist. Entitlement and route rows are not in the schema, so every
- * other caller gets not-entitled.
+ * Public published rows are open. A supporters-only row opens for the owning
+ * artist, or for a paying supporter who currently routes that artist.
+ * Omit the gate and the row stays locked.
  */
 export function decideTrackAccess(
   track: TrackAccessInput,
-  isOwner: boolean
+  isOwner: boolean,
+  gate?: SupportGate
 ): AccessDecision {
   if (track.hidden) {
     return { allowed: false, reason: "hidden" };
@@ -37,12 +43,19 @@ export function decideTrackAccess(
   if (track.visibility === "public") {
     return { allowed: true };
   }
-  return { allowed: false, reason: "not-entitled" };
+  if (gate?.entitled !== true) {
+    return { allowed: false, reason: "not-entitled" };
+  }
+  if (gate.routed !== true) {
+    return { allowed: false, reason: "not-routed" };
+  }
+  return { allowed: true };
 }
 
 export function decidePostAccess(
   post: PostAccessInput,
-  isOwner: boolean
+  isOwner: boolean,
+  gate?: SupportGate
 ): AccessDecision {
   if (post.hidden) {
     return { allowed: false, reason: "hidden" };
@@ -50,7 +63,13 @@ export function decidePostAccess(
   if (isOwner || post.audience === "everyone") {
     return { allowed: true };
   }
-  return { allowed: false, reason: "not-entitled" };
+  if (gate?.entitled !== true) {
+    return { allowed: false, reason: "not-entitled" };
+  }
+  if (gate.routed !== true) {
+    return { allowed: false, reason: "not-routed" };
+  }
+  return { allowed: true };
 }
 
 export function isLocked(decision: AccessDecision): boolean {

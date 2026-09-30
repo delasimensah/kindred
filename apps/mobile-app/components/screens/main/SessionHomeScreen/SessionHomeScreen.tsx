@@ -75,12 +75,14 @@ const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
                   color={COLORS.primary}
                 />
               </VStack>
-              <Text className="min-w-0 flex-1 font-app-medium text-sm text-text">
-                Back the artists you believe in
-              </Text>
-              {supporterLabel !== null ? (
-                <Text className="text-xs text-text/40">{supporterLabel}</Text>
-              ) : null}
+              <VStack spacing="none" className="min-w-0 flex-1">
+                <Text className="font-app-medium text-sm text-text">
+                  Back the artists you believe in
+                </Text>
+                {supporterLabel !== null ? (
+                  <Text className="text-xs text-text/50">{supporterLabel}</Text>
+                ) : null}
+              </VStack>
               <Ionicons
                 name="chevron-forward"
                 size={14}

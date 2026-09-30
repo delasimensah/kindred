@@ -82,6 +82,7 @@ const AlbumDetailRoute: React.FC = () => {
             lockedTrackHref({
               title: track.title,
               artistName: album.artistName,
+              artistId: album.artistId,
               artworkUrl: track.artworkUrl,
             })
           );

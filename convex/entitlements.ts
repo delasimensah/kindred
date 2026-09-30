@@ -11,6 +11,10 @@ import {
   internalQuery,
 } from "./_generated/server";
 import { getProfileByAuthUserId } from "./lib/auth";
+import {
+  pauseSupportForProfile,
+  resumePausedSupport,
+} from "./lib/supporterAccess";
 import { ERROR_CODES, raise } from "./lib/errors";
 import { authedQuery } from "./lib/functions";
 import {
@@ -56,6 +60,15 @@ async function writeEntitlement(
     .withIndex("by_profileId", (q) => q.eq("profileId", args.profileId))
     .unique();
   const now = Date.now();
+  // An older period ending must not cancel a newer one that is still open.
+  if (
+    existing !== null &&
+    args.status === "expired" &&
+    existing.currentPeriodEnd > now &&
+    args.currentPeriodEnd < existing.currentPeriodEnd
+  ) {
+    return;
+  }
   const periodEnd =
     existing !== null &&
     args.status === "active" &&
@@ -79,9 +92,14 @@ async function writeEntitlement(
       profileId: args.profileId,
       ...patch,
     });
+  } else {
+    await ctx.db.patch(existing._id, patch);
+  }
+  if (patch.status === "active" && periodEnd > now) {
+    await resumePausedSupport(ctx, args.profileId);
     return;
   }
-  await ctx.db.patch(existing._id, patch);
+  await pauseSupportForProfile(ctx, args.profileId);
 }
 
 /** The only write of a Supporter row. Webhooks and the server sync both call this. */
@@ -145,6 +163,14 @@ export const expireDue = internalMutation({
         willRenew: false,
         updatedAt: now,
       });
+      await pauseSupportForProfile(ctx, row.profileId);
+    }
+    const alreadyExpired = await ctx.db
+      .query("entitlements")
+      .withIndex("by_status_currentPeriodEnd", (q) => q.eq("status", "expired"))
+      .take(50);
+    for (const row of alreadyExpired) {
+      await pauseSupportForProfile(ctx, row.profileId);
     }
     return null;
   },
@@ -172,8 +198,10 @@ export const getMine = authedQuery({
     if (row === null) {
       return null;
     }
+    const paying = row.status === "active" && row.currentPeriodEnd > Date.now();
+    const status = paying ? ("active" as const) : ("expired" as const);
     return {
-      status: row.status,
+      status,
       priceTier: row.priceTier,
       productId: row.productId,
     };
@@ -189,10 +217,20 @@ export const profileIdForUser = internalQuery({
   },
 });
 
+const SYNC_ATTEMPTS = 4;
+const SYNC_WAIT_MS = 700;
+
+function periodIsOpen(
+  applied: { status: "active" | "expired"; currentPeriodEnd: number },
+  now: number
+): boolean {
+  return applied.status === "active" && applied.currentPeriodEnd > now;
+}
+
 export const syncFromRevenueCat = internalAction({
   args: { userId: v.id("users") },
-  returns: v.null(),
-  handler: async (ctx, args) => {
+  returns: v.object({ entitled: v.boolean() }),
+  handler: async (ctx, args): Promise<{ entitled: boolean }> => {
     const secret = process.env.REVENUECAT_SECRET_KEY;
     if (secret === undefined || secret.length === 0) {
       raise(ERROR_CODES.INVALID, "RevenueCat server key is not set");
@@ -204,38 +242,50 @@ export const syncFromRevenueCat = internalAction({
     if (profileId === null) {
       raise(ERROR_CODES.INVALID, "Profile is missing");
     }
-    const response = await fetch(
-      `https://api.revenuecat.com/v1/subscribers/${encodeURIComponent(profileId)}`,
-      { headers: { Authorization: `Bearer ${secret}` } }
-    );
-    if (!response.ok) {
-      raise(ERROR_CODES.INVALID, "RevenueCat did not return this subscriber");
+    let applied = entitlementFromSubscriber(profileId, null, Date.now());
+    for (let attempt = 0; attempt < SYNC_ATTEMPTS; attempt += 1) {
+      const now = Date.now();
+      const response = await fetch(
+        `https://api.revenuecat.com/v1/subscribers/${encodeURIComponent(profileId)}`,
+        { headers: { Authorization: `Bearer ${secret}` } }
+      );
+      if (!response.ok) {
+        raise(ERROR_CODES.INVALID, "RevenueCat did not return this subscriber");
+      }
+      const payload: unknown = await response.json();
+      applied = entitlementFromSubscriber(profileId, payload, now);
+      if (!("none" in applied) && periodIsOpen(applied, now)) {
+        break;
+      }
+      if (attempt < SYNC_ATTEMPTS - 1) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, SYNC_WAIT_MS);
+        });
+      }
     }
-    const payload: unknown = await response.json();
-    const applied = entitlementFromSubscriber(profileId, payload, Date.now());
     if ("none" in applied) {
-      return null;
+      return { entitled: false };
     }
+    const entitled = periodIsOpen(applied, Date.now());
     await ctx.runMutation(internal.entitlements.applyFromSource, {
       ...applied,
       profileId,
     });
-    return null;
+    return { entitled };
   },
 });
 
 /** Phone calls this after a purchase, after restore, and on a signed-in launch. */
 export const sync = action({
   args: {},
-  returns: v.null(),
-  handler: async (ctx) => {
+  returns: v.object({ entitled: v.boolean() }),
+  handler: async (ctx): Promise<{ entitled: boolean }> => {
     const userId = await getAuthUserId(ctx);
     if (userId === null) {
       raise(ERROR_CODES.UNAUTHENTICATED);
     }
-    await ctx.runAction(internal.entitlements.syncFromRevenueCat, {
+    return await ctx.runAction(internal.entitlements.syncFromRevenueCat, {
       userId: userId as Id<"users">,
     });
-    return null;
   },
 });

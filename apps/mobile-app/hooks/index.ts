@@ -13,7 +13,9 @@ export {
   PreviewPlayerProvider,
   usePreviewPlayer,
 } from "./layout/usePreviewPlayer";
+export { useLowPowerMode } from "./layout/useLowPowerMode";
 export { useTabScrollTopPad } from "./layout/useTabScrollTopPad";
+export { useVisualizerPreference } from "./layout/useVisualizerPreference";
 export { useVoiceNote } from "./layout/useVoiceNote";
 export { useDebouncedSearchTerm } from "./query/useDebouncedSearchTerm";
 export {

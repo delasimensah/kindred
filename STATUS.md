@@ -10,12 +10,13 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-67** is **Done**. Account shows supporter status and price, restore on Kindred(Dev), and a link to manage the plan in the App Store or Play. A fan can change their name and photo. Email stays the sign-in address. Recent searches stay with the signed-in fan. Password reset (KIND-46) is next. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Current phase:** Build — **KIND-73** is **Done**. The player visualizer starts off, and a fan can turn it on. Reactions save, and tapping the same emoji clears one. Track options and the queue open as sheets. The AI mix (KIND-72) is next, after we pick a real mix or the genre and tag fallback. KIND-67 account settings is done. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Last updated:** 2026-09-30
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** This Kindred deployment has sent about 1.3 GB of data this month. The free cap is 1 GB for the whole team. Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
   - Password email (KIND-46): **Backlog** until email sending is set up.
+  - Visualizer Low Power Mode needs a new Kindred(Dev) build before it can force the waves off. This build does not include the battery module, so the switch still works and the waves can turn on.
   - Store purchase tests: the **preview app** shows the paywall screen on a real phone. The practice purchase (buy, restore, expiry) is on the **development app** with RevenueCat’s Test Store. How long each practice plan lasts: `docs/test-purchases.md`. Kindred’s prices are one month, so on the dev app the plan renews every 5 minutes and ends about 25 minutes after the purchase. Kindred is a demo, not a store app, unless it later earns a real release (29 Sep 2026). Leave the Apple Paid Apps Agreement and the EU trader form untouched.
   - Offline retry queue: explain at KIND-69; if we cut it, edit the lock with Delasi first.
 
@@ -64,7 +65,7 @@
 
 ## Next action (one line)
 
-**KIND-46** — Password reset. After that: notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
+**KIND-72** — AI mix. It waits until we pick a real mix (an OpenAI key on Convex, a few cents a try) or the genre and tag fallback (no key, one fixed reason line). Password reset (KIND-46) stays on the backlog until email sending is set up. Downloads (KIND-69) and notifications (KIND-62) stay later. TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,7 +73,7 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Build order from here:** KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-67 account subscription settings is done. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Build order from here:** KIND-72 AI mix (pick real OpenAI or the genre and tag fallback first), then KIND-62 notifications, KIND-69 downloads, and KIND-87 TestFlight only if we still want it. KIND-46 password reset stays on the backlog until email sending is set up. KIND-73 player visualizer is done. KIND-67 account subscription settings is done. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 

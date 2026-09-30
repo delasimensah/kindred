@@ -5,6 +5,14 @@ export function canUseTestStore(bundleId: string | null | undefined): boolean {
   return bundleId?.endsWith(".dev") === true;
 }
 
+/** Where the phone's store lists this person's subscriptions. */
+export function storeSubscriptionsUrl(platform: string): string {
+  if (platform === "android") {
+    return "https://play.google.com/store/account/subscriptions";
+  }
+  return "https://apps.apple.com/account/subscriptions";
+}
+
 export const PAYWALL_BULLETS = [
   "Exclusives from routed artists",
   "Offline listening for entitled tracks",

@@ -30,3 +30,4 @@ export { useRetryKey } from "./query/useRetryKey";
 export { useScreenQuery } from "./query/useScreenQuery";
 export { useApplyAvailableUpdate } from "./updates/useApplyAvailableUpdate";
 export { useOpenSupport } from "./support/useOpenSupport";
+export { useRestorePurchases } from "./support/useRestorePurchases";

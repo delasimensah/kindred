@@ -14,7 +14,7 @@ import {
 
 const DiscoverRoute = () => {
   const router = useRouter();
-  const { displayName } = useFanSession();
+  const { avatarUrl, displayName } = useFanSession();
   const page = useQuery(api.discovery.listForDiscover, {});
   const addFollow = useMutation(api.follows.add);
   const removeFollow = useMutation(api.follows.remove);
@@ -40,6 +40,7 @@ const DiscoverRoute = () => {
   return (
     <DiscoverScreen
       displayName={displayName}
+      avatarUrl={avatarUrl}
       featured={page?.featured ?? []}
       rising={page?.rising ?? []}
       isLoading={page === undefined}

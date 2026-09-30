@@ -10,7 +10,7 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-66** is **Done**. A supporter can open Impact and see this month’s split, what each artist has received since support started, and a Founding badge where earned. Account subscription settings (KIND-67) are next. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Current phase:** Build — **KIND-67** is **Done**. Account shows supporter status and price, restore on Kindred(Dev), and a link to manage the plan in the App Store or Play. A fan can change their name and photo. Email stays the sign-in address. Recent searches stay with the signed-in fan. Password reset (KIND-46) is next. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Last updated:** 2026-09-30
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** This Kindred deployment has sent about 1.3 GB of data this month. The free cap is 1 GB for the whole team. Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-67** — Account settings show subscription status, restore, and how to manage the plan in the store. After that: password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
+**KIND-46** — Password reset. After that: notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,7 +72,7 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Build order from here:** KIND-67 account subscription settings, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Build order from here:** KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-67 account subscription settings is done. KIND-66 impact is done. KIND-65 routing is done. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 

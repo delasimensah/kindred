@@ -12,6 +12,7 @@ interface TabRootScreenProps {
   title: string;
   body: string;
   displayName?: string;
+  avatarUrl?: string | null;
   onOpenAccount?: () => void;
 }
 
@@ -25,6 +26,7 @@ const TabRootScreen: React.FC<TabRootScreenProps> = ({
   title,
   body,
   displayName,
+  avatarUrl = null,
   onOpenAccount,
 }) => {
   const { height } = useWindowDimensions();
@@ -53,6 +55,7 @@ const TabRootScreen: React.FC<TabRootScreenProps> = ({
         {showAccount ? (
           <AccountAvatarButton
             displayName={displayName}
+            imageUrl={avatarUrl}
             onPress={onOpenAccount}
           />
         ) : null}

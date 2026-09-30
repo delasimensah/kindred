@@ -27,6 +27,8 @@ describe("profiles", () => {
     expect(me).toMatchObject({
       profileId,
       displayName: "Efua Boateng",
+      email: "efua.boateng@kindredmail.com",
+      avatarUrl: null,
       isAdmin: false,
       canAccessStudio: false,
       artistId: null,
@@ -166,6 +168,42 @@ describe("profiles", () => {
     try {
       await asUser(t, userId).mutation(api.profiles.completeOnboarding, {});
       throw new Error("expected completeOnboarding to refuse");
+    } catch (error) {
+      expect(errorCode(error)).toBe("INVALID");
+    }
+  });
+
+  it("lets a fan rename themselves and set a profile photo", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "efua.boateng@kindredmail.com",
+        name: "Efua Boateng",
+      });
+    });
+    await asUser(t, userId).mutation(api.profiles.ensureProfile, {});
+    await asUser(t, userId).mutation(api.profiles.setDisplayName, {
+      displayName: "Efua Mensah",
+    });
+    const storageId = await t.run(async (ctx) => {
+      return await ctx.storage.store(new Blob(["photo"]));
+    });
+    await asUser(t, userId).mutation(api.profiles.saveAvatar, {
+      storageId,
+      contentType: "image/jpeg",
+      sizeBytes: 5,
+    });
+
+    const me = await asUser(t, userId).query(api.profiles.getMe, {});
+    expect(me?.displayName).toBe("Efua Mensah");
+    expect(me?.email).toBe("efua.boateng@kindredmail.com");
+    expect(me?.avatarUrl).toEqual(expect.any(String));
+
+    try {
+      await asUser(t, userId).mutation(api.profiles.setDisplayName, {
+        displayName: "   ",
+      });
+      throw new Error("expected an empty name to be refused");
     } catch (error) {
       expect(errorCode(error)).toBe("INVALID");
     }

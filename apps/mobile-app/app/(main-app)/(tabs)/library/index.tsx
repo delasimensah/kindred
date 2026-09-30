@@ -13,11 +13,12 @@ import {
 
 const LibraryRoute = () => {
   const router = useRouter();
-  const { displayName } = useFanSession();
+  const { avatarUrl, displayName } = useFanSession();
 
   return (
     <LibraryScreen
       displayName={displayName}
+      avatarUrl={avatarUrl}
       onOpenAccount={() => {
         router.push(ACCOUNT_HREF);
       }}

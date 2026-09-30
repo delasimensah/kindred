@@ -16,6 +16,7 @@ export { default as SignUpScreen } from "./screens/auth/SignUpScreen/SignUpScree
 export { default as OnboardingGenresScreen } from "./screens/onboarding/OnboardingGenresScreen/OnboardingGenresScreen";
 export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
+export { default as EditProfileScreen } from "./screens/main/EditProfileScreen/EditProfileScreen";
 export { default as PaywallSheet } from "./screens/main/PaywallSheet/PaywallSheet";
 export { default as PaywallFlow } from "./screens/main/PaywallSheet/PaywallFlow";
 export {

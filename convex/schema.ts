@@ -7,6 +7,7 @@ export default defineSchema({
   profiles: defineTable({
     authUserId: v.id("users"),
     displayName: v.string(),
+    avatarFileId: v.optional(v.id("files")),
     genres: v.array(v.string()),
     timezone: v.optional(v.string()),
     isAdmin: v.boolean(),

@@ -15,6 +15,8 @@ export type FanSession = {
   isAuthenticated: boolean;
   isViewerReady: boolean;
   displayName: string;
+  profileId: string | null;
+  avatarUrl: string | null;
   genres: string[];
   followCount: number;
   hasCompletedOnboarding: boolean;
@@ -75,6 +77,8 @@ function useFanSessionState(): FanSession {
     isAuthenticated,
     isViewerReady: isAuthenticated && profileReady && viewer !== undefined,
     displayName: viewer?.displayName ?? "",
+    profileId: viewer?.profileId ?? null,
+    avatarUrl: viewer?.avatarUrl ?? null,
     genres: viewer?.genres ?? [],
     followCount: viewer?.followCount ?? 0,
     hasCompletedOnboarding: viewer?.hasCompletedOnboarding ?? false,

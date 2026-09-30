@@ -5,6 +5,9 @@ import { COLORS, FONTS } from "@/constants";
 /** Account modal above the tab shell — open from any tab avatar. */
 export const ACCOUNT_HREF = "/(main-app)/account" as Href;
 
+/** Name and photo for the signed-in fan. Email stays the sign-in address. */
+export const ACCOUNT_EDIT_HREF = "/(main-app)/account/edit" as Href;
+
 /** Become-an-artist form, pushed inside the account modal. */
 export const ACCOUNT_REQUEST_HREF = "/(main-app)/account/request" as Href;
 

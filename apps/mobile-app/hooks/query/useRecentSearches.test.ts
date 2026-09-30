@@ -41,12 +41,16 @@ describe("rememberSearch", () => {
 });
 
 describe("useRecentSearches", () => {
+  beforeEach(async () => {
+    await AsyncStorage.clear();
+  });
+
   it("loads a saved result and remembers a newer one at the front", async () => {
     await AsyncStorage.setItem(
-      "kindred.search.recent",
+      "kindred.search.recent.profile-efua",
       JSON.stringify([track])
     );
-    const { result } = renderHook(() => useRecentSearches());
+    const { result } = renderHook(() => useRecentSearches("profile-efua"));
     await waitFor(() => {
       expect(result.current.items).toEqual([track]);
     });
@@ -56,12 +60,44 @@ describe("useRecentSearches", () => {
     expect(result.current.items).toEqual([artist, track]);
   });
 
-  it("ignores an older list that only stored the words that were typed", async () => {
+  it("keeps each signed-in person on their own list", async () => {
     await AsyncStorage.setItem(
       "kindred.search.recent",
+      JSON.stringify([artist, track])
+    );
+    await AsyncStorage.setItem(
+      "kindred.search.recent.profile-efua",
+      JSON.stringify([artist])
+    );
+    await AsyncStorage.setItem(
+      "kindred.search.recent.profile-akosua",
+      JSON.stringify([track])
+    );
+
+    const { result, rerender } = renderHook(
+      ({ profileId }: { profileId: string | null }) =>
+        useRecentSearches(profileId),
+      { initialProps: { profileId: "profile-efua" } }
+    );
+    await waitFor(() => {
+      expect(result.current.items).toEqual([artist]);
+    });
+
+    rerender({ profileId: "profile-akosua" });
+    await waitFor(() => {
+      expect(result.current.items).toEqual([track]);
+    });
+
+    rerender({ profileId: null });
+    expect(result.current.items).toEqual([]);
+  });
+
+  it("ignores an older list that only stored the words that were typed", async () => {
+    await AsyncStorage.setItem(
+      "kindred.search.recent.profile-efua",
       JSON.stringify(["amaara", "asase"])
     );
-    const { result } = renderHook(() => useRecentSearches());
+    const { result } = renderHook(() => useRecentSearches("profile-efua"));
     await waitFor(() => {
       expect(result.current.items).toEqual([]);
     });

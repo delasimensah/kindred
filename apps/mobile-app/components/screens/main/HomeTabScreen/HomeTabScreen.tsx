@@ -47,6 +47,7 @@ export interface HomeFeedRelease {
 
 interface HomeTabScreenProps {
   displayName: string;
+  avatarUrl?: string | null;
   items: (HomeFeedPost | HomeFeedRelease)[];
   isLoading: boolean;
   failed?: boolean;
@@ -68,12 +69,12 @@ interface HomeTabScreenProps {
 
 /**
  * ScrollView is the screen root so iOS 26 can minimize the tab bar and split
- * the mini-player on scroll. Fixed corner glow is deferred — same constraint
- * as Discover.
+ * the mini-player on scroll. A fixed header around the list breaks that.
  * https://docs.expo.dev/versions/latest/sdk/router/native-tabs/
  */
 const HomeTabScreen: React.FC<HomeTabScreenProps> = ({
   displayName,
+  avatarUrl = null,
   items,
   isLoading,
   failed = false,
@@ -111,6 +112,7 @@ const HomeTabScreen: React.FC<HomeTabScreenProps> = ({
         <Text className="font-display-bold text-3xl text-text">Home</Text>
         <AccountAvatarButton
           displayName={displayName}
+          imageUrl={avatarUrl}
           onPress={onOpenAccount}
         />
       </HStack>

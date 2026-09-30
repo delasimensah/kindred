@@ -5,6 +5,7 @@ import PersonAvatar from "../PersonAvatar/PersonAvatar";
 
 interface AccountAvatarButtonProps {
   displayName: string;
+  imageUrl?: string | null;
   onPress: () => void;
   size?: number;
 }
@@ -12,6 +13,7 @@ interface AccountAvatarButtonProps {
 /** Same avatar control on Home, Discover, and Library. */
 const AccountAvatarButton: React.FC<AccountAvatarButtonProps> = ({
   displayName,
+  imageUrl = null,
   onPress,
   size = 40,
 }) => {
@@ -22,7 +24,11 @@ const AccountAvatarButton: React.FC<AccountAvatarButtonProps> = ({
       onPress={onPress}
     >
       <View className="rounded-full border-2 border-primary/30">
-        <PersonAvatar displayName={displayName} size={size} />
+        <PersonAvatar
+          displayName={displayName}
+          imageUrl={imageUrl}
+          size={size}
+        />
       </View>
     </Pressable>
   );

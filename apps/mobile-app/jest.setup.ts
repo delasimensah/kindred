@@ -4,6 +4,16 @@ jest.mock("@react-native-async-storage/async-storage", () =>
   require("@react-native-async-storage/async-storage/jest/async-storage-mock")
 );
 
+jest.mock("expo-modules-core", () => ({
+  ...jest.requireActual("expo-modules-core"),
+  requireOptionalNativeModule: (moduleName: string) =>
+    moduleName === "ExpoBattery"
+      ? null
+      : jest
+          .requireActual("expo-modules-core")
+          .requireOptionalNativeModule(moduleName),
+}));
+
 jest.mock("expo-secure-store", () => ({
   getItemAsync: jest.fn(),
   setItemAsync: jest.fn(),
@@ -80,8 +90,16 @@ jest.mock("@shopify/react-native-skia", () => {
   return {
     Canvas: Mock,
     Circle: Mock,
+    Fill: Mock,
+    Shader: Mock,
     Group: Mock,
     Blur: Mock,
+    Skia: {
+      RuntimeEffect: {
+        Make: () => ({}),
+      },
+    },
+    useClock: () => ({ value: 0 }),
   };
 });
 

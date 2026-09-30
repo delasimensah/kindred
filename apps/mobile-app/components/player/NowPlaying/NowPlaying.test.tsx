@@ -46,5 +46,6 @@ describe("NowPlaying", () => {
     );
     expect(screen.getAllByText("Asase").length).toBeGreaterThan(0);
     expect(screen.getByLabelText("Queue")).toBeTruthy();
+    expect(screen.getByLabelText("Visualizer").props.value).toBe(false);
   });
 });

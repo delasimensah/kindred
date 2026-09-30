@@ -38,6 +38,7 @@ const TrackReactionRow: React.FC<TrackReactionRowProps> = ({
     enabled ? { trackId: trackId as Id<"tracks"> } : "skip"
   );
   const setReaction = useMutation(api.reactions.set);
+  const clearReaction = useMutation(api.reactions.clear);
   const { mine, counts } = listedMine(listed);
 
   return (
@@ -52,7 +53,13 @@ const TrackReactionRow: React.FC<TrackReactionRowProps> = ({
             accessibilityLabel={`React with ${emoji}`}
             accessibilityState={{ selected }}
             onPress={() => {
-              if (!enabled || selected) {
+              if (!enabled) {
+                return;
+              }
+              if (selected) {
+                void clearReaction({
+                  trackId: trackId as Id<"tracks">,
+                });
                 return;
               }
               void setReaction({

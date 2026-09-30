@@ -8,10 +8,12 @@ describe("NowPlayingHero", () => {
     render(
       <NowPlayingHero
         title="Asase"
+        artistName="Amaara Mensah"
         trackId="tr_asase"
         artworkUrl={null}
         height={200}
         paddingTop={16}
+        visualizer={false}
         canLike={false}
         liked={false}
         onClose={onClose}

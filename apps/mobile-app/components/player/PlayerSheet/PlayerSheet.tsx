@@ -158,30 +158,27 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
             fullPlayerStyle,
           ]}
         >
-          <GestureDetector gesture={fullPlayerPan}>
-            <Animated.View style={{ flex: 1 }}>
-              <NowPlaying
-                track={shown}
-                isPlaying={player.isPlaying}
-                shuffle={player.shuffle}
-                repeat={player.repeat}
-                progress={player.progress}
-                positionMs={player.positionMs}
-                durationMs={player.durationMs}
-                onClose={close}
-                onToggle={player.toggle}
-                onPrevious={player.previous}
-                onNext={player.next}
-                onSeek={player.seek}
-                onShuffle={() => player.setShuffle(!player.shuffle)}
-                onRepeat={player.cycleRepeat}
-                onQueue={openQueueSheet}
-                onPlayNext={() => player.playNext(player.track)}
-                onAddToQueue={() => player.addToQueue(player.track)}
-                coverProgress={progress}
-              />
-            </Animated.View>
-          </GestureDetector>
+          <NowPlaying
+            track={shown}
+            isPlaying={player.isPlaying}
+            shuffle={player.shuffle}
+            repeat={player.repeat}
+            progress={player.progress}
+            positionMs={player.positionMs}
+            durationMs={player.durationMs}
+            onClose={close}
+            onToggle={player.toggle}
+            onPrevious={player.previous}
+            onNext={player.next}
+            onSeek={player.seek}
+            onShuffle={() => player.setShuffle(!player.shuffle)}
+            onRepeat={player.cycleRepeat}
+            onQueue={openQueueSheet}
+            onPlayNext={() => player.playNext(player.track)}
+            onAddToQueue={() => player.addToQueue(player.track)}
+            coverProgress={progress}
+            dismissGesture={fullPlayerPan}
+          />
         </Animated.View>
         <PlayerArtworkFlight
           progress={progress}

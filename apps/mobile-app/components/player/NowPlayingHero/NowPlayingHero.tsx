@@ -17,12 +17,15 @@ import TrackMenu from "../../catalog/TrackMenu/TrackMenu";
 import { HStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import { COVER_HANDOFF } from "../PlayerArtworkFlight/PlayerArtworkFlight";
+import TrackVisualizer from "../TrackVisualizer/TrackVisualizer";
 
 interface NowPlayingHeroProps {
   title: string;
+  artistName: string;
   trackId: string;
   artworkUrl: string | null;
   height: number;
+  visualizer: boolean;
   paddingTop: number;
   canLike: boolean;
   liked: boolean;
@@ -36,9 +39,11 @@ interface NowPlayingHeroProps {
 
 const NowPlayingHero: React.FC<NowPlayingHeroProps> = ({
   title,
+  artistName,
   trackId,
   artworkUrl,
   height,
+  visualizer,
   paddingTop,
   canLike,
   liked,
@@ -89,6 +94,14 @@ const NowPlayingHero: React.FC<NowPlayingHeroProps> = ({
           />
         )}
       </Animated.View>
+      {visualizer ? (
+        <View
+          pointerEvents="none"
+          style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }}
+        >
+          <TrackVisualizer height={height} />
+        </View>
+      ) : null}
       <LinearGradient
         colors={["transparent", "rgba(34,40,49,0.2)", COLORS.page]}
         locations={[0.45, 0.72, 1]}
@@ -112,6 +125,7 @@ const NowPlayingHero: React.FC<NowPlayingHeroProps> = ({
         {canLike ? (
           <TrackMenu
             title={title}
+            artistName={artistName}
             trackId={trackId}
             artworkUrl={artworkUrl}
             liked={liked}

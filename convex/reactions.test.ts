@@ -84,6 +84,39 @@ describe("reactions", () => {
     expect(replaced.counts.heart).toBe(1);
   });
 
+  it("clears the caller's reaction and drops the count", async () => {
+    const t = makeBackend();
+    const userId = await t.run(async (ctx) => {
+      return await ctx.db.insert("users", {
+        email: "efua.boateng@kindredmail.com",
+        name: "Efua Boateng",
+      });
+    });
+    await asUser(t, userId).mutation(api.profiles.ensureProfile, {});
+    const artistId = await t.run(async (ctx) => {
+      return await ctx.db.insert("artists", {
+        name: "Amaara Mensah",
+        handle: "amaara-react-clear",
+        bio: "Afro-soul and R&B · Accra",
+        verified: true,
+        hidden: false,
+        createdAt: Date.now(),
+      });
+    });
+    const trackId = await publishedTrack(t, artistId);
+    const authed = asUser(t, userId);
+
+    await authed.mutation(api.reactions.set, {
+      trackId,
+      emoji: "🔥",
+    });
+    await authed.mutation(api.reactions.clear, { trackId });
+    await authed.mutation(api.reactions.clear, { trackId });
+    const listed = await authed.query(api.reactions.listForTrack, { trackId });
+    expect(listed.mine).toBeNull();
+    expect(listed.counts.fire).toBe(0);
+  });
+
   it("refuses an emoji outside the set", async () => {
     const t = makeBackend();
     const userId = await t.run(async (ctx) => {

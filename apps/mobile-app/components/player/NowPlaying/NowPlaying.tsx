@@ -2,19 +2,32 @@ import { api } from "@convex/_generated/api";
 import type { Id } from "@convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "convex/react";
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, useWindowDimensions, View } from "react-native";
-import { Pressable as GesturePressable } from "react-native-gesture-handler";
-import type { SharedValue } from "react-native-reanimated";
+import {
+  GestureDetector,
+  type GestureType,
+  Pressable as GesturePressable,
+  ScrollView,
+} from "react-native-gesture-handler";
+import Animated, { type SharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { COLORS } from "@/constants";
-import { type QueueTrack, type RepeatMode, STAND_IN_TRACK_ID } from "@/hooks";
+import {
+  type QueueTrack,
+  type RepeatMode,
+  STAND_IN_TRACK_ID,
+  useLowPowerMode,
+  useVisualizerPreference,
+} from "@/hooks";
 import { formatDuration } from "@/utils";
 
 import { HStack, VStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
 import NowPlayingHero from "../NowPlayingHero/NowPlayingHero";
+import TrackReactionRow from "../TrackReactionRow/TrackReactionRow";
+import VisualizerToggle from "../VisualizerToggle/VisualizerToggle";
 import WaveformScrubber from "../WaveformScrubber/WaveformScrubber";
 
 interface NowPlayingProps {
@@ -36,6 +49,8 @@ interface NowPlayingProps {
   onPlayNext: () => void;
   onAddToQueue: () => void;
   coverProgress?: SharedValue<number>;
+  /** Drag on the artwork closes the sheet. The controls below it scroll. */
+  dismissGesture?: GestureType;
 }
 
 const REPEAT_LABEL: Record<RepeatMode, string> = {
@@ -43,9 +58,6 @@ const REPEAT_LABEL: Record<RepeatMode, string> = {
   all: "Repeat all",
   one: "Repeat one",
 };
-
-/** The set on the now-playing design. Saving a reaction is the home-feed ticket. */
-const REACTIONS = ["🔥", "❤️", "🙌", "👏", "✨"] as const;
 
 const NowPlaying: React.FC<NowPlayingProps> = ({
   track,
@@ -66,6 +78,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
   onPlayNext,
   onAddToQueue,
   coverProgress,
+  dismissGesture,
 }) => {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -77,37 +90,52 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
     canLike ? { trackId: track.trackId as Id<"tracks"> } : "skip"
   );
   const setLiked = useMutation(api.library.setLiked);
-  const [reactions, setReactions] = useState<Record<string, string>>({});
-  const shownReaction = reactions[track.trackId] ?? null;
+  const lowPower = useLowPowerMode();
+  const visualizerOn = useVisualizerPreference((state) => state.enabled);
+  const setVisualizerOn = useVisualizerPreference((state) => state.setEnabled);
+
+  const hero = (
+    <NowPlayingHero
+      title={track.title}
+      trackId={track.trackId}
+      artworkUrl={track.artworkUrl}
+      height={artHeight}
+      paddingTop={insets.top + 8}
+      artistName={track.artistName}
+      canLike={canLike}
+      liked={liked === true}
+      visualizer={visualizerOn && !lowPower}
+      onClose={onClose}
+      onPlayNext={onPlayNext}
+      onAddToQueue={onAddToQueue}
+      coverProgress={coverProgress}
+      onToggleLike={(nextLiked) => {
+        void setLiked({
+          trackId: track.trackId as Id<"tracks">,
+          liked: nextLiked,
+        });
+      }}
+    />
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.page }}>
-      <NowPlayingHero
-        title={track.title}
-        trackId={track.trackId}
-        artworkUrl={track.artworkUrl}
-        height={artHeight}
-        paddingTop={insets.top + 8}
-        canLike={canLike}
-        liked={liked === true}
-        onClose={onClose}
-        onPlayNext={onPlayNext}
-        onAddToQueue={onAddToQueue}
-        coverProgress={coverProgress}
-        onToggleLike={(nextLiked) => {
-          void setLiked({
-            trackId: track.trackId as Id<"tracks">,
-            liked: nextLiked,
-          });
-        }}
-      />
+      {dismissGesture ? (
+        <GestureDetector gesture={dismissGesture}>
+          <Animated.View collapsable={false}>{hero}</Animated.View>
+        </GestureDetector>
+      ) : (
+        hero
+      )}
 
-      <View
-        style={{
-          flex: 1,
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
           paddingHorizontal: 24,
           paddingBottom: Math.max(insets.bottom, 16),
         }}
+        showsVerticalScrollIndicator={false}
       >
         <HStack align="center" justify="between" className="mb-4 mt-2">
           <VStack spacing="xs" className="min-w-0 flex-1">
@@ -200,44 +228,20 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
           />
         </HStack>
 
-        <HStack align="center" justify="center" spacing="sm" className="mt-7">
-          {REACTIONS.map((emoji) => {
-            const selected = shownReaction === emoji;
-            return (
-              <Pressable
-                key={emoji}
-                accessibilityRole="button"
-                accessibilityLabel={`React with ${emoji}`}
-                onPress={() =>
-                  setReactions((current) => {
-                    const next = { ...current };
-                    if (selected) {
-                      delete next[track.trackId];
-                    } else {
-                      next[track.trackId] = emoji;
-                    }
-                    return next;
-                  })
-                }
-                className="h-11 w-11 items-center justify-center rounded-full bg-surface"
-                style={
-                  selected
-                    ? { borderWidth: 2, borderColor: COLORS.primary }
-                    : undefined
-                }
-              >
-                <Text className="text-xl">{emoji}</Text>
-              </Pressable>
-            );
-          })}
-        </HStack>
+        <TrackReactionRow trackId={track.trackId} enabled={canLike} />
+        <View style={{ flexGrow: 1, minHeight: 16 }} />
+        <VisualizerToggle
+          enabled={visualizerOn}
+          lowPower={lowPower}
+          onChange={setVisualizerOn}
+        />
 
         <GesturePressable
           accessibilityRole="button"
           accessibilityLabel="Queue"
           onPress={onQueue}
           style={{
-            marginTop: 24,
+            marginTop: 16,
             marginBottom: 8,
             flexDirection: "row",
             alignItems: "center",
@@ -251,7 +255,7 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
           <Ionicons name="list" size={16} color={COLORS.text} />
           <Text className="font-app-semibold text-sm text-text">Queue</Text>
         </GesturePressable>
-      </View>
+      </ScrollView>
     </View>
   );
 };

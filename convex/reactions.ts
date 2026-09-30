@@ -23,9 +23,12 @@ async function patchCounts(
   ctx: MutationCtx,
   trackId: Id<"tracks">,
   previous: string | null,
-  next: string
+  next: string | null
 ) {
-  if (previous === next || !isReactionEmoji(next)) {
+  if (previous === next) {
+    return;
+  }
+  if (next !== null && !isReactionEmoji(next)) {
     return;
   }
   const row = await ctx.db
@@ -37,8 +40,10 @@ async function patchCounts(
     const previousKey = reactionCountKey(previous);
     counts[previousKey] = Math.max(0, counts[previousKey] - 1);
   }
-  const nextKey = reactionCountKey(next);
-  counts[nextKey] = counts[nextKey] + 1;
+  if (next !== null) {
+    const nextKey = reactionCountKey(next);
+    counts[nextKey] = counts[nextKey] + 1;
+  }
   if (row === null) {
     await ctx.db.insert("trackReactionCounts", {
       trackId,
@@ -104,6 +109,28 @@ export const set = authedMutation({
       });
     }
     await patchCounts(ctx, args.trackId, existing?.emoji ?? null, args.emoji);
+    return null;
+  },
+});
+
+export const clear = authedMutation({
+  args: {
+    trackId: v.id("tracks"),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const existing = await ctx.db
+      .query("reactions")
+      .withIndex("by_profile_track", (q) =>
+        q.eq("profileId", profile._id).eq("trackId", args.trackId)
+      )
+      .unique();
+    if (existing === null) {
+      return null;
+    }
+    await ctx.db.delete(existing._id);
+    await patchCounts(ctx, args.trackId, existing.emoji, null);
     return null;
   },
 });

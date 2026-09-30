@@ -39,7 +39,9 @@ const QueuePanel: React.FC = () => {
   const current = normalizeTrack(player.track);
   const { height: screenHeight } = Dimensions.get("screen");
   const insets = useSafeAreaInsets();
-  const snapPoints = useMemo(() => [screenHeight], [screenHeight]);
+  const topGap = Math.max(insets.top, 12) + 8;
+  const sheetHeight = screenHeight - topGap;
+  const snapPoints = useMemo(() => [sheetHeight], [sheetHeight]);
 
   useEffect(() => {
     setQueueRef(sheetRef);
@@ -78,17 +80,24 @@ const QueuePanel: React.FC = () => {
       ref={sheetRef}
       snapPoints={snapPoints}
       enablePanDownToClose
-      topInset={0}
+      topInset={topGap}
       bottomInset={0}
       stackBehavior="push"
       backdropComponent={renderBackdrop}
-      backgroundStyle={{ backgroundColor: COLORS.page }}
-      handleIndicatorStyle={{ display: "none" }}
+      backgroundStyle={{
+        backgroundColor: COLORS.page,
+        borderTopLeftRadius: 28,
+        borderTopRightRadius: 28,
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: "rgba(238,238,238,0.2)",
+        width: 40,
+        height: 6,
+      }}
     >
       <BottomSheetView
         style={{
-          height: screenHeight,
-          paddingTop: insets.top,
+          height: sheetHeight,
           paddingBottom: insets.bottom,
         }}
       >

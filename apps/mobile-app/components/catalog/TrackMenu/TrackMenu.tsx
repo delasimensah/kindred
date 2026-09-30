@@ -1,16 +1,24 @@
-import { type MenuAction, MenuView } from "@expo/ui/community/menu";
+import {
+  type BottomSheetMethods,
+  BottomSheetModal,
+  BottomSheetView,
+} from "@expo/ui/community/bottom-sheet";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { Pressable } from "react-native";
 
 import { COLORS } from "@/constants";
 import { STAND_IN_TRACK_ID } from "@/hooks";
 import { showLikedToast } from "@/utils";
 
 import AddToPlaylistSheet from "../../bottom-sheets/AddToPlaylistSheet/AddToPlaylistSheet";
-import { HStack } from "../../ui/Stack/Stack";
+import CoverImage from "../../ui/CoverImage/CoverImage";
+import { HStack, VStack } from "../../ui/Stack/Stack";
+import Text from "../../ui/Text/Text";
 
 interface TrackMenuProps {
   title: string;
+  artistName?: string;
   trackId: string;
   artworkUrl?: string | null;
   liked?: boolean;
@@ -18,15 +26,29 @@ interface TrackMenuProps {
   onAddToQueue?: () => void;
   onToggleLike?: () => void;
   onRemove?: () => void;
-  /** Dark circle behind the icon, for controls that sit on artwork. */
   filled?: boolean;
   /** Locked tracks stay in the list. The menu does not open. */
   disabled?: boolean;
 }
 
+interface MenuRow {
+  id: string;
+  label: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  color?: string;
+  onPress: () => void;
+}
+
+/**
+ * Track options open as a sheet on both platforms, matching the now-playing
+ * design: grabber, cover, title, then the actions.
+ * https://docs.expo.dev/versions/v57.0.0/sdk/ui/bottom-sheet/
+ */
 const TrackMenu: React.FC<TrackMenuProps> = ({
   title,
+  artistName,
   trackId,
+  artworkUrl,
   liked = false,
   onPlayNext,
   onAddToQueue,
@@ -35,77 +57,148 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
   filled = false,
   disabled = false,
 }) => {
+  const sheetRef = useRef<BottomSheetMethods>(null);
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const realTrack = trackId !== STAND_IN_TRACK_ID;
-  const actions: MenuAction[] = [];
+  const rows: MenuRow[] = [];
 
   if (onPlayNext) {
-    actions.push({
+    rows.push({
       id: "play-next",
-      title: "Play next",
-      image: "text.line.first.and.arrowtriangle.forward",
+      label: "Play next",
+      icon: "play-skip-forward",
+      onPress: onPlayNext,
     });
   }
   if (onAddToQueue) {
-    actions.push({
+    rows.push({
       id: "add-queue",
-      title: "Add to queue",
-      image: "text.badge.plus",
+      label: "Add to queue",
+      icon: "list",
+      onPress: onAddToQueue,
     });
   }
   if (onToggleLike && realTrack) {
-    actions.push({
+    rows.push({
       id: "like",
-      title: liked ? `Unlike ${title}` : `Like ${title}`,
-      image: liked ? "heart.fill" : "heart",
+      label: liked ? `Unlike ${title}` : `Like ${title}`,
+      icon: liked ? "heart" : "heart-outline",
+      color: liked ? COLORS.primary : COLORS.text,
+      onPress: () => {
+        onToggleLike();
+        showLikedToast(!liked);
+      },
     });
   }
   if (realTrack) {
-    actions.push({
+    rows.push({
       id: "add-playlist",
-      title: "Add to playlist",
-      image: "text.badge.plus",
+      label: "Add to playlist",
+      icon: "add",
+      onPress: () => setPlaylistOpen(true),
     });
   }
   if (onRemove) {
-    actions.push({
+    rows.push({
       id: "remove",
-      title: `Delete ${title}`,
-      image: "trash",
-      attributes: { destructive: true },
+      label: `Delete ${title}`,
+      icon: "trash-outline",
+      color: COLORS.danger,
+      onPress: onRemove,
     });
   }
 
-  if (disabled) {
-    return <TrackMenuIcon title={title} filled={filled} disabled />;
-  }
-
-  if (actions.length === 0) {
-    return null;
+  if (disabled || rows.length === 0) {
+    if (!disabled) {
+      return null;
+    }
+    return (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`More options for ${title}`}
+        accessibilityState={{ disabled: true }}
+        disabled
+        className={
+          filled
+            ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
+            : "h-11 w-11 items-center justify-center"
+        }
+        style={{ opacity: 0.35 }}
+      >
+        <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
+      </Pressable>
+    );
   }
 
   return (
     <>
-      <MenuView
-        colorScheme="dark"
-        actions={actions}
-        onPressAction={({ nativeEvent }) => {
-          if (nativeEvent.event === "play-next") {
-            onPlayNext?.();
-          } else if (nativeEvent.event === "add-queue") {
-            onAddToQueue?.();
-          } else if (nativeEvent.event === "like") {
-            onToggleLike?.();
-            showLikedToast(!liked);
-          } else if (nativeEvent.event === "add-playlist") {
-            setPlaylistOpen(true);
-          } else if (nativeEvent.event === "remove") {
-            onRemove?.();
-          }
-        }}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`More options for ${title}`}
+        onPress={() => sheetRef.current?.present()}
+        className={
+          filled
+            ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
+            : "h-11 w-11 items-center justify-center"
+        }
       >
-        <TrackMenuIcon title={title} filled={filled} />
-      </MenuView>
+        <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
+      </Pressable>
+      <BottomSheetModal
+        ref={sheetRef}
+        enableDynamicSizing
+        enablePanDownToClose
+        backgroundStyle={{ backgroundColor: COLORS.surface }}
+      >
+        <BottomSheetView>
+          <HStack
+            spacing="md"
+            align="center"
+            className="mx-5 border-b border-white/10 px-1 pb-4"
+          >
+            <CoverImage uri={artworkUrl} width={48} height={48} radius={8} />
+            <VStack spacing="none" className="min-w-0 flex-1">
+              <Text
+                className="font-app-semibold text-sm text-text"
+                numberOfLines={1}
+              >
+                {title}
+              </Text>
+              {artistName ? (
+                <Text className="text-xs text-text/50" numberOfLines={1}>
+                  {artistName}
+                </Text>
+              ) : null}
+            </VStack>
+          </HStack>
+          <VStack spacing="none" className="px-3 pb-8 pt-2">
+            {rows.map((row) => (
+              <Pressable
+                key={row.id}
+                accessibilityRole="button"
+                accessibilityLabel={row.label}
+                onPress={() => {
+                  sheetRef.current?.dismiss();
+                  row.onPress();
+                }}
+                className="flex-row items-center gap-4 rounded-2xl px-3 py-3.5"
+              >
+                <Ionicons
+                  name={row.icon}
+                  size={18}
+                  color={row.color ?? COLORS.text}
+                />
+                <Text
+                  className="font-app-medium text-[15px] text-text"
+                  style={row.color ? { color: row.color } : undefined}
+                >
+                  {row.label}
+                </Text>
+              </Pressable>
+            ))}
+          </VStack>
+        </BottomSheetView>
+      </BottomSheetModal>
       {playlistOpen ? (
         <AddToPlaylistSheet
           trackId={trackId}
@@ -116,35 +209,5 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
     </>
   );
 };
-
-function TrackMenuIcon({
-  title,
-  filled,
-  disabled = false,
-}: {
-  title: string;
-  filled: boolean;
-  disabled?: boolean;
-}) {
-  return (
-    <HStack
-      spacing="none"
-      align="center"
-      justify="center"
-      accessibilityRole="button"
-      accessibilityLabel={`More options for ${title}`}
-      accessibilityState={{ disabled }}
-      pointerEvents={disabled ? "none" : "auto"}
-      className={
-        filled
-          ? "h-11 w-11 items-center justify-center rounded-full bg-surface"
-          : "h-11 w-11"
-      }
-      style={disabled ? { opacity: 0.35 } : undefined}
-    >
-      <Ionicons name="ellipsis-horizontal" size={20} color={COLORS.text} />
-    </HStack>
-  );
-}
 
 export default TrackMenu;

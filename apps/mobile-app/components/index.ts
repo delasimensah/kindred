@@ -17,6 +17,7 @@ export { default as OnboardingGenresScreen } from "./screens/onboarding/Onboardi
 export { default as OnboardingFollowArtistsScreen } from "./screens/onboarding/OnboardingFollowArtistsScreen/OnboardingFollowArtistsScreen";
 export { default as SessionHomeScreen } from "./screens/main/SessionHomeScreen/SessionHomeScreen";
 export { default as PaywallSheet } from "./screens/main/PaywallSheet/PaywallSheet";
+export { default as PaywallFlow } from "./screens/main/PaywallSheet/PaywallFlow";
 export {
   default as ArtistRequestScreen,
   ArtistRequestSkeleton,
@@ -39,6 +40,8 @@ export { default as CreatePlaylistScreen } from "./screens/main/CreatePlaylistSc
 export { default as AddPlaylistTracksScreen } from "./screens/main/AddPlaylistTracksScreen/AddPlaylistTracksScreen";
 export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScreen/ArtistProfileScreen";
 export { default as LockedTrackScreen } from "./screens/main/LockedTrackScreen/LockedTrackScreen";
+export { default as RouteSupportScreen } from "./screens/main/RouteSupportScreen/RouteSupportScreen";
+export { default as RouteSupportFlow } from "./screens/main/RouteSupportScreen/RouteSupportFlow";
 export { default as ArtistProfileRoute } from "./screens/main/ArtistProfileRoute/ArtistProfileRoute";
 export { default as ArtistAlbumsRoute } from "./screens/main/ArtistAlbumsRoute/ArtistAlbumsRoute";
 export { default as AlbumDetailRoute } from "./screens/main/AlbumDetailRoute/AlbumDetailRoute";

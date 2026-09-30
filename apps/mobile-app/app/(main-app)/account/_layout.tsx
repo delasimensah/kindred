@@ -28,6 +28,7 @@ const AccountLayout = () => {
     >
       <Stack.Screen name="index" options={{ title: "Account" }} />
       <Stack.Screen name="request" options={{ title: "" }} />
+      <Stack.Screen name="support" options={{ title: "" }} />
     </Stack>
   );
 };

@@ -7,6 +7,7 @@ import Text from "../../ui/Text/Text";
 interface ArtistProfileActionsProps {
   name: string;
   isFollowed: boolean;
+  isSupporting: boolean;
   onToggleFollow: () => void;
   onSupport: () => void;
 }
@@ -14,10 +15,12 @@ interface ArtistProfileActionsProps {
 const ArtistProfileActions: React.FC<ArtistProfileActionsProps> = ({
   name,
   isFollowed,
+  isSupporting,
   onToggleFollow,
   onSupport,
 }) => {
   const followLabel = isFollowed ? `Following ${name}` : `Follow ${name}`;
+  const supportLabel = isSupporting ? `Supporting ${name}` : `Support ${name}`;
 
   return (
     <HStack spacing="sm" align="center">
@@ -50,7 +53,7 @@ const ArtistProfileActions: React.FC<ArtistProfileActionsProps> = ({
       </Pressable>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={`Support ${name}`}
+        accessibilityLabel={supportLabel}
         onPress={onSupport}
         className="flex-1"
       >
@@ -58,9 +61,21 @@ const ArtistProfileActions: React.FC<ArtistProfileActionsProps> = ({
           spacing="none"
           align="center"
           justify="center"
-          className="rounded-full border border-text/20 py-3"
+          className={
+            isSupporting
+              ? "rounded-full bg-primary py-3"
+              : "rounded-full border border-text/20 py-3"
+          }
         >
-          <Text className="font-app-semibold text-sm text-text">Support</Text>
+          <Text
+            className={
+              isSupporting
+                ? "font-app-semibold text-sm text-textOnPrimary"
+                : "font-app-semibold text-sm text-text"
+            }
+          >
+            {isSupporting ? "Supporting" : "Support"}
+          </Text>
         </HStack>
       </Pressable>
     </HStack>

@@ -27,7 +27,7 @@ crons.interval(
 
 crons.interval(
   "expire lapsed supporter rows",
-  { hours: 24 },
+  { minutes: 5 },
   internal.entitlements.expireDue,
   {}
 );

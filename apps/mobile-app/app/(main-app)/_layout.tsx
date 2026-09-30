@@ -53,6 +53,13 @@ const MainAppLayout = () => {
           }}
         />
         <Stack.Screen
+          name="route-support"
+          options={{
+            headerShown: false,
+            contentStyle: { backgroundColor: COLORS.page },
+          }}
+        />
+        <Stack.Screen
           name="paywall"
           options={{
             presentation: "transparentModal",

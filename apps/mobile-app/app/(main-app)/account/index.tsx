@@ -6,7 +6,11 @@ import { Platform } from "react-native";
 import { SessionHomeScreen } from "@/components";
 import { COLORS, FONTS } from "@/constants";
 import { useFanSession } from "@/hooks";
-import { ACCOUNT_REQUEST_HREF, PAYWALL_HREF } from "@/utils";
+import {
+  ACCOUNT_REQUEST_HREF,
+  ACCOUNT_SUPPORT_HREF,
+  PAYWALL_HREF,
+} from "@/utils";
 
 /**
  * Account presents as a modal over the tabs. On iOS, close is a toolbar button
@@ -60,6 +64,13 @@ const AccountRoute = () => {
           router.push(ACCOUNT_REQUEST_HREF);
         }}
         onOpenPaywall={() => {
+          if (entitlement === undefined) {
+            return;
+          }
+          if (entitlement?.status === "active") {
+            router.push(ACCOUNT_SUPPORT_HREF);
+            return;
+          }
           router.push(PAYWALL_HREF);
         }}
         onSignOut={() => {

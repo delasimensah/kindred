@@ -4,6 +4,7 @@ import { decidePostAccess, decideTrackAccess, isLocked } from "./lib/access";
 import { requireProfile } from "./lib/auth";
 import { fileUrl } from "./lib/files";
 import { authedQuery } from "./lib/functions";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 
 const postItem = v.object({
   kind: v.literal("post"),
@@ -46,6 +47,7 @@ export const listForMe = authedQuery({
   returns: v.array(v.union(postItem, releaseItem)),
   handler: async (ctx) => {
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const follows = await ctx.db
       .query("follows")
       .withIndex("by_profile_createdAt", (q) => q.eq("profileId", profile._id))
@@ -67,7 +69,9 @@ export const listForMe = authedQuery({
         if (post.hidden) {
           continue;
         }
-        const locked = isLocked(decidePostAccess(post, isOwner));
+        const locked = isLocked(
+          decidePostAccess(post, isOwner, gateForArtist(supporter, artist._id))
+        );
         items.push({
           kind: "post" as const,
           postId: post._id,
@@ -102,7 +106,13 @@ export const listForMe = authedQuery({
           title: release.title,
           artworkUrl: await fileUrl(ctx, release.artworkFileId),
           durationMs: release.durationMs,
-          locked: isLocked(decideTrackAccess(release, isOwner)),
+          locked: isLocked(
+            decideTrackAccess(
+              release,
+              isOwner,
+              gateForArtist(supporter, artist._id)
+            )
+          ),
           peaks: release.peaks,
         });
       }

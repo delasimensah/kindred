@@ -10,12 +10,13 @@ import {
 import {
   STAND_IN_TRACK_ID,
   useFanSession,
+  useOpenSupport,
   usePreviewPlayer,
   useRetryKey,
   useScreenQuery,
   useVoiceNote,
 } from "@/hooks";
-import { ACCOUNT_HREF, homeArtistHref, PAYWALL_HREF } from "@/utils";
+import { ACCOUNT_HREF, homeArtistHref } from "@/utils";
 
 const HomeRoute = () => {
   const { retryKey, onRetry } = useRetryKey();
@@ -24,6 +25,7 @@ const HomeRoute = () => {
 
 function HomeFeed({ onRetry }: { onRetry: () => void }) {
   const router = useRouter();
+  const openSupport = useOpenSupport();
   const { displayName } = useFanSession();
   const state = useScreenQuery(api.feed.listForMe, {});
   const feed = state.status === "success" ? state.data : undefined;
@@ -139,8 +141,8 @@ function HomeFeed({ onRetry }: { onRetry: () => void }) {
       onSeekVoice={(url, ratio) => {
         voice.seek(url, ratio);
       }}
-      onSupport={() => {
-        router.push(PAYWALL_HREF);
+      onSupport={(artistId) => {
+        openSupport(artistId);
       }}
     />
   );

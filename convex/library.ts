@@ -3,6 +3,11 @@ import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { decideTrackAccess, isLocked } from "./lib/access";
+import {
+  gateForArtist,
+  loadSupporterAccess,
+  type SupporterAccess,
+} from "./lib/supporterAccess";
 import { requireProfile } from "./lib/auth";
 import { ERROR_CODES, raise } from "./lib/errors";
 import { fileUrl } from "./lib/files";
@@ -11,6 +16,7 @@ import { likedTrackIdSet } from "./lib/library";
 
 const libraryTrackValidator = v.object({
   trackId: v.id("tracks"),
+  artistId: v.id("artists"),
   title: v.string(),
   artistName: v.string(),
   artworkUrl: v.union(v.string(), v.null()),
@@ -28,6 +34,7 @@ export const listLiked = authedQuery({
   returns: v.array(libraryTrackValidator),
   handler: async (ctx) => {
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const items = await ctx.db
       .query("libraryItems")
       .withIndex("by_profile_createdAt", (q) => q.eq("profileId", profile._id))
@@ -38,7 +45,13 @@ export const listLiked = authedQuery({
       if (item.kind !== "liked") {
         continue;
       }
-      const row = await presentTrack(ctx, item.trackId, profile._id, true);
+      const row = await presentTrack(
+        ctx,
+        item.trackId,
+        profile._id,
+        true,
+        supporter
+      );
       if (row !== null) {
         tracks.push(row);
       }
@@ -155,6 +168,7 @@ export const getPlaylist = authedQuery({
   ),
   handler: async (ctx, args) => {
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const playlist = await ctx.db.get(args.playlistId);
     if (playlist === null || playlist.profileId !== profile._id) {
       return null;
@@ -172,7 +186,8 @@ export const getPlaylist = authedQuery({
         ctx,
         entry.trackId,
         profile._id,
-        likedIds.has(entry.trackId)
+        likedIds.has(entry.trackId),
+        supporter
       );
       if (row !== null) {
         tracks.push(row);
@@ -257,6 +272,7 @@ export const listAddableTracks = authedQuery({
   returns: v.array(libraryTrackValidator),
   handler: async (ctx, args) => {
     const { profile } = await requireProfile(ctx);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
     const playlist = await ctx.db.get(args.playlistId);
     if (playlist === null || playlist.profileId !== profile._id) {
       return [];
@@ -285,7 +301,8 @@ export const listAddableTracks = authedQuery({
         ctx,
         track._id,
         profile._id,
-        likedIds.has(track._id)
+        likedIds.has(track._id),
+        supporter
       );
       if (row !== null) {
         tracks.push(row);
@@ -341,7 +358,8 @@ async function presentTrack(
   ctx: QueryCtx,
   trackId: Id<"tracks">,
   profileId: Id<"profiles">,
-  liked: boolean
+  liked: boolean,
+  supporter: SupporterAccess
 ) {
   const track = await ctx.db.get(trackId);
   if (track === null || track.hidden || track.state !== "published") {
@@ -351,12 +369,17 @@ async function presentTrack(
   if (artist === null || artist.hidden) {
     return null;
   }
-  const access = decideTrackAccess(track, artist.profileId === profileId);
+  const access = decideTrackAccess(
+    track,
+    artist.profileId === profileId,
+    gateForArtist(supporter, track.artistId)
+  );
   if (!access.allowed && !isLocked(access)) {
     return null;
   }
   return {
     trackId: track._id,
+    artistId: artist._id,
     title: track.title,
     artistName: artist.name,
     artworkUrl: await fileUrl(ctx, track.artworkFileId),

@@ -63,7 +63,7 @@ interface HomeTabScreenProps {
   onPlayTrack: (trackId: string) => void;
   onToggleVoice: (url: string) => void;
   onSeekVoice: (url: string, ratio: number) => void;
-  onSupport: (artistName: string) => void;
+  onSupport: (artistId: string) => void;
 }
 
 /**
@@ -157,7 +157,7 @@ const HomeTabScreen: React.FC<HomeTabScreenProps> = ({
                     isPlaying={playingTrackId === item.id}
                     onOpenArtist={() => onOpenArtist(item.artistId)}
                     onPlay={() => onPlayTrack(item.id)}
-                    onSupport={() => onSupport(item.artistName)}
+                    onSupport={() => onSupport(item.artistId)}
                   />
                 );
               }
@@ -193,7 +193,7 @@ const HomeTabScreen: React.FC<HomeTabScreenProps> = ({
                         : 0
                   }
                   onOpenArtist={() => onOpenArtist(item.artistId)}
-                  onSupport={() => onSupport(item.artistName)}
+                  onSupport={() => onSupport(item.artistId)}
                   onToggleVoice={() => {
                     if (item.voiceUrl !== null) {
                       onToggleVoice(item.voiceUrl);

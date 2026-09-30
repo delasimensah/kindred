@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { internalMutation } from "./_generated/server";
 import { decideTrackAccess } from "./lib/access";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 import { requireProfile } from "./lib/auth";
 import { ERROR_CODES, raise } from "./lib/errors";
 import { authedMutation, authedQuery } from "./lib/functions";
@@ -24,7 +25,12 @@ export const heartbeat = authedMutation({
     if (track === null || artist === null || track.artistId !== args.artistId) {
       raise(ERROR_CODES.INVALID);
     }
-    const access = decideTrackAccess(track, artist.profileId === profile._id);
+    const supporter = await loadSupporterAccess(ctx, profile._id);
+    const access = decideTrackAccess(
+      track,
+      artist.profileId === profile._id,
+      gateForArtist(supporter, track.artistId)
+    );
     if (!access.allowed) {
       raise(ERROR_CODES.NOT_PERMITTED);
     }

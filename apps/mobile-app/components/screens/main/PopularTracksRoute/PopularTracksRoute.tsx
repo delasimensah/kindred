@@ -64,6 +64,7 @@ const PopularTracksRoute: React.FC = () => {
             lockedTrackHref({
               title: track.title,
               artistName: artist.name,
+              artistId: artistId ?? "",
               artworkUrl: track.artworkUrl,
             })
           );

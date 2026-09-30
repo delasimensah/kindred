@@ -74,6 +74,7 @@ interface ArtistProfileScreenProps {
   onViewAllTracks: () => void;
   onViewAllAlbums?: () => void;
   onOpenAlbum?: (releaseId: string) => void;
+  isSupporting?: boolean;
   onSupport: () => void;
   onOpenLocked?: (trackId: string) => void;
   onToggleVoice?: (url: string) => void;
@@ -104,6 +105,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
   onViewAllTracks,
   onViewAllAlbums,
   onOpenAlbum,
+  isSupporting = false,
   onSupport,
   onOpenLocked,
   onToggleVoice,
@@ -150,6 +152,7 @@ const ArtistProfileScreen: React.FC<ArtistProfileScreenProps> = ({
         <ArtistProfileActions
           name={artist.name}
           isFollowed={artist.isFollowed}
+          isSupporting={isSupporting}
           onToggleFollow={onToggleFollow}
           onSupport={onSupport}
         />

@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 import type { MutationCtx, QueryCtx } from "./_generated/server";
 import { decidePostAccess, isLocked } from "./lib/access";
+import { gateForArtist, loadSupporterAccess } from "./lib/supporterAccess";
 import { requireProfile, requireVerifiedArtist } from "./lib/auth";
 import { ERROR_CODES, raise } from "./lib/errors";
 import { fileUrl } from "./lib/files";
@@ -135,6 +136,8 @@ export const listForArtist = authedQuery({
       return [];
     }
     const isOwner = artist.profileId === profile._id;
+    const supporter = await loadSupporterAccess(ctx, profile._id);
+    const gate = gateForArtist(supporter, args.artistId);
     const posts = await ctx.db
       .query("updatePosts")
       .withIndex("by_artist_createdAt", (q) => q.eq("artistId", args.artistId))
@@ -145,7 +148,7 @@ export const listForArtist = authedQuery({
       if (post.hidden) {
         continue;
       }
-      const locked = isLocked(decidePostAccess(post, isOwner));
+      const locked = isLocked(decidePostAccess(post, isOwner, gate));
       rows.push({
         postId: post._id,
         createdAt: post.createdAt,

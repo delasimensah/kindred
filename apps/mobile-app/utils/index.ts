@@ -2,6 +2,16 @@ export { applyAvailableUpdate } from "./applyAvailableUpdate";
 export { formatAge } from "./formatAge";
 export { formatDuration } from "./formatDuration";
 export { changeFollow } from "./changeFollow";
+export {
+  canSaveRoute,
+  initialRouteSelection,
+  routeChangeLine,
+  MAX_ROUTES,
+  routeStatusLine,
+  splitCallout,
+  supportTarget,
+  toggleRouteArtist,
+} from "./routeSelection";
 export { getConvexErrorMessage } from "./convexError";
 export { tapHaptic } from "./haptics";
 export { createConvexClient } from "./convexClient";
@@ -17,7 +27,10 @@ export {
 export {
   ACCOUNT_HREF,
   ACCOUNT_REQUEST_HREF,
+  ACCOUNT_SUPPORT_HREF,
   PAYWALL_HREF,
+  paywallHref,
+  routeSupportHref,
   lockedTrackHref,
   ALBUM_PREVIEW,
   artistHref,

@@ -8,18 +8,40 @@ export const ACCOUNT_HREF = "/(main-app)/account" as Href;
 /** Become-an-artist form, pushed inside the account modal. */
 export const ACCOUNT_REQUEST_HREF = "/(main-app)/account/request" as Href;
 
+/** Route or buy support, pushed inside the account modal. */
+export const ACCOUNT_SUPPORT_HREF = "/(main-app)/account/support" as Href;
+
 /** Supporter paywall, a sheet over the signed-in app. */
 export const PAYWALL_HREF = "/(main-app)/paywall" as Href;
 
-/** Locked track gate. Support and See plans on that screen open the paywall. */
+export function paywallHref(artistId?: string): Href {
+  if (artistId === undefined) {
+    return PAYWALL_HREF;
+  }
+  const query = new URLSearchParams({ artistId });
+  return `/(main-app)/paywall?${query.toString()}` as Href;
+}
+
+/** Pick who receives an active subscription. */
+export function routeSupportHref(artistId?: string): Href {
+  if (artistId === undefined) {
+    return "/(main-app)/route-support" as Href;
+  }
+  const query = new URLSearchParams({ artistId });
+  return `/(main-app)/route-support?${query.toString()}` as Href;
+}
+
+/** Locked track gate. Support and See plans continue the support flow. */
 export function lockedTrackHref(track: {
   title: string;
   artistName: string;
+  artistId: string;
   artworkUrl: string | null;
 }): Href {
   const query = new URLSearchParams({
     title: track.title,
     artistName: track.artistName,
+    artistId: track.artistId,
     artworkUrl: track.artworkUrl ?? "",
   });
   return `/(main-app)/locked-track?${query.toString()}` as Href;

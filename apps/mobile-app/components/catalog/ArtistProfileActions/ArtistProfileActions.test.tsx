@@ -10,6 +10,7 @@ describe("ArtistProfileActions", () => {
       <ArtistProfileActions
         name="Amaara Mensah"
         isFollowed={false}
+        isSupporting={false}
         onToggleFollow={onToggleFollow}
         onSupport={onSupport}
       />
@@ -18,5 +19,19 @@ describe("ArtistProfileActions", () => {
     fireEvent.press(screen.getByLabelText("Support Amaara Mensah"));
     expect(onToggleFollow).toHaveBeenCalledTimes(1);
     expect(onSupport).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows Supporting once this artist is in the route", () => {
+    render(
+      <ArtistProfileActions
+        name="Amaara Mensah"
+        isFollowed
+        isSupporting
+        onToggleFollow={jest.fn()}
+        onSupport={jest.fn()}
+      />
+    );
+    expect(screen.getByLabelText("Supporting Amaara Mensah")).toBeTruthy();
+    expect(screen.getByText("Supporting")).toBeTruthy();
   });
 });

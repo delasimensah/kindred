@@ -140,6 +140,6 @@ describe("HomeTabScreen", () => {
     fireEvent.press(screen.getByLabelText("Play voice note"));
     expect(onToggleVoice).toHaveBeenCalledWith("https://example.com/voice.mp3");
     fireEvent.press(screen.getByLabelText("Support Kweku Darko to unlock"));
-    expect(onSupport).toHaveBeenCalledWith("Kweku Darko");
+    expect(onSupport).toHaveBeenCalledWith("artist_kweku");
   });
 });

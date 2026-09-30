@@ -10,6 +10,7 @@ import {
   type RecentSearchItem,
   recentTrack,
   useDebouncedSearchTerm,
+  useFanSession,
   usePreviewPlayer,
   useRecentSearches,
 } from "@/hooks";
@@ -23,9 +24,10 @@ import {
 const SearchRoute = () => {
   const router = useRouter();
   const player = usePreviewPlayer();
+  const { profileId } = useFanSession();
   const [draft, setDraft] = useState("");
   const term = useDebouncedSearchTerm(draft);
-  const recent = useRecentSearches();
+  const recent = useRecentSearches(profileId);
   const results = useQuery(api.search.exact, term === null ? "skip" : { term });
   const addFollow = useMutation(api.follows.add);
   const removeFollow = useMutation(api.follows.remove);

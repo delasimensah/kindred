@@ -1,8 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const STORAGE_KEY = "kindred.search.recent";
 const RECENT_CAP = 8;
+
+function storageKey(profileId: string): string {
+  return `kindred.search.recent.${profileId}`;
+}
 
 export interface RecentArtist {
   kind: "artist";
@@ -155,13 +158,30 @@ function readItems(raw: string | null): RecentSearchItem[] {
   }
 }
 
-export function useRecentSearches() {
-  const [items, setItems] = useState<RecentSearchItem[] | null>(null);
-  const itemsRef = useRef<RecentSearchItem[] | null>(null);
+export function useRecentSearches(profileId: string | null) {
+  const [ownerId, setOwnerId] = useState(profileId);
+  const [items, setItems] = useState<RecentSearchItem[] | null>(
+    profileId === null ? [] : null
+  );
+  const itemsRef = useRef<RecentSearchItem[] | null>(
+    profileId === null ? [] : null
+  );
+
+  if (profileId !== ownerId) {
+    setOwnerId(profileId);
+    setItems(profileId === null ? [] : null);
+  }
 
   useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+
+  useEffect(() => {
+    if (profileId === null) {
+      return;
+    }
     let cancelled = false;
-    void AsyncStorage.getItem(STORAGE_KEY).then((raw) => {
+    void AsyncStorage.getItem(storageKey(profileId)).then((raw) => {
       if (cancelled) {
         return;
       }
@@ -172,13 +192,19 @@ export function useRecentSearches() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [profileId]);
 
-  const write = useCallback(async (next: RecentSearchItem[]) => {
-    itemsRef.current = next;
-    setItems(next);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-  }, []);
+  const write = useCallback(
+    async (next: RecentSearchItem[]) => {
+      if (profileId === null) {
+        return;
+      }
+      itemsRef.current = next;
+      setItems(next);
+      await AsyncStorage.setItem(storageKey(profileId), JSON.stringify(next));
+    },
+    [profileId]
+  );
 
   const remember = useCallback(
     async (item: RecentSearchItem) => {

@@ -25,6 +25,7 @@ export {
   WAVEFORM_HEIGHT,
 } from "./waveform";
 export {
+  ACCOUNT_EDIT_HREF,
   ACCOUNT_HREF,
   ACCOUNT_REQUEST_HREF,
   ACCOUNT_IMPACT_HREF,
@@ -78,6 +79,13 @@ export {
   showSuccessToast,
 } from "./toastUtils";
 
-export { canUseTestStore, PAYWALL_BULLETS, PAYWALL_PLANS } from "./paywall";
+export {
+  canUseTestStore,
+  PAYWALL_BULLETS,
+  PAYWALL_PLANS,
+  storeSubscriptionsUrl,
+} from "./paywall";
+
+export { uploadProfilePhoto } from "./profilePhoto";
 
 export { cn } from "shared";

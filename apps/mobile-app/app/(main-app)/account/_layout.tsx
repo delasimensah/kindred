@@ -27,6 +27,7 @@ const AccountLayout = () => {
       }}
     >
       <Stack.Screen name="index" options={{ title: "Account" }} />
+      <Stack.Screen name="edit" options={{ title: "Edit profile" }} />
       <Stack.Screen name="request" options={{ title: "" }} />
       <Stack.Screen name="support" options={{ title: "" }} />
       <Stack.Screen name="impact" options={{ title: "Your impact" }} />

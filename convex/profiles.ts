@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 
+import type { Id } from "./_generated/dataModel";
 import { internalMutation } from "./_generated/server";
 import {
   canAccessStudio,
@@ -8,6 +9,7 @@ import {
   requireProfile,
 } from "./lib/auth";
 import { ERROR_CODES, raise } from "./lib/errors";
+import { fileUrl } from "./lib/files";
 import { countFollowsForProfile } from "./lib/follows";
 import { authedMutation, authedQuery } from "./lib/functions";
 import {
@@ -23,9 +25,14 @@ const onboardingStepValidator = v.union(
   v.literal("done")
 );
 
+const PROFILE_NAME_MAX = 80;
+const PROFILE_PHOTO_MAX_BYTES = 10 * 1024 * 1024;
+
 const meValidator = v.object({
   profileId: v.id("profiles"),
   displayName: v.string(),
+  email: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
   isAdmin: v.boolean(),
   canAccessStudio: v.boolean(),
   artistId: v.union(v.id("artists"), v.null()),
@@ -61,9 +68,12 @@ export const getMe = authedQuery({
     const followCount = await countFollowsForProfile(ctx, profile._id);
     const hasCompletedOnboarding = profile.onboardingCompletedAt !== undefined;
     const verifiedArtist = await getVerifiedArtistForProfile(ctx, profile._id);
+    const user = await ctx.db.get(ctx.userId);
     return {
       profileId: profile._id,
       displayName: profile.displayName,
+      email: user?.email ?? "",
+      avatarUrl: await fileUrl(ctx, profile.avatarFileId),
       isAdmin: profile.isAdmin,
       canAccessStudio: canAccessStudio({
         isAdmin: profile.isAdmin,
@@ -167,6 +177,60 @@ export const ensureProfile = authedMutation({
       isAdmin: false,
       createdAt: Date.now(),
     });
+  },
+});
+
+export const setDisplayName = authedMutation({
+  args: { displayName: v.string() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    const displayName = args.displayName.trim();
+    if (displayName.length === 0) {
+      raise(ERROR_CODES.INVALID, "Enter your name");
+    }
+    if (displayName.length > PROFILE_NAME_MAX) {
+      raise(ERROR_CODES.INVALID, "Name must be 80 characters or fewer");
+    }
+    await ctx.db.patch(profile._id, { displayName });
+    return null;
+  },
+});
+
+export const generateAvatarUploadUrl = authedMutation({
+  args: {},
+  returns: v.string(),
+  handler: async (ctx) => {
+    await requireProfile(ctx);
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
+export const saveAvatar = authedMutation({
+  args: {
+    storageId: v.id("_storage"),
+    contentType: v.string(),
+    sizeBytes: v.number(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const { profile } = await requireProfile(ctx);
+    if (!args.contentType.startsWith("image/")) {
+      raise(ERROR_CODES.INVALID, "Upload an image file");
+    }
+    if (args.sizeBytes <= 0 || args.sizeBytes > PROFILE_PHOTO_MAX_BYTES) {
+      raise(ERROR_CODES.INVALID, "Photo must be 10MB or smaller");
+    }
+    const fileId: Id<"files"> = await ctx.db.insert("files", {
+      storageId: args.storageId,
+      kind: "avatar",
+      ownerProfileId: profile._id,
+      contentType: args.contentType,
+      sizeBytes: args.sizeBytes,
+      createdAt: Date.now(),
+    });
+    await ctx.db.patch(profile._id, { avatarFileId: fileId });
+    return null;
   },
 });
 

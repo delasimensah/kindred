@@ -11,6 +11,7 @@ import Text from "../../../ui/Text/Text";
 
 interface LibraryScreenProps {
   displayName: string;
+  avatarUrl?: string | null;
   onOpenAccount: () => void;
   onOpenPlaylists: () => void;
   onOpenLiked: () => void;
@@ -33,6 +34,7 @@ const ROWS: {
 
 const LibraryScreen: React.FC<LibraryScreenProps> = ({
   displayName,
+  avatarUrl = null,
   onOpenAccount,
   onOpenPlaylists,
   onOpenLiked,
@@ -68,6 +70,7 @@ const LibraryScreen: React.FC<LibraryScreenProps> = ({
         </Text>
         <AccountAvatarButton
           displayName={displayName}
+          imageUrl={avatarUrl}
           onPress={onOpenAccount}
         />
       </HStack>

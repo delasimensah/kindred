@@ -26,7 +26,7 @@ const HomeRoute = () => {
 function HomeFeed({ onRetry }: { onRetry: () => void }) {
   const router = useRouter();
   const openSupport = useOpenSupport();
-  const { displayName } = useFanSession();
+  const { avatarUrl, displayName } = useFanSession();
   const state = useScreenQuery(api.feed.listForMe, {});
   const feed = state.status === "success" ? state.data : undefined;
   const player = usePreviewPlayer();
@@ -104,6 +104,7 @@ function HomeFeed({ onRetry }: { onRetry: () => void }) {
   return (
     <HomeTabScreen
       displayName={displayName}
+      avatarUrl={avatarUrl}
       items={items}
       isLoading={state.status === "pending"}
       failed={state.status === "error"}

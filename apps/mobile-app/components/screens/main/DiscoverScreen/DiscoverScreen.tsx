@@ -19,6 +19,7 @@ const PAGE_PADDING = 24;
 
 interface DiscoverScreenProps {
   displayName: string;
+  avatarUrl?: string | null;
   featured: DiscoverArtistCard[];
   rising: DiscoverArtistCard[];
   isLoading: boolean;
@@ -30,12 +31,12 @@ interface DiscoverScreenProps {
 
 /**
  * ScrollView is the screen root so iOS 26 can minimize the tab bar and split
- * the mini-player on scroll. A fixed Skia corner glow is not on this screen —
- * wrapping the list for a fixed overlay breaks that minimize behavior.
+ * the mini-player on scroll. A fixed header around the list breaks that.
  * https://docs.expo.dev/versions/latest/sdk/router/native-tabs/
  */
 const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
   displayName,
+  avatarUrl = null,
   featured,
   rising,
   isLoading,
@@ -63,6 +64,7 @@ const DiscoverScreen: React.FC<DiscoverScreenProps> = ({
         <Text className="font-display-bold text-3xl text-text">Discover</Text>
         <AccountAvatarButton
           displayName={displayName}
+          imageUrl={avatarUrl}
           onPress={onOpenAccount}
         />
       </HStack>

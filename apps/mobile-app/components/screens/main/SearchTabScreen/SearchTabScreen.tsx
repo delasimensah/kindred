@@ -61,6 +61,7 @@ interface SearchTabScreenProps {
   onPlayNext: (trackId: string) => void;
   onAddToQueue: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
+  onOpenLocked?: (trackId: string) => void;
 }
 
 const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
@@ -83,6 +84,7 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
   onPlayNext,
   onAddToQueue,
   onToggleLike,
+  onOpenLocked,
 }) => {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -257,6 +259,11 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
                   onPlay={() => {
                     onPlay(track.trackId);
                   }}
+                  onOpenLocked={
+                    onOpenLocked === undefined
+                      ? undefined
+                      : () => onOpenLocked(track.trackId)
+                  }
                   onPlayNext={() => {
                     onPlayNext(track.trackId);
                   }}

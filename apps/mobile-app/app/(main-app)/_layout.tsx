@@ -1,4 +1,7 @@
+import { api } from "@convex/_generated/api";
+import { useAction, useQuery } from "convex/react";
 import { Stack, ThemeProvider } from "expo-router";
+import { useEffect } from "react";
 
 import { COLORS } from "@/constants";
 import {
@@ -13,6 +16,17 @@ import {
  * https://docs.expo.dev/router/advanced/modals/
  */
 const MainAppLayout = () => {
+  const me = useQuery(api.profiles.getMe, {});
+  const sync = useAction(api.entitlements.sync);
+  const profileId = me?.profileId ?? null;
+
+  useEffect(() => {
+    if (profileId === null) {
+      return;
+    }
+    void sync().catch(() => undefined);
+  }, [profileId, sync]);
+
   return (
     <ThemeProvider value={navigationTheme}>
       <Stack
@@ -29,6 +43,21 @@ const MainAppLayout = () => {
             presentation: "modal",
             headerShown: false,
             contentStyle: { backgroundColor: COLORS.page },
+          }}
+        />
+        <Stack.Screen
+          name="locked-track"
+          options={{
+            headerShown: false,
+            contentStyle: { backgroundColor: COLORS.page },
+          }}
+        />
+        <Stack.Screen
+          name="paywall"
+          options={{
+            presentation: "transparentModal",
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" },
           }}
         />
       </Stack>

@@ -25,6 +25,12 @@ crons.interval(
   {}
 );
 
+crons.interval(
+  "expire lapsed supporter rows",
+  { hours: 24 },
+  internal.entitlements.expireDue,
+  {}
+);
 crons.monthly(
   "demo earnings for previous month",
   { day: 1, hourUTC: 6, minuteUTC: 0 },

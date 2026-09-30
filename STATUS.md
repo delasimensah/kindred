@@ -10,13 +10,13 @@
 
 - **Client / job:** Kindred (own-product portfolio flagship). Outcome B (studio accounts).
 - **Backend:** Convex
-- **Current phase:** Build — **KIND-86**, **KIND-88**, and **KIND-71** are **Done**. KIND-71 is exact name search only. Meaning-based search is not in this version (29 Sep 2026). The rest of First Version follows the order in Next action.
+- **Current phase:** Build — **KIND-64** is **Done**. A fan can buy Supporter on Kindred(Dev) and restore it. Routing the subscription is next. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Last updated:** 2026-09-29
 - **Blocked / open:** Vercel Slack slash commands broken for this workspace/app; use Vercel dashboard. Not blocking product work.
   - **Convex free-plan file egress (team `dm-studios`, Sep 2026).** Keep listens short (shrunk clips). Guide: `docs/convex-usage.md`. Do not upgrade solely for this.
   - **Phone alerts (KIND-62):** needs Google + Apple keys on Expo before delivery can be tested on preview. Guide: studio `project-template/docs/client-delivery/push-notifications-setup.md`.
   - Password email (KIND-46): **Backlog** until email sending is set up.
-  - Store purchase tests (KIND-64): the **preview app** shows the paywall screen on a real phone. The practice purchase (buy, restore, expiry) is on the **development app** with RevenueCat’s Test Store. Kindred is a demo, not a store app, unless it later earns a real release (29 Sep 2026). Leave the Apple Paid Apps Agreement and the EU trader form untouched. Guide: studio `project-template/docs/client-delivery/revenuecat-test-purchases.md`.
+  - Store purchase tests: the **preview app** shows the paywall screen on a real phone. The practice purchase (buy, restore, expiry) is on the **development app** with RevenueCat’s Test Store. How long each practice plan lasts: `docs/test-purchases.md`. Kindred’s prices are one month, so on the dev app the plan renews every 5 minutes and ends about 25 minutes after the purchase. Kindred is a demo, not a store app, unless it later earns a real release (29 Sep 2026). Leave the Apple Paid Apps Agreement and the EU trader form untouched.
   - Offline retry queue: explain at KIND-69; if we cut it, edit the lock with Delasi first.
 
 ---
@@ -64,7 +64,7 @@
 
 ## Next action (one line)
 
-**KIND-64** — Supporter subscription and restore. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026). After subscriptions: KIND-65 through KIND-67, password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
+**KIND-65** — Route the subscription to 1–5 artists and unlock exclusives only for them. Someone who already pays does not buy again to add an artist. After that: KIND-66 and KIND-67, password reset (KIND-46), notifications (KIND-62), downloads (KIND-69), the AI mix (KIND-72), the player visualizer (KIND-73), and TestFlight (KIND-87) only if we still want it.
 
 ---
 
@@ -72,7 +72,7 @@
 
 - **Phone:** KIND-82 fan artist request **Done**.
 - **Web (browser):** KIND-86 public browse home and install prompt is **Done**. KIND-85 public pages are **Done**.
-- **Build order from here:** KIND-64 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
+- **Build order from here:** KIND-65 to KIND-67 subscriptions, KIND-46 password reset, KIND-62 notifications, KIND-69 downloads, KIND-72 AI mix, KIND-73 player visualizer, KIND-87 TestFlight only if we still want it. KIND-64 purchase and restore is done. KIND-71 exact name search is done. Meaning-based search is not in this version (29 Sep 2026).
 - **Phone preview:** prove alerts, purchases, and downloads on a real phone inside those tickets.
 - **Canceled short-check tickets (25 Sep 2026):** KIND-60, 61, 63, 68, 70, 74, 75, 76, 77 — acceptance folded into the feature tickets above.
 
@@ -83,6 +83,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-64): https://github.com/delasimensah/kindred/pull/29
 - Pull request (KIND-71): https://github.com/delasimensah/kindred/pull/28
 - Pull request (KIND-86): https://github.com/delasimensah/kindred/pull/27
 - Pull request (KIND-85): https://github.com/delasimensah/kindred/pull/26

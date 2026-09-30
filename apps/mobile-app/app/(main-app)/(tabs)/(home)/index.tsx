@@ -1,7 +1,6 @@
 import { api } from "@convex/_generated/api";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert } from "react-native";
 
 import {
   type HomeFeedPost,
@@ -16,7 +15,7 @@ import {
   useScreenQuery,
   useVoiceNote,
 } from "@/hooks";
-import { ACCOUNT_HREF, homeArtistHref } from "@/utils";
+import { ACCOUNT_HREF, homeArtistHref, PAYWALL_HREF } from "@/utils";
 
 const HomeRoute = () => {
   const { retryKey, onRetry } = useRetryKey();
@@ -140,11 +139,8 @@ function HomeFeed({ onRetry }: { onRetry: () => void }) {
       onSeekVoice={(url, ratio) => {
         voice.seek(url, ratio);
       }}
-      onSupport={(artistName) => {
-        Alert.alert(
-          "Support",
-          `Paying to support ${artistName} is not available on this screen.`
-        );
+      onSupport={() => {
+        router.push(PAYWALL_HREF);
       }}
     />
   );

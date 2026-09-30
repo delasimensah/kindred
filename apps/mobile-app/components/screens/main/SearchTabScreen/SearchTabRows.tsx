@@ -79,6 +79,7 @@ export function SearchTrackRow({
   track,
   isPlaying,
   onPlay,
+  onOpenLocked,
   onPlayNext,
   onAddToQueue,
   onToggleLike,
@@ -86,6 +87,7 @@ export function SearchTrackRow({
   track: SearchTrackResult;
   isPlaying: boolean;
   onPlay: () => void;
+  onOpenLocked?: () => void;
   onPlayNext: () => void;
   onAddToQueue: () => void;
   onToggleLike: () => void;
@@ -102,9 +104,17 @@ export function SearchTrackRow({
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
-        accessibilityState={{ disabled: track.locked }}
-        disabled={track.locked}
-        onPress={onPlay}
+        accessibilityState={{
+          disabled: track.locked && onOpenLocked === undefined,
+        }}
+        disabled={track.locked && onOpenLocked === undefined}
+        onPress={() => {
+          if (track.locked) {
+            onOpenLocked?.();
+            return;
+          }
+          onPlay();
+        }}
         style={{ flex: 1, minWidth: 0 }}
       >
         <HStack spacing="sm" align="center">

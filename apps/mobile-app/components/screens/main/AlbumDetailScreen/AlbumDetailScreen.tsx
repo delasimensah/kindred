@@ -33,6 +33,7 @@ interface AlbumDetailScreenProps {
   onPlayNext?: (trackId: string) => void;
   onAddToQueue?: (trackId: string) => void;
   onToggleLike: (trackId: string) => void;
+  onOpenLocked?: (trackId: string) => void;
   onPlayAll?: () => void;
 }
 
@@ -49,6 +50,7 @@ const AlbumDetailScreen: React.FC<AlbumDetailScreenProps> = ({
   onPlayNext,
   onAddToQueue,
   onToggleLike,
+  onOpenLocked,
   onPlayAll,
 }) => {
   const insets = useAppInsets();
@@ -113,6 +115,11 @@ const AlbumDetailScreen: React.FC<AlbumDetailScreenProps> = ({
               }
               artworkUrl={track.artworkUrl}
               locked={track.locked}
+              onOpenLocked={
+                onOpenLocked === undefined
+                  ? undefined
+                  : () => onOpenLocked(track.trackId)
+              }
               liked={track.liked}
               isPlaying={isPlaying && playingTrackId === track.trackId}
               onPlay={() => onPlay(track.trackId)}

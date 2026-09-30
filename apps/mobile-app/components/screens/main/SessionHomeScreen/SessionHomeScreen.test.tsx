@@ -11,7 +11,9 @@ describe("SessionHomeScreen", () => {
         displayName="Efua Boateng"
         isSigningOut={false}
         artistStatus="pending"
+        supporterLabel={null}
         onRequestArtist={onRequestArtist}
+        onOpenPaywall={jest.fn()}
         onSignOut={onSignOut}
       />
     );

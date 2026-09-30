@@ -13,7 +13,12 @@ import {
   usePreviewPlayer,
   useRecentSearches,
 } from "@/hooks";
-import { bindQueueActions, changeFollow, searchArtistHref } from "@/utils";
+import {
+  bindQueueActions,
+  changeFollow,
+  lockedTrackHref,
+  searchArtistHref,
+} from "@/utils";
 
 const SearchRoute = () => {
   const router = useRouter();
@@ -113,6 +118,19 @@ const SearchRoute = () => {
           trackId: track.trackId as Id<"tracks">,
           liked: !track.liked,
         });
+      }}
+      onOpenLocked={(trackId) => {
+        const track = tracks.find((row) => row.trackId === trackId);
+        if (track === undefined) {
+          return;
+        }
+        router.push(
+          lockedTrackHref({
+            title: track.title,
+            artistName: track.artistName,
+            artworkUrl: track.artworkUrl,
+          })
+        );
       }}
     />
   );

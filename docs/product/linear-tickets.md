@@ -1044,6 +1044,13 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 **Acceptance:**
 
 - Supporter picks 1–5 followed artists; equal split callout updates; cannot save empty or >5.
+- When the paywall or the lock started from one artist, the first save includes that artist. If they are not followed yet, follow comes first. They start selected and cannot be deselected on that save. Five or fewer follows: everyone starts selected, including them. More than five: only they start selected. If the set would pass five, they stay and someone else is removed. The server rejects a first save that omits them. A later Account save may remove them.
+- One subscription covers every routed artist. A second artist never starts a second purchase, whatever button they tapped.
+- Already paying and already routed to that artist: the exclusive opens. No paywall. No routing screen.
+- Already paying and not routed to that artist: routing opens and the paywall does not. Artists already in the route stay selected, and this artist is added. They cannot turn this artist off on this save. If that would make six, this artist stays and they remove someone else before saving. If they do not follow this artist yet, follow comes first. Leaving without saving keeps the old route. Saving splits the same subscription across the new set.
+- Already paying, opened from Account: routing opens on the saved set. Nobody is forced on or off. They may remove an artist who started an earlier purchase. The set stays between one and five.
+- Subscription ended: Support opens the paywall again. Restore brings the subscription and the saved route back. Cancelled but still inside the paid time is still treated as paying.
+- A locked queue row does not start support. Web does not sell or route.
 - Exclusives playable only for currently routed artists; others stay locked.
 - Unfollow of a routed artist is blocked until unrouted.
 - Integration test: supporter routed to A cannot fetch B’s exclusive body/URL.

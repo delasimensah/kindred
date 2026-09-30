@@ -10,6 +10,7 @@ import {
   catalogQueue,
   coverHeaderScreenOptions,
   libraryAddTracksHref,
+  lockedTrackHref,
   routeParam,
 } from "@/utils";
 
@@ -96,6 +97,19 @@ const PlaylistRoute = () => {
             playlistId: playlistId as Id<"playlists">,
             trackId: trackId as Id<"tracks">,
           });
+        }}
+        onOpenLocked={(trackId) => {
+          const track = playlist?.tracks.find((row) => row.trackId === trackId);
+          if (track === undefined) {
+            return;
+          }
+          router.push(
+            lockedTrackHref({
+              title: track.title,
+              artistName: track.artistName,
+              artworkUrl: track.artworkUrl,
+            })
+          );
         }}
       />
     </>

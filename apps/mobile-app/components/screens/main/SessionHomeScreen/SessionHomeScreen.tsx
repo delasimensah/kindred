@@ -23,7 +23,9 @@ interface SessionHomeScreenProps {
   displayName: string;
   isSigningOut: boolean;
   artistStatus: ArtistRequestViewStatus | "loading";
+  supporterLabel: string | null;
   onRequestArtist: () => void;
+  onOpenPaywall: () => void;
   onSignOut: () => void;
 }
 
@@ -31,7 +33,9 @@ const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
   displayName,
   isSigningOut,
   artistStatus,
+  supporterLabel,
   onRequestArtist,
+  onOpenPaywall,
   onSignOut,
 }) => {
   return (
@@ -47,6 +51,43 @@ const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
               Signed in as {displayName}
             </Text>
           ) : null}
+        </VStack>
+        <VStack spacing="sm">
+          <Text className="px-1 font-app-medium text-xs uppercase tracking-wide text-text/40">
+            Support
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Back the artists you believe in"
+            onPress={onOpenPaywall}
+            className="rounded-2xl bg-surface px-4 py-4"
+          >
+            <HStack spacing="sm" align="center">
+              <VStack
+                spacing="none"
+                align="center"
+                justify="center"
+                className="h-9 w-9 rounded-xl bg-primary/15"
+              >
+                <Ionicons
+                  name="heart-outline"
+                  size={16}
+                  color={COLORS.primary}
+                />
+              </VStack>
+              <Text className="min-w-0 flex-1 font-app-medium text-sm text-text">
+                Back the artists you believe in
+              </Text>
+              {supporterLabel !== null ? (
+                <Text className="text-xs text-text/40">{supporterLabel}</Text>
+              ) : null}
+              <Ionicons
+                name="chevron-forward"
+                size={14}
+                color={`${COLORS.text}4D`}
+              />
+            </HStack>
+          </Pressable>
         </VStack>
         <VStack spacing="sm">
           <Text className="px-1 font-app-medium text-xs uppercase tracking-wide text-text/40">

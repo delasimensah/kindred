@@ -83,6 +83,7 @@ Phone-alert setup clicks: studio `project-template/docs/client-delivery/push-not
 
 ## Pointers
 
+- Pull request (KIND-65): https://github.com/delasimensah/kindred/pull/30
 - Pull request (KIND-64): https://github.com/delasimensah/kindred/pull/29
 - Pull request (KIND-71): https://github.com/delasimensah/kindred/pull/28
 - Pull request (KIND-86): https://github.com/delasimensah/kindred/pull/27

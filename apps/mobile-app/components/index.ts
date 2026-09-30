@@ -42,6 +42,7 @@ export { default as ArtistProfileScreen } from "./screens/main/ArtistProfileScre
 export { default as LockedTrackScreen } from "./screens/main/LockedTrackScreen/LockedTrackScreen";
 export { default as RouteSupportScreen } from "./screens/main/RouteSupportScreen/RouteSupportScreen";
 export { default as RouteSupportFlow } from "./screens/main/RouteSupportScreen/RouteSupportFlow";
+export { default as ImpactFlow } from "./screens/main/ImpactScreen/ImpactFlow";
 export { default as ArtistProfileRoute } from "./screens/main/ArtistProfileRoute/ArtistProfileRoute";
 export { default as ArtistAlbumsRoute } from "./screens/main/ArtistAlbumsRoute/ArtistAlbumsRoute";
 export { default as AlbumDetailRoute } from "./screens/main/AlbumDetailRoute/AlbumDetailRoute";

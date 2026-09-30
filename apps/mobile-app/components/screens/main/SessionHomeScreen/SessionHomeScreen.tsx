@@ -26,6 +26,7 @@ interface SessionHomeScreenProps {
   supporterLabel: string | null;
   onRequestArtist: () => void;
   onOpenPaywall: () => void;
+  onOpenImpact?: () => void;
   onSignOut: () => void;
 }
 
@@ -36,6 +37,7 @@ const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
   supporterLabel,
   onRequestArtist,
   onOpenPaywall,
+  onOpenImpact,
   onSignOut,
 }) => {
   return (
@@ -90,6 +92,37 @@ const SessionHomeScreen: React.FC<SessionHomeScreenProps> = ({
               />
             </HStack>
           </Pressable>
+          {onOpenImpact !== undefined ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Impact"
+              onPress={onOpenImpact}
+              className="rounded-2xl bg-surface px-4 py-4"
+            >
+              <HStack spacing="sm" align="center">
+                <VStack
+                  spacing="none"
+                  align="center"
+                  justify="center"
+                  className="h-9 w-9 rounded-xl bg-primary/15"
+                >
+                  <Ionicons
+                    name="bar-chart-outline"
+                    size={16}
+                    color={COLORS.primary}
+                  />
+                </VStack>
+                <Text className="min-w-0 flex-1 font-app-medium text-sm text-text">
+                  Impact
+                </Text>
+                <Ionicons
+                  name="chevron-forward"
+                  size={14}
+                  color={`${COLORS.text}4D`}
+                />
+              </HStack>
+            </Pressable>
+          ) : null}
         </VStack>
         <VStack spacing="sm">
           <Text className="px-1 font-app-medium text-xs uppercase tracking-wide text-text/40">

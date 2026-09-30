@@ -45,6 +45,12 @@ Forty more fans with ordinary names share the same password. Their emails are `f
 
 Running the command again does not wipe the database and does not delete someone who signed up themselves. It fills anything that is still missing. If an account already exists, its password is left as it is.
 
+To change the shared password on accounts that already exist, from the `kindred` folder after Convex is ready:
+
+`npx convex run seedCatalog:resetSeedPasswords '{"password":"the new password"}'`
+
+The password must be at least 8 characters. Do not put it in git. Write it in `ACCESS-LIST.md`.
+
 ## What this seed does not store
 
-Posts for non-hero artists, search embeddings, and real RevenueCat purchases are later data. Efua gets an active entitlement and support routes from `seedSupportEconomy`, and demo earnings months are written by `earnings:seedPastMonths`. The seed still gives Efua a like on Asase, and Akosua a playlist named Sunday in Osu.
+Posts for non-hero artists, search embeddings, and real RevenueCat purchases are later data. Efua gets an active entitlement and support routes from `seedSupportEconomy`. Recent months are written by `earnings:seedPastMonths`. Two older months, including Téwá Nkrumah whom she no longer routes to, are written by `seedCatalog:seedEarlierSupport`. The seed still gives Efua a like on Asase, and Akosua a playlist named Sunday in Osu.

@@ -74,6 +74,7 @@ describe("ArtistProfileScreen", () => {
     render(
       <ArtistProfileScreen
         {...screenProps}
+        isFounding
         onPlay={onPlay}
         onViewAllTracks={onViewAllTracks}
         onViewAllAlbums={onViewAllAlbums}
@@ -81,6 +82,7 @@ describe("ArtistProfileScreen", () => {
     );
 
     expect(screen.getByText("Popular tracks")).toBeTruthy();
+    expect(screen.getByLabelText("Founding supporter")).toBeTruthy();
     expect(screen.getByText("Albums")).toBeTruthy();
     expect(screen.getByText("Updates")).toBeTruthy();
     expect(screen.getByText("Asase is finished.")).toBeTruthy();

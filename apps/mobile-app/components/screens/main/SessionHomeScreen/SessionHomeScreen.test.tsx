@@ -24,5 +24,24 @@ describe("SessionHomeScreen", () => {
     expect(onRequestArtist).toHaveBeenCalledTimes(1);
     fireEvent.press(screen.getByText("Sign out"));
     expect(onSignOut).toHaveBeenCalledTimes(1);
+    expect(screen.queryByLabelText("Impact")).toBeNull();
+  });
+
+  it("opens Impact when this person is paying", () => {
+    const onOpenImpact = jest.fn();
+    render(
+      <SessionHomeScreen
+        displayName="Efua Boateng"
+        isSigningOut={false}
+        artistStatus="none"
+        supporterLabel="Supporter · $9.99/mo"
+        onRequestArtist={jest.fn()}
+        onOpenPaywall={jest.fn()}
+        onOpenImpact={onOpenImpact}
+        onSignOut={jest.fn()}
+      />
+    );
+    fireEvent.press(screen.getByLabelText("Impact"));
+    expect(onOpenImpact).toHaveBeenCalledTimes(1);
   });
 });

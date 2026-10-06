@@ -1,199 +1,218 @@
 # Talking about Kindred in an interview
 
-Read this when you need to explain Kindred to someone who was not in the room while it was built. The short answer is for the first two minutes. The conversation is what happens when they keep asking. The last section is what to say before they find a gap themselves.
+Read this before an interview where Kindred comes up. The first section is the 60-to-90-second version you lead with. The rest is a bank of real questions interviewers ask about a project, each paired with an answer grounded in how Kindred is actually built. The last section is the honest-limits list, so you raise the gaps yourself instead of getting caught by them.
 
-Interviewers are not scoring a feature list. They are checking whether you understand the problem, the decisions you made, the cost of those decisions, and what you would change. A music player is easy to demo and easy to misunderstand. Kindred’s difference is who the money goes to, and what that unlocks.
+What interviewers are really testing with "tell me about a project" is not the feature list. It is whether you understand the problem, can defend your decisions, know what they cost, and can say what you would change. Depth beats polish. A music app is easy to demo and easy to wave away as "a Spotify clone." Your job is to move the conversation to the part that is not a player. Who the money goes to, and what that payment unlocks.
 
-This is your own product, built as a portfolio flagship: a fan app for backing rising African artists, plus a web studio where those artists release music. Purchases in the build you can demo are practice purchases, not a live App Store business. Say that early.
-
----
-
-## The two-minute answer
-
-I built Kindred. Fans back rising African artists with one monthly subscription, routed to the artists they choose. Artists release music from a web studio and see who their real supporters are.
-
-The phone app is the fan product. The website has three jobs only: the artist studio, public share pages, and a thin admin. There is no fan account on the web.
-
-The hard part is not playback. Paying does not unlock the whole catalog. It unlocks the one to five artists that person currently routes to, in an equal split. The phone never decides that someone is a supporter. Apple and Google hold the money. RevenueCat tells our server. The server writes the row. Every exclusive read checks that row again, and checks the route.
-
-I designed it and built it: Expo on the phone, Next.js on the web, Convex as the whole backend.
+One framing note. This is your own product, built as a portfolio flagship, to a real product spec. It is not a live App Store business with paying fans. Purchases in the build you can show run on RevenueCat's test store. Say that plainly when money comes up. It reads as honest, not weak.
 
 ---
 
-## The conversation
+## The opener (60 to 90 seconds)
 
-### Tell me about something you built.
+Kindred is a mobile app for backing rising African artists. A fan pays one monthly subscription and routes it to one to five artists they choose. It is one subscription, split equally, and that routing is what unlocks those artists' supporters-only music. Artists don't upload from the phone. They use a web studio to release music and see who their real supporters are.
 
-**Interviewer:** Pick a project. What problem was it actually solving?
+The interesting engineering is not playback. It's that paying does not unlock the catalog. It unlocks exactly the artists you route to right now. And the phone is never trusted to decide any of that. Apple or Google takes the money. RevenueCat tells our backend. The backend writes the "this person is a supporter" record. Every exclusive read then re-checks that record plus the route. A tampered client can't hand itself access.
 
-**You:** Streaming already exists. What does not exist, for a lot of rising African artists, is a simple way for a fan to put a few dollars a month behind specific people and then hear the music those people keep for supporters.
-
-Kindred is that. A fan signs up on the phone, follows artists, and can listen to what is public. If they subscribe, they pick one to five artists they already follow. One subscription covers that set. It splits equally. Adding another artist does not start a second purchase. It changes the route.
-
-Artists do not upload from the phone. They sign into a web studio, publish a release or schedule it, post an update for everyone or for supporters only, and see a supporter list and a demo of how the month would have split. An admin approves people who ask to become artists, and can hide a track or feature one on discovery.
-
-I built this myself, as my own product. The catalog you hear in a demo is seeded, with credit to the audio source. It is not a label’s catalog, and the earnings screen is labelled as not a real payout.
-
-### Who is allowed to do what?
-
-**Interviewer:** Four kinds of people, I assume. Keep it short.
-
-**You:** A free fan can listen to public tracks, follow, search by name, react, and see an approximate listener count. They cannot open exclusives.
-
-A supporter can do all of that, plus supporters-only tracks and posts from artists in their route, and a view of their own impact. A founding badge appears if they were one of the first ten people ever to route to that artist. The badge stays if the artist grows, and the slot does not reopen if someone leaves.
-
-An artist is a fan account with an artist record attached, after they request it from the phone and an admin approves, or after an admin verifies them directly. Upload and scheduling are web only.
-
-An admin can approve or decline those requests, hide catalog items, and place featured slots. They cannot read someone’s private playlist or listening history.
-
-### How is it built?
-
-**Interviewer:** Components. What talks to what?
-
-**You:** The phone app is Expo. Feed, discovery, search, artist pages, the player, library, paywall, and routing. Playback uses the audio library that ships with Expo. The queue, shuffle, and repeat live on the device, because that is session state, not a database row. Server data comes from Convex queries and stays subscribed, so a reaction shows up for someone else who is looking at the same track. Zustand holds a few client extras, such as whether the visualizer is on. I did not put a second cache in front of Convex for the same records.
-
-The website is one Next.js app on Vercel, split by route: studio, public pages, admin. Public pages play public audio. An exclusive shows a locked shell and tells the visitor to get the app. The web app also hosts the files Apple and Google use to verify links into the installed app.
-
-Convex is the whole backend: database, email-and-password sign-in, file storage, scheduled work, search, and the HTTP endpoint RevenueCat calls. I did not add a second database, a second queue, or a second realtime service. Every paid decision has to be made in one place. Two permission models is how a non-supporter gets a playable URL.
-
-### Why is “they paid” not enough?
-
-**Interviewer:** This is the part I want slowly.
-
-**You:** There are two questions, and they are never collapsed into one. Is this person a supporter right now? Is this artist in their active route?
-
-`loadSupporterAccess` reads the entitlement row and the active routes. `decideTrackAccess` then allows a supporters-only track only when the person is entitled and routed to that artist, or when they are the artist who owns it. The same helper covers posts. A supporter routed to artist A is refused artist B’s exclusive even though they are paying. That case has a test, because it is the bug I am most likely to ship by accident.
-
-A few product rules fall out of that split.
-
-- Opening a locked track from one artist remembers that artist. The first time they save a route, that artist has to be included. They have to follow them first. They can change the set later from account settings, and that artist’s exclusives lock again if they remove them.
-- The set is one to five. Empty is not allowed while they are subscribed. If adding this artist would make six, this artist stays and they remove someone else before saving.
-- They cannot unfollow an artist who is still in the route. The unfollow mutation refuses. They remove them from support first.
-- One subscription covers the whole set. A second artist never starts a second charge.
-- If the subscription has ended, support opens the paywall again. If they cancelled but the paid time has not ended, they are still treated as paying.
-
-The web page does not sell or route. It says get the app.
-
-### How does the phone know someone paid?
-
-**Interviewer:** Walk me through a purchase. Where can this go wrong?
-
-**You:** The prices are $4.99 and $9.99 a month. Both grant the same access. The difference is how the demo split looks later, not what they can play. Apple and Google take the payment. RevenueCat sits in front of both stores so I am not writing two billing integrations. The Convex profile id is the RevenueCat user id, so a webhook can find the right person without guessing.
-
-RevenueCat POSTs to `/revenuecat/webhook`. The handler checks a shared secret, then a mutation writes the entitlement. I store the event id first. If RevenueCat retries the same event, the second write is ignored. That matters because a retried “subscription started” must not create a second row or a second month of demo earnings.
-
-Webhooks lag. There is a server sync that calls RevenueCat’s API when the webhook has not arrived yet. The phone does not write the entitlement. If I let the client say “I am a supporter now,” a modified app could unlock the catalog.
-
-Restore purchases matters after a reinstall. The store still knows they paid. The server reads that and writes the row again. The saved route comes back with it, because cancelling pauses the route rows instead of deleting them.
-
-When the paid period ends, exclusives lock again. Every exclusive query re-reads the row. A hidden button is not the lock.
-
-In the build I demo day to day, those purchases are RevenueCat’s test store on the development app. A real phone preview can show the paywall screen. I have not shipped this as a store app, and I have not taken a real card payment. I say that before anyone asks whether artists are being paid.
-
-### What do artists actually see about money?
-
-**Interviewer:** You said demo earnings. What does that mean in the data?
-
-**You:** Each month I write a record of how that subscription would have looked after a store-style fee, then split across the routed artists. Seventy percent of the monthly price is the artist pool. That stands in for the usual store cut. The pool splits equally. The other thirty percent is labelled store fees. It is not a payout, and the screen says so.
-
-The record is written forward only. If someone changes their route in March, February does not get rewritten. That is the same instinct as the founding badge. The first ten routes ever started for an artist are founding. I count active and inactive rows, so someone leaving does not free a slot. Once earned, the badge is not recalculated.
-
-An artist sees their own supporters and their own demo numbers. Reading another artist’s supporter list is the privacy bug I test for. The listener count on an artist page is a number, not a list of names, so “who is listening right now” cannot leak. The count can be about a minute behind. That is a product decision. Exact presence would mean a write from every listener on a short timer, and write volume was the risk I was avoiding.
-
-### How does playback stay smooth?
-
-**Interviewer:** You mentioned a waveform. What did you refuse to do on the phone?
-
-**You:** Dragging a waveform has to move the audio with it. Decoding the file on the phone to draw that shape would be slow and would burn battery. When a track is uploaded, I slice the samples into a fixed number of peaks, scale them so the loudest slice is 1, and store that array on the track. The phone draws from the array. Seeking uses the audio player. The playable URL is fetched once for that track, not again on every drag frame.
-
-The visualizer, the animated waves, defaults off. A fan can turn it on. I did not want a shader running on every listen.
-
-The queue can contain a locked track. Playback skips it. A locked row does not open the paywall. Support starts from an explicit tap, not from “this song happened to be next.”
-
-### Where does the audio live, and what did that cost you?
-
-**Interviewer:** Media is where side projects get expensive. What happened?
-
-**You:** Track bytes live in Convex file storage. Egress is the word for bytes leaving the server when someone plays a file. Upload is not egress. Audio is heavy, so this meter moves faster than database reads.
-
-On the free plan that cap is shared by the team, not per app. This project crossed it during demo listens. I shortened the seed clips rather than treating a plan upgrade as the fix. I also do not prefetch a whole catalog.
-
-There is a second limit. A storage URL is long and hard to guess, and it is not tied to the signed-in person. Anyone holding the URL can fetch the bytes. So list responses do not include audio URLs. A URL is handed out by one function, after the access check, for the track about to play. If cost forced a move to object storage and a CDN later, the product rule would stay the same. Only the URL would change.
-
-### How do you search?
-
-**Interviewer:** “Rainy evening highlife” — does that work?
-
-**You:** Not in this version. Search matches artist and track names. A related list that finds tracks by meaning was designed, including a vector index, which is a list of numbers that captures what a piece of text means. I cut that from this version. Exact names are what a fan types when they already know who they want. Meaning search is a real feature, and it needs an embedding API, a key, and a quality bar I did not want to fake.
-
-The natural-language mix is in the same place. A fan would describe a mood and get a named, playable mix with one line of why, built only from tracks they can access. That is designed and not built. I would rather say “not in this version” than demo a hardcoded playlist and call it a model.
-
-### What is on the web, and what did you refuse to put there?
-
-**Interviewer:** Why can’t a fan just sign in on the website?
-
-**You:** Because the product decision was that the phone is the fan account. The website is the studio, the public page you can send someone, and a thin admin. A second fan account surface would mean a second place to get follow, exclusive playback, and purchases wrong. Purchases are mobile only, because that is where the stores are.
-
-A public artist, track, or mix URL still has to look like a real page. Public audio plays in a simple player. Exclusives stay locked. If the app is installed, the link can open it.
-
-### How does someone become an artist?
-
-**Interviewer:** You said fans do not upload. How does a new artist get in?
-
-**You:** From the phone, account settings, they submit a display name, a bio, and why. The public handle is derived from the display name. Status is none, pending, approved, or declined. One pending request at a time. They can ask again after a decline. They cannot ask again after an approval.
-
-An admin approves or declines. Approval creates the artist record and links it to that profile. That person then signs into the studio on the web and can upload. Seeded artists exist so the demo has a catalog on day one. They do not replace this path.
-
-The upload flow stores the audio, the artwork, and the peaks. A language-model copilot can suggest tags and a short note. The artist edits and confirms. Nothing publishes itself.
-
-### What would you do differently?
-
-**Interviewer:** What would you change, knowing what you know now?
-
-**You:** I would move audio off the database vendor’s file storage earlier, or keep the clips short from the first seed. I learned the cost meter by hitting it. The access rule was already right. The bytes were in the wrong cheap place for a music app.
-
-I would also finish push and offline only when I can test them on a real phone. Background audio, store purchases, and notifications do not prove themselves in a simulator. I installed the native libraries before the first phone builds so I would not spend a cloud build later just to add one package. That part I would repeat.
-
-I would not collapse entitlement and routing into one flag. That split is the product.
-
-### What is still open?
-
-**Interviewer:** What would you be embarrassed to discover I clicked?
-
-**You:** The natural-language mix is not built. Meaning search is not in this version. Push notifications are designed, including quiet hours on the server, and delivery is not finished. Offline downloads are the same: designed as files on the phone plus a queue of writes to replay later, not shipped. Password reset email is waiting on a mail provider. The low-power switch that forces the visualizer off needs a newer phone build, because that battery module is not in the binary I have now. The switch itself works. The waves can still be turned on by hand.
-
-I would also not claim real artist payouts, a tip jar, or web checkout. Those are out on purpose.
+I designed and built the whole thing solo. Expo on mobile, Next.js on web, and Convex as the entire backend. Convex is the database, auth, file storage, scheduled jobs, search, and the webhook endpoint, all in one place. That was on purpose, because every paid access decision has to live somewhere single and auditable.
 
 ---
 
-## If they keep pushing
+## Questions they actually ask
 
-**What is an entitlement?** The server’s record that this person is a paying supporter right now. Written only from RevenueCat. The phone reads it. The phone does not author it.
+### "So walk me through the project. What is it and what problem does it solve?"
 
-**What is a route?** The one to five artists that subscription is currently split across. Exclusive access uses the route, not the fact of payment alone.
+Streaming already exists. What doesn't exist, for a lot of rising African artists, is a clean way for a fan to put a few dollars a month behind specific people and get something back for it.
 
-**What is idempotent, in this webhook?** Running the same event twice produces one result. The event id is stored. The second delivery finds it and stops.
+Kindred is that. You sign up on the phone, follow artists, and stream what's public for free. If you subscribe, you pick one to five artists you already follow, and your money is split equally across them. That subscription unlocks their supporters-only tracks and posts. Adding another artist later doesn't start a second charge. It just changes who your existing subscription is routed to.
 
-**Why pause routes instead of deleting them?** A lapsed subscription should lock exclusives now and restore the same set when they pay again. Deleting the rows would throw away a decision the person already made. The founding count still includes inactive rows, so a pause does not reopen a founding slot.
+Artists are verified uploaders. They work from a web studio, not the phone. They publish or schedule a release, post an update to everyone or supporters only, and see their supporter list and a demo of how the month's money would split. There's a thin admin that approves people requesting to become artists and can hide or feature catalog items.
 
-**Why is the founding badge not “the ten people supporting them today”?** Because “first ten ever” is a promise. If it were “current top ten,” the badge would flicker every time someone cancelled. I do not want a badge that can be taken away by someone else’s churn.
+It's my own product, built to a locked spec. The catalog is seeded with openly-licensed audio, credited in-app. The earnings screen is clearly labelled as not a real payout.
 
-**Where does the access check live?** `convex/lib/access.ts` for the decision, `convex/lib/supporterAccess.ts` for loading the row and the routes. Call sites pass the gate in. Copying the if-statement into each query is how a variation becomes the bug.
+### "Who are the users, and what can each of them do?"
 
-**What stays on the device?** The playback queue, shuffle, repeat, and the visualizer toggle. Follows, reactions, routes, and the entitlement row stay on the server.
+Four roles.
 
-**How would you explain Convex to someone who uses AWS?** Login directory, document tables with indexes, object storage, scheduled functions instead of a queue, an HTTP endpoint for the webhook, full-text search for names. No CDN in this version, which is the cost risk I already hit.
+A free fan streams public tracks, follows artists, searches by name, reacts, and sees an approximate live listener count. No exclusives.
 
-**What breaks first if a lot of people actually listened?** File egress. The database reads are small. The audio bytes are not. The escape hatch is object storage with short-lived links, after the same access check.
+A supporter is a paying fan. Everything a fan does, plus the supporters-only tracks and posts from the artists in their route, plus their own impact stats. There's a founding badge if they were one of the first ten people ever to route to an artist. It sticks even if the artist blows up or other supporters leave.
+
+An artist is a fan account with an artist record attached. That's granted after they request it from the phone and an admin approves, or after an admin verifies them directly. Upload and scheduling are web-only.
+
+An admin approves or declines artist requests, verifies artists, hides or removes catalog items, and places featured discovery slots. They can't read anyone's private playlists or listening history.
+
+### "Draw me the architecture. What are the main pieces and how do they talk?"
+
+Three surfaces, one backend.
+
+Mobile is Expo. Feed, discovery, search, artist pages, the player, library, paywall, routing. Playback uses Expo's audio library. The queue, shuffle, and repeat state live on the device, because that's per-session state, not something to round-trip to a database. Everything else is Convex queries that stay subscribed, so a reaction or a listener count updates live for anyone looking at the same screen. Zustand holds only client extras like the visualizer toggle. There's deliberately no second cache in front of Convex for the same data.
+
+Web is one Next.js app on Vercel, split by route group into the artist studio, public share pages, and admin. Public pages play public audio and show a locked shell with "get the app" for exclusives. That app also serves the association files Apple and Google use to verify deep links.
+
+Convex is the entire backend. Database, email-and-password auth, file storage for audio and images, scheduled functions, full-text search, and the HTTP endpoint RevenueCat posts to. One backend was a choice, not laziness. I'll defend it if you want.
+
+### "Why one backend? Most people would reach for a separate auth provider, a queue, maybe a search service."
+
+Because every decision that matters in Kindred is an access decision, and access decisions are safest when there's exactly one place to get them right. The moment I have two systems that both know something about whether a person is a paying supporter, I have two permission models, and one of them will drift. That drift is how a non-supporter ends up with a playable URL.
+
+Convex already covers what I'd otherwise bolt on. Scheduled functions instead of a queue for scheduled releases and quiet-hours push. Full-text search instead of a search service. An HTTP action instead of a separate webhook handler. File storage instead of a bucket. So the cost of one backend here is mostly vendor lock-in, which I accept for a solo product. I keep the design describable in plain cloud terms so it travels. Managed login, document database with indexes, object storage, scheduled jobs, a webhook endpoint, search. The one genuinely unusual thing is that the database doesn't filter rows for me. My functions are the only line of defence. That's why the access checks are centralized.
+
+### "Why Convex specifically? Why not Firebase, or Supabase, or a plain Node API on Postgres?"
+
+I weighed exactly those. The deciding factor was that Kindred's core is live, authorized reads, and Convex gives me real-time subscriptions and server-side authorization in the same function, in TypeScript, with transactions.
+
+Take Firebase. Firestore gives real-time too, but its security lives in rules files, a separate little language, and my access check isn't a row predicate. It's "are you entitled and routed to this artist," which is two lookups. Expressing that in Firestore rules is painful, so in practice people push it into Cloud Functions and lose the real-time path. I'd rather have one place that's already both.
+
+Take Supabase. I like Postgres, and Supabase's row-level security is genuinely good for per-row rules. But my realtime needs and my access logic are both more custom than row-level security wants to be, and I'd still be writing a lot of Edge Functions. I'd be buying a relational database I'd then mostly talk to through functions anyway.
+
+Take plain Node plus Postgres. That's the most portable, and the one I'd reach for on a team that already runs it. The cost is that I'd hand-build the realtime layer, the file storage integration, the scheduler, and the webhook plumbing that Convex ships. For a solo portfolio product, that's weeks of undifferentiated work to rebuild what I get for free, and every one of those seams is a new place to get the entitlement check wrong.
+
+The honest downside of Convex is lock-in. It's a smaller ecosystem, and it's not SQL, so a migration means rewriting functions, not swapping a driver. I keep the data model and access rules plain enough that porting is "reimplement these functions against a new store," not "untangle a mystery."
+
+### "If Convex disappeared tomorrow, how would you rebuild this?"
+
+Postgres for the data, with the artist-route and entitlement tables mostly unchanged, since they're already relational in spirit. The access helpers port almost directly, because they're plain TypeScript, not Convex-specific. I'd replace subscriptions with Postgres logical replication or a lightweight pub/sub for the two things that need live updates, which are reactions and presence, and leave everything else on normal fetches. File storage moves to S3 or R2 with signed URLs, which is actually the direction I'd want for audio anyway. The scheduler becomes a cron plus a job table. The RevenueCat webhook becomes an ordinary HTTP route. The thing I'd protect through the migration is that entitlement stays server-written and every exclusive read re-checks it. That rule is independent of the database.
+
+### "Why React Native and Expo instead of native iOS and Android, or Flutter?"
+
+One codebase, one language, shared types with the web app and the backend, and I'm one person. That's most of it. Expo specifically for the managed native modules and EAS build and update, so I can ship over-the-air JavaScript updates without a store round-trip and only pay for a cloud build when native code changes.
+
+Native Swift and Kotlin would give the best possible craft, and for a company with separate iOS and Android teams that's often right. But it's two codebases and two skill sets for a solo product, and I'd lose the shared types that keep the client and server honest. Flutter is a strong single-codebase alternative. I didn't pick it because Dart wouldn't share types or validation with my TypeScript backend and web app, and that shared `packages/shared` is a real correctness win here. The place React Native bites is deep audio and animation craft, which is exactly where I spent extra effort. The Skia waveform, the shader visualizer, background audio. So I went in knowing that was the trade.
+
+### "Why RevenueCat instead of talking to StoreKit and Play Billing directly?"
+
+Because subscriptions are a surprising amount of edge-case handling. Renewals, grace periods, billing retries, refunds, restores. I'd have to implement all of it twice, once per store, and keep a webhook pipeline correct. RevenueCat normalizes both stores behind one SDK and one webhook, and gives me restore-purchases and a server API to reconcile when a webhook lags. For a solo build, reimplementing that is weeks of work on the one surface where a bug means someone pays and doesn't get access, or gets access without paying. The trade is a third-party dependency in the money path. I mitigate it by treating my own Convex entitlement record as the source of truth, not RevenueCat's cache.
+
+### "What was the hardest part technically?"
+
+Getting access right, because it's two questions that people instinctively collapse into one. Not "did they pay," but "did they pay, and is this specific artist in their current route."
+
+`loadSupporterAccess` reads the entitlement record and the active routes for a person. `decideTrackAccess` then allows a supporters-only track only if they're entitled and routed to that artist, or if they're the artist who owns it. The same helper backs posts, downloads, mixes, search results, and the public web pages. So a supporter routed to artist A is correctly refused artist B's exclusive, even though their card is being charged. That exact case has a test, because it's the most plausible bug I could ship.
+
+A lot of product rules fall straight out of that two-part check. Opening a locked track remembers which artist you came from and forces them into your first saved route. The route is capped at one to five and can't be empty while you're subscribed. You can't unfollow someone who's still in your route. And one subscription always covers the whole set, so adding an artist never starts a second charge.
+
+### "Walk me through a purchase end to end. Where could it go wrong?"
+
+Both price tiers, $4.99 and $9.99, grant the same access. The difference only shows up in how the demo earnings split looks. Apple or Google takes the payment. RevenueCat sits in front of both stores so I'm not writing StoreKit and Play Billing twice, and I set the RevenueCat user id to the Convex profile id so a webhook can find the right person without guessing.
+
+RevenueCat posts to `/revenuecat/webhook`. The handler checks a shared secret, then a mutation writes the entitlement. The thing that makes it safe is idempotency. I store the event id, and if RevenueCat retries the same event, the second write is a no-op. Without that, a retried "subscription started" could create a duplicate record or a double month of demo earnings.
+
+There are three failure modes I actually handle. The webhook lags, so there's a server-side sync that calls RevenueCat's API directly when the record looks stale. A reinstall loses local state, so restore purchases re-reads from the store and the backend rewrites the record. The saved route comes back with it, because cancelling pauses the route rows rather than deleting them. And when the paid period ends, exclusives re-lock, because every exclusive query re-reads the record rather than trusting a cached flag.
+
+The one thing the phone never does is write "I'm a supporter." If it could, a modified build would unlock everything.
+
+### "You mentioned demo earnings. How does that work in the data?"
+
+Each month I write a record of how that subscription would split. Seventy percent is the artist pool, standing in for what's left after a store cut. That pool divides equally across the routed artists. The other thirty is labelled store fees. The screen says, in words, that it isn't a payout.
+
+The important property is that it's written forward-only. Change your route in March and February is never recomputed. It's the same instinct as the founding badge. The first ten routes ever started for an artist are founding. I count both active and inactive route rows, so someone leaving doesn't reopen a slot, and once earned it's never recalculated. These are money-adjacent facts, and money-adjacent facts shouldn't silently rewrite themselves.
+
+An artist only ever sees their own supporters and their own numbers. One artist reading another's supporter list is a privacy bug I wrote a test for. And the live listener count is deliberately a number, never a list of names, so "who's listening to me right now" can't leak. It's allowed to be about a minute stale, which is a product decision that keeps presence write-volume low.
+
+### "How do you keep playback and the waveform scrubbing smooth?"
+
+The waveform you drag has to move the audio in lockstep. Decoding the audio file on the phone to draw that shape would be slow and drain battery. So at upload time I slice the samples into a fixed number of peaks, normalize them, and store that array on the track. The phone just draws the array. Seeking is handled by the audio player. And the playable URL is fetched once per track, not re-resolved on every drag frame.
+
+The visualizer, which is the animated waves, defaults off, and the fan opts in. I didn't want a shader running on every listen. And a locked track sitting in the queue is skipped on playback and never pops the paywall. Support only ever starts from a deliberate tap.
+
+### "Audio is expensive to serve. What happened with storage and cost?"
+
+That's the bill that actually bit me. Audio bytes live in Convex file storage. Egress, which is the bytes leaving the server when someone plays, is the meter that moves fastest for a music app, and on the free plan that cap is shared across the whole team, not per app. I crossed it during demo listening. The right fix was shorter seed clips and not prefetching the catalog, not blindly upgrading the plan.
+
+There's also a security property here. A Convex storage URL is long and unguessable, but it isn't tied to a logged-in user, so anyone holding it can fetch the bytes. So audio URLs never appear in list responses or crawlable HTML. One function mints a URL, after the access check, for the single track about to play. If cost ever forced a move to object storage with signed links, the product rule wouldn't change. Only the URL would.
+
+### "How does search work?"
+
+Exact name match on artists and tracks, and I'll be honest about where I drew the line. I designed meaning-based search too, using a vector index, which turns text into numbers that capture its meaning and finds tracks whose numbers sit close to your query. I cut it from this version. Exact names are what a fan types when they already know who they want, and real semantic search needs an embedding API, a cost per query, and a quality bar I didn't want to fake with a canned list.
+
+The natural-language mix feature is in the same bucket. Designed, not built. I'd rather tell you it's not in this version than demo a hardcoded playlist and call it a model.
+
+### "Why can't a fan sign in on the website?"
+
+Because the product decision was that the phone is the fan account, full stop. The web does exactly three jobs. The artist studio, public share pages, and admin. A second fan surface on web would be a second place to get follow, exclusive playback, and purchases wrong, and purchases have to be mobile anyway because that's where the stores are. Public pages still have to look real, so public audio plays in a simple player, exclusives stay locked, and an installed app can intercept the link.
+
+### "How does someone become an artist?"
+
+From the phone, in account settings, a fan submits a display name, bio, and a short why. The public handle is derived from the display name. Status moves through none, pending, approved, or declined, one pending request at a time, and you can re-request after a decline but not after an approval. An admin approves or declines. Approval creates the artist record and links it to that profile, and from then on they sign into the web studio and can upload. Seeded artists exist so the demo has a catalog on day one, but they don't bypass this path. On upload, the audio, artwork, and peaks are stored, an AI copilot suggests tags and a note, the artist edits and confirms, and nothing ever publishes itself.
+
+### "Walk me through your data model."
+
+It's grouped by what the tables serve. Accounts and roles are `profiles` (one per person), `artists` (a profile with an approved artist record), `artistRequests`, and `artistStats` for counters I don't want to recompute per screen. Catalog is `tracks` (audio file, artwork, visibility, publish state, the precomputed peaks array, tags, an optional embedding), `updatePosts`, and `files`. Connection is `follows`, `reactions`, `presenceHeartbeats`, and `listenEvents`. Money is the sharp part. That's `entitlements` (are you paying, written only by the server), `supportRoutes` (the one-to-five artists, with a founding flag), and `demoEarnings` (written forward-only). Personal collections are `libraryItems`, `playlists`, `playlistEntries`, and `mixes`. Delivery is `thankYous`, `pushTokens`, and `notificationSettings`.
+
+Two modelling calls I'd highlight. A follow is a prerequisite row, not just a UI state, because routing requires it and the feed and push targeting read it. And routing is its own table rather than an array on the profile, because each route carries its own founding flag and active state, and I need to query "who routes this artist" for the founding count, which is awkward against an embedded array.
+
+### "How does this actually get tested and shipped?"
+
+CI is GitHub Actions. On every pull request it runs ESLint, Prettier, TypeScript type-check, and the test suites, on Node 22 with a frozen lockfile, and merge protection blocks the merge if any fail. Backend tests run in Vitest with Convex's test harness. The apps run in Jest. The tests I care most about are the access ones. A supporter routed to A is refused B's exclusive, the webhook is idempotent, an artist can't read another artist's supporters.
+
+Shipping is two paths. Web is Vercel, which deploys previews per branch and production on merge. Mobile is EAS, with a preview workflow that cooks a build for real-device testing. I install native libraries before the first build on purpose, because a native package added later can't run until another cloud build, and the free plan's monthly build quota is small. JavaScript-only changes go out as over-the-air updates instead of a new build.
+
+There's no formal migration tool. Convex applies the schema on push, so a shape change is a schema edit plus a one-off backfill function when needed. On a team with a live database I'd want a more disciplined migration story, and I'd say so.
+
+### "What was the hardest bug you had to track down?"
+
+The one that shaped the whole money path. Right after a test purchase, the app sometimes still showed the user as locked. The symptom was "I paid and I'm still a free fan."
+
+I traced it to timing. I'd assumed RevenueCat's webhook would land before the user got back to the app, and sometimes it didn't, so my entitlement record didn't exist yet when the exclusive query ran. The tempting fix was to let the client write "I'm a supporter" after a successful purchase. That would have been a security hole, because then a tampered client could grant itself access.
+
+The fix was two parts. I kept the webhook as the normal path, but added a server-side sync that calls RevenueCat's API directly when the record looks stale or missing, so the server reconciles from the real source instead of trusting the phone. And I made the webhook idempotent with a stored event id, because once I was reconciling from two paths, the same event could arrive twice and I couldn't allow a double write. Prevention is that the entitlement is still only ever server-written. The race got slower and safer, not papered over.
+
+### "Beyond login, how did you think about security?"
+
+A few layers. Authorization is the big one, and it's all server-side. The client never decides entitlement or routing, and every exclusive read re-checks. Input validation is at the boundary, because every Convex function declares validators for its arguments, so a malformed or unexpected payload is rejected before my code runs. The RevenueCat webhook checks a shared secret before it does anything. Secrets like the LLM key, the RevenueCat key, and the webhook secret live in Convex, Vercel, and EAS environment variables, never in Git or the client bundle. And the audio-URL rule from earlier is a security decision. A storage URL isn't a credential, so I only mint it after the access check and never put it anywhere crawlable.
+
+Here's where I'm honest about gaps. There's no rate limiting on public mutations yet. At a seeded demo's scale it hasn't mattered, but if this had real traffic, reactions, follows, and the artist-request form are the endpoints I'd put a limiter in front of first. Convex has a rate-limiter component I'd reach for.
+
+### "How would you know if something broke in production?"
+
+Today I'd lean on the Convex dashboard, which shows function logs, errors, and per-function performance, plus Vercel's logs for the web app and EAS and store crash reporting for mobile. Convex's usage view is how I caught the file-egress problem. For a real product that's not enough, and I'd say so. I'd want structured alerting on the money paths specifically. A failed webhook, an entitlement write that errors, a spike in access-denied on exclusives. Those are the failures that cost trust rather than just annoy. The honest version is that I have the logs and the dashboards, not a paged on-call setup, because this isn't carrying real users.
+
+### "You built this solo. How did you handle code review, and how would you work on a team?"
+
+I kept the discipline even without a second reviewer. Every change went through a branch per ticket, a pull request, CI gates, and the same PR description format every time, with sections for Why, What, How, and Testing, so there's a written rationale on each change rather than a pile of commits to main. The architecture decisions live in the system-design docs, which is my stand-in for the design review a team would do before building.
+
+For an automated reviewer I leaned on what I had at no cost, mainly AI assistance inside my editor to sanity-check diffs before opening a PR. The tool I'd actually want is a dedicated PR reviewer like CodeRabbit, which reads the whole diff in context and flags issues on the pull request. I've held off paying for it deliberately. It's a per-seat cost I'd put on a funded project, not on a solo portfolio build. That's the same prioritization I apply everywhere here. I don't take on a recurring bill until a paying project justifies it, and I'd add CodeRabbit on day one of a client job precisely because catching a bug in review is cheaper than catching it in production.
+
+What I'd genuinely gain from a team, or from that reviewer, is the adversarial read on the access logic. The bug I'm most afraid of is a quiet permission mistake, and a second pair of eyes on those functions is worth more than on anything else. So on a team I'd ask for review specifically on the authorization helpers and the webhook, and I'd be the reviewer who pushes on "what happens if this runs twice" and "what does a non-supporter see here."
+
+### "How did you decide what to cut under the deadline?"
+
+By protecting the thing that makes Kindred Kindred and cutting around it. The non-negotiables were the money path and access. Purchase, entitlement, routing, exclusives. Everything else was negotiable against the date. So meaning-based search got cut to exact-name search, the natural-language mix got deferred, and push and offline were pushed later. None of them change what the product fundamentally is, and each has a real external dependency, like an embedding API, a mail provider, or device testing, that I didn't want to half-build. The rule I used was to cut features whole, with a written note, rather than shipping five things at eighty percent.
+
+### "What would you do differently?"
+
+Two things. I'd move audio off database file storage sooner, or keep the seed clips short from day one, because I learned the egress cost by hitting the wall rather than predicting it. The access rule was already right. The bytes were just in the wrong cheap place for a media app.
+
+And I'd sequence the device-only features, push and offline downloads, so I finish them only when I can test on a real phone, since a simulator can't prove background audio or notifications. One thing I'd keep. I installed the native libraries before the first phone builds, so I didn't later burn a limited cloud build just to add a package.
+
+The one thing I would not change is splitting entitlement from routing. That split is the product.
+
+### "What's still unfinished?"
+
+The natural-language mix isn't built. Meaning-based search isn't in this version. Push notifications are designed, including server-side quiet hours, but delivery isn't finished. Offline downloads are designed, with files on the device plus an outbox of writes to replay, but not shipped. Password-reset email is waiting on a mail provider. And the low-power switch that forces the visualizer off needs a newer phone build, because the battery module isn't in my current binary. The toggle itself works. Real payouts, tipping, and web checkout are deliberately out of scope.
 
 ---
 
-## Say this before they ask
+## If they push harder
 
-- This is my own product, built to a real product lock. It is not a live store app with paying fans.
-- Demo earnings are a labelled illustration. Artists are not being paid.
-- Practice purchases run on the development app through RevenueCat’s test store.
-- Search is exact name match. The mix-from-a-sentence feature is not built.
-- Push notifications and offline downloads are designed and not finished.
-- Audio URLs are minted only after the access check. The URL itself is not a login.
-- I would not quote monthly listeners, revenue, or conversion. I do not have production numbers. The scale I designed for is a small audience and a seeded catalog.
+- **"Define entitlement."** The backend's record that a person is a paying supporter right now. Written only from RevenueCat. The phone reads it, never writes it.
+- **"Define a route."** The one-to-five artists the subscription is currently split across. Exclusive access checks the route, not just the fact of payment.
+- **"What does idempotent mean in your webhook?"** Processing the same event twice yields one result. I store the event id, and the second delivery finds it and stops.
+- **"Why pause routes instead of deleting on cancel?"** So re-subscribing restores the exact set the person chose, and so the founding count, which includes inactive rows, doesn't reopen a slot.
+- **"Why 'first ten ever' for founding, not 'current top ten'?"** Because a badge that someone else's churn can revoke isn't a badge. First-ever is a promise. Current-top flickers.
+- **"Where does the access check live?"** `convex/lib/access.ts` for the decision, and `convex/lib/supporterAccess.ts` for loading the record and routes. Call sites pass the gate in. Copy-pasting the check into each query is how a variant becomes the bug.
+- **"What breaks first under real load?"** File egress, not query volume. The database reads are small. The audio bytes aren't. The escape hatch is object storage with short-lived links behind the same check.
+- **"Explain this stack to an AWS person."** Cognito-ish login, a document database with indexes instead of RDS, S3-like object storage, scheduled functions instead of SQS, an API-Gateway-style HTTP endpoint for the webhook, and built-in search instead of OpenSearch. No CDN in this version, which is the cost risk I already hit.
+
+---
+
+## Raise these yourself before they find them
+
+- It's a portfolio build to a real spec, not a live store app with paying fans.
+- Demo earnings are a labelled illustration. Artists aren't being paid.
+- Purchases run on RevenueCat's test store on the dev build.
+- Search is exact-name only. The sentence-to-mix feature isn't built.
+- Push and offline downloads are designed, not finished.
+- Audio URLs are minted only after the access check. The URL itself isn't a credential.
+- I won't quote monthly listeners, revenue, or conversion, because I don't have production numbers. I designed for a small audience and a seeded catalog.

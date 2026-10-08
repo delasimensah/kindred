@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import type { ComponentProps } from "react";
+import { Keyboard, ScrollView } from "react-native";
 
 import type { RecentArtist, RecentTrack } from "@/hooks";
 
@@ -75,6 +76,88 @@ describe("SearchTabScreen", () => {
     expect(screen.queryByText("Top results")).toBeNull();
   });
 
+  it("covers the genres with recent searches, then with results", () => {
+    const onChangeDraft = jest.fn();
+    const recentArtist: RecentArtist = {
+      kind: "artist",
+      artistId: artist.artistId,
+      name: artist.name,
+      detail: artist.detail,
+      avatarUrl: null,
+    };
+    renderSearch({
+      genres: [{ genre: "Highlife", artworkUrl: null }],
+      recent: [recentArtist],
+      onChangeDraft,
+    });
+    expect(screen.getByLabelText("Open Highlife")).toBeTruthy();
+    expect(screen.queryByText("Recent")).toBeNull();
+
+    fireEvent(screen.getByLabelText("Search artists and tracks"), "focus");
+    expect(screen.getByText("Recent")).toBeTruthy();
+    expect(screen.queryByLabelText("Open Highlife")).toBeNull();
+
+    fireEvent.press(screen.getByLabelText("Cancel search"));
+    expect(onChangeDraft).toHaveBeenCalledWith("");
+    expect(screen.getByLabelText("Open Highlife")).toBeTruthy();
+    expect(screen.queryByText("Recent")).toBeNull();
+  });
+
+  it("keeps recent searches after the text is cleared until cancel", () => {
+    const recentArtist: RecentArtist = {
+      kind: "artist",
+      artistId: artist.artistId,
+      name: artist.name,
+      detail: artist.detail,
+      avatarUrl: null,
+    };
+    const props = {
+      draft: "",
+      onChangeDraft: jest.fn(),
+      artists: [artist],
+      tracks: [track],
+      isLoading: false,
+      hasQuery: false,
+      recent: [recentArtist],
+      genres: [{ genre: "Highlife", artworkUrl: null }],
+      onOpenGenre: jest.fn(),
+      onOpenRecentArtist: jest.fn(),
+      onPlayRecentTrack: jest.fn(),
+      onForgetRecent: jest.fn(),
+      onClearRecent: jest.fn(),
+      playingTrackId: null,
+      isPlaying: false,
+      onToggleFollow: jest.fn(),
+      onOpenArtist: jest.fn(),
+      onPlay: jest.fn(),
+      onPlayNext: jest.fn(),
+      onAddToQueue: jest.fn(),
+      onToggleLike: jest.fn(),
+    };
+    const view = render(<SearchTabScreen {...props} />);
+    fireEvent(screen.getByLabelText("Search artists and tracks"), "focus");
+    const dismiss = jest
+      .spyOn(Keyboard, "dismiss")
+      .mockImplementation(() => {});
+    fireEvent(screen.UNSAFE_getByType(ScrollView), "scrollBeginDrag");
+    expect(dismiss).toHaveBeenCalled();
+    dismiss.mockRestore();
+
+    view.rerender(<SearchTabScreen {...props} draft="ama" hasQuery />);
+    expect(screen.getByText("Top results")).toBeTruthy();
+    expect(screen.queryByText("Recent")).toBeNull();
+
+    view.rerender(
+      <SearchTabScreen {...props} draft="" hasQuery artists={[artist]} />
+    );
+    expect(screen.getByText("Recent")).toBeTruthy();
+    expect(screen.queryByText("Top results")).toBeNull();
+    expect(screen.queryByLabelText("Open Highlife")).toBeNull();
+
+    fireEvent.press(screen.getByLabelText("Cancel search"));
+    expect(screen.getByLabelText("Open Highlife")).toBeTruthy();
+  });
+
   it("opens a genre from the search home", () => {
     const onOpenGenre = jest.fn();
     renderSearch({
@@ -93,6 +176,7 @@ describe("SearchTabScreen", () => {
     renderSearch({
       draft: "ama",
       hasQuery: true,
+      genres: [{ genre: "Highlife", artworkUrl: null }],
       artists: [artist],
       tracks: [track, locked],
       onOpenArtist,
@@ -100,6 +184,7 @@ describe("SearchTabScreen", () => {
       onPlay,
     });
     expect(screen.getByText("Top results")).toBeTruthy();
+    expect(screen.queryByLabelText("Open Highlife")).toBeNull();
     fireEvent.press(screen.getByLabelText("Open Amaara Mensah"));
     fireEvent.press(screen.getByLabelText("Follow Amaara Mensah"));
     fireEvent.press(screen.getByLabelText("Play Asase"));
@@ -112,6 +197,7 @@ describe("SearchTabScreen", () => {
 
   it("shows recent-row skeletons while saved searches load", () => {
     renderSearch({ recent: null });
+    fireEvent(screen.getByLabelText("Search artists and tracks"), "focus");
     expect(screen.getByTestId("recent-search-skeleton")).toBeTruthy();
     expect(screen.getAllByTestId("skeleton-card").length).toBe(16);
     expect(screen.queryByText("Find artists and tracks")).toBeNull();
@@ -152,6 +238,7 @@ describe("SearchTabScreen", () => {
       onForgetRecent,
       onClearRecent,
     });
+    fireEvent(screen.getByLabelText("Search artists and tracks"), "focus");
     fireEvent.press(screen.getByLabelText("Open Amaara Mensah"));
     fireEvent.press(screen.getByLabelText("Play Asase"));
     fireEvent.press(screen.getByLabelText("Remove Asase from recent searches"));

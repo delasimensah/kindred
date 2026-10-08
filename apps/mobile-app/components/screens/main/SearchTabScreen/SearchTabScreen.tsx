@@ -1,20 +1,20 @@
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
+  Keyboard,
   Pressable,
   ScrollView,
-  TextInput,
   useWindowDimensions,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { COLORS, FONTS } from "@/constants";
+import { COLORS } from "@/constants";
 import type { RecentSearchItem } from "@/hooks";
 
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
+import SearchField from "./SearchField";
 import SearchGenreTiles, { type SearchGenreTile } from "./SearchGenreTiles";
 import { RecentSearchesSkeleton, RecentSearchRow } from "./SearchRecentRows";
 import {
@@ -93,8 +93,12 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
 }) => {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const [active, setActive] = useState(false);
+  const showingResults = hasQuery && draft.trim().length > 0;
+  const overlay = active || showingResults;
   const hasResults = artists.length > 0 || tracks.length > 0;
   const showIdleEmpty =
+    !overlay &&
     !hasQuery &&
     recent !== null &&
     recent.length === 0 &&
@@ -115,47 +119,18 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
         }}
       >
         <Text className="font-display-bold text-3xl text-text">Search</Text>
-        <HStack
-          spacing="sm"
-          align="center"
-          className="mt-4 rounded-full border border-white/10 bg-surface px-4"
-          style={{ height: 48 }}
-        >
-          <Ionicons name="search" size={16} color={`${COLORS.text}66`} />
-          <TextInput
-            accessibilityLabel="Search artists and tracks"
-            placeholder="Artists and tracks"
-            placeholderTextColor={`${COLORS.text}59`}
-            value={draft}
-            onChangeText={onChangeDraft}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="search"
-            className="flex-1 text-[15px] text-text"
-            style={{
-              flex: 1,
-              fontFamily: FONTS.regular,
-              fontSize: 15,
-              paddingVertical: 0,
-              color: COLORS.text,
-            }}
-          />
-          {draft.length > 0 ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Clear search"
-              onPress={() => {
-                onChangeDraft("");
-              }}
-            >
-              <Ionicons
-                name="close-circle"
-                size={18}
-                color={`${COLORS.text}66`}
-              />
-            </Pressable>
-          ) : null}
-        </HStack>
+        <SearchField
+          draft={draft}
+          overlay={overlay}
+          onChangeDraft={onChangeDraft}
+          onFocus={() => {
+            setActive(true);
+          }}
+          onCancel={() => {
+            setActive(false);
+            onChangeDraft("");
+          }}
+        />
       </View>
 
       {showIdleEmpty ? (
@@ -179,15 +154,19 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
           style={{ flex: 1, backgroundColor: COLORS.page }}
           contentInsetAdjustmentBehavior="automatic"
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          onScrollBeginDrag={() => {
+            Keyboard.dismiss();
+          }}
           contentContainerStyle={{
             paddingBottom: 32,
             paddingHorizontal: 24,
             minHeight: height,
           }}
         >
-          {isLoading ? <SearchResultsSkeleton /> : null}
+          {showingResults && isLoading ? <SearchResultsSkeleton /> : null}
 
-          {!isLoading && hasQuery && !hasResults ? (
+          {showingResults && !isLoading && !hasResults ? (
             <View>
               <CollectionEmptyState
                 compact
@@ -198,13 +177,30 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
             </View>
           ) : null}
 
-          {!hasQuery ? (
+          {!overlay ? (
             <SearchGenreTiles genres={genres} onOpen={onOpenGenre} />
           ) : null}
 
-          {!hasQuery && recent === null ? <RecentSearchesSkeleton /> : null}
+          {overlay && !showingResults && recent === null ? (
+            <RecentSearchesSkeleton />
+          ) : null}
 
-          {!hasQuery && recent !== null && recent.length > 0 ? (
+          {overlay &&
+          !showingResults &&
+          recent !== null &&
+          recent.length === 0 ? (
+            <CollectionEmptyState
+              compact
+              icon="search"
+              title="Find artists and tracks"
+              subtitle="Profiles you open and tracks you play show up here."
+            />
+          ) : null}
+
+          {overlay &&
+          !showingResults &&
+          recent !== null &&
+          recent.length > 0 ? (
             <VStack spacing="sm">
               <HStack spacing="sm" align="center" justify="between">
                 <Text className="font-app-semibold text-xs uppercase tracking-wide text-text/50">
@@ -248,7 +244,7 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
             </VStack>
           ) : null}
 
-          {!isLoading && hasResults ? (
+          {showingResults && !isLoading && hasResults ? (
             <VStack spacing="sm" style={{ gap: 12 }}>
               <Text className="font-app-semibold text-xs uppercase tracking-wide text-text/50">
                 Top results

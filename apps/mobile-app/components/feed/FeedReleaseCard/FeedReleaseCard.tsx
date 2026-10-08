@@ -79,12 +79,14 @@ const FeedReleaseCard: React.FC<FeedReleaseCardProps> = ({
               spacing="none"
               align="center"
               justify="center"
-              className="h-10 w-10 rounded-full bg-primary"
+              className={`h-10 w-10 rounded-full ${
+                playing ? "bg-primary" : "bg-text/10"
+              }`}
             >
               <Ionicons
                 name={playing ? "pause" : "play"}
                 size={14}
-                color={COLORS.textOnPrimary}
+                color={playing ? COLORS.textOnPrimary : COLORS.text}
               />
             </HStack>
           </Pressable>

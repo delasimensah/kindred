@@ -9,6 +9,7 @@ import GetTheAppButton from "./GetTheAppButton";
 import PublicGetAppModal from "./PublicGetAppModal";
 import PublicPlayer from "./PublicPlayer";
 import { usePublicPlayer } from "./publicPlayerStore";
+import PublicStudioLink from "./PublicStudioLink";
 
 const PublicShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const playerOpen = usePublicPlayer((state) => state.queue.length > 0);
@@ -28,12 +29,15 @@ const PublicShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             Kindred
           </span>
         </Link>
-        <GetTheAppButton
-          iconSize={14}
-          className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-5"
-        />
+        <div className="flex items-center gap-3 sm:gap-5">
+          <PublicStudioLink />
+          <GetTheAppButton
+            iconSize={14}
+            className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-5"
+          />
+        </div>
       </header>
-      <div className={playerOpen ? "pb-40" : ""}>{children}</div>
+      <div className={playerOpen ? "pb-24 md:pb-28" : ""}>{children}</div>
       <PublicPlayer />
       <PublicGetAppModal />
     </div>

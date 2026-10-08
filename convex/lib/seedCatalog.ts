@@ -7,6 +7,8 @@ export const SEED_TRACK_COUNT = 500;
 export const SEED_TRACK_CHUNK = 10;
 
 const PUBLISHED_BASE_MS = Date.UTC(2026, 0, 15);
+/** Asase is Amaara's newest single, so it sits after every other seed track. */
+const ASASE_PUBLISHED_MS = Date.UTC(2026, 8, 28);
 const DAY_MS = 86_400_000;
 
 export type SeedArtist = {
@@ -284,8 +286,9 @@ export function buildTrackPlan(): SeedTrackPlan[] {
           : {}),
         ...(state === "published"
           ? {
-              publishedAt:
-                PUBLISHED_BASE_MS + (isAsase ? 1000 : index) * DAY_MS,
+              publishedAt: isAsase
+                ? ASASE_PUBLISHED_MS
+                : PUBLISHED_BASE_MS + index * DAY_MS,
             }
           : { publishAt: Date.UTC(2026, 9, 1) + index * DAY_MS }),
       });

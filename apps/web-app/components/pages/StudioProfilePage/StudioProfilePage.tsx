@@ -5,6 +5,7 @@ import { Button, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconEye } from "@tabler/icons-react";
 import { useMutation, useQuery } from "convex/react";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { uploadStudioImage } from "@/utils";
@@ -168,12 +169,13 @@ const StudioProfilePage: React.FC = () => {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <Button
+            component={Link}
+            href={`/artist/${profile.handle}`}
             variant="default"
-            disabled
             leftSection={<IconEye size={16} />}
-            className="h-auto rounded-xl border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-text/50"
+            className="h-auto rounded-xl border-white/10 bg-transparent px-5 py-3 text-sm font-medium text-text hover:bg-white/5"
           >
-            Preview page
+            View public page
           </Button>
           <Button
             loading={isSaving}
@@ -197,9 +199,7 @@ const StudioProfilePage: React.FC = () => {
             className="space-y-6 rounded-2xl border border-white/5 bg-surface p-7"
             onSubmit={form.onSubmit(onSave)}
           >
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-text/80">
-              Basic info
-            </h2>
+            <h2 className="text-base font-semibold text-text">Basic info</h2>
             <TextInput
               label="Display name"
               classNames={{

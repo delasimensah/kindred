@@ -291,6 +291,27 @@ export const getMine = authedQuery({
   },
 });
 
+/** The artist's own audio in any state, so Studio can play drafts and supporters-only tracks. */
+export const playbackUrl = authedQuery({
+  args: { trackId: v.id("tracks") },
+  returns: v.union(
+    v.object({ audioUrl: v.string(), durationMs: v.number() }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    const { artist } = await requireVerifiedArtist(ctx);
+    const track = await ctx.db.get(args.trackId);
+    if (track === null || track.artistId !== artist._id) {
+      return null;
+    }
+    const audioUrl = await fileUrl(ctx, track.audioFileId);
+    if (audioUrl === null) {
+      return null;
+    }
+    return { audioUrl, durationMs: track.durationMs };
+  },
+});
+
 export const generateUploadUrl = authedMutation({
   args: {},
   returns: v.string(),

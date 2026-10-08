@@ -80,6 +80,8 @@ const artistProfileValidator = v.object({
   avatarUrl: v.union(v.string(), v.null()),
   coverUrl: v.union(v.string(), v.null()),
   isFollowed: v.boolean(),
+  followerCount: v.number(),
+  supporterCount: v.number(),
   /** Approximate live listeners; number only, never identities. */
   liveListenerCount: v.number(),
 });
@@ -101,6 +103,10 @@ export const get = authedQuery({
         q.eq("artistId", artist._id).gt("lastBeatAt", cutoff)
       )
       .collect();
+    const stats = await ctx.db
+      .query("artistStats")
+      .withIndex("by_artistId", (q) => q.eq("artistId", artist._id))
+      .unique();
     return {
       artistId: artist._id,
       name: artist.name,
@@ -108,6 +114,8 @@ export const get = authedQuery({
       avatarUrl: await fileUrl(ctx, artist.avatarFileId),
       coverUrl: await fileUrl(ctx, artist.coverFileId),
       isFollowed: follow !== null,
+      followerCount: stats?.followerCount ?? 0,
+      supporterCount: stats?.supporterCount ?? 0,
       liveListenerCount: live.length,
     };
   },
@@ -116,6 +124,7 @@ export const get = authedQuery({
 const supporterRowValidator = v.object({
   profileId: v.id("profiles"),
   displayName: v.string(),
+  avatarUrl: v.union(v.string(), v.null()),
   startedAt: v.number(),
   founding: v.boolean(),
 });
@@ -172,6 +181,7 @@ export const listSupporters = authedQuery({
       page.push({
         profileId: fan._id,
         displayName: fan.displayName,
+        avatarUrl: await fileUrl(ctx, fan.avatarFileId),
         startedAt: route.startedAt,
         founding: route.founding,
       });

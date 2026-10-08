@@ -59,6 +59,7 @@ export {
   libraryPlaylistHref,
   libraryPlaylistsHref,
   searchArtistHref,
+  searchGenreHref,
   searchArtistAlbumHref,
   searchArtistAlbumsHref,
   searchArtistTracksHref,

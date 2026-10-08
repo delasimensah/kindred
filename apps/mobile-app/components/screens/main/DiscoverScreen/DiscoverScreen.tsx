@@ -12,6 +12,7 @@ import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 import FeaturedArtistCard, {
   type DiscoverArtistCard,
+  FEATURED_CARD_HEIGHT,
 } from "../FeaturedArtistCard/FeaturedArtistCard";
 import RisingArtistCard from "../RisingArtistCard/RisingArtistCard";
 
@@ -145,20 +146,26 @@ function DiscoverSkeleton() {
         spacing="none"
         justify="between"
         className="overflow-hidden rounded-3xl bg-surface p-5"
-        style={{ height: 420 }}
+        style={{ height: FEATURED_CARD_HEIGHT }}
       >
-        <SkeletonCard width={72} height={22} radius={11} />
+        <VStack
+          spacing="none"
+          className="self-start rounded-full bg-primary px-3 py-1.5"
+        >
+          <Text className="font-app-bold text-xs text-textOnPrimary">
+            Featured
+          </Text>
+        </VStack>
         <VStack spacing="sm">
           <SkeletonCard width={cardWidth * 0.46} height={28} radius={6} />
           <SkeletonCard width={cardWidth * 0.62} height={12} radius={4} />
-          <SkeletonCard width={108} height={40} radius={20} />
+          <SkeletonCard width={96} height={40} radius={20} />
         </VStack>
       </VStack>
       <VStack spacing="sm">
-        <HStack spacing="sm" align="center" justify="between">
-          <SkeletonCard width={132} height={18} radius={6} />
-          <SkeletonCard width={56} height={14} radius={4} />
-        </HStack>
+        <Text className="font-app-semibold text-lg text-text">
+          Rising artists
+        </Text>
         <HStack spacing="md">
           {[0.7, 0.5, 0.62, 0.4].map((scale) => (
             <VStack

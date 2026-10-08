@@ -46,6 +46,8 @@ function renderSearch(
       isLoading={false}
       hasQuery={false}
       recent={[]}
+      genres={[]}
+      onOpenGenre={jest.fn()}
       onOpenRecentArtist={jest.fn()}
       onPlayRecentTrack={jest.fn()}
       onForgetRecent={jest.fn()}
@@ -71,6 +73,17 @@ describe("SearchTabScreen", () => {
       screen.getByText("Profiles you open and tracks you play show up here.")
     ).toBeTruthy();
     expect(screen.queryByText("Top results")).toBeNull();
+  });
+
+  it("opens a genre from the search home", () => {
+    const onOpenGenre = jest.fn();
+    renderSearch({
+      genres: [{ genre: "Highlife", artworkUrl: null }],
+      onOpenGenre,
+    });
+    fireEvent.press(screen.getByLabelText("Open Highlife"));
+    expect(onOpenGenre).toHaveBeenCalledWith("Highlife");
+    expect(screen.queryByText("Find artists and tracks")).toBeNull();
   });
 
   it("shows an artist before a track, and keeps a locked track locked", () => {

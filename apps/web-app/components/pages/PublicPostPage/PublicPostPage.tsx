@@ -65,7 +65,7 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
       {post.locked ? (
         <article className="overflow-hidden rounded-2xl border border-primary/20 bg-surface">
           <div className="p-6 sm:p-7">
-            <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+            <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">
               <IconLock size={10} aria-hidden />
               Exclusive
             </p>

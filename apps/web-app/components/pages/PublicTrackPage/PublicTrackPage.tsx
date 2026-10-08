@@ -67,7 +67,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
               </div>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+              <p className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">
                 <IconLock size={10} aria-hidden />
                 Exclusive
               </p>
@@ -92,7 +92,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
             className="h-52 w-52 rounded-2xl sm:h-56 sm:w-56"
           />
           <div className="min-w-0">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
+            <p className="mb-2 text-xs font-semibold text-primary">
               {track.kindLabel}
             </p>
             <Heading
@@ -143,16 +143,12 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
           <div className="grid grid-cols-1 gap-6 text-sm sm:grid-cols-3">
             {publishedAt !== null ? (
               <div>
-                <p className="mb-1.5 text-xs uppercase tracking-wider text-text/40">
-                  Released
-                </p>
+                <p className="mb-1.5 text-xs text-text/40">Released</p>
                 <p className="text-text/80">{releasedLabel(publishedAt)}</p>
               </div>
             ) : null}
             <div>
-              <p className="mb-1.5 text-xs uppercase tracking-wider text-text/40">
-                Duration
-              </p>
+              <p className="mb-1.5 text-xs text-text/40">Duration</p>
               <p className="text-text/80">
                 {formatVoiceDuration(track.durationMs)}
               </p>

@@ -133,6 +133,7 @@ describe("DiscoverScreen", () => {
     );
 
     expect(screen.getByTestId("discover-skeleton")).toBeTruthy();
-    expect(screen.getAllByTestId("skeleton-card").length).toBe(18);
+    expect(screen.getByText("Rising artists")).toBeTruthy();
+    expect(screen.getAllByTestId("skeleton-card").length).toBe(15);
   });
 });

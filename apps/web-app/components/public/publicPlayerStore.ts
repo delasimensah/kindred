@@ -9,6 +9,8 @@ export interface PublicQueueItem {
   artistName: string;
   artworkUrl: string | null;
   durationMs: number;
+  /** Set when the item was queued from a group, such as one album row. */
+  groupId?: string;
 }
 
 interface PublicPlayerState {
@@ -23,6 +25,7 @@ interface PublicPlayerState {
   next: () => void;
   previous: () => void;
   setPosition: (positionMs: number) => void;
+  clear: () => void;
 }
 
 export const usePublicPlayer = create<PublicPlayerState>((set, get) => ({
@@ -72,4 +75,5 @@ export const usePublicPlayer = create<PublicPlayerState>((set, get) => ({
     set({ positionMs: 0, generation: generation + 1 });
   },
   setPosition: (positionMs) => set({ positionMs }),
+  clear: () => set({ queue: [], index: 0, playing: false, positionMs: 0 }),
 }));

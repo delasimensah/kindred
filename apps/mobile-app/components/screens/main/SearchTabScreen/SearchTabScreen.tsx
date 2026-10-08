@@ -15,6 +15,7 @@ import type { RecentSearchItem } from "@/hooks";
 import CollectionEmptyState from "../../../ui/CollectionEmptyState/CollectionEmptyState";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
+import SearchGenreTiles, { type SearchGenreTile } from "./SearchGenreTiles";
 import { RecentSearchesSkeleton, RecentSearchRow } from "./SearchRecentRows";
 import {
   SearchArtistRow,
@@ -49,6 +50,8 @@ interface SearchTabScreenProps {
   isLoading: boolean;
   hasQuery: boolean;
   recent: RecentSearchItem[] | null;
+  genres: SearchGenreTile[] | null;
+  onOpenGenre: (genre: string) => void;
   onOpenRecentArtist: (artistId: string) => void;
   onPlayRecentTrack: (trackId: string) => void;
   onForgetRecent: (item: RecentSearchItem) => void;
@@ -72,6 +75,8 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
   isLoading,
   hasQuery,
   recent,
+  genres,
+  onOpenGenre,
   onOpenRecentArtist,
   onPlayRecentTrack,
   onForgetRecent,
@@ -89,7 +94,12 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const hasResults = artists.length > 0 || tracks.length > 0;
-  const showIdleEmpty = !hasQuery && recent !== null && recent.length === 0;
+  const showIdleEmpty =
+    !hasQuery &&
+    recent !== null &&
+    recent.length === 0 &&
+    genres !== null &&
+    genres.length === 0;
 
   return (
     <View
@@ -186,6 +196,10 @@ const SearchTabScreen: React.FC<SearchTabScreenProps> = ({
                 subtitle="Try another artist or track name."
               />
             </View>
+          ) : null}
+
+          {!hasQuery ? (
+            <SearchGenreTiles genres={genres} onOpen={onOpenGenre} />
           ) : null}
 
           {!hasQuery && recent === null ? <RecentSearchesSkeleton /> : null}

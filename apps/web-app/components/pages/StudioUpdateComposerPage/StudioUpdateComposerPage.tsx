@@ -76,9 +76,7 @@ const StudioUpdateComposerPage: React.FC = () => {
       <div className="grid max-w-[980px] grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <div className="rounded-2xl border border-white/5 bg-surface p-5 sm:p-7">
-            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
-              Audience
-            </h2>
+            <h2 className="mb-4 text-base font-semibold text-text">Audience</h2>
             <StudioChoiceCards
               name="audience"
               value={composer.audience}

@@ -6,10 +6,17 @@ import { COLORS } from "@/constants";
 import { PAYWALL_BULLETS, PAYWALL_PLANS } from "@/utils";
 
 import Button from "../../../ui/Button/Button";
+import PersonAvatar from "../../../ui/PersonAvatar/PersonAvatar";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 
+export interface PaywallArtist {
+  name: string;
+  avatarUrl: string | null;
+}
+
 interface PaywallSheetProps {
+  artist?: PaywallArtist | null;
   selectedPlanId: string;
   onSelectPlan: (planId: string) => void;
   onSubscribe: () => void;
@@ -21,6 +28,7 @@ interface PaywallSheetProps {
 }
 
 const PaywallSheet: React.FC<PaywallSheetProps> = ({
+  artist = null,
   selectedPlanId,
   onSelectPlan,
   onSubscribe,
@@ -47,22 +55,44 @@ const PaywallSheet: React.FC<PaywallSheetProps> = ({
         <ScrollView>
           <VStack spacing="lg" className="pt-6">
             <VStack spacing="sm" className="pr-8">
-              <VStack
-                align="center"
-                justify="center"
-                className="mb-1 h-11 w-11 rounded-2xl bg-primary"
-              >
-                <Ionicons name="heart" size={18} color={COLORS.page} />
-              </VStack>
+              {artist ? (
+                <PersonAvatar
+                  displayName={artist.name}
+                  imageUrl={artist.avatarUrl}
+                  size={56}
+                />
+              ) : (
+                <VStack
+                  align="center"
+                  justify="center"
+                  className="mb-1 h-11 w-11 rounded-2xl bg-primary"
+                >
+                  <Ionicons name="heart" size={18} color={COLORS.page} />
+                </VStack>
+              )}
               <Text className="font-display-bold text-[26px] leading-tight tracking-tight text-text">
-                Back the artists you believe in.
+                {artist
+                  ? `Support ${artist.name}`
+                  : "Back the artists you believe in."}
               </Text>
               <Text className="text-sm leading-relaxed text-text/60">
                 One subscription. Route it to up to 5 artists. Same access at
                 both prices.
               </Text>
             </VStack>
-            <VStack spacing="sm" className="pt-1">
+            <VStack spacing="sm">
+              {PAYWALL_BULLETS.map((bullet) => (
+                <HStack key={bullet} align="center" spacing="sm">
+                  <Ionicons
+                    name="checkmark-circle"
+                    size={16}
+                    color={COLORS.primary}
+                  />
+                  <Text className="text-sm text-text/80">{bullet}</Text>
+                </HStack>
+              ))}
+            </VStack>
+            <VStack spacing="sm">
               {PAYWALL_PLANS.map((plan) => {
                 const selected = plan.id === selectedPlanId;
                 return (
@@ -74,27 +104,11 @@ const PaywallSheet: React.FC<PaywallSheetProps> = ({
                     onPress={() => {
                       onSelectPlan(plan.id);
                     }}
-                    className={`relative rounded-2xl border-2 bg-surface p-5 ${
-                      plan.badge !== null ? "mt-2" : ""
-                    } ${selected ? "border-primary" : "border-transparent"}`}
+                    className={`rounded-2xl border-2 bg-surface px-4 py-3.5 ${
+                      selected ? "border-primary" : "border-transparent"
+                    }`}
                   >
-                    {plan.badge !== null ? (
-                      <Text className="absolute -top-3 left-5 rounded-full bg-primary px-2.5 py-1 font-app-bold text-[10px] uppercase tracking-wide text-page">
-                        {plan.badge}
-                      </Text>
-                    ) : null}
-                    <HStack align="center" justify="between">
-                      <VStack spacing="none">
-                        <Text className="font-app-semibold text-base text-text">
-                          {plan.name}
-                        </Text>
-                        <HStack align="end" spacing="xs" className="mt-1">
-                          <Text className="font-display-bold text-2xl text-text">
-                            {plan.price}
-                          </Text>
-                          <Text className="text-sm text-text/50">/ month</Text>
-                        </HStack>
-                      </VStack>
+                    <HStack align="center" spacing="md">
                       <VStack
                         align="center"
                         justify="center"
@@ -108,28 +122,34 @@ const PaywallSheet: React.FC<PaywallSheetProps> = ({
                           }`}
                         />
                       </VStack>
-                    </HStack>
-                    <VStack className="my-4 h-px bg-white/5" />
-                    <VStack spacing="sm">
-                      {PAYWALL_BULLETS.map((bullet) => (
-                        <HStack key={bullet} align="center" spacing="sm">
-                          <Ionicons
-                            name="checkmark-circle"
-                            size={12}
-                            color={COLORS.primary}
-                          />
-                          <Text className="text-sm text-text/75">{bullet}</Text>
+                      <VStack spacing="none" className="min-w-0 flex-1">
+                        <HStack align="center" spacing="sm">
+                          <Text className="font-app-semibold text-base text-text">
+                            {plan.name}
+                          </Text>
+                          {plan.badge !== null ? (
+                            <Text className="rounded-full bg-primary/15 px-2 py-0.5 font-app-semibold text-[11px] text-primary">
+                              {plan.badge}
+                            </Text>
+                          ) : null}
                         </HStack>
-                      ))}
-                    </VStack>
+                        <Text className="mt-0.5 text-xs text-text/50">
+                          {`${plan.artistShare} a month to your artists`}
+                        </Text>
+                      </VStack>
+                      <HStack align="end" spacing="xs">
+                        <Text className="font-display-bold text-xl text-text">
+                          {plan.price}
+                        </Text>
+                        <Text className="pb-0.5 text-xs text-text/50">
+                          / month
+                        </Text>
+                      </HStack>
+                    </HStack>
                   </Pressable>
                 );
               })}
             </VStack>
-            <Text className="px-2 text-center text-xs leading-relaxed text-text/40">
-              Both plans unlock the exact same features — a higher tier simply
-              sends more support to the artists you route to.
-            </Text>
             <VStack align="center" spacing="md" className="pt-1">
               <Button
                 text="Subscribe"

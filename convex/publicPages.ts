@@ -366,18 +366,23 @@ const browseReleaseValidator = v.object({
   href: v.string(),
 });
 
-async function firstPublicTrack(ctx: QueryCtx, artistId: Id<"artists">) {
+const FEATURED_TRACK_CAP = 3;
+
+async function newestPublicTracks(
+  ctx: QueryCtx,
+  artistId: Id<"artists">,
+  limit: number
+) {
   const published = await ctx.db
     .query("tracks")
     .withIndex("by_artist_state_publishedAt", (q) =>
       q.eq("artistId", artistId).eq("state", "published")
     )
     .order("desc")
-    .take(20);
-  return (
-    published.find((track) => !track.hidden && track.visibility === "public") ??
-    null
-  );
+    .take(40);
+  return published
+    .filter((track) => !track.hidden && track.visibility === "public")
+    .slice(0, limit);
 }
 
 export const browse = query({
@@ -386,14 +391,13 @@ export const browse = query({
     featured: v.union(
       v.object({
         ...browseArtistValidator.fields,
-        playTrack: v.union(
+        playTracks: v.array(
           v.object({
             trackId: v.id("tracks"),
             title: v.string(),
             artworkUrl: v.union(v.string(), v.null()),
             durationMs: v.number(),
-          }),
-          v.null()
+          })
         ),
       }),
       v.null()
@@ -450,10 +454,19 @@ export const browse = query({
       risingArtists.push(artist);
     }
 
-    const featuredPlay =
+    const featuredPlays =
       featuredArtist === null
-        ? null
-        : await firstPublicTrack(ctx, featuredArtist._id);
+        ? []
+        : await newestPublicTracks(ctx, featuredArtist._id, FEATURED_TRACK_CAP);
+    const playTracks = [];
+    for (const track of featuredPlays) {
+      playTracks.push({
+        trackId: track._id,
+        title: track.title,
+        artworkUrl: await fileUrl(ctx, track.artworkFileId),
+        durationMs: track.durationMs,
+      });
+    }
     const featured =
       featuredArtist === null
         ? null
@@ -463,15 +476,7 @@ export const browse = query({
             bio: featuredArtist.bio,
             avatarUrl: await fileUrl(ctx, featuredArtist.avatarFileId),
             coverUrl: await fileUrl(ctx, featuredArtist.coverFileId),
-            playTrack:
-              featuredPlay === null
-                ? null
-                : {
-                    trackId: featuredPlay._id,
-                    title: featuredPlay.title,
-                    artworkUrl: await fileUrl(ctx, featuredPlay.artworkFileId),
-                    durationMs: featuredPlay.durationMs,
-                  },
+            playTracks,
           };
 
     const rising = [];

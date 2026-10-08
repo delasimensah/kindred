@@ -15,6 +15,8 @@ import React, { useEffect } from "react";
 import { ASSETS } from "@/constants";
 import { useStudioSession } from "@/hooks";
 
+import PublicPlayer from "../../public/PublicPlayer";
+import { usePublicPlayer } from "../../public/publicPlayerStore";
 import StudioSidebar, {
   type StudioNavId,
 } from "../StudioSidebar/StudioSidebar";
@@ -78,10 +80,13 @@ const StudioAppShell: React.FC<StudioAppShellProps> = ({ children }) => {
     defaultValue: true,
   });
   const isDesktop = useMediaQuery("(min-width: 62em)");
+  const playerOpen = usePublicPlayer((state) => state.queue.length > 0);
 
   useEffect(() => {
     closeMobile();
   }, [pathname, closeMobile]);
+
+  useEffect(() => () => usePublicPlayer.getState().clear(), []);
 
   useHotkeys([["Escape", closeMobile]]);
 
@@ -166,7 +171,15 @@ const StudioAppShell: React.FC<StudioAppShellProps> = ({ children }) => {
         />
       </AppShell.Navbar>
 
-      <AppShell.Main className="min-h-screen bg-page">{children}</AppShell.Main>
+      <AppShell.Main
+        className={`min-h-screen bg-page ${playerOpen ? "pb-24 md:pb-28" : ""}`}
+      >
+        {children}
+      </AppShell.Main>
+      <PublicPlayer
+        source="studio"
+        barClassName="inset-x-0 md:left-[var(--app-shell-navbar-offset,0px)]"
+      />
     </AppShell>
   );
 };

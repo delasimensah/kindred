@@ -8,7 +8,16 @@ import React, { useEffect, useRef } from "react";
 import PublicPlayerBar from "./PublicPlayerBar";
 import { usePublicPlayer } from "./publicPlayerStore";
 
-const PublicPlayer: React.FC = () => {
+interface PublicPlayerProps {
+  /** Studio plays the signed-in artist's own tracks in any state. */
+  source?: "public" | "studio";
+  barClassName?: string;
+}
+
+const PublicPlayer: React.FC<PublicPlayerProps> = ({
+  source: audioSource = "public",
+  barClassName,
+}) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const queue = usePublicPlayer((state) => state.queue);
   const index = usePublicPlayer((state) => state.index);
@@ -16,10 +25,17 @@ const PublicPlayer: React.FC = () => {
   const positionMs = usePublicPlayer((state) => state.positionMs);
   const generation = usePublicPlayer((state) => state.generation);
   const current = queue[index];
-  const playback = useQuery(
+  const trackArgs =
+    current?.kind === "track" ? { trackId: current.id as Id<"tracks"> } : null;
+  const publicPlayback = useQuery(
     api.publicPages.playbackUrl,
-    current?.kind === "track" ? { trackId: current.id as Id<"tracks"> } : "skip"
+    audioSource === "public" && trackArgs !== null ? trackArgs : "skip"
   );
+  const studioPlayback = useQuery(
+    api.studioTracks.playbackUrl,
+    audioSource === "studio" && trackArgs !== null ? trackArgs : "skip"
+  );
+  const playback = audioSource === "studio" ? studioPlayback : publicPlayback;
   const voice = useQuery(
     api.publicPages.voiceUrl,
     current?.kind === "voice"
@@ -97,6 +113,8 @@ const PublicPlayer: React.FC = () => {
         positionMs={positionMs}
         durationMs={current.durationMs}
         playing={playing}
+        showGetTheApp={audioSource === "public"}
+        className={barClassName}
         canNext={index < queue.length - 1}
         onToggle={() => usePublicPlayer.getState().toggle()}
         onPrevious={() => usePublicPlayer.getState().previous()}

@@ -18,6 +18,7 @@ import {
   IconUser,
   IconUsers,
   IconVinyl,
+  IconWorld,
   IconX,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -350,6 +351,16 @@ const StudioSidebar: React.FC<StudioSidebarProps> = ({
           }
           return link;
         })}
+        {showStudioNav || showAdminNav ? (
+          <AdminLink
+            href="/browse"
+            label="Public pages"
+            Icon={IconWorld}
+            expanded={expanded}
+            active={false}
+            onNavigate={onNavigate}
+          />
+        ) : null}
       </Box>
 
       <Box
@@ -394,7 +405,7 @@ const StudioSidebar: React.FC<StudioSidebarProps> = ({
             loading={isSigningOut}
             onClick={onSignOut}
             leftSection={<IconLogout size={16} />}
-            className="justify-start text-text/60 hover:bg-white/5 hover:text-text"
+            className="justify-start text-danger hover:bg-danger/10 hover:text-danger"
           >
             Sign out
           </Button>
@@ -405,7 +416,7 @@ const StudioSidebar: React.FC<StudioSidebarProps> = ({
               aria-label="Sign out"
               loading={isSigningOut}
               onClick={onSignOut}
-              className="mx-auto text-text/60 hover:bg-white/5 hover:text-text"
+              className="mx-auto text-danger hover:bg-danger/10 hover:text-danger"
             >
               <IconLogout size={18} />
             </ActionIcon>

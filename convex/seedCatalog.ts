@@ -16,6 +16,7 @@ import {
   internalQuery,
 } from "./_generated/server";
 import { requirePassword, setAccountPassword } from "./lib/accountPassword";
+import { bumpFollowerCount } from "./lib/artistStats";
 import {
   buildTrackPlan,
   SEED_ARTWORK_COUNT,
@@ -671,6 +672,7 @@ async function ensureFollow(
     artistId,
     createdAt: Date.now(),
   });
+  await bumpFollowerCount(ctx, artistId, 1);
 }
 
 async function ensureLike(

@@ -8,7 +8,8 @@ export function centeredBarLayout(
   trackHeight = WAVEFORM_HEIGHT
 ): { top: number; height: number } {
   const clamped = Math.min(1, Math.max(0, amplitude));
-  const height = Math.max(3, Math.round(clamped * trackHeight));
+  const minHeight = Math.max(3, Math.round(trackHeight * 0.15));
+  const height = Math.max(minHeight, Math.round(clamped * trackHeight));
   return { height, top: (trackHeight - height) / 2 };
 }
 

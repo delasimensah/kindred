@@ -138,6 +138,7 @@ Board flow: **Todo → In Progress → Done**. Backlog is later work only.
 48. [KIND-87](https://linear.app/dm-studios/issue/KIND-87/testflight-play-closed-testing-access-list-and-90-second-demo-script) **TestFlight, Play closed testing, ACCESS-LIST, and 90-second demo script** — Slice. Epic KIND-13. Apps: mobile, web. Design: (no screen — spike/infra)
 49. [KIND-89](https://linear.app/dm-studios/issue/KIND-89/shrink-seed-audio-so-free-plan-convex-egress-lasts) **Shrink seed audio so free-plan Convex egress lasts** — Slice. Epic KIND-2. Apps: convex. Design: (no screen — ops; see `docs/convex-usage.md`)
 50. [KIND-90](https://linear.app/dm-studios/issue/KIND-90/serve-track-audio-from-object-storage-r2-when-convex-egress-forces-it) **Serve track audio from object storage (R2) when Convex egress forces it** — Slice. Epic KIND-2. Apps: convex, mobile. Design: (no screen — infra escape hatch)
+51. [KIND-92](https://linear.app/dm-studios/issue/KIND-92/fan-can-browse-genres-from-search) **Fan can browse genres from Search** — Slice. Epic KIND-9. Apps: mobile, convex. Design: (no export — genre tiles on the Search tab, then a genre page)
 
 ---
 
@@ -1985,6 +1986,32 @@ Identifiers: see `_linear-id-map.json` (slug → KIND-n).
 - Change password → change-password
 - Request to become artist → artist-request
 - Shared loading/empty/error/offline → shared-states + offline-downloads
+
+### Fan can browse genres from Search
+
+**Linear:** [KIND-92](https://linear.app/dm-studios/issue/KIND-92/fan-can-browse-genres-from-search)
+
+**Epic:** KIND-9  
+**Project:** First Version  
+**Apps:** mobile, convex
+
+**Goal:** Search shows a genre grid. A tile opens that genre's artists and newest public tracks, and a tap plays a track.
+
+**Acceptance:**
+
+- Genre tiles show on Search when the box is empty, including when there are recent searches.
+- Each tile uses a public track cover from that genre.
+- The genre page lists artists, then newest public tracks.
+- Supporters-only and hidden tracks stay off the page.
+- Playing uses the existing player.
+
+**Do not:**
+
+- Do not show supporters-only audio on this page.
+
+**Where code lives:** `convex/genres.ts`, Search tab, `search/genre/[genre]`.
+
+---
 
 ### PRD web Studio
 

@@ -28,22 +28,22 @@ const PublicBrowseQuery: React.FC<{ onRetry: () => void }> = ({ onRetry }) => {
   const browse = state.data;
 
   const featured = browse.featured;
-  const onPlayFeatured = () => {
-    if (featured === null || featured.playTrack === null) {
+  const onPlayTrack = (trackId: string) => {
+    if (featured === null) {
       return;
     }
-    const track: PublicTrackItem = {
-      trackId: featured.playTrack.trackId,
-      title: featured.playTrack.title,
+    const tracks: PublicTrackItem[] = featured.playTracks.map((track) => ({
+      trackId: track.trackId,
+      title: track.title,
       artistId: featured.handle,
       artistName: featured.name,
       artistHandle: featured.handle,
-      artworkUrl: featured.playTrack.artworkUrl,
-      durationMs: featured.playTrack.durationMs,
+      artworkUrl: track.artworkUrl,
+      durationMs: track.durationMs,
       locked: false,
       kindLabel: "Single",
-    };
-    playTrackList([track], track.trackId);
+    }));
+    playTrackList(tracks, trackId);
   };
 
   return (
@@ -51,7 +51,7 @@ const PublicBrowseQuery: React.FC<{ onRetry: () => void }> = ({ onRetry }) => {
       featured={featured}
       rising={browse.rising}
       releases={browse.releases}
-      onPlayFeatured={onPlayFeatured}
+      onPlayTrack={onPlayTrack}
     />
   );
 };

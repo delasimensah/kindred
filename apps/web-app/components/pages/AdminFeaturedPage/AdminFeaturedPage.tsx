@@ -95,9 +95,7 @@ const AdminFeaturedPage: React.FC<AdminFeaturedPageProps> = ({
 
       {adding && !full ? (
         <div className="mb-6 max-w-3xl rounded-2xl border border-white/5 bg-surface p-4">
-          <Text className="mb-3 text-xs uppercase tracking-wider text-text/45">
-            Add an artist
-          </Text>
+          <Text className="mb-3 text-xs text-text/45">Add an artist</Text>
           {available.length === 0 ? (
             <Text className="text-sm text-text/50">
               Every visible artist is already in a slot.
@@ -136,9 +134,7 @@ const AdminFeaturedPage: React.FC<AdminFeaturedPageProps> = ({
 
       <div className="max-w-3xl overflow-hidden rounded-2xl border border-white/5 bg-surface">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-4 sm:px-6">
-          <p className="text-xs uppercase tracking-wider text-text/45">
-            Slot order
-          </p>
+          <p className="text-xs text-text/45">Slot order</p>
           <p className="text-xs text-text/35">
             {slots.length} of {FEATURED_SLOT_CAP} slots filled
           </p>

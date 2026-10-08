@@ -26,9 +26,7 @@ const ComposerPreview: React.FC<ComposerPreviewProps> = ({
 
   return (
     <div className="rounded-2xl border border-white/5 bg-surface p-6">
-      <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-text/80">
-        Preview
-      </h2>
+      <h2 className="mb-5 text-base font-semibold text-text">Preview</h2>
       <div className="rounded-xl border border-white/5 bg-page p-5">
         <div className="mb-3 flex items-center gap-3">
           {avatarUrl ? (

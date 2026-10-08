@@ -92,6 +92,42 @@ describe("studioTracks", () => {
     expect(mine?.publishedAt).toEqual(expect.any(Number));
   });
 
+  it("plays the artist's own supporters-only draft", async () => {
+    const t = makeBackend();
+    const { userId, artistId } = await seedVerifiedArtist(t);
+    const audioFileId = await seedOwnedFile(
+      t,
+      artistId,
+      "trackAudio",
+      "audio/mpeg"
+    );
+    const artworkFileId = await seedOwnedFile(
+      t,
+      artistId,
+      "artwork",
+      "image/jpeg"
+    );
+    const asArtist = asUser(t, userId);
+    const trackId = await asArtist.mutation(api.studioTracks.createDraft, {
+      title: "Night session",
+      audioFileId,
+      artworkFileId,
+      visibility: "supporters",
+      durationMs: 90000,
+      peaks,
+      tags: [],
+      genre: "Highlife",
+    });
+
+    const playback = await asArtist.query(api.studioTracks.playbackUrl, {
+      trackId,
+    });
+    expect(playback).toEqual({
+      audioUrl: expect.any(String),
+      durationMs: 90000,
+    });
+  });
+
   it("updates release details and cover art", async () => {
     const t = makeBackend();
     const { userId, artistId } = await seedVerifiedArtist(t);

@@ -230,31 +230,31 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
 
         <TrackReactionRow trackId={track.trackId} enabled={canLike} />
         <View style={{ flexGrow: 1, minHeight: 16 }} />
-        <VisualizerToggle
-          enabled={visualizerOn}
-          lowPower={lowPower}
-          onChange={setVisualizerOn}
-        />
-
-        <GesturePressable
-          accessibilityRole="button"
-          accessibilityLabel="Queue"
-          onPress={onQueue}
-          style={{
-            marginTop: 16,
-            marginBottom: 8,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            borderRadius: 999,
-            backgroundColor: COLORS.surface,
-            paddingVertical: 14,
-          }}
-        >
-          <Ionicons name="list" size={16} color={COLORS.text} />
-          <Text className="font-app-semibold text-sm text-text">Queue</Text>
-        </GesturePressable>
+        <HStack align="center" justify="between" className="mb-2 mt-4 px-1">
+          <VisualizerToggle
+            enabled={visualizerOn}
+            lowPower={lowPower}
+            onChange={setVisualizerOn}
+          />
+          <GesturePressable
+            accessibilityRole="button"
+            accessibilityLabel="Queue"
+            onPress={onQueue}
+            style={{
+              width: 44,
+              height: 44,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Ionicons
+              name="list"
+              size={22}
+              color={COLORS.text}
+              style={{ opacity: 0.7 }}
+            />
+          </GesturePressable>
+        </HStack>
       </ScrollView>
     </View>
   );

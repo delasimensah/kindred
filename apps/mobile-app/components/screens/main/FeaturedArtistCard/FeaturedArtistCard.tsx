@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
@@ -17,6 +18,8 @@ export interface DiscoverArtistCard {
   coverUrl: string | null;
   isFollowed: boolean;
 }
+
+export const FEATURED_CARD_HEIGHT = 280;
 
 interface FeaturedArtistCardProps {
   artist: DiscoverArtistCard;
@@ -39,13 +42,15 @@ const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
       accessibilityLabel={`Open ${artist.name}`}
       onPress={onOpen}
       className="overflow-hidden rounded-3xl bg-surface"
-      style={{ height: 420, backgroundColor: COLORS.surface }}
+      style={{ height: FEATURED_CARD_HEIGHT, backgroundColor: COLORS.surface }}
     >
       {artist.coverUrl || artist.avatarUrl ? (
         <Image
           accessibilityLabel={artist.name}
-          source={{ uri: artist.coverUrl ?? artist.avatarUrl ?? undefined }}
+          source={{ uri: artist.avatarUrl ?? artist.coverUrl ?? undefined }}
           contentFit="cover"
+          contentPosition="top"
+          transition={200}
           style={{
             position: "absolute",
             width: "100%",
@@ -75,7 +80,7 @@ const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
         spacing="none"
         className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1.5"
       >
-        <Text className="font-app-bold text-[10px] uppercase tracking-wide text-textOnPrimary">
+        <Text className="font-app-bold text-xs text-textOnPrimary">
           Featured
         </Text>
       </VStack>
@@ -95,15 +100,18 @@ const FeaturedArtistCard: React.FC<FeaturedArtistCardProps> = ({
             onPress={onToggleFollow}
             className={
               artist.isFollowed
-                ? "rounded-full border border-primary bg-primary px-6 py-3"
-                : "rounded-full border border-text/25 bg-transparent px-6 py-3"
+                ? "flex-row items-center gap-1.5 rounded-full border border-text/25 bg-transparent px-5 py-2.5"
+                : "flex-row items-center gap-1.5 rounded-full border border-primary bg-primary px-5 py-2.5"
             }
           >
+            {artist.isFollowed ? (
+              <Ionicons name="checkmark" size={14} color={COLORS.text} />
+            ) : null}
             <Text
               className={
                 artist.isFollowed
-                  ? "font-app-semibold text-sm text-textOnPrimary"
-                  : "font-app-semibold text-sm text-text"
+                  ? "font-app-semibold text-sm text-text"
+                  : "font-app-semibold text-sm text-textOnPrimary"
               }
             >
               {artist.isFollowed ? "Following" : "Follow"}

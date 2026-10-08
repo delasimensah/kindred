@@ -85,9 +85,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
     <div className="space-y-6 lg:col-span-3">
       <div className="space-y-6 rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Text className="text-sm font-semibold uppercase tracking-wider text-text/80">
-            Details
-          </Text>
+          <Text className="text-base font-semibold text-text">Details</Text>
           <Button
             variant="default"
             size="compact-sm"
@@ -130,7 +128,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
       </div>
 
       <div className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
-        <Text className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
+        <Text className="mb-4 text-base font-semibold text-text">
           Visibility
         </Text>
         <StudioChoiceCards
@@ -153,7 +151,7 @@ const UploadDetailsColumn: React.FC<UploadDetailsColumnProps> = ({
       </div>
 
       <div className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-7">
-        <Text className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
+        <Text className="mb-4 text-base font-semibold text-text">
           Publishing
         </Text>
         <StudioChoiceCards

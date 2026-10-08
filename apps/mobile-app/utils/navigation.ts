@@ -205,6 +205,13 @@ export function libraryArtistAlbumHref(releaseId: string): Href {
 }
 
 /** Artist profile on the Search stack, so back returns to the results. */
+export function searchGenreHref(genre: string): Href {
+  return {
+    pathname: "/(main-app)/(tabs)/search/genre/[genre]",
+    params: { genre },
+  } as unknown as Href;
+}
+
 export function searchArtistHref(artistId: string): Href {
   return {
     pathname: "/(main-app)/(tabs)/search/artist/[artistId]",

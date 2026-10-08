@@ -7,6 +7,7 @@ import React from "react";
 import { FOUNDING_SUPPORTER_LIMIT } from "shared";
 
 import Heading from "../../ui/Heading/Heading";
+import PersonAvatar from "../../ui/PersonAvatar/PersonAvatar";
 import Text from "../../ui/Text/Text";
 import StudioSupportersPageSkeleton from "./StudioSupportersPageSkeleton";
 
@@ -71,7 +72,7 @@ const StudioSupportersPage: React.FC = () => {
       ) : (
         <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
           <div>
-            <div className="grid grid-cols-[minmax(0,1fr)_5.75rem_5.5rem] items-center gap-2 border-b border-white/5 px-4 py-3 text-xs uppercase tracking-wider text-text/40 sm:grid-cols-[minmax(0,1fr)_13.75rem_10rem] sm:gap-4 sm:px-6">
+            <div className="grid grid-cols-[minmax(0,1fr)_5.75rem_5.5rem] items-center gap-2 border-b border-white/5 px-4 py-3 text-xs text-text/40 sm:grid-cols-[minmax(0,1fr)_13.75rem_10rem] sm:gap-4 sm:px-6">
               <span>Name</span>
               <span className="sm:hidden">Since</span>
               <span className="hidden sm:inline">Routing since</span>
@@ -83,9 +84,15 @@ const StudioSupportersPage: React.FC = () => {
                   key={row.profileId}
                   className="grid grid-cols-[minmax(0,1fr)_5.75rem_5.5rem] items-center gap-2 px-4 py-4 sm:grid-cols-[minmax(0,1fr)_13.75rem_10rem] sm:gap-4 sm:px-6"
                 >
-                  <p className="truncate text-sm font-semibold text-text">
-                    {row.displayName}
-                  </p>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <PersonAvatar
+                      displayName={row.displayName}
+                      imageUrl={row.avatarUrl}
+                    />
+                    <p className="truncate text-sm font-semibold text-text">
+                      {row.displayName}
+                    </p>
+                  </div>
                   <p className="text-sm text-text/60">
                     {formatSince(row.startedAt)}
                   </p>

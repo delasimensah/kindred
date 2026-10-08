@@ -69,7 +69,12 @@ module.exports = {
       },
       fontFamily: {
         ui: ["var(--font-ui)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "var(--font-ui)", "system-ui", "sans-serif"],
+        display: [
+          "var(--font-display)",
+          "var(--font-ui)",
+          "system-ui",
+          "sans-serif",
+        ],
         appFont: ["var(--font-ui)", "system-ui", "sans-serif"],
       },
     },

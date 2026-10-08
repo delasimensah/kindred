@@ -1,13 +1,14 @@
 "use client";
 
 import { api } from "@convex/_generated/api";
-import { IconHeart, IconInfoCircle, IconReceipt } from "@tabler/icons-react";
+import { IconHeart, IconReceipt } from "@tabler/icons-react";
 import { useQuery } from "convex/react";
 import React from "react";
 import { formatUsdFromCents } from "shared";
 
 import Heading from "../../ui/Heading/Heading";
 import Text from "../../ui/Text/Text";
+import EarningsExplainer from "./EarningsExplainer";
 import StudioEarningsPageSkeleton from "./StudioEarningsPageSkeleton";
 
 function periodLabel(period: string): string {
@@ -42,11 +43,11 @@ const StudioEarningsPage: React.FC = () => {
     return <StudioEarningsPageSkeleton />;
   }
 
-  const { current, prior, months } = data;
+  const { latest, prior, months } = data;
   const delta =
     prior.amountCents === 0
       ? null
-      : ((current.amountCents - prior.amountCents) / prior.amountCents) * 100;
+      : ((latest.amountCents - prior.amountCents) / prior.amountCents) * 100;
   const chartMonths = [...months].reverse().slice(-6);
   const maxAmount = Math.max(1, ...chartMonths.map((row) => row.amountCents));
 
@@ -60,18 +61,19 @@ const StudioEarningsPage: React.FC = () => {
           Earnings
         </Heading>
         <Text className="mt-1.5 text-sm text-text/50">
-          Your share of supporter plans routed to you this month.
+          Your share of supporter plans routed to you. Each month is added once
+          it ends.
         </Text>
       </div>
 
       <div className="mb-6 rounded-2xl border border-white/5 bg-surface p-6 sm:p-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-wider text-text/45">
-              This month · {shortMonth(current.period)}
+            <p className="mb-2 text-sm text-text/50">
+              {periodLabel(latest.period)}
             </p>
             <p className="font-display text-[40px] leading-none text-text sm:text-[56px]">
-              {formatUsdFromCents(current.amountCents)}
+              {formatUsdFromCents(latest.amountCents)}
             </p>
             <p className="mt-3 text-sm text-text/45">
               Your share of supporter subscriptions routed to you
@@ -100,33 +102,28 @@ const StudioEarningsPage: React.FC = () => {
       <div className="mb-6 grid gap-5 sm:grid-cols-2">
         <div className="rounded-2xl border border-white/5 bg-surface px-6 py-6">
           <div className="mb-4 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-wider text-text/45">
-              From supporters
-            </span>
+            <span className="text-sm text-text/50">From supporters</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
               <IconHeart size={14} className="text-primary" />
             </div>
           </div>
           <p className="font-display text-[28px] leading-none text-text">
-            {formatUsdFromCents(current.amountCents)}
+            {formatUsdFromCents(latest.amountCents)}
           </p>
           <p className="mt-3 text-xs text-text/40">
-            Your share of the artist pool from {current.supporterCount}{" "}
-            supporter
-            {current.supporterCount === 1 ? "" : "s"}
+            Your share of the artist pool from {latest.supporterCount} supporter
+            {latest.supporterCount === 1 ? "" : "s"}
           </p>
         </div>
         <div className="rounded-2xl border border-white/5 bg-surface px-6 py-6">
           <div className="mb-4 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-wider text-text/45">
-              Store fees (30%)
-            </span>
+            <span className="text-sm text-text/50">Store fees (30%)</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5">
               <IconReceipt size={14} className="text-text/60" />
             </div>
           </div>
           <p className="font-display text-[28px] leading-none text-text/70">
-            {formatUsdFromCents(current.storeFeeCents)}
+            {formatUsdFromCents(latest.storeFeeCents)}
           </p>
           <p className="mt-3 text-xs text-text/40">
             Deducted from subscription revenue before the artist pool splits
@@ -134,43 +131,7 @@ const StudioEarningsPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="mb-8 rounded-2xl border border-white/5 bg-surface p-6 sm:p-7">
-        <div className="mb-5 flex items-center gap-2">
-          <IconInfoCircle size={16} className="text-primary" />
-          <h2 className="text-base font-semibold text-text">
-            How it&apos;s calculated
-          </h2>
-        </div>
-        <div className="grid gap-6 sm:grid-cols-3">
-          <div className="flex gap-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-              <span className="font-display text-sm text-primary">70%</span>
-            </div>
-            <p className="text-sm leading-relaxed text-text/60">
-              Of every supporter&apos;s monthly plan goes into the artist pool
-              after store fees.
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5">
-              <span className="text-sm text-text/60">=</span>
-            </div>
-            <p className="text-sm leading-relaxed text-text/60">
-              The pool splits equally across every artist that supporter has
-              routed to.
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5">
-              <span className="text-sm text-text/60">you</span>
-            </div>
-            <p className="text-sm leading-relaxed text-text/60">
-              You get your equal share for every plan where you&apos;re one of
-              the routed artists.
-            </p>
-          </div>
-        </div>
-      </div>
+      <EarningsExplainer />
 
       <div className="mb-8 rounded-2xl border border-white/5 bg-surface p-6 sm:p-7">
         <div className="mb-4 flex items-center justify-between gap-2">
@@ -207,7 +168,7 @@ const StudioEarningsPage: React.FC = () => {
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
-        <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)_auto] items-center gap-2 border-b border-white/5 px-4 py-3 text-xs uppercase tracking-wider text-text/40 sm:grid-cols-[1fr_1fr_1fr] sm:px-6">
+        <div className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)_auto] items-center gap-2 border-b border-white/5 px-4 py-3 text-xs font-medium text-text/50 sm:grid-cols-[1fr_1fr_1fr] sm:px-6">
           <span>Month</span>
           <span className="sm:hidden">Fans</span>
           <span className="hidden sm:inline">Supporters routed</span>

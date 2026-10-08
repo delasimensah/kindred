@@ -87,7 +87,7 @@ const AlbumEditForm: React.FC<AlbumEditFormProps> = ({
         });
       })}
     >
-      <Text className="text-xs uppercase tracking-wide text-text/45">
+      <Text className="text-xs text-text/45">
         {typeLabel} · {tracks.length} tracks ·{" "}
         {editing.state === "draft"
           ? "Draft"

@@ -156,7 +156,7 @@ const UpdateListItem: React.FC<UpdateListItemProps> = ({
           size="compact-sm"
           loading={isDeleting}
           onClick={onDelete}
-          className="rounded-lg border-white/10 bg-transparent text-xs text-text/70"
+          className="rounded-lg border-white/10 bg-transparent text-xs text-danger"
         >
           Delete
         </Button>

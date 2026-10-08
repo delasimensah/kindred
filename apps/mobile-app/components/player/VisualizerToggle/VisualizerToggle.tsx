@@ -1,10 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Switch } from "react-native";
+import { Pressable } from "react-native";
 
 import { COLORS } from "@/constants";
-
-import { HStack, VStack } from "../../ui/Stack/Stack";
-import Text from "../../ui/Text/Text";
 
 interface VisualizerToggleProps {
   enabled: boolean;
@@ -20,30 +17,24 @@ const VisualizerToggle: React.FC<VisualizerToggleProps> = ({
   const shown = enabled && !lowPower;
 
   return (
-    <HStack
-      align="center"
-      justify="between"
-      className="mt-4 rounded-2xl bg-surface/50 px-4 py-3"
+    <Pressable
+      accessibilityRole="switch"
+      accessibilityLabel="Visualizer"
+      accessibilityHint="Stays off in Low Power Mode"
+      accessibilityState={{ checked: shown, disabled: lowPower }}
+      disabled={lowPower}
+      onPress={() => onChange(!enabled)}
+      className={`h-11 w-11 items-center justify-center rounded-full ${
+        shown ? "bg-primary/15" : ""
+      }`}
     >
-      <HStack align="center" spacing="md" className="min-w-0 flex-1">
-        <Ionicons name="pulse" size={18} color={COLORS.text} />
-        <VStack spacing="none" className="min-w-0 flex-1">
-          <Text className="font-app-medium text-sm text-text">Visualizer</Text>
-          <Text className="text-[11px] text-text/40">
-            Stays off in Low Power Mode
-          </Text>
-        </VStack>
-      </HStack>
-      <Switch
-        accessibilityLabel="Visualizer"
-        accessibilityState={{ disabled: lowPower }}
-        value={shown}
-        disabled={lowPower}
-        onValueChange={onChange}
-        trackColor={{ false: COLORS.page, true: COLORS.primary }}
-        thumbColor={COLORS.text}
+      <Ionicons
+        name="pulse"
+        size={20}
+        color={shown ? COLORS.primary : COLORS.text}
+        style={{ opacity: lowPower ? 0.3 : shown ? 1 : 0.7 }}
       />
-    </HStack>
+    </Pressable>
   );
 };
 

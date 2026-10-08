@@ -8,6 +8,8 @@ const artist = {
   avatarUrl: null,
   coverUrl: null,
   isFollowed: false,
+  followerCount: 12,
+  supporterCount: 25,
   liveListenerCount: 2,
 };
 

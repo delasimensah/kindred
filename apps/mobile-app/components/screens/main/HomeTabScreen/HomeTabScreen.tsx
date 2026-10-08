@@ -117,7 +117,6 @@ const HomeTabScreen: React.FC<HomeTabScreenProps> = ({
         />
       </HStack>
       <VStack spacing="md" className="pt-4">
-        <Text className="font-app-semibold text-lg text-text">Updates</Text>
         {failed ? (
           <View className="mt-6 items-center rounded-2xl bg-surface px-6 py-6">
             <View className="mb-3 h-14 w-14 items-center justify-center rounded-full bg-primary/10">

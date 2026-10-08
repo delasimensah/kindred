@@ -246,9 +246,7 @@ function MetricCard({
   return (
     <div className="rounded-2xl border border-white/5 bg-surface px-6 py-6">
       <div className="mb-4 flex items-center justify-between">
-        <span className="text-xs uppercase tracking-wider text-text/45">
-          {label}
-        </span>
+        <span className="text-xs text-text/45">{label}</span>
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
           <Icon size={14} className="text-primary" />
         </div>

@@ -60,7 +60,7 @@ const UploadAlbumTracksColumn: React.FC<UploadAlbumTracksColumnProps> = ({
           className="min-w-0 rounded-xl border border-white/10 bg-page p-3 sm:p-4"
         >
           <div className="mb-3 flex items-center justify-between gap-2">
-            <p className="min-w-0 text-xs font-semibold uppercase tracking-wide text-text/45">
+            <p className="min-w-0 text-xs font-semibold text-text/45">
               Track {index + 1}
             </p>
             <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">

@@ -38,6 +38,7 @@
     "seed:shrink": "node seed/scripts/shrink-audio.mjs",
     "seed:apply-shrunk": "node seed/scripts/apply-shrunk-audio.mjs",
     "seed:catalog": "node seed/scripts/run-seed.mjs",
+    "seed:reset-artist": "node seed/scripts/reset-artist.mjs",
     "postinstall": "patch-package && node scripts/apply-nested-patches.mjs"
   },
   "devDependencies": {

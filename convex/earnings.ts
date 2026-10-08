@@ -22,21 +22,27 @@ const monthSummaryValidator = v.object({
   supporterCount: v.number(),
 });
 
+function periodBefore(period: string): string {
+  const [year, month] = period.split("-").map(Number);
+  return previousPeriodKey(new Date(Date.UTC(year ?? 0, (month ?? 1) - 1, 1)));
+}
+
 /**
  * Monthly demo earnings for the signed-in artist's own routes only.
  * Amounts come from demoEarnings rows written by the cron (or seed).
+ * The cron writes a month after it ends, so `latest` is the newest finished
+ * month and `prior` is the month before it.
  */
 export const listForArtist = authedQuery({
   args: {},
   returns: v.object({
-    current: monthSummaryValidator,
+    latest: monthSummaryValidator,
     prior: monthSummaryValidator,
     months: v.array(monthSummaryValidator),
   }),
   handler: async (ctx) => {
     const { artist } = await requireVerifiedArtist(ctx);
     const currentPeriod = periodKey();
-    const priorPeriod = previousPeriodKey();
 
     const allRows = await ctx.db
       .query("earningMonths")
@@ -58,10 +64,13 @@ export const listForArtist = authedQuery({
       supporterCount: 0,
     });
 
+    const latest =
+      months.find((row) => row.period < currentPeriod) ??
+      empty(previousPeriodKey());
+    const priorPeriod = periodBefore(latest.period);
+
     return {
-      current:
-        months.find((row) => row.period === currentPeriod) ??
-        empty(currentPeriod),
+      latest,
       prior:
         months.find((row) => row.period === priorPeriod) ?? empty(priorPeriod),
       months,

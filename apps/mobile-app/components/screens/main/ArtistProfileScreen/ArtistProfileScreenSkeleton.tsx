@@ -19,7 +19,7 @@ const ArtistProfileScreenSkeleton: React.FC = () => {
       contentContainerStyle={{ paddingBottom: 24 }}
       testID="artist-profile-skeleton"
     >
-      <SkeletonCard width={width} height={340} radius={0} />
+      <SkeletonCard width={width} height={420} radius={0} />
       <VStack spacing="lg" paddingX="lg" paddingY="lg">
         <HStack spacing="sm">
           <SkeletonCard

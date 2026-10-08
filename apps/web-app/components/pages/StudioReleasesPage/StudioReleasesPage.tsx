@@ -14,10 +14,12 @@ import {
 import Text from "../../ui/Text/Text";
 import AlbumEditModal from "./AlbumEditModal";
 import ReleaseEditModal from "./ReleaseEditModal";
+import ReleaseRow, { type ListRow } from "./ReleaseRow";
 import ReleaseRowActions from "./ReleaseRowActions";
 import ReleaseScheduleModal from "./ReleaseScheduleModal";
 import ReleasesPageHeader, { type Filter } from "./ReleasesPageHeader";
 import ReleasesPageSkeleton from "./ReleasesPageSkeleton";
+import { useReleasePlayback } from "./useReleasePlayback";
 
 type ScheduleTarget =
   | {
@@ -33,60 +35,10 @@ type ScheduleTarget =
       publishAt: number | null;
     };
 
-type ListRow = {
-  key: string;
-  kind: "single" | "release";
-  trackId?: Id<"tracks">;
-  releaseId?: Id<"releases">;
-  title: string;
-  typeLabel: string;
-  state: "draft" | "scheduled" | "published";
-  visibility: "public" | "supporters";
-  hidden: boolean;
-  artworkUrl: string | null;
-  publishedAt: number | null;
-  publishAt: number | null;
-  sortAt: number;
-  trackCount?: number;
-};
-
-function formatWhen(ms: number | null): string {
-  if (ms === null) {
-    return "—";
-  }
-  return new Date(ms).toLocaleString(undefined, {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
-
-function stateLabel(state: string, hidden: boolean): string {
-  if (hidden) {
-    return "Hidden";
-  }
-  if (state === "scheduled") {
-    return "Scheduled";
-  }
-  if (state === "published") {
-    return "Published";
-  }
-  return "Draft";
-}
-
-function stateDot(state: string, hidden: boolean): string {
-  if (hidden || state === "draft") {
-    return "bg-text/40";
-  }
-  if (state === "scheduled") {
-    return "bg-primary";
-  }
-  return "bg-emerald-400";
-}
-
 const StudioReleasesPage: React.FC = () => {
   const [filter, setFilter] = useState<Filter>("all");
+  const [search, setSearch] = useState("");
+  const playback = useReleasePlayback();
   const singles = useQuery(api.studioTracks.listMine, { filter });
   const albums = useQuery(api.studioReleases.listMine, { filter });
   const setHidden = useMutation(api.studioTracks.setHidden);
@@ -133,6 +85,7 @@ const StudioReleasesPage: React.FC = () => {
       publishedAt: release.publishedAt,
       publishAt: release.publishAt,
       sortAt: release.publishedAt ?? release.publishAt ?? release.createdAt,
+      durationMs: release.durationMs,
     }));
     const albumRows: ListRow[] = albums.map((release) => ({
       key: `release-${release.releaseId}`,
@@ -150,10 +103,14 @@ const StudioReleasesPage: React.FC = () => {
       publishedAt: release.publishedAt,
       publishAt: release.publishAt,
       sortAt: release.publishedAt ?? release.publishAt ?? release.createdAt,
+      durationMs: 0,
       trackCount: release.trackCount,
     }));
-    return [...singleRows, ...albumRows].sort((a, b) => b.sortAt - a.sortAt);
-  }, [singles, albums]);
+    const query = search.trim().toLowerCase();
+    return [...singleRows, ...albumRows]
+      .filter((row) => query === "" || row.title.toLowerCase().includes(query))
+      .sort((a, b) => b.sortAt - a.sortAt);
+  }, [singles, albums, search]);
 
   const onToggleHidden = async (row: ListRow) => {
     try {
@@ -254,12 +211,42 @@ const StudioReleasesPage: React.FC = () => {
     }
   };
 
+  const openSchedule = (release: ListRow, mode: "schedule" | "change") => {
+    const publishAt = mode === "change" ? release.publishAt : null;
+    if (release.kind === "single" && release.trackId) {
+      setScheduleTarget({
+        kind: "single",
+        trackId: release.trackId,
+        mode,
+        publishAt,
+      });
+    } else if (release.kind === "release" && release.releaseId) {
+      setScheduleTarget({
+        kind: "release",
+        releaseId: release.releaseId,
+        mode,
+        publishAt,
+      });
+    }
+  };
+
   return (
     <div className="px-4 py-8 sm:px-8 sm:py-9 lg:px-10">
-      <ReleasesPageHeader filter={filter} onFilterChange={setFilter} />
+      <ReleasesPageHeader
+        filter={filter}
+        onFilterChange={setFilter}
+        search={search}
+        onSearchChange={setSearch}
+      />
 
       {rows === undefined ? (
         <ReleasesPageSkeleton />
+      ) : rows.length === 0 && search.trim() !== "" ? (
+        <div className="rounded-2xl border border-white/5 bg-surface px-6 py-16 text-center">
+          <Text className="text-sm text-text/55">
+            No releases match “{search.trim()}”.
+          </Text>
+        </div>
       ) : rows.length === 0 ? (
         <div className="rounded-2xl border border-white/5 bg-surface px-6 py-16 text-center">
           <Text className="text-sm text-text/55">
@@ -275,114 +262,37 @@ const StudioReleasesPage: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-3">
-          {rows.map((release) => (
-            <div
-              key={release.key}
-              className="flex flex-col gap-4 rounded-2xl border border-white/5 bg-surface p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5"
-            >
-              <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
-                {release.artworkUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={release.artworkUrl}
-                    alt=""
-                    className="h-12 w-12 shrink-0 rounded-xl object-cover sm:h-14 sm:w-14"
+          {rows.map((release) => {
+            const onEdit = () => {
+              if (release.kind === "single" && release.trackId) {
+                setEditingId(release.trackId);
+              } else if (release.kind === "release" && release.releaseId) {
+                setEditingAlbumId(release.releaseId);
+              }
+            };
+            return (
+              <ReleaseRow
+                key={release.key}
+                release={release}
+                active={playback.activeKey === release.key}
+                playing={playback.playing}
+                onPlay={() => void playback.play(release, rows)}
+                onEdit={onEdit}
+                actions={
+                  <ReleaseRowActions
+                    state={release.state}
+                    hidden={release.hidden}
+                    onEdit={onEdit}
+                    onPublishNow={() => void onPublishNow(release)}
+                    onSchedule={() => openSchedule(release, "schedule")}
+                    onChangeSchedule={() => openSchedule(release, "change")}
+                    onCancelSchedule={() => void onCancelSchedule(release)}
+                    onToggleHidden={() => void onToggleHidden(release)}
                   />
-                ) : (
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-page text-xs text-text/35 sm:h-14 sm:w-14">
-                    Art
-                  </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Text className="break-words text-sm font-medium text-text sm:truncate">
-                      {release.title}
-                    </Text>
-                    <span className="rounded-full bg-page px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-text/55">
-                      {release.typeLabel}
-                    </span>
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text/45">
-                    <span className="flex items-center gap-1.5">
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${stateDot(release.state, release.hidden)}`}
-                      />
-                      {stateLabel(release.state, release.hidden)}
-                    </span>
-                    <span>
-                      {release.visibility === "supporters"
-                        ? "Supporters only"
-                        : "Public"}
-                    </span>
-                    <span>
-                      {release.state === "scheduled"
-                        ? formatWhen(release.publishAt)
-                        : formatWhen(release.publishedAt)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="min-w-0 sm:shrink-0">
-                <ReleaseRowActions
-                  state={release.state}
-                  hidden={release.hidden}
-                  onEdit={() => {
-                    if (release.kind === "single" && release.trackId) {
-                      setEditingId(release.trackId);
-                    } else if (
-                      release.kind === "release" &&
-                      release.releaseId
-                    ) {
-                      setEditingAlbumId(release.releaseId);
-                    }
-                  }}
-                  onPublishNow={() => void onPublishNow(release)}
-                  onSchedule={() => {
-                    if (release.kind === "single" && release.trackId) {
-                      setScheduleTarget({
-                        kind: "single",
-                        trackId: release.trackId,
-                        mode: "schedule",
-                        publishAt: null,
-                      });
-                    } else if (
-                      release.kind === "release" &&
-                      release.releaseId
-                    ) {
-                      setScheduleTarget({
-                        kind: "release",
-                        releaseId: release.releaseId,
-                        mode: "schedule",
-                        publishAt: null,
-                      });
-                    }
-                  }}
-                  onChangeSchedule={() => {
-                    if (release.kind === "single" && release.trackId) {
-                      setScheduleTarget({
-                        kind: "single",
-                        trackId: release.trackId,
-                        mode: "change",
-                        publishAt: release.publishAt,
-                      });
-                    } else if (
-                      release.kind === "release" &&
-                      release.releaseId
-                    ) {
-                      setScheduleTarget({
-                        kind: "release",
-                        releaseId: release.releaseId,
-                        mode: "change",
-                        publishAt: release.publishAt,
-                      });
-                    }
-                  }}
-                  onCancelSchedule={() => void onCancelSchedule(release)}
-                  onToggleHidden={() => void onToggleHidden(release)}
-                />
-              </div>
-            </div>
-          ))}
+                }
+              />
+            );
+          })}
         </div>
       )}
 

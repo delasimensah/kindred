@@ -14,7 +14,7 @@ jest.mock("convex/react", () => ({
 describe("StudioEarningsPage", () => {
   it("shows month totals from the server", () => {
     mockUseQuery.mockReturnValue({
-      current: {
+      latest: {
         period: "2026-09",
         amountCents: 48200,
         storeFeeCents: 20657,
@@ -46,5 +46,6 @@ describe("StudioEarningsPage", () => {
     ).toBeGreaterThan(0);
     expect(screen.getByText(/how it's calculated/i)).toBeInTheDocument();
     expect(screen.getByText("214")).toBeInTheDocument();
+    expect(screen.getByText("+12.4%")).toBeInTheDocument();
   });
 });

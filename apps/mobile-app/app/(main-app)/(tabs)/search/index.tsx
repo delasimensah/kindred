@@ -19,6 +19,7 @@ import {
   changeFollow,
   lockedTrackHref,
   searchArtistHref,
+  searchGenreHref,
 } from "@/utils";
 
 const SearchRoute = () => {
@@ -29,6 +30,7 @@ const SearchRoute = () => {
   const term = useDebouncedSearchTerm(draft);
   const recent = useRecentSearches(profileId);
   const results = useQuery(api.search.exact, term === null ? "skip" : { term });
+  const genres = useQuery(api.genres.tiles, {});
   const addFollow = useMutation(api.follows.add);
   const removeFollow = useMutation(api.follows.remove);
   const setLiked = useMutation(api.library.setLiked);
@@ -56,6 +58,10 @@ const SearchRoute = () => {
       isLoading={term !== null && results === undefined}
       hasQuery={term !== null}
       recent={recent.items}
+      genres={genres ?? null}
+      onOpenGenre={(genre) => {
+        router.push(searchGenreHref(genre));
+      }}
       onOpenRecentArtist={(artistId) => {
         const saved = recent.items?.find(
           (item) => item.kind === "artist" && item.artistId === artistId

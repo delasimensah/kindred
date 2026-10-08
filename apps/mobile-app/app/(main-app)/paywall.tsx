@@ -15,6 +15,7 @@ const PaywallRoute = () => {
         options={{ headerShown: false, presentation: "transparentModal" }}
       />
       <PaywallFlow
+        artistId={artistId}
         onClose={() => {
           router.back();
         }}

@@ -1,5 +1,8 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable } from "react-native";
+
+import { COLORS } from "@/constants";
 
 import { HStack } from "../../ui/Stack/Stack";
 import Text from "../../ui/Text/Text";
@@ -26,55 +29,53 @@ const ArtistProfileActions: React.FC<ArtistProfileActionsProps> = ({
     <HStack spacing="sm" align="center">
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={followLabel}
-        onPress={onToggleFollow}
-        className="flex-1"
-      >
-        <HStack
-          spacing="none"
-          align="center"
-          justify="center"
-          className={
-            isFollowed
-              ? "rounded-full bg-primary py-3"
-              : "rounded-full border border-text/20 py-3"
-          }
-        >
-          <Text
-            className={
-              isFollowed
-                ? "font-app-semibold text-sm text-textOnPrimary"
-                : "font-app-semibold text-sm text-text"
-            }
-          >
-            {isFollowed ? "Following" : "Follow"}
-          </Text>
-        </HStack>
-      </Pressable>
-      <Pressable
-        accessibilityRole="button"
         accessibilityLabel={supportLabel}
         onPress={onSupport}
         className="flex-1"
       >
         <HStack
-          spacing="none"
+          spacing="xs"
           align="center"
           justify="center"
           className={
             isSupporting
-              ? "rounded-full bg-primary py-3"
-              : "rounded-full border border-text/20 py-3"
+              ? "rounded-full border border-primary/60 py-3"
+              : "rounded-full bg-primary py-3"
           }
         >
+          <Ionicons
+            name={isSupporting ? "checkmark" : "heart"}
+            size={15}
+            color={isSupporting ? COLORS.primary : COLORS.textOnPrimary}
+          />
           <Text
             className={
               isSupporting
-                ? "font-app-semibold text-sm text-textOnPrimary"
-                : "font-app-semibold text-sm text-text"
+                ? "font-app-semibold text-sm text-primary"
+                : "font-app-semibold text-sm text-textOnPrimary"
             }
           >
             {isSupporting ? "Supporting" : "Support"}
+          </Text>
+        </HStack>
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={followLabel}
+        onPress={onToggleFollow}
+        className="flex-1"
+      >
+        <HStack
+          spacing="xs"
+          align="center"
+          justify="center"
+          className="rounded-full border border-text/20 py-3"
+        >
+          {isFollowed ? (
+            <Ionicons name="checkmark" size={15} color={COLORS.text} />
+          ) : null}
+          <Text className="font-app-semibold text-sm text-text">
+            {isFollowed ? "Following" : "Follow"}
           </Text>
         </HStack>
       </Pressable>

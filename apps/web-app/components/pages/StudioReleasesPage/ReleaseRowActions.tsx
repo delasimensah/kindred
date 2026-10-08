@@ -18,6 +18,10 @@ interface ReleaseRowActionsProps {
 
 const actionClassName =
   "rounded-lg border-white/10 bg-transparent text-xs text-text/70";
+const primaryClassName =
+  "rounded-lg bg-primary text-xs font-semibold text-textOnPrimary hover:bg-primary/90";
+const dangerClassName =
+  "rounded-lg border-white/10 bg-transparent text-xs text-danger";
 
 const ReleaseRowActions: React.FC<ReleaseRowActionsProps> = ({
   state,
@@ -42,10 +46,10 @@ const ReleaseRowActions: React.FC<ReleaseRowActionsProps> = ({
       {state === "draft" && !hidden ? (
         <>
           <Button
-            variant="default"
+            variant="filled"
             size="compact-sm"
             onClick={onPublishNow}
-            className={actionClassName}
+            className={primaryClassName}
           >
             Publish now
           </Button>
@@ -73,7 +77,7 @@ const ReleaseRowActions: React.FC<ReleaseRowActionsProps> = ({
             variant="default"
             size="compact-sm"
             onClick={onCancelSchedule}
-            className={actionClassName}
+            className={dangerClassName}
           >
             Cancel schedule
           </Button>
@@ -83,7 +87,7 @@ const ReleaseRowActions: React.FC<ReleaseRowActionsProps> = ({
         variant="default"
         size="compact-sm"
         onClick={onToggleHidden}
-        className={actionClassName}
+        className={hidden ? actionClassName : dangerClassName}
       >
         {hidden ? "Unhide" : "Hide"}
       </Button>

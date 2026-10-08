@@ -155,9 +155,7 @@ function Stat({
 }) {
   return (
     <div className="rounded-2xl border border-white/5 bg-surface px-6 py-5">
-      <p className="mb-2 text-xs uppercase tracking-wider text-text/45">
-        {label}
-      </p>
+      <p className="mb-2 text-xs text-text/45">{label}</p>
       <p
         className={
           highlight

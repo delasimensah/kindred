@@ -51,6 +51,34 @@ To change the shared password on accounts that already exist, from the `kindred`
 
 The password must be at least 8 characters. Do not put it in git. Write it in `ACCESS-LIST.md`.
 
+## Put an artist back to the seed
+
+Use this after testing uploads from Artist Studio. It puts back the seed photo, cover, tracks, dates and posts for one artist. It deletes the tracks, releases, posts and photos that were uploaded by hand. Seed files are never deleted.
+
+From the `kindred` folder, with Convex ready:
+
+`yarn seed:reset-artist amaara`
+
+Swap `amaara` for any artist handle in `seed/manifest.json`. It ends by reattaching the seed EPs and albums, so the artist page looks as it did after the first seed.
+
+## Replace a fan's playlists
+
+This deletes every playlist on one account. It then makes three new ones, each with 10 public tracks and no repeated song: Accra After Dark, Lagos Heat, and Slow Sunday.
+
+From the `kindred` folder, with Convex ready:
+
+`npx convex run seedReset:replacePlaylists '{"email":"the account email"}'`
+
+## Fan photos
+
+41 of the 42 seed fan accounts get a 160px Unsplash portrait. The photographer is stored on the file. Kofi Sarpong is left without one, so a row with no photo still shows initials.
+
+From the `kindred` folder, after the seed accounts exist and Convex is ready:
+
+`npx convex run seedFanAvatars:fanAvatars`
+
+It skips anyone who already has a photo. It does not touch artist or admin logins.
+
 ## What this seed does not store
 
 Posts for non-hero artists, search embeddings, and real RevenueCat purchases are later data. Efua gets an active entitlement and support routes from `seedSupportEconomy`. Recent months are written by `earnings:seedPastMonths`. Two older months, including Téwá Nkrumah whom she no longer routes to, are written by `seedCatalog:seedEarlierSupport`. The seed still gives Efua a like on Asase, and Akosua a playlist named Sunday in Osu.

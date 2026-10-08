@@ -234,6 +234,43 @@ describe("publicPages", () => {
         artistId: featuredId,
         activeFrom: now - 1000,
       });
+      const storageId = await ctx.storage.store(new Blob(["audio"]));
+      const audioFileId = await ctx.db.insert("files", {
+        storageId,
+        kind: "trackAudio",
+        artistId: featuredId,
+        contentType: "audio/mpeg",
+        sizeBytes: 5,
+        createdAt: now,
+      });
+      const track = {
+        artistId: featuredId,
+        audioFileId,
+        visibility: "public" as const,
+        state: "published" as const,
+        durationMs: 1000,
+        peaks: [0.2],
+        tags: [] as string[],
+        genre: "Afro-soul and R&B",
+        hidden: false,
+        createdAt: now,
+      };
+      await ctx.db.insert("tracks", {
+        ...track,
+        title: "Older",
+        publishedAt: now - 2000,
+      });
+      await ctx.db.insert("tracks", {
+        ...track,
+        title: "Newest",
+        publishedAt: now,
+      });
+      await ctx.db.insert("tracks", {
+        ...track,
+        title: "Locked",
+        visibility: "supporters",
+        publishedAt: now + 1,
+      });
       await ctx.db.insert("artistStats", {
         artistId: risingId,
         followerCount: 1,
@@ -259,6 +296,10 @@ describe("publicPages", () => {
 
     const browse = await t.query(api.publicPages.browse, {});
     expect(browse.featured?.handle).toBe("amaara-browse");
+    expect(browse.featured?.playTracks.map((track) => track.title)).toEqual([
+      "Newest",
+      "Older",
+    ]);
     expect(browse.rising.map((artist) => artist.handle)).toEqual([
       "sela-browse",
     ]);

@@ -1,6 +1,6 @@
 "use client";
 
-import { IconPlayerPlay } from "@tabler/icons-react";
+import { IconPlayerPlayFilled } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 
@@ -25,7 +25,7 @@ export interface BrowsePlayTrack {
 }
 
 export interface BrowseFeatured extends BrowseArtist {
-  playTrack: BrowsePlayTrack | null;
+  playTracks: BrowsePlayTrack[];
 }
 
 export interface BrowseRelease {
@@ -39,7 +39,7 @@ interface PublicBrowsePageProps {
   featured: BrowseFeatured | null;
   rising: BrowseArtist[];
   releases: BrowseRelease[];
-  onPlayFeatured: () => void;
+  onPlayTrack: (trackId: string) => void;
 }
 
 function genreLabel(bio: string) {
@@ -51,8 +51,10 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
   featured,
   rising,
   releases,
-  onPlayFeatured,
+  onPlayTrack,
 }) => {
+  const featuredImage = featured?.avatarUrl ?? featured?.coverUrl ?? null;
+
   return (
     <main className="mx-auto max-w-[1200px] px-4 py-8 sm:px-8 lg:px-10 lg:py-9">
       <section className="mb-11">
@@ -62,47 +64,57 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
         {featured === null ? (
           <Text className="text-sm text-text/50">No featured artist yet.</Text>
         ) : (
-          <div className="relative h-64 overflow-hidden rounded-2xl">
-            {featured.coverUrl !== null ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={featured.coverUrl}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-surface" />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-r from-page/95 via-page/70 to-transparent" />
-            <div className="absolute inset-0 flex max-w-lg flex-col justify-center px-6 sm:px-10">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
-                Featured artist
-              </p>
-              <Link href={`/artist/${featured.handle}`}>
-                <Heading
-                  variant="card"
-                  className="mb-2 font-display text-3xl font-medium"
-                >
-                  {featured.name}
-                </Heading>
-              </Link>
-              <Text className="mb-5 text-sm text-text/60">{featured.bio}</Text>
-              <div className="flex items-center gap-3">
-                {featured.playTrack !== null ? (
-                  <button
-                    type="button"
-                    aria-label={`Play ${featured.playTrack.title}`}
-                    onClick={onPlayFeatured}
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-text text-page"
-                  >
-                    <IconPlayerPlay size={16} className="ml-0.5" />
-                  </button>
-                ) : null}
-                <GetTheAppButton
-                  iconSize={14}
-                  className="flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95 sm:px-6"
+          <div className="grid overflow-hidden rounded-2xl bg-surface md:grid-cols-[minmax(220px,300px)_minmax(0,1fr)]">
+            <Link
+              href={`/artist/${featured.handle}`}
+              aria-label={featured.name}
+              className="relative block h-80 bg-page md:h-[420px]"
+            >
+              {featuredImage !== null ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={featuredImage}
+                  alt=""
+                  className="h-full w-full object-cover object-top"
                 />
-              </div>
+              ) : null}
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 pb-5 pt-16 font-display text-2xl font-medium text-white">
+                {featured.name}
+              </span>
+            </Link>
+            <div className="flex flex-col justify-center px-5 py-6 sm:px-8">
+              <Text className="text-sm leading-relaxed text-text/60">
+                {featured.bio}
+              </Text>
+              {featured.playTracks.length > 0 ? (
+                <ul className="mt-5 divide-y divide-white/5">
+                  {featured.playTracks.map((track) => (
+                    <li key={track.trackId}>
+                      <button
+                        type="button"
+                        aria-label={`Play ${track.title}`}
+                        onClick={() => onPlayTrack(track.trackId)}
+                        className="flex w-full items-center gap-3 py-2.5 text-left"
+                      >
+                        <Artwork
+                          url={track.artworkUrl}
+                          className="h-10 w-10 rounded-lg"
+                        />
+                        <span className="min-w-0 flex-1 truncate text-sm font-medium text-text">
+                          {track.title}
+                        </span>
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary">
+                          <IconPlayerPlayFilled size={12} className="ml-0.5" />
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <GetTheAppButton
+                iconSize={14}
+                className="mt-5 flex w-fit items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-textOnPrimary hover:brightness-95"
+              />
             </div>
           </div>
         )}
@@ -115,28 +127,24 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
         {rising.length === 0 ? (
           <Text className="text-sm text-text/50">No rising artists yet.</Text>
         ) : (
-          <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+          <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-5">
             {rising.map((artist) => (
-              <li
-                key={artist.handle}
-                className="flex flex-col items-center rounded-2xl border border-white/5 bg-surface p-4 text-center sm:p-5"
-              >
-                <Link href={`/artist/${artist.handle}`} className="w-full">
+              <li key={artist.handle}>
+                <Link
+                  href={`/artist/${artist.handle}`}
+                  className="flex h-full flex-col items-center rounded-2xl border border-white/5 bg-surface p-4 text-center transition-colors hover:border-white/15 sm:p-5"
+                >
                   <Artwork
                     url={artist.avatarUrl}
                     className="mx-auto mb-4 h-20 w-20 rounded-full"
                   />
-                  <p className="truncate text-sm font-semibold text-text">
+                  <p className="w-full truncate text-sm font-semibold text-text">
                     {artist.name}
                   </p>
-                  <p className="mb-4 truncate text-xs text-text/45">
+                  <p className="w-full truncate text-xs text-text/45">
                     {genreLabel(artist.bio)}
                   </p>
                 </Link>
-                <GetTheAppButton
-                  iconSize={14}
-                  className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary py-2 text-xs font-semibold text-textOnPrimary hover:brightness-95"
-                />
               </li>
             ))}
           </ul>

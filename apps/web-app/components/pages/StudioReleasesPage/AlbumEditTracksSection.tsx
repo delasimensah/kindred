@@ -103,7 +103,7 @@ const AlbumEditTracksSection: React.FC<AlbumEditTracksSectionProps> = ({
               className="min-w-0 rounded-xl border border-white/10 bg-page p-3 sm:p-4"
             >
               <div className="mb-3 flex items-center justify-between gap-2">
-                <p className="min-w-0 text-xs font-semibold uppercase tracking-wide text-text/45">
+                <p className="min-w-0 text-xs font-semibold text-text/45">
                   Track {index + 1}
                   <span className="ml-2 font-normal normal-case tracking-normal text-text/35">
                     {formatDuration(track.durationMs)}

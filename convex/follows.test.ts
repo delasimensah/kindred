@@ -52,5 +52,14 @@ describe("follows", () => {
       return await ctx.db.query("follows").collect();
     });
     expect(stillFollowed).toHaveLength(1);
+
+    const mine = await asUser(t, userId).query(api.follows.listMine, {});
+    expect(mine).toEqual([
+      expect.objectContaining({
+        artistId,
+        name: "Amaara Mensah",
+        supporting: true,
+      }),
+    ]);
   });
 });

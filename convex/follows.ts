@@ -56,6 +56,7 @@ export const listMine = authedQuery({
       artistId: v.id("artists"),
       name: v.string(),
       avatarUrl: v.union(v.string(), v.null()),
+      supporting: v.boolean(),
     })
   ),
   handler: async (ctx) => {
@@ -65,9 +66,24 @@ export const listMine = authedQuery({
       .withIndex("by_profile_createdAt", (q) => q.eq("profileId", profile._id))
       .order("desc")
       .collect();
+    const routes = await ctx.db
+      .query("supportRoutes")
+      .withIndex("by_profile_active", (q) =>
+        q.eq("profileId", profile._id).eq("active", true)
+      )
+      .collect();
+    const supportingIds = new Set(routes.map((route) => route.artistId));
+    const seen = new Set<string>();
     const rows = [];
-    for (const follow of follows) {
-      const artist = await ctx.db.get(follow.artistId);
+    for (const artistId of [
+      ...follows.map((follow) => follow.artistId),
+      ...routes.map((route) => route.artistId),
+    ]) {
+      if (seen.has(artistId)) {
+        continue;
+      }
+      seen.add(artistId);
+      const artist = await ctx.db.get(artistId);
       if (artist === null || artist.hidden) {
         continue;
       }
@@ -75,8 +91,12 @@ export const listMine = authedQuery({
         artistId: artist._id,
         name: artist.name,
         avatarUrl: await fileUrl(ctx, artist.avatarFileId),
+        supporting: supportingIds.has(artist._id),
       });
     }
+    rows.sort(
+      (left, right) => Number(right.supporting) - Number(left.supporting)
+    );
     return rows;
   },
 });

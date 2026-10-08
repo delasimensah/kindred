@@ -69,7 +69,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
   const meta = heroMeta(artist);
   return (
     <div>
-      <section className="relative h-64 w-full overflow-hidden sm:h-72 lg:h-[340px]">
+      <section className="relative h-80 w-full overflow-hidden md:h-72 lg:h-[340px]">
         {artist.coverUrl !== null ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -81,15 +81,12 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
           <div className="absolute inset-0 bg-surface" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-page via-page/70 to-page/10" />
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-4 px-4 pb-6 sm:px-8 lg:flex-row lg:items-end lg:gap-6 lg:px-10 lg:pb-8">
+        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-[1100px] flex-col gap-4 px-4 pb-6 sm:px-8 md:flex-row md:items-end md:gap-6 lg:px-10 lg:pb-8">
           <Artwork
             url={artist.avatarUrl}
-            className="h-20 w-20 rounded-2xl border-4 border-page sm:h-28 sm:w-28 lg:h-32 lg:w-32"
+            className="h-20 w-20 rounded-full border-4 border-page sm:h-28 sm:w-28 lg:h-32 lg:w-32"
           />
           <div className="min-w-0 flex-1 pb-1">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-primary">
-              Artist
-            </p>
             <Heading
               variant="page"
               className="mb-0 font-display text-3xl font-medium leading-tight lg:text-[40px]"

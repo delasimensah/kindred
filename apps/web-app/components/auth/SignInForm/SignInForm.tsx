@@ -18,7 +18,7 @@ import Text from "../../ui/Text/Text";
 const inputClassNames = {
   label: "mb-2 text-sm text-text/70",
   input:
-    "rounded-xl border-white/10 bg-page py-3 pl-11 pr-4 text-sm text-text placeholder:text-text/30 focus:border-primary/60",
+    "rounded-xl border-white/10 bg-page py-3 text-sm text-text placeholder:text-text/30 focus:border-primary/60",
   section: "text-text/35",
   error: "mt-1 text-sm text-danger",
 };
@@ -67,6 +67,7 @@ const SignInForm: React.FC = () => {
         type="email"
         autoComplete="email"
         leftSection={<IconMail size={16} stroke={1.5} aria-hidden />}
+        leftSectionWidth={40}
         classNames={inputClassNames}
         {...form.getInputProps("email")}
       />
@@ -76,10 +77,9 @@ const SignInForm: React.FC = () => {
         placeholder="••••••••"
         autoComplete="current-password"
         leftSection={<IconLock size={16} stroke={1.5} aria-hidden />}
+        leftSectionWidth={40}
         classNames={{
           ...inputClassNames,
-          input:
-            "rounded-xl border-white/10 bg-page py-3 pl-11 pr-11 text-sm text-text placeholder:text-text/30 focus:border-primary/60",
           visibilityToggle: "text-text/35",
         }}
         {...form.getInputProps("password")}

@@ -23,6 +23,7 @@ describe("StudioSupportersPage", () => {
         {
           profileId: "profiles_1",
           displayName: "Efua Boateng",
+          avatarUrl: null,
           startedAt: Date.UTC(2026, 7, 12),
           founding: true,
         },
@@ -37,6 +38,7 @@ describe("StudioSupportersPage", () => {
       screen.getByRole("heading", { name: /supporters/i })
     ).toBeInTheDocument();
     expect(screen.getByText("Efua Boateng")).toBeInTheDocument();
+    expect(screen.getByText("EB")).toBeInTheDocument();
     expect(screen.getAllByText("Founding").length).toBeGreaterThan(0);
   });
 });

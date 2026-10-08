@@ -44,9 +44,7 @@ const ComposerAttachments: React.FC<ComposerAttachmentsProps> = ({
 
   return (
     <div className="rounded-2xl border border-white/5 bg-surface p-5 sm:p-7">
-      <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text/80">
-        Attach
-      </h2>
+      <h2 className="mb-4 text-base font-semibold text-text">Attach</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="relative">
           {photoPreviewUrl ? (

@@ -6,6 +6,7 @@ const SearchLayout = () => {
   return (
     <Stack screenOptions={tabStackScreenOptions}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="genre/[genre]" />
       <Stack.Screen
         name="artist/[artistId]"
         options={coverHeaderScreenOptions}

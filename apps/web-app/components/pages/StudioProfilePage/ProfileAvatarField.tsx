@@ -22,9 +22,7 @@ const ProfileAvatarField: React.FC<ProfileAvatarFieldProps> = ({
 
   return (
     <div className="rounded-2xl border border-white/5 bg-surface p-7">
-      <h2 className="mb-5 text-sm font-semibold uppercase tracking-wider text-text/80">
-        Avatar
-      </h2>
+      <h2 className="mb-5 text-base font-semibold text-text">Avatar</h2>
       <div className="flex flex-col items-center">
         <div className="relative mb-4 h-28 w-28">
           {avatarUrl ? (

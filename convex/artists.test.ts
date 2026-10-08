@@ -195,7 +195,10 @@ describe("artists", () => {
     );
     expect(amaaraSummary.total).toBe(1);
     expect(amaaraSummary.foundingCount).toBe(1);
-    expect(amaaraList.page[0]?.displayName).toBe("Efua Boateng");
+    expect(amaaraList.page[0]).toMatchObject({
+      displayName: "Efua Boateng",
+      avatarUrl: null,
+    });
 
     const kwekuSummary = await asUser(t, kwekuUser).query(
       api.artists.supporterSummary,

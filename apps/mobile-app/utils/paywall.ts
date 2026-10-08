@@ -24,12 +24,14 @@ export const PAYWALL_PLANS = [
     id: SUPPORTER_PRODUCT_499,
     name: "Supporter",
     price: "$4.99",
+    artistShare: "$3.49",
     badge: null,
   },
   {
     id: SUPPORTER_PRODUCT_999,
     name: "Champion",
     price: "$9.99",
+    artistShare: "$6.99",
     badge: "Most supportive",
   },
 ] as const;

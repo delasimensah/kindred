@@ -47,9 +47,7 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
           className="h-48 w-48 rounded-2xl sm:h-52 sm:w-52"
         />
         <div className="min-w-0">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">
-            Mix
-          </p>
+          <p className="mb-2 text-xs font-semibold text-primary">Mix</p>
           <Heading
             variant="page"
             className="mb-2 font-display text-3xl font-medium leading-tight lg:text-4xl"

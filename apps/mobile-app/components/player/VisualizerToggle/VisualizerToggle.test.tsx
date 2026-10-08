@@ -8,7 +8,7 @@ describe("VisualizerToggle", () => {
     render(
       <VisualizerToggle enabled={false} lowPower={false} onChange={onChange} />
     );
-    fireEvent(screen.getByLabelText("Visualizer"), "valueChange", true);
+    fireEvent.press(screen.getByLabelText("Visualizer"));
     expect(onChange).toHaveBeenCalledWith(true);
   });
 
@@ -16,8 +16,11 @@ describe("VisualizerToggle", () => {
     const onChange = jest.fn();
     render(<VisualizerToggle enabled lowPower onChange={onChange} />);
     const toggle = screen.getByLabelText("Visualizer");
-    expect(toggle.props.value).toBe(false);
-    expect(toggle.props.disabled).toBe(true);
+    expect(toggle.props.accessibilityState).toMatchObject({
+      checked: false,
+      disabled: true,
+    });
+    fireEvent.press(toggle);
     expect(onChange).not.toHaveBeenCalled();
   });
 });

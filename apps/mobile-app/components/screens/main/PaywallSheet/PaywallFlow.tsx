@@ -1,4 +1,5 @@
 import { api } from "@convex/_generated/api";
+import type { Id } from "@convex/_generated/dataModel";
 import { useAction, useQuery } from "convex/react";
 import Constants from "expo-constants";
 import React, { useEffect, useState } from "react";
@@ -17,12 +18,21 @@ function bundleId(): string | undefined {
 }
 
 interface PaywallFlowProps {
+  artistId?: string;
   onClose: () => void;
   onConfirmed: () => void;
 }
 
-const PaywallFlow: React.FC<PaywallFlowProps> = ({ onClose, onConfirmed }) => {
+const PaywallFlow: React.FC<PaywallFlowProps> = ({
+  artistId,
+  onClose,
+  onConfirmed,
+}) => {
   const me = useQuery(api.profiles.getMe, {});
+  const artist = useQuery(
+    api.artists.get,
+    artistId !== undefined ? { artistId: artistId as Id<"artists"> } : "skip"
+  );
   const sync = useAction(api.entitlements.sync);
   const [selectedPlanId, setSelectedPlanId] = useState<string>(
     PAYWALL_PLANS[1].id
@@ -126,6 +136,9 @@ const PaywallFlow: React.FC<PaywallFlowProps> = ({ onClose, onConfirmed }) => {
 
   return (
     <PaywallSheet
+      artist={
+        artist ? { name: artist.name, avatarUrl: artist.avatarUrl } : null
+      }
       selectedPlanId={selectedPlanId}
       onSelectPlan={setSelectedPlanId}
       onSubscribe={subscribe}

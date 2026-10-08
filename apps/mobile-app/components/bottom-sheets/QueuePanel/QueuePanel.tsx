@@ -35,6 +35,7 @@ import Text from "../../ui/Text/Text";
 const QueuePanel: React.FC = () => {
   const sheetRef = useRef<BottomSheetModal>(null);
   const setQueueRef = useBottomsheetStore((s) => s.setQueueRef);
+  const setQueuePresented = useBottomsheetStore((s) => s.setQueuePresented);
   const player = usePreviewPlayer();
   const current = normalizeTrack(player.track);
   const { height: screenHeight } = Dimensions.get("screen");
@@ -83,6 +84,13 @@ const QueuePanel: React.FC = () => {
       topInset={topGap}
       bottomInset={0}
       stackBehavior="push"
+      onChange={(index) => {
+        if (index >= 0) {
+          setQueuePresented(true);
+        }
+      }}
+      onDismiss={() => setQueuePresented(false)}
+      containerStyle={{ zIndex: 50, elevation: 24 }}
       backdropComponent={renderBackdrop}
       backgroundStyle={{
         backgroundColor: COLORS.page,

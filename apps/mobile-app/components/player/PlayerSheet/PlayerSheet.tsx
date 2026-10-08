@@ -2,6 +2,7 @@ import {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -49,10 +50,13 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
     const player = usePreviewPlayer();
     const openQueueSheet = useBottomsheetStore((s) => s.openQueueSheet);
     const closeQueueSheet = useBottomsheetStore((s) => s.closeQueueSheet);
+    const queuePresented = useBottomsheetStore((s) => s.queuePresented);
+    const setQueuePresented = useBottomsheetStore((s) => s.setQueuePresented);
     const insets = useSafeAreaInsets();
     const { height } = useWindowDimensions();
     const progress = useSharedValue(0);
     const startProgress = useSharedValue(0);
+    const queueOpen = useSharedValue(false);
     const seenQueueEpoch = useRef(player.queueEpoch);
     const [expanded, setExpanded] = useState(false);
 
@@ -65,42 +69,84 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
     }, [player.queueEpoch, closeQueueSheet]);
     const shown = normalizeTrack(player.track);
 
+    useEffect(() => {
+      queueOpen.value = queuePresented;
+      if (!queuePresented) {
+        return;
+      }
+      setExpanded(true);
+      progress.value = withSpring(1, SPRING);
+    }, [progress, queueOpen, queuePresented]);
+
     const open = () => {
       setExpanded(true);
       progress.value = withSpring(1, SPRING);
     };
     const close = () => {
+      queueOpen.value = false;
+      setQueuePresented(false);
       closeQueueSheet();
       setExpanded(false);
       progress.value = withSpring(0, SPRING);
     };
+    const openQueue = () => {
+      queueOpen.value = true;
+      setQueuePresented(true);
+      setExpanded(true);
+      progress.value = withSpring(1, SPRING);
+      openQueueSheet();
+    };
 
     useImperativeHandle(ref, () => ({ open }));
 
-    const buildPan = () =>
-      Gesture.Pan()
-        .minDistance(10)
-        .activeOffsetY([-12, 12])
-        .onBegin(() => {
-          startProgress.value = progress.value;
-        })
-        .onUpdate((event) => {
-          const next = startProgress.value - event.translationY / SCREEN_HEIGHT;
-          progress.value = Math.min(1, Math.max(0, next));
-        })
-        .onEnd((event) => {
-          const shouldOpen =
-            event.velocityY < -500 ||
-            (event.velocityY >= -500 && progress.value > 0.5);
-          scheduleOnRN(setExpanded, shouldOpen);
-          if (!shouldOpen) {
-            scheduleOnRN(closeQueueSheet);
-          }
-          progress.value = withSpring(shouldOpen ? 1 : 0, SPRING);
-        });
-
-    const miniBarPan = buildPan();
-    const fullPlayerPan = buildPan();
+    const dismissPan = useMemo(() => {
+      const make = () =>
+        Gesture.Pan()
+          .minDistance(10)
+          .activeOffsetY([-12, 12])
+          .onTouchesDown((_, manager) => {
+            if (queueOpen.value) {
+              manager.fail();
+            }
+          })
+          .onBegin(() => {
+            if (queueOpen.value) {
+              return;
+            }
+            startProgress.value = progress.value;
+          })
+          .onUpdate((event) => {
+            if (queueOpen.value) {
+              return;
+            }
+            const next =
+              startProgress.value - event.translationY / SCREEN_HEIGHT;
+            progress.value = Math.min(1, Math.max(0, next));
+          })
+          .onFinalize(() => {
+            if (!queueOpen.value) {
+              return;
+            }
+            progress.value = withSpring(1, SPRING);
+            scheduleOnRN(setExpanded, true);
+          })
+          .onEnd((event) => {
+            if (queueOpen.value) {
+              progress.value = withSpring(1, SPRING);
+              scheduleOnRN(setExpanded, true);
+              return;
+            }
+            const shouldOpen =
+              event.velocityY < -500 ||
+              (event.velocityY >= -500 && progress.value > 0.5);
+            scheduleOnRN(setExpanded, shouldOpen);
+            if (!shouldOpen) {
+              scheduleOnRN(closeQueueSheet);
+            }
+            progress.value = withSpring(shouldOpen ? 1 : 0, SPRING);
+          });
+      return { mini: make(), full: make() };
+    }, [closeQueueSheet, progress, queueOpen, startProgress]);
 
     const fullPlayerStyle = useAnimatedStyle(() => ({
       transform: [
@@ -131,7 +177,7 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
     return (
       <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
         {showCollapsedBar ? (
-          <GestureDetector gesture={miniBarPan}>
+          <GestureDetector gesture={dismissPan.mini}>
             <Animated.View
               style={[
                 styles.miniBar,
@@ -173,11 +219,11 @@ const PlayerSheet = forwardRef<PlayerSheetHandle, PlayerSheetProps>(
             onSeek={player.seek}
             onShuffle={() => player.setShuffle(!player.shuffle)}
             onRepeat={player.cycleRepeat}
-            onQueue={openQueueSheet}
+            onQueue={openQueue}
             onPlayNext={() => player.playNext(player.track)}
             onAddToQueue={() => player.addToQueue(player.track)}
             coverProgress={progress}
-            dismissGesture={fullPlayerPan}
+            dismissGesture={dismissPan.full}
           />
         </Animated.View>
         <PlayerArtworkFlight

@@ -10,6 +10,7 @@ describe("useBottomsheetStore", () => {
     act(() => {
       result.current.setGenericRef(null);
       result.current.setQueueRef(null);
+      result.current.setQueuePresented(false);
     });
   });
 

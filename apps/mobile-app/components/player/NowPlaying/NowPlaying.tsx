@@ -46,6 +46,9 @@ interface NowPlayingProps {
   onShuffle: () => void;
   onRepeat: () => void;
   onQueue: () => void;
+  /** Finger down, before the press ends, so the player cannot slide away. */
+  onQueuePressIn?: () => void;
+  onQueuePressOut?: () => void;
   onPlayNext: () => void;
   onAddToQueue: () => void;
   coverProgress?: SharedValue<number>;
@@ -75,6 +78,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
   onShuffle,
   onRepeat,
   onQueue,
+  onQueuePressIn,
+  onQueuePressOut,
   onPlayNext,
   onAddToQueue,
   coverProgress,
@@ -239,6 +244,8 @@ const NowPlaying: React.FC<NowPlayingProps> = ({
           <GesturePressable
             accessibilityRole="button"
             accessibilityLabel="Queue"
+            onPressIn={onQueuePressIn}
+            onPressOut={onQueuePressOut}
             onPress={onQueue}
             style={{
               width: 44,

@@ -7,6 +7,7 @@ import { PAYWALL_BULLETS, PAYWALL_PLANS } from "@/utils";
 
 import Button from "../../../ui/Button/Button";
 import PersonAvatar from "../../../ui/PersonAvatar/PersonAvatar";
+import SkeletonCard from "../../../ui/SkeletonCard/SkeletonCard";
 import { HStack, VStack } from "../../../ui/Stack/Stack";
 import Text from "../../../ui/Text/Text";
 
@@ -17,6 +18,8 @@ export interface PaywallArtist {
 
 interface PaywallSheetProps {
   artist?: PaywallArtist | null;
+  /** True while this sheet was opened for an artist whose name has not arrived. */
+  artistLoading?: boolean;
   selectedPlanId: string;
   onSelectPlan: (planId: string) => void;
   onSubscribe: () => void;
@@ -29,6 +32,7 @@ interface PaywallSheetProps {
 
 const PaywallSheet: React.FC<PaywallSheetProps> = ({
   artist = null,
+  artistLoading = false,
   selectedPlanId,
   onSelectPlan,
   onSubscribe,
@@ -55,7 +59,12 @@ const PaywallSheet: React.FC<PaywallSheetProps> = ({
         <ScrollView>
           <VStack spacing="lg" className="pt-6">
             <VStack spacing="sm" className="pr-8">
-              {artist ? (
+              {artistLoading ? (
+                <VStack spacing="sm" accessibilityLabel="Loading artist">
+                  <SkeletonCard width={56} height={56} radius={28} />
+                  <SkeletonCard width={220} height={28} radius={8} />
+                </VStack>
+              ) : artist ? (
                 <PersonAvatar
                   displayName={artist.name}
                   imageUrl={artist.avatarUrl}
@@ -70,11 +79,13 @@ const PaywallSheet: React.FC<PaywallSheetProps> = ({
                   <Ionicons name="heart" size={18} color={COLORS.page} />
                 </VStack>
               )}
-              <Text className="font-display-bold text-[26px] leading-tight tracking-tight text-text">
-                {artist
-                  ? `Support ${artist.name}`
-                  : "Back the artists you believe in."}
-              </Text>
+              {artistLoading ? null : (
+                <Text className="font-display-bold text-[26px] leading-tight tracking-tight text-text">
+                  {artist
+                    ? `Support ${artist.name}`
+                    : "Back the artists you believe in."}
+                </Text>
+              )}
               <Text className="text-sm leading-relaxed text-text/60">
                 One subscription. Route it to up to 5 artists. Same access at
                 both prices.

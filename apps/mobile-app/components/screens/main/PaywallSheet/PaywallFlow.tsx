@@ -139,6 +139,7 @@ const PaywallFlow: React.FC<PaywallFlowProps> = ({
       artist={
         artist ? { name: artist.name, avatarUrl: artist.avatarUrl } : null
       }
+      artistLoading={artistId !== undefined && artist === undefined}
       selectedPlanId={selectedPlanId}
       onSelectPlan={setSelectedPlanId}
       onSubscribe={subscribe}

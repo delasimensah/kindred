@@ -10,7 +10,7 @@ describe("useBottomsheetStore", () => {
     act(() => {
       result.current.setGenericRef(null);
       result.current.setQueueRef(null);
-      result.current.setQueuePresented(false);
+      result.current.setQueueSheetOpen(false);
     });
   });
 
@@ -80,6 +80,24 @@ describe("useBottomsheetStore", () => {
       });
 
       expect(mockPresent).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not dismiss the queue sheet unless it is open", () => {
+      const { result } = renderHook(() => useBottomsheetStore());
+      const dismiss = jest.fn();
+      const mockRef = { current: { dismiss } as any };
+
+      act(() => {
+        result.current.setQueueRef(mockRef as any);
+        result.current.closeQueueSheet();
+      });
+      expect(dismiss).not.toHaveBeenCalled();
+
+      act(() => {
+        result.current.setQueueSheetOpen(true);
+        result.current.closeQueueSheet();
+      });
+      expect(dismiss).toHaveBeenCalledTimes(1);
     });
 
     it("should not throw when calling methods with null refs", () => {

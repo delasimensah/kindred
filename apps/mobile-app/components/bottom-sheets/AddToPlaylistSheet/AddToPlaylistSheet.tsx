@@ -104,6 +104,7 @@ const AddToPlaylistSheet: React.FC<AddToPlaylistSheetProps> = ({
       snapPoints={["70%"]}
       enableDynamicSizing={false}
       enablePanDownToClose
+      stackBehavior="push"
       onDismiss={finish}
       backgroundStyle={{ backgroundColor: COLORS.page }}
     >

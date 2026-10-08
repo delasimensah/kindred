@@ -148,6 +148,7 @@ const TrackMenu: React.FC<TrackMenuProps> = ({
         ref={sheetRef}
         enableDynamicSizing
         enablePanDownToClose
+        stackBehavior="push"
         backgroundStyle={{ backgroundColor: COLORS.surface }}
       >
         <BottomSheetView>

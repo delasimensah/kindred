@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { render, screen, within } from "@testing-library/react-native";
 
@@ -41,7 +42,9 @@ describe("PlayerSheet", () => {
   it("shows the mini player on Android, where the tab bar has no accessory", async () => {
     render(
       <PreviewPlayerProvider>
-        <PlayerSheet showCollapsedBar />
+        <BottomSheetModalProvider>
+          <PlayerSheet showCollapsedBar />
+        </BottomSheetModalProvider>
       </PreviewPlayerProvider>
     );
 

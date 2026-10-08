@@ -43,4 +43,14 @@ describe("PaywallSheet", () => {
 
     expect(screen.getByText("Support Amaara")).toBeTruthy();
   });
+
+  it("holds the headline until the artist name arrives", () => {
+    render(
+      <PaywallSheet {...baseProps} onSubscribe={jest.fn()} artistLoading />
+    );
+
+    expect(screen.getByLabelText("Loading artist")).toBeTruthy();
+    expect(screen.queryByText("Back the artists you believe in.")).toBeNull();
+    expect(screen.getByText("Subscribe")).toBeTruthy();
+  });
 });

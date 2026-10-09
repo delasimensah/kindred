@@ -12,6 +12,7 @@ import React from "react";
 import { formatRelativeTime, formatVoiceDuration } from "@/utils";
 
 import GetTheAppButton from "../../public/GetTheAppButton";
+import { stagger } from "../../public/motion";
 import { Artwork } from "../../public/PublicTrackRow";
 import Heading from "../../ui/Heading/Heading";
 import Text from "../../ui/Text/Text";
@@ -50,7 +51,7 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
     <main className="mx-auto max-w-[720px] space-y-8 px-4 py-10 sm:px-8 lg:px-10 lg:py-12">
       <Link
         href={`/artist/${post.artistHandle}`}
-        className="flex w-fit items-center gap-3"
+        className="flex w-fit items-center gap-3 motion-safe:animate-rise"
       >
         <Artwork url={post.avatarUrl} className="h-11 w-11 rounded-full" />
         <div className="min-w-0">
@@ -63,7 +64,10 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
         </div>
       </Link>
       {post.locked ? (
-        <article className="overflow-hidden rounded-2xl border border-primary/20 bg-surface">
+        <article
+          style={stagger(1, 90)}
+          className="overflow-hidden rounded-2xl border border-primary/20 bg-surface motion-safe:animate-rise"
+        >
           <div className="p-6 sm:p-7">
             <p className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-primary">
               <IconLock size={10} aria-hidden />
@@ -87,7 +91,10 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
           </div>
         </article>
       ) : (
-        <article className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
+        <article
+          style={stagger(1, 90)}
+          className="overflow-hidden rounded-2xl border border-white/5 bg-surface motion-safe:animate-rise"
+        >
           <div className="p-6 sm:p-7">
             <Text className="text-sm leading-relaxed text-text/70">
               {post.body}
@@ -99,9 +106,9 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
                   voicePlaying ? "Pause voice note" : "Play voice note"
                 }
                 onClick={onPlayVoice}
-                className="mt-5 flex w-full items-center gap-4 rounded-xl border border-white/10 bg-page px-5 py-4 text-left"
+                className="group mt-5 flex w-full items-center gap-4 rounded-xl border border-white/10 bg-page px-5 py-4 text-left transition-colors duration-200 hover:border-white/20"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary transition-transform duration-200 motion-safe:group-hover:scale-105 motion-safe:group-active:scale-95">
                   {voicePlaying ? (
                     <IconPlayerPause size={12} />
                   ) : (
@@ -115,8 +122,15 @@ const PublicPostPage: React.FC<PublicPostPageProps> = ({
                   {VOICE_BARS.map((height, index) => (
                     <span
                       key={index}
-                      className="w-1 rounded-full bg-text/25"
-                      style={{ height: `${height * 4}px` }}
+                      className={`w-1 rounded-full transition-colors duration-300 ${
+                        voicePlaying
+                          ? "bg-primary/70 motion-safe:animate-eq"
+                          : "bg-text/25"
+                      }`}
+                      style={{
+                        height: `${height * 4}px`,
+                        animationDelay: `${(index % 5) * 110}ms`,
+                      }}
                     />
                   ))}
                 </span>

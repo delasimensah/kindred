@@ -10,9 +10,11 @@ import PublicGetAppModal from "./PublicGetAppModal";
 import PublicPlayer from "./PublicPlayer";
 import { usePublicPlayer } from "./publicPlayerStore";
 import PublicStudioLink from "./PublicStudioLink";
+import { useReturningVisit } from "./useReturningVisit";
 
 const PublicShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const playerOpen = usePublicPlayer((state) => state.queue.length > 0);
+  const returning = useReturningVisit();
   return (
     <div className="min-h-screen bg-page text-text">
       <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/5 bg-page/95 px-4 backdrop-blur sm:px-8 lg:px-10">
@@ -37,7 +39,11 @@ const PublicShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           />
         </div>
       </header>
-      <div className={playerOpen ? "pb-24 md:pb-28" : ""}>{children}</div>
+      <div
+        className={`${playerOpen ? "pb-24 md:pb-28" : ""} ${returning ? "public-returning" : ""}`}
+      >
+        {children}
+      </div>
       <PublicPlayer />
       <PublicGetAppModal />
     </div>

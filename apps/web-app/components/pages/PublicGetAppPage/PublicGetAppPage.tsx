@@ -23,7 +23,7 @@ const PublicGetAppPage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       role="dialog"
       aria-modal="true"
       aria-label="Listen with the full Kindred app"
-      className="relative z-10 w-full max-w-[480px] rounded-3xl border border-white/10 bg-surface p-7 text-center shadow-2xl sm:p-9"
+      className="relative z-10 w-full max-w-[480px] rounded-3xl border border-white/10 bg-surface p-7 text-center shadow-2xl motion-safe:animate-pop sm:p-9"
     >
       <button
         type="button"

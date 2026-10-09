@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 import GetTheAppButton from "../../public/GetTheAppButton";
+import { stagger } from "../../public/motion";
 import { Artwork } from "../../public/PublicTrackRow";
 import Heading from "../../ui/Heading/Heading";
 import Text from "../../ui/Text/Text";
@@ -57,7 +58,7 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
 
   return (
     <main className="mx-auto max-w-[1200px] px-4 py-8 sm:px-8 lg:px-10 lg:py-9">
-      <section className="mb-11">
+      <section className="mb-11 motion-safe:animate-rise">
         <Heading variant="section" className="mb-5 text-lg font-semibold">
           Featured
         </Heading>
@@ -68,14 +69,14 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
             <Link
               href={`/artist/${featured.handle}`}
               aria-label={featured.name}
-              className="relative block h-80 bg-page md:h-[420px]"
+              className="group relative block h-80 overflow-hidden bg-page md:h-[420px]"
             >
               {featuredImage !== null ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={featuredImage}
                   alt=""
-                  className="h-full w-full object-cover object-top"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                 />
               ) : null}
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 pb-5 pt-16 font-display text-2xl font-medium text-white">
@@ -94,7 +95,7 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
                         type="button"
                         aria-label={`Play ${track.title}`}
                         onClick={() => onPlayTrack(track.trackId)}
-                        className="flex w-full items-center gap-3 py-2.5 text-left"
+                        className="group flex w-full items-center gap-3 py-2.5 text-left"
                       >
                         <Artwork
                           url={track.artworkUrl}
@@ -103,7 +104,7 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
                         <span className="min-w-0 flex-1 truncate text-sm font-medium text-text">
                           {track.title}
                         </span>
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-textOnPrimary transition-transform duration-200 motion-safe:group-hover:scale-110 motion-safe:group-active:scale-95">
                           <IconPlayerPlayFilled size={12} className="ml-0.5" />
                         </span>
                       </button>
@@ -120,7 +121,10 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
         )}
       </section>
 
-      <section className="mb-11">
+      <section
+        className="mb-11 motion-safe:animate-rise"
+        style={stagger(1, 90)}
+      >
         <Heading variant="section" className="mb-5 text-lg font-semibold">
           Rising
         </Heading>
@@ -128,15 +132,19 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
           <Text className="text-sm text-text/50">No rising artists yet.</Text>
         ) : (
           <ul className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-5">
-            {rising.map((artist) => (
-              <li key={artist.handle}>
+            {rising.map((artist, index) => (
+              <li
+                key={artist.handle}
+                style={stagger(index)}
+                className="motion-safe:animate-rise"
+              >
                 <Link
                   href={`/artist/${artist.handle}`}
-                  className="flex h-full flex-col items-center rounded-2xl border border-white/5 bg-surface p-4 text-center transition-colors hover:border-white/15 sm:p-5"
+                  className="group flex h-full flex-col items-center rounded-2xl border border-white/5 bg-surface p-4 text-center transition duration-300 hover:border-white/15 motion-safe:hover:-translate-y-1 sm:p-5"
                 >
                   <Artwork
                     url={artist.avatarUrl}
-                    className="mx-auto mb-4 h-20 w-20 rounded-full"
+                    className="mx-auto mb-4 h-20 w-20 rounded-full transition-transform duration-300 motion-safe:group-hover:scale-105"
                   />
                   <p className="w-full truncate text-sm font-semibold text-text">
                     {artist.name}
@@ -152,18 +160,27 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
       </section>
 
       {releases.length > 0 ? (
-        <section className="mb-11">
+        <section
+          className="mb-11 motion-safe:animate-rise"
+          style={stagger(2, 90)}
+        >
           <Heading variant="section" className="mb-5 text-lg font-semibold">
             New releases
           </Heading>
           <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5">
-            {releases.map((release) => (
-              <li key={`${release.href}-${release.title}`}>
-                <Link href={release.href}>
-                  <Artwork
-                    url={release.artworkUrl}
-                    className="mb-3 h-32 w-full rounded-xl"
-                  />
+            {releases.map((release, index) => (
+              <li
+                key={`${release.href}-${release.title}`}
+                style={stagger(index)}
+                className="motion-safe:animate-rise"
+              >
+                <Link href={release.href} className="group block">
+                  <div className="mb-3 overflow-hidden rounded-xl">
+                    <Artwork
+                      url={release.artworkUrl}
+                      className="h-32 w-full transition-transform duration-500 ease-out motion-safe:group-hover:scale-105"
+                    />
+                  </div>
                   <p className="truncate text-sm font-medium text-text">
                     {release.title}
                   </p>
@@ -177,7 +194,10 @@ const PublicBrowsePage: React.FC<PublicBrowsePageProps> = ({
         </section>
       ) : null}
 
-      <section className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/5 bg-surface px-6 py-8 sm:px-10 sm:py-9 lg:flex-row lg:items-center">
+      <section
+        style={stagger(3, 90)}
+        className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/5 bg-surface px-6 py-8 motion-safe:animate-rise sm:px-10 sm:py-9 lg:flex-row lg:items-center"
+      >
         <div className="min-w-0">
           <Heading
             variant="section"

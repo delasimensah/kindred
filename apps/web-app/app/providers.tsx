@@ -4,6 +4,7 @@ import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { ConvexReactClient } from "convex/react";
+import { ConvexQueryCacheProvider } from "convex-helpers/react/cache/provider";
 import React, { useMemo } from "react";
 
 import { mantineTheme } from "@/theme/mantine-theme";
@@ -24,10 +25,12 @@ export const Providers = ({ children }: ProvidersProps) => {
 
   return (
     <ConvexAuthProvider client={convex}>
-      <MantineProvider theme={mantineTheme}>
-        {children}
-        <Notifications position="top-right" />
-      </MantineProvider>
+      <ConvexQueryCacheProvider>
+        <MantineProvider theme={mantineTheme}>
+          {children}
+          <Notifications position="top-right" />
+        </MantineProvider>
+      </ConvexQueryCacheProvider>
     </ConvexAuthProvider>
   );
 };

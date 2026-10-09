@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.public-returning .motion-safe\:animate-rise,
+.public-returning .motion-safe\:animate-pop,
+.public-returning .motion-safe\:animate-settle {
+  animation: none;
+}

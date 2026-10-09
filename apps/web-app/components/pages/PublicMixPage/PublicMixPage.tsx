@@ -3,6 +3,7 @@
 import { IconPlayerPlay } from "@tabler/icons-react";
 import React from "react";
 
+import { stagger } from "../../public/motion";
 import type { PublicTrackItem } from "../../public/publicCatalog";
 import { displayPositions, playableTracks } from "../../public/publicCatalog";
 import { Artwork } from "../../public/PublicTrackRow";
@@ -44,9 +45,12 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
       <div className="mb-6 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
         <Artwork
           url={mix.artworkUrl}
-          className="h-48 w-48 rounded-2xl sm:h-52 sm:w-52"
+          className="h-48 w-48 rounded-2xl shadow-card motion-safe:animate-pop sm:h-52 sm:w-52"
         />
-        <div className="min-w-0">
+        <div
+          className="min-w-0 motion-safe:animate-rise"
+          style={stagger(1, 90)}
+        >
           <p className="mb-2 text-xs font-semibold text-primary">Mix</p>
           <Heading
             variant="page"
@@ -65,7 +69,7 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
               type="button"
               aria-label={`Play ${mix.name}`}
               onClick={() => onPlayTrack(mix.tracks, first.trackId)}
-              className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary hover:brightness-95"
+              className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary transition hover:brightness-95 motion-safe:active:scale-[0.97]"
             >
               <IconPlayerPlay size={12} /> Play
             </button>
@@ -76,7 +80,10 @@ const PublicMixPage: React.FC<PublicMixPageProps> = ({
           )}
         </div>
       </div>
-      <section className="mt-10">
+      <section
+        className="mt-10 motion-safe:animate-rise"
+        style={stagger(2, 90)}
+      >
         <div className="mb-5 flex items-center justify-between gap-3">
           <Heading variant="section" className="mb-0 text-lg font-semibold">
             Tracklist

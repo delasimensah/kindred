@@ -12,6 +12,7 @@ import React from "react";
 import { formatVoiceDuration } from "@/utils";
 
 import GetTheAppButton from "../../public/GetTheAppButton";
+import { stagger } from "../../public/motion";
 import {
   displayPositions,
   type PublicTrackItem,
@@ -54,7 +55,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
   return (
     <main className="mx-auto max-w-[1000px] px-4 py-10 sm:px-8 lg:px-10 lg:py-14">
       {track.locked ? (
-        <section className="mb-12 rounded-2xl border border-primary/20 bg-surface p-5 sm:p-7">
+        <section className="mb-12 rounded-2xl border border-primary/20 bg-surface p-5 motion-safe:animate-pop sm:p-7">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
             <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
               <Artwork
@@ -89,9 +90,12 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
         <div className="mb-12 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-8">
           <Artwork
             url={track.artworkUrl}
-            className="h-52 w-52 rounded-2xl sm:h-56 sm:w-56"
+            className="h-52 w-52 rounded-2xl shadow-card motion-safe:animate-pop sm:h-56 sm:w-56"
           />
-          <div className="min-w-0">
+          <div
+            className="min-w-0 motion-safe:animate-rise"
+            style={stagger(1, 90)}
+          >
             <p className="mb-2 text-xs font-semibold text-primary">
               {track.kindLabel}
             </p>
@@ -115,7 +119,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
                   thisPlaying ? `Pause ${track.title}` : `Play ${track.title}`
                 }
                 onClick={() => onPlayTrack([track, ...more], track.trackId)}
-                className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary hover:brightness-95"
+                className="inline-flex items-center gap-2.5 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-textOnPrimary transition hover:brightness-95 motion-safe:active:scale-[0.97]"
               >
                 {thisPlaying ? (
                   <IconPlayerPause size={12} />
@@ -130,7 +134,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
                 onClick={() => {
                   void navigator.clipboard.writeText(window.location.href);
                 }}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-text/60 hover:text-text"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 text-text/60 transition hover:border-white/20 hover:text-text motion-safe:active:scale-95"
               >
                 <IconShare size={16} />
               </button>
@@ -139,7 +143,10 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
         </div>
       )}
       {track.locked ? null : (
-        <section className="mb-10 rounded-2xl border border-white/5 bg-surface p-5 sm:p-7">
+        <section
+          style={stagger(2, 90)}
+          className="mb-10 rounded-2xl border border-white/5 bg-surface p-5 motion-safe:animate-rise sm:p-7"
+        >
           <div className="grid grid-cols-1 gap-6 text-sm sm:grid-cols-3">
             {publishedAt !== null ? (
               <div>
@@ -157,7 +164,7 @@ const PublicTrackPage: React.FC<PublicTrackPageProps> = ({
         </section>
       )}
       {more.length > 0 ? (
-        <section>
+        <section className="motion-safe:animate-rise" style={stagger(3, 90)}>
           <div className="mb-5 flex items-center justify-between gap-3">
             <Heading variant="section" className="mb-0 text-lg font-semibold">
               More from {track.artistName}

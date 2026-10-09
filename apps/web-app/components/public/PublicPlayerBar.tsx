@@ -48,7 +48,7 @@ const PublicPlayerBar: React.FC<PublicPlayerBarProps> = ({
   const played = durationMs > 0 ? `${(position / durationMs) * 100}%` : "0%";
   return (
     <div
-      className={`fixed bottom-0 z-50 border-t border-white/10 bg-surface pb-[env(safe-area-inset-bottom)] md:h-20 md:pb-0 ${className}`}
+      className={`fixed bottom-0 z-50 border-t border-white/10 bg-surface pb-[env(safe-area-inset-bottom)] motion-safe:animate-slide-up md:h-20 md:pb-0 ${className}`}
     >
       <div className="mx-auto grid h-full max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 px-3 py-2 md:grid-cols-[minmax(0,1fr)_minmax(17rem,1.5fr)_minmax(0,1fr)] md:content-center md:gap-x-5 md:gap-y-1.5 md:px-6 md:py-0">
         <div className="col-start-1 row-start-2 flex min-w-0 items-center gap-2.5 md:row-span-2 md:row-start-1 md:gap-3">
@@ -75,7 +75,7 @@ const PublicPlayerBar: React.FC<PublicPlayerBarProps> = ({
             type="button"
             aria-label={playing ? "Pause" : "Play"}
             onClick={onToggle}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-textOnPrimary hover:brightness-95"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-textOnPrimary transition hover:brightness-95 motion-safe:hover:scale-105 motion-safe:active:scale-95"
           >
             {playing ? (
               <IconPlayerPause size={14} />

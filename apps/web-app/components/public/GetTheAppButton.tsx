@@ -22,7 +22,7 @@ const GetTheAppButton: React.FC<GetTheAppButtonProps> = ({
       type="button"
       onClick={openPrompt}
       aria-label={label}
-      className={className}
+      className={`transition motion-safe:active:scale-[0.97] ${className}`}
     >
       {iconSize !== undefined ? (
         <IconDeviceMobile size={iconSize} aria-hidden />

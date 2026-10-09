@@ -7,6 +7,7 @@ import React from "react";
 import { formatRelativeTime } from "@/utils";
 
 import GetTheAppButton from "../../public/GetTheAppButton";
+import { stagger } from "../../public/motion";
 import type {
   PublicPostPreview,
   PublicReleaseItem,
@@ -75,13 +76,13 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
           <img
             src={artist.coverUrl}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover motion-safe:animate-settle"
           />
         ) : (
           <div className="absolute inset-0 bg-surface" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-page via-page/70 to-page/10" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-[1100px] flex-col gap-4 px-4 pb-6 sm:px-8 md:flex-row md:items-end md:gap-6 lg:px-10 lg:pb-8">
+        <div className="absolute inset-x-0 bottom-0 mx-auto flex max-w-[1100px] flex-col gap-4 px-4 pb-6 motion-safe:animate-rise sm:px-8 md:flex-row md:items-end md:gap-6 lg:px-10 lg:pb-8">
           <Artwork
             url={artist.avatarUrl}
             className="h-20 w-20 rounded-full border-4 border-page sm:h-28 sm:w-28 lg:h-32 lg:w-32"
@@ -103,7 +104,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
                 onClick={() =>
                   onPlayTrack(artist.tracks, firstPlayable.trackId)
                 }
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-text text-page"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-text text-page transition-transform duration-200 motion-safe:hover:scale-105 motion-safe:active:scale-95"
               >
                 <IconPlayerPlay size={16} className="ml-0.5" />
               </button>
@@ -117,11 +118,14 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
       </section>
       <main className="mx-auto max-w-[1100px] px-4 py-8 sm:px-8 lg:px-10 lg:py-9">
         {meta.paragraph.length > 0 ? (
-          <Text className="mb-10 max-w-2xl text-sm leading-relaxed text-text/70">
+          <Text className="mb-10 max-w-2xl text-sm leading-relaxed text-text/70 motion-safe:animate-rise">
             {meta.paragraph}
           </Text>
         ) : null}
-        <section className="mb-12">
+        <section
+          className="mb-12 motion-safe:animate-rise"
+          style={stagger(1, 90)}
+        >
           <Heading variant="section" className="mb-5 text-lg font-semibold">
             Popular tracks
           </Heading>
@@ -147,23 +151,29 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
           )}
         </section>
         {artist.releases.length > 0 ? (
-          <section className="mb-12">
+          <section
+            className="mb-12 motion-safe:animate-rise"
+            style={stagger(2, 90)}
+          >
             <Heading variant="section" className="mb-5 text-lg font-semibold">
               Releases
             </Heading>
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {artist.releases.map((release) => {
+              {artist.releases.map((release, index) => {
                 const first = playableTracks(release.tracks)[0];
                 return (
                   <li
                     key={release.releaseId}
-                    className="overflow-hidden rounded-2xl border border-white/5 bg-surface"
+                    style={stagger(index)}
+                    className="group overflow-hidden rounded-2xl border border-white/5 bg-surface transition duration-300 hover:border-white/15 motion-safe:animate-rise motion-safe:hover:-translate-y-1"
                   >
-                    <Artwork
-                      url={release.artworkUrl}
-                      dimmed={release.locked}
-                      className="h-40 w-full rounded-none"
-                    />
+                    <div className="overflow-hidden">
+                      <Artwork
+                        url={release.artworkUrl}
+                        dimmed={release.locked}
+                        className="h-40 w-full rounded-none transition-transform duration-500 ease-out motion-safe:group-hover:scale-105"
+                      />
+                    </div>
                     <div className="p-4">
                       <p className="truncate text-sm font-semibold text-text">
                         {release.title}
@@ -186,7 +196,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
           </section>
         ) : null}
         {artist.posts.length > 0 ? (
-          <section>
+          <section className="motion-safe:animate-rise" style={stagger(3, 90)}>
             <Heading variant="section" className="mb-5 text-lg font-semibold">
               Updates
             </Heading>
@@ -195,7 +205,7 @@ const PublicArtistPage: React.FC<PublicArtistPageProps> = ({
                 <li key={post.postId}>
                   <Link
                     href={`/post/${post.postId}`}
-                    className="block px-4 py-4 sm:px-6"
+                    className="block px-4 py-4 transition-colors duration-200 hover:bg-white/[0.03] sm:px-6"
                   >
                     <p className="text-xs text-text/45">
                       {post.locked

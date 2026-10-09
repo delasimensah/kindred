@@ -32,7 +32,7 @@ const PublicGetAppModal: React.FC = () => {
         type="button"
         aria-label="Close install prompt"
         onClick={closePrompt}
-        className="absolute inset-0 bg-page/70"
+        className="absolute inset-0 bg-page/70 backdrop-blur-sm motion-safe:animate-fade"
       />
       <PublicGetAppPage onClose={closePrompt} />
     </div>

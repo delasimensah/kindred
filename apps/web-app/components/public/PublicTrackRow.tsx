@@ -7,6 +7,7 @@ import React from "react";
 import { formatVoiceDuration } from "@/utils";
 
 import GetTheAppButton from "./GetTheAppButton";
+import PlayingBars from "./PlayingBars";
 import type { PublicTrackItem } from "./publicCatalog";
 
 interface PublicTrackRowProps {
@@ -46,7 +47,7 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
   const showPause = active && playing;
   return (
     <div
-      className={`group flex items-center gap-3 px-4 py-3 transition hover:bg-white/[0.03] sm:gap-4 sm:px-6 sm:py-4 ${
+      className={`group flex items-center gap-3 px-4 py-3 transition-colors duration-200 hover:bg-white/[0.03] sm:gap-4 sm:px-6 sm:py-4 ${
         track.locked || active ? "bg-primary/5" : ""
       }`}
     >
@@ -71,7 +72,13 @@ const PublicTrackRow: React.FC<PublicTrackRowProps> = ({
             {position}
           </span>
           {showPause ? (
-            <IconPlayerPause size={12} className="text-primary" />
+            <>
+              <PlayingBars className="group-hover:hidden" />
+              <IconPlayerPause
+                size={12}
+                className="hidden text-primary group-hover:block"
+              />
+            </>
           ) : (
             <IconPlayerPlay
               size={12}
